@@ -70,6 +70,7 @@ const Hero = () => {
             </button>
 
             <button
+              onClick={() => router.push("/signup")}
               className="
     text-sm text-white font-poppins border border-[#813FD6] py-2 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
@@ -92,7 +93,8 @@ const Hero = () => {
                 Send Money. <br /> No Fees.
               </h1>
               <p className="text-white mt-5 mb-4 font-poppins">
-                ✨ ShiftRemit gives you more for your money! Send from the UK to any bank in Nigeria — Unbeatable rates and speed.
+                ✨ ShiftRemit gives you more for your money! Send from the UK to
+                any bank in Nigeria — Unbeatable rates and speed.
               </p>
 
               <button
