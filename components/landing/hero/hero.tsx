@@ -29,25 +29,25 @@ const Hero = () => {
               className="w-10 h-10 object-cover"
             />
             <div>
-              <h1 className="text-xl font-poppins text-white">
+              <h1 className="text-xl font-semibold font-poppins text-white">
                 Shift<span className="text-main">Remit</span>
               </h1>
-              <p className="text-[8px] italic text-white font-dm-sans">
-                Money exchanger & transfer
+              <p className="text-[8px] italic font-semibold text-white font-dm-sans">
+                Unbeatable Transfer Rates
               </p>
             </div>
           </div>
 
-          <ul className="text-white *:py-3 *:px-4 font-medium font-poppins flex items-center *:cursor-pointer">
+          {/* <ul className="text-white *:py-3 *:px-4 font-medium font-poppins flex items-center *:cursor-pointer">
             <li>Home</li>
             <li>About Us</li>
             <li>Track</li>
             <li>Blog</li>
             <li>Contact us</li>
-          </ul>
+          </ul> */}
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 cursor-pointer">
+            {/* <div className="flex items-center gap-1 cursor-pointer">
               <Image
                 alt="country"
                 src="https://transfermax.springsoftit.com/demo/files/image/classic/constant_image/en.png"
@@ -56,7 +56,7 @@ const Hero = () => {
                 className="w-6 h-6 rounded-full"
               />
               <p className="text-white text-lg font-poppins">en</p>
-            </div>
+            </div> */}
             <button
               onClick={() => router.push("/login")}
               className="
@@ -86,14 +86,13 @@ const Hero = () => {
           <div className="container px-20 mx-auto flex items-center justify-between gap-8">
             <div className="w-[45%]">
               <p className="text-lg text-white font-poppins">
-                Exchange Anytime
+                Highest Security
               </p>
-              <h1 className="capitalize text-5xl leading-[1.3] font-dm-sans mb-2 text-white font-semibold">
-                Send Money Globally for less
+              <h1 className="capitalize text-5xl leading-[1.3] font-dm-sans mb-2 text-white font-bold">
+                Send Money. <br /> No Fees.
               </h1>
               <p className="text-white mt-5 mb-4 font-poppins">
-                Transfer money with TransferMax. It is easy, fast and cheap to
-                send money from any place to another place.
+                ✨ ShiftRemit gives you more for your money! Send from the UK to any bank in Nigeria — Unbeatable rates and speed.
               </p>
 
               <button

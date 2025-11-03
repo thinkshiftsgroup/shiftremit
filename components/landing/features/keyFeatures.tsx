@@ -5,19 +5,19 @@ const KeyFeatures = () => {
   const cardDetails = [
     {
       image: "/images/send.png",
-      title: "Send, Swap & Exchange",
+      title: "Send Money",
       description:
         "Effortlessly send, swap and exchange currencies with secure, fast and seamless multi-currency transactions online",
     },
     {
       image: "/images/stake.png",
-      title: "Staking Plans",
+      title: "Request Money",
       description:
         "Keep more of your money with low transaction fees. Our platform offers affordable rates to make transferring funds easier",
     },
     {
       image: "/images/trade.png",
-      title: "Live Trading",
+      title: "Live Rates",
       description:
         "Engage in live trading with real-time insights, dynamic strategies, and profitable opportunities in every move",
     },
