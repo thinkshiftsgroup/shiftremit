@@ -190,7 +190,7 @@ const LoginScrn = () => {
             Don't have an account?{" "}
             <span
               className="text-main cursor-pointer"
-              onClick={() => router.push("/register")}
+              onClick={() => router.push("/signup")}
             >
               Register
             </span>
