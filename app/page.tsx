@@ -15,7 +15,7 @@ export default function Home() {
             <span className="bg-main text-white shadow-md rounded-full inline-flex items-center justify-center w-3.5 h-3.5">
               <IoCheckmarkDone size={20} />
             </span>
-            <p className=" text-white font-poppins">Over 1,000,000 customers</p>
+            <p className=" text-white font-poppins">Over 1,000 customers</p>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="bg-main text-white shadow-md rounded-full inline-flex items-center justify-center w-3.5 h-3.5">
@@ -37,7 +37,7 @@ export default function Home() {
       <Footer />
       <div className="border-t py-5 ">
         <p className="font-poppins text-center text-[#454745]">
-          Copyright © 2024 ShiftRemit. All rights reserved.
+          Copyright © 2025 ShiftRemit. All rights reserved.
         </p>
       </div>
     </div>
