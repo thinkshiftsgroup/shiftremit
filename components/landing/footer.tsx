@@ -12,7 +12,7 @@ const Footer = () => {
     <div className=" container px-20 w-full  mt-10  pt-28 pb-14 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
-      <div className=" "> 
+      <div className=" ">
         <div className="flex items-center justify-between gap-2 border-b pb-5">
           <div className="flex items-center gap-1 w-[40%] ">
             <Image
@@ -23,11 +23,11 @@ const Footer = () => {
               className="w-10 h-10 object-cover"
             />
             <div>
-              <h1 className="text-xl font-poppins text-black">
+              <h1 className="text-xl font-poppins text-black font-semibold">
                 Shift<span className="text-main">Remit</span>
               </h1>
               <p className="text-[8px] italic text-black font-dm-sans">
-                Money exchanger & transfer
+                Unbeatable Transfer Rates
               </p>
             </div>
           </div>
@@ -54,7 +54,8 @@ const Footer = () => {
         </div>
 
         <div className="border-b pb-5 flex justify-between w-full gap-2 my-10">
-          <div className="">
+          <div className="flex justify-between w-8/10">
+            {/* <div className="">
             <h1 className="text-black text-lg font-semibold font-dm-sans">
               Quick Links
             </h1>
@@ -63,18 +64,18 @@ const Footer = () => {
               <li>Send Money</li>
               <li>Exchange</li>
             </ul>
-          </div>
-          <div className="">
-            <h1 className="text-black text-lg font-semibold font-dm-sans">
-              24/7 Support
-            </h1>
-            <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
-              <li>Contact us</li>
-              <li>About us</li>
-              <li>Support</li>
-            </ul>
-          </div>
-          <div className="">
+          </div> */}
+            <div className="">
+              <h1 className="text-black text-lg font-semibold font-dm-sans">
+                24/7 Support 0903874394 | support@shiftremit.com
+              </h1>
+              {/* <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
+                <li>Contact us</li>
+                <li>About us</li>
+                <li>Support</li>
+              </ul> */}
+            </div>
+            {/* <div className="">
             <h1 className="text-black text-lg font-semibold font-dm-sans">
               Company
             </h1>
@@ -83,19 +84,20 @@ const Footer = () => {
               <li>Blog</li>
               <li>Career</li>
             </ul>
-          </div>
-          <div className="">
-            <h1 className="text-black text-lg font-semibold font-dm-sans">
-              Legal
-            </h1>
-            <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
-              <li>Terms & conditions</li>
-              <li>Privacy Policy</li>
-              <li>Support</li>
-            </ul>
+          </div> */}
+            {/* <div className="">
+              <h1 className="text-black text-lg font-semibold font-dm-sans">
+                Legal
+              </h1>
+              <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
+                <li>Terms & conditions</li>
+                <li>Privacy Policy</li>
+                <li>Support</li>
+              </ul>
+            </div> */}
           </div>
           <div className="space-y-3">
-            <h1 className="font-dm-sans font-semibold">
+            {/* <h1 className="font-dm-sans font-semibold">
               ShiftRemit mobile apps
             </h1>
             <div className="flex items-center gap-2">
@@ -104,7 +106,7 @@ const Footer = () => {
             </div>
             <p className="font-dm-sans font-semibold">
               Find us on social media
-            </p>
+            </p> */}
             <div className="*:cursor-pointer *:hover:text-main *:text-gray-500 *:w-4 *:h-4 flex items-center gap-4">
               <FaDiscord />
               <FaFacebookF />
@@ -134,7 +136,7 @@ const Footer = () => {
           </div>
           <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
-              Disclaimer: Before Exchanging Money
+              About ShiftRemit
             </p>
             <p className="text-[#454745] font-poppins text-sm py-3">
               Double-check the currencies and the exchange amounts before
@@ -145,6 +147,20 @@ const Footer = () => {
               adjustments may not be possible after the transaction is
               completed.
             </p>
+          </div>
+        </div>
+
+        <div>
+
+          <div className="">
+            <h1 className="font-semibold font-dm-sans text-sm text-black">
+              Legal
+            </h1>
+            <ul className="text-[#454745] font-poppins mt-4 flex flex-row *:cursor-pointer gap-2">
+              <li className="border-r-2 pe-3 me-2">Terms & conditions</li>
+              <li className="border-r-2 pe-3 me-2">Privacy Policy</li>
+              <li className="">Support</li>
+            </ul>
           </div>
         </div>
       </div>
