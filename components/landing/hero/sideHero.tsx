@@ -15,11 +15,11 @@ const SideHero = () => {
 
   return (
     <div className="bg-main-dark-II w-[55%] rounded-xl p-6 sm:p-8 text-white shadow-xl">
-      <h2 className="text-center font-semibold font-poppins text-lg mb-4">
+      {/* <h2 className="text-center font-semibold font-poppins text-lg mb-4">
         Get Started
-      </h2>
+      </h2> */}
 
-      <div className="w-full flex justify-center my-5">
+      {/* <div className="w-full flex justify-center my-5">
         <span className="bg-[#ffffff0d] p-1 inline-flex rounded-md items-center">
           <p
             onClick={() => setIsFiat(true)}
@@ -38,11 +38,11 @@ const SideHero = () => {
             Crypto
           </p>
         </span>
-      </div>
+      </div> */}
 
       <div>
         <div>
-          <p className="text-[#ccc] text-xs font-medium pb-2">
+          <p className="text-[#ccc] text-lg font-medium pb-2">
             You send exactly
           </p>
           <div>
@@ -54,7 +54,7 @@ const SideHero = () => {
 
       <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
         <div className="flex justify-between">
-          <span>Delivery method</span>
+          <span>Delivery Method</span>
           <div className="*:text-white font-normal *:cursor-pointer flex items-center gap-1 text-sm ">
             <p
               onClick={() => setIsBank(true)}
@@ -69,7 +69,7 @@ const SideHero = () => {
               )}
               Bank
             </p>
-            <p
+            {/* <p
               onClick={() => setIsBank(false)}
               className={`border relative ${
                 !isBank ? "border-main" : "border-white"
@@ -81,16 +81,16 @@ const SideHero = () => {
                 </span>
               )}
               BKash
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="flex font-poppins justify-between">
           <span>Rate</span>
-          <span>1 LTC = 0.00118812 BTC</span>
+          <span>1 GBP = 1,895.23 NGN</span>
         </div>
         <div className="flex justify-between">
           <span>Send Fee</span>
-          <span>0.00830721 LTC</span>
+          <span>0.00 GBP</span>
         </div>
         <div className="flex justify-between">
           <span>Delivery Time</span>
@@ -101,7 +101,7 @@ const SideHero = () => {
       <div className="flex font-poppins justify-between items-center">
         <div>
           <p className="text-xs opacity-80">Total Amount</p>
-          <p className="font-semibold text-lg">0.11880258 BTC</p>
+          <p className="font-semibold text-lg">1 GBP</p>
         </div>
         <button
           className="
