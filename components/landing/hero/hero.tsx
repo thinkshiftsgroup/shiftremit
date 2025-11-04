@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const Hero = () => {
   const router = useRouter();
   return (
-    <div className=" h-screen relative overflow-hidden w-full bg-main-dark-II">
+    <div className=" h-auto min-h-screen relative overflow-hidden w-full bg-main-dark-II">
       <Image
         src="https://transfermax.springsoftit.com/demo/files/image/classic/cms/6756efd1b087f-1733750737.png"
         width={100}
@@ -83,7 +83,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className=" h-[90vh] flex items-center justify-center">
+        <div className="h-auto min-h-[90vh] flex items-center justify-center">
           <div className="container px-20 mx-auto flex items-center justify-between gap-8">
             <div className="w-[45%]">
               <p className="text-lg text-white font-poppins">
