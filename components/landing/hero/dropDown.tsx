@@ -92,7 +92,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute w-[350px] h-[380px] pb-2 top-full -left-full right-full  mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                <div className="absolute w-[350px] h-[380px] pb-2 top-full -left-[265%] right-full  mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
                     {/* Search Box */}
                     <div className="p-2.5">
                         <div className="relative">
