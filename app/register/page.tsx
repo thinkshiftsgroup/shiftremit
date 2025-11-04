@@ -8,6 +8,7 @@ import { GoGraph } from "react-icons/go";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { FaRegUser } from "react-icons/fa";
+import CountryDropdown from "@/components/landing/countryDrop";
 
 const Register = () => {
   const router = useRouter();
@@ -137,22 +138,20 @@ const Register = () => {
                 />
               </div>
             </div>
-            <div className="space-y-3">
-              <label htmlFor="" className="font-poppins font-semibold text-sm ">
+            <div className="space-y-3 relative">
+              <label className="font-poppins font-semibold text-sm">
                 Mobile
               </label>
-              <div className="relative    ">
-                <CiMail
-                  size={16}
-                  className="absolute top-6 left-3 text-[#858484]"
-                />
+              <div className="relative">
+                <CountryDropdown />
                 <input
                   type="text"
                   placeholder="+234 700 000 0000"
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-12 mt-2 py-3 px-2 rounded-sm border shadow-sm focus:outline-none"
                 />
               </div>
             </div>
+
             <div>
               <div className="space-y-3">
                 <label
