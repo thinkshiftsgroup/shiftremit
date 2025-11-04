@@ -1,7 +1,7 @@
 "use client";
-import DropdownComponent from "@/components/landing/hero/dropDown";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import DropdownComponent from "./dropDown";
 
 const DashTf = () => {
   const [sending_amount, setSendingAmount] = useState("");

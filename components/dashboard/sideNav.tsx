@@ -111,7 +111,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       icon: <HiOutlineWallet size={18} />,
       title: "Wallets",
       link: "/admin/wallets",
-      showFor: [ "admin"],
+      showFor: ["admin"],
     },
 
     {
@@ -137,7 +137,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Recipients",
       link: "/recipients",
-      showFor: [ "admin"],
+      showFor: ["admin"],
     },
     {
       icon: (
@@ -315,7 +315,9 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       <div className="w-[20%] rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex flex-col justify-between">
         <div>
           <div
-            onClick={() => router.push("/")}
+            onClick={() =>
+              router.push(role === "admin" ? "/admin/dashboard" : "/send-money")
+            }
             className="flex cursor-pointer items-center gap-1 p-3"
           >
             <Image
