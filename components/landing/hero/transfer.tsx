@@ -8,8 +8,8 @@ const Transfer = () => {
             <div className="relative flex flex-wrap justify-between items-start mb-4">
                 <div className="w-[calc(50%-16px)] ">
                     <label className="text-[#ccc] text-lg font-medium block mb-2">You send exactly</label>
-                    <div className="flex relative flex-wrap items-center justify-between border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full" id="sendMoneyBox">
-                        <input type="text" name="sending_amount" value="1" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none" />
+                    <div className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full" id="sendMoneyBox">
+                        <input type="text" name="sending_amount" value="10" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold" />
 
                         <button type="button" id="sendMoneyCurrencyBtn" className="w-[90px] inline-flex items-center gap-1 relative" >
                             {/* <img src="https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg" alt="currency flag" width={25} height={25} className="rounded-full" /> */}
@@ -51,8 +51,8 @@ const Transfer = () => {
 
                 <div className="w-[calc(50%-16px)]">
                     <label className="text-[#ccc] text-lg font-medium block mb-2">You get exactly</label>
-                    <div className="flex relative flex-wrap items-center justify-between border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full" id="receiveMoneyBox" data-country="norway" data-currency="EUR">
-                        <input type="text" name="sending_amount" value="1493" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none" />
+                    <div className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full" id="receiveMoneyBox" data-country="norway" data-currency="EUR">
+                        <input type="text" name="sending_amount" value="1493" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold" />
                         <button type="button" id="receiveMoneyCurrencyBtn" className="w-[90px] inline-flex items-center gap-1 relative" >
                             {/* <img src="https://cdn.countryflags.com/thumbs/nigeria/flag-round-500.png" alt="currency flag" width={25} height={25} className="rounded-full" />
                             <span className="font-semibold">NGN</span> */}
