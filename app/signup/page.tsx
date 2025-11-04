@@ -4,7 +4,7 @@ import { TbPercentage } from "react-icons/tb";
 import Image from "next/image";
 import { CiMail } from "react-icons/ci";
 import { CiLock, CiPhone } from "react-icons/ci";
-import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { GoGraph } from "react-icons/go";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
@@ -221,6 +221,10 @@ const Register = () => {
     }
   };
 
+  const [show, setShow] = useState({
+    password: false,
+    confirmPassword: false,
+  });
   const RegisterForm = useMemo(
     () => (
       <form onSubmit={handleSubmit} className="w-[80%] space-y-3">
@@ -228,7 +232,7 @@ const Register = () => {
           Create an account
         </h1>
         {error && (
-          <div className="p-3 text-sm font-semibold text-red-700 bg-red-100 rounded-md">
+          <div className="p-3 text-sm font-dm-sans font-semibold text-red-700 bg-red-100 rounded-md">
             {error}
           </div>
         )}
@@ -347,14 +351,28 @@ const Register = () => {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={show.password ? "text" : "password"}
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Enter Password"
                 className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
                 required
               />
-              <IoEyeOutline className="absolute top-[26px] cursor-pointer right-3 text-[#858484]" />
+              {show.password ? (
+                <IoEyeOffOutline
+                  onClick={() =>
+                    setShow((prev) => ({ ...prev, password: false }))
+                  }
+                  className="absolute top-[26px] cursor-pointer right-3 text-[#858484]"
+                />
+              ) : (
+                <IoEyeOutline
+                  onClick={() =>
+                    setShow((prev) => ({ ...prev, password: true }))
+                  }
+                  className="absolute top-[26px] cursor-pointer right-3 text-[#858484]"
+                />
+              )}
             </div>
           </div>
 
@@ -373,14 +391,28 @@ const Register = () => {
               <input
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
+                type={show.confirmPassword ? "text" : "password"}
                 value={form.confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm Password"
                 className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
                 required
               />
-              <IoEyeOutline className="absolute top-[26px] cursor-pointer right-3 text-[#858484]" />
+              {show.confirmPassword ? (
+                <IoEyeOffOutline
+                  onClick={() =>
+                    setShow((prev) => ({ ...prev, confirmPassword: false }))
+                  }
+                  className="absolute top-[26px] cursor-pointer right-3 text-[#858484]"
+                />
+              ) : (
+                <IoEyeOutline
+                  onClick={() =>
+                    setShow((prev) => ({ ...prev, confirmPassword: true }))
+                  }
+                  className="absolute top-[26px] cursor-pointer right-3 text-[#858484]"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -511,7 +543,7 @@ const Register = () => {
               Verify Your Email
             </h1>
             {error && (
-              <div className="p-3 text-sm font-semibold text-red-700 bg-red-100 rounded-md w-full text-center">
+              <div className="p-3 text-sm font-semibold font-dm-sans text-red-700 bg-red-100 rounded-md w-full text-center">
                 {error}
               </div>
             )}
