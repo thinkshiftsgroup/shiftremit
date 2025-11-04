@@ -164,11 +164,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/request-money",
       subLinks: [
         // for customer
-        { title: "Send Request", link: "/sent-request" },
+        { title: "Send Request", link: "/request-money/send-request" },
         //
-        { title: "Sent Request", link: "/sent-request" },
-        { title: "Received Request", link: "/receive-request" },
-        { title: "Received Wallet", link: "/receive-wallet" },
+        { title: "Sent Request", link: "/request-money/sent-request" },
+        { title: "Received Request", link: "/request-money/received-request" },
+        { title: "Received Wallet", link: "/request-money/received-wallet" },
       ],
       showFor: ["customer", "admin"],
     },
