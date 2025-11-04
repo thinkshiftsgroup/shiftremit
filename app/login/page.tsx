@@ -7,9 +7,39 @@ import { IoEyeOutline } from "react-icons/io5";
 import { GoGraph } from "react-icons/go";
 import { FaHandHoldingDollar } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { loginClient } from "@/api/authService";
 
 const LoginScrn = () => {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await loginClient(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown login error occurred."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen flex ">
       <div
@@ -82,37 +112,60 @@ const LoginScrn = () => {
         </div>
       </div>
       <div className="w-[60%] flex flex-col justify-center items-center bg-white">
-        <div className="w-[80%] space-y-3">
+        <form onSubmit={handleSubmit} className="w-[80%] space-y-3">
           <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
             Log in to your account
           </h1>
 
+          {error && (
+            <div className="p-3 bg-red-100 text-red-700 border border-red-300 rounded-md font-poppins text-sm">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-3">
-            <label htmlFor="" className="font-poppins font-semibold text-sm ">
+            <label
+              htmlFor="email"
+              className="font-poppins font-semibold text-sm "
+            >
               Email
             </label>
-            <div className="relative    ">
+            <div className="relative">
               <CiMail size={20} className="absolute top-5 left-3" />
               <input
-                type="text"
+                id="email"
+                type="email"
                 placeholder="Enter Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
               />
             </div>
           </div>
           <div>
             <div className="space-y-3">
-              <label htmlFor="" className="font-poppins font-semibold text-sm ">
+              <label
+                htmlFor="password"
+                className="font-poppins font-semibold text-sm "
+              >
                 Password
               </label>
               <div className="relative">
                 <CiLock size={20} className="absolute top-5 left-3" />
                 <input
-                  type="password"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                   className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
                 />
-                <IoEyeOutline className="absolute top-4.5 cursor-pointer right-3" />
+                <IoEyeOutline
+                  className="absolute top-4.5 cursor-pointer right-3"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
               </div>
             </div>
             <p className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins">
@@ -121,21 +174,28 @@ const LoginScrn = () => {
           </div>
 
           <button
-            className="
+            type="submit"
+            disabled={isLoading}
+            className={`
     text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    
-  "
+    ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
+  `}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
 
           <p className="font-poppins mt-2 text-center">
             Don't have an account?{" "}
-            <span className="text-main cursor-pointer" onClick={()=>router.push("/register")}>Register</span>
+            <span
+              className="text-main cursor-pointer"
+              onClick={() => router.push("/signup")}
+            >
+              Register
+            </span>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ interface UserProfileData {
   } | null;
 }
 
-interface User extends UserProfileData {}
+export interface User extends UserProfileData {}
 
 interface AuthState {
   user: User | null;
