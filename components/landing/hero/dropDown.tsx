@@ -18,14 +18,14 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
     const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
 
     const currencies: Currency[] = [
-        { code: 'USD', name: 'American Samoan US Dollar', flag: { url: 'https://flagcdn.com/us.svg' }, popular: true },
+        // { code: 'USD', name: 'American Samoan US Dollar', flag: { url: 'https://flagcdn.com/us.svg' }, popular: true },
         { code: 'GBP', name: 'British Pound sterling', flag: { url: 'https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg' }, popular: true },
-        { code: 'ZAR', name: 'South African Rand', flag: { url: 'https://flagcdn.com/za.svg' }, popular: false },
-        { code: 'INR', name: 'Indian Indian Rupee', flag: { url: 'https://flagcdn.com/in.svg' }, popular: false },
-        { code: 'AED', name: 'Emirati UAE Dirham', flag: { url: 'https://flagcdn.com/ae.svg' }, popular: false },
-        { code: 'EUR', name: 'Euro', flag: { url: 'https://flagcdn.com/eu.svg' }, popular: false },
-        { code: 'JPY', name: 'Japanese Yen', flag: { url: 'https://flagcdn.com/jp.svg' }, popular: false },
-        { code: 'CAD', name: 'Canadian Dollar', flag: { url: 'https://flagcdn.com/ca.svg' }, popular: false },
+        // { code: 'ZAR', name: 'South African Rand', flag: { url: 'https://flagcdn.com/za.svg' }, popular: false },
+        // { code: 'INR', name: 'Indian Indian Rupee', flag: { url: 'https://flagcdn.com/in.svg' }, popular: false },
+        // { code: 'AED', name: 'Emirati UAE Dirham', flag: { url: 'https://flagcdn.com/ae.svg' }, popular: false },
+        // { code: 'EUR', name: 'Euro', flag: { url: 'https://flagcdn.com/eu.svg' }, popular: false },
+        // { code: 'JPY', name: 'Japanese Yen', flag: { url: 'https://flagcdn.com/jp.svg' }, popular: false },
+        // { code: 'CAD', name: 'Canadian Dollar', flag: { url: 'https://flagcdn.com/ca.svg' }, popular: false },
         { code: 'NGN', name: 'Nigeria Naira', flag: { url: 'https://flagcdn.com/ng.svg' }, popular: true },
     ];
 
@@ -92,7 +92,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute w-[350px] h-[380px] pb-2 top-full -left-[265%] right-full  mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
+                <div className="absolute w-[350px] max-h-[380px] h-auto pb-2 top-full -left-[265%] right-full  mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
                     {/* Search Box */}
                     <div className="p-2.5">
                         <div className="relative">
@@ -119,7 +119,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
                                 {/* Popular Currencies Section */}
                                 {popularCurrencies.length > 0 && (
                                     <div className="p-2.5">
-                                        <h3 className="text-sm font-semibold text-gray-700 mb-3 text-start">Popular Currencies</h3>
+                                        <h3 className="text-sm font-semibold text-gray-700 mb-3 text-start">Available Currencies</h3>
                                         {popularCurrencies.map((currency, index) => (
                                             <button
                                                 key={index}

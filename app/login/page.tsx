@@ -192,7 +192,7 @@ const LoginScrn = () => {
               className="text-main cursor-pointer"
               onClick={() => router.push("/signup")}
             >
-              Register
+              Signup
             </span>
           </p>
         </form>
