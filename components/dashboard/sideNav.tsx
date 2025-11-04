@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -11,6 +11,7 @@ import { FaAngleDown } from "react-icons/fa6";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
+import { HiOutlineWallet } from "react-icons/hi2";
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -20,8 +21,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     setOpenDropdown(openDropdown === title ? null : title);
   };
 
+  const [role, setRole] = useState("customer");
+
   const navItems = [
-    // { icon: <TbSmartHome size={18} />, title: "Dashboard", link: "/dashboard/customer" },
+    {
+      icon: <TbSmartHome size={18} />,
+      title: "Dashboard",
+      link: "/admin/dashboard",
+      showFor: ["admin"],
+    },
     {
       icon: (
         <svg
@@ -48,6 +56,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Send Money",
       link: "/send-money",
+      showFor: ["customer"],
     },
     {
       icon: (
@@ -76,6 +85,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Track Money",
       link: "/track-money",
+      showFor: ["customer", "admin"],
     },
     {
       icon: (
@@ -95,33 +105,40 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Transactions",
       link: "/customer/transactions",
+      showFor: ["customer"],
     },
-    // { icon: <HiOutlineWallet size={18} />, title: "Wallets", link: "/wallets" },
+    {
+      icon: <HiOutlineWallet size={18} />,
+      title: "Wallets",
+      link: "/admin/wallets",
+      showFor: [ "admin"],
+    },
 
-    // {
-    //   icon: (
-    //     <svg
-    //       xmlns="http://www.w3.org/2000/svg"
-    //       width="18"
-    //       height="18"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       {" "}
-    //       <g fill="none" stroke="currentColor" stroke-width="1.5">
-    //         {" "}
-    //         <circle cx="9" cy="6" r="4"></circle>{" "}
-    //         <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
-    //         <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
-    //         <path
-    //           stroke-linecap="round"
-    //           d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
-    //         ></path>{" "}
-    //       </g>{" "}
-    //     </svg>
-    //   ),
-    //   title: "Recipients",
-    //   link: "/recipients",
-    // },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          {" "}
+          <g fill="none" stroke="currentColor" stroke-width="1.5">
+            {" "}
+            <circle cx="9" cy="6" r="4"></circle>{" "}
+            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
+            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
+            <path
+              stroke-linecap="round"
+              d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
+            ></path>{" "}
+          </g>{" "}
+        </svg>
+      ),
+      title: "Recipients",
+      link: "/recipients",
+      showFor: [ "admin"],
+    },
     {
       icon: (
         <svg
@@ -148,10 +165,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       subLinks: [
         // for customer
         { title: "Send Request", link: "/sent-request" },
+        //
         { title: "Sent Request", link: "/sent-request" },
         { title: "Received Request", link: "/receive-request" },
         { title: "Received Wallet", link: "/receive-wallet" },
       ],
+      showFor: ["customer", "admin"],
     },
     {
       icon: (
@@ -244,6 +263,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       //   { title: "Transaction Logs", link: "/transaction-logs" },
       //   { title: "Commission Logs", link: "/commission-logs" },
       // ],
+      showFor: ["customer", "admin"],
     },
     {
       icon: (
@@ -261,6 +281,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Account",
       link: "/account",
+      showFor: ["customer", "admin"],
     },
     {
       icon: (
@@ -278,16 +299,25 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Partner",
       link: "/partner",
+      showFor: ["customer", "admin"],
     },
   ];
 
   const [openDrop, setOpenDrop] = useState(false);
+  const router = useRouter();
+
+  const filteredNavItems = navItems.filter((item: any) =>
+    item?.showFor.includes(role)
+  );
 
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
       <div className="w-[20%] rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-1 p-3">
+          <div
+            onClick={() => router.push("/")}
+            className="flex cursor-pointer items-center gap-1 p-3"
+          >
             <Image
               src="/images/shiftremit-logo.png"
               width={40}
@@ -307,7 +337,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <div className="bg-gray-200 w-full h-px" />
 
           <div className="h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1">
-            {navItems.map((nav, i) => {
+            {filteredNavItems.map((nav, i) => {
               const isActive =
                 pathname === nav.link ||
                 nav.subLinks?.some((s) => pathname === s.link);
