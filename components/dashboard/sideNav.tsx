@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
-import { HiOutlineWallet } from "react-icons/hi2";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { FaAngleDown } from "react-icons/fa6";
@@ -79,9 +78,23 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/track-money",
     },
     {
-      icon: <TbSmartHome size={18} />,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            d="M2 7h18m-4-5l5 5l-5 5m6 5H4m4-5l-5 5l5 5"
+          />
+        </svg>
+      ),
       title: "Transactions",
-      link: "/dashboard/customer",
+      link: "/customer/transactions",
     },
     // { icon: <HiOutlineWallet size={18} />, title: "Wallets", link: "/wallets" },
 
@@ -246,7 +259,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           />
         </svg>
       ),
-      title: "Acount",
+      title: "Account",
       link: "/account",
     },
     {
