@@ -106,7 +106,7 @@ export const resendCodeClient = async (
 ): Promise<ResendCodeResponse> => {
   try {
     const response = await apiInstance.post<ResendCodeResponse>(
-      "/api/auth/resend-code",
+      "/api/auth//resend-verification",
       {
         email,
       }
