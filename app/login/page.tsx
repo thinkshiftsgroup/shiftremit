@@ -30,7 +30,7 @@ const LoginScrn = () => {
 
     try {
       await loginClient(email, password);
-      router.push("/dashboard");
+      router.push("/send-money");
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unknown login error occurred."
