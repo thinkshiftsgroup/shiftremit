@@ -22,8 +22,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   };
 
   const navItems = [
-    { icon: <TbSmartHome size={18} />, title: "Dashboard", link: "/dashboard" },
-    { icon: <HiOutlineWallet size={18} />, title: "Wallets", link: "/wallets" },
+    // { icon: <TbSmartHome size={18} />, title: "Dashboard", link: "/dashboard/customer" },
     {
       icon: (
         <svg
@@ -50,8 +49,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Send Money",
       link: "/send-money",
-    },
-    {
+    },{
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -79,30 +77,33 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       title: "Track Money",
       link: "/track-money",
     },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
-          <g fill="none" stroke="currentColor" stroke-width="1.5">
-            {" "}
-            <circle cx="9" cy="6" r="4"></circle>{" "}
-            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
-            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
-            <path
-              stroke-linecap="round"
-              d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
-            ></path>{" "}
-          </g>{" "}
-        </svg>
-      ),
-      title: "Recipients",
-      link: "/recipients",
-    },
+    { icon: <TbSmartHome size={18} />, title: "Transactions", link: "/dashboard/customer" },
+    // { icon: <HiOutlineWallet size={18} />, title: "Wallets", link: "/wallets" },
+    
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       {" "}
+    //       <g fill="none" stroke="currentColor" stroke-width="1.5">
+    //         {" "}
+    //         <circle cx="9" cy="6" r="4"></circle>{" "}
+    //         <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
+    //         <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
+    //         <path
+    //           stroke-linecap="round"
+    //           d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
+    //         ></path>{" "}
+    //       </g>{" "}
+    //     </svg>
+    //   ),
+    //   title: "Recipients",
+    //   link: "/recipients",
+    // },
     {
       icon: (
         <svg
@@ -128,7 +129,8 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/request-money",
       subLinks: [
         { title: "Sent Request", link: "/sent-request" },
-        { title: "Receive Request", link: "/receive-request" },
+        { title: "Received Request", link: "/receive-request" },
+        { title: "Received Wallet", link: "/receive-wallet" },
       ],
     },
     {
@@ -212,16 +214,16 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "All Logs",
       link: "/all-logs",
-      subLinks: [
-        { title: "Send Money Logs", link: "/send-money-logs" },
-        { title: "Request Money Logs", link: "/request-money-logs" },
-        { title: "Exchange Logs", link: "/exchange-logs" },
-        { title: "Deposit Logs", link: "/deposit-logs" },
-        { title: "Withdraw Logs", link: "/withdraw-logs" },
-        { title: "Wallet transactions", link: "/wallet-transactions" },
-        { title: "Transaction Logs", link: "/transaction-logs" },
-        { title: "Commission Logs", link: "/commission-logs" },
-      ],
+      // subLinks: [
+      //   { title: "Send Money Logs", link: "/send-money-logs" },
+      //   { title: "Request Money Logs", link: "/request-money-logs" },
+      //   { title: "Exchange Logs", link: "/exchange-logs" },
+      //   { title: "Deposit Logs", link: "/deposit-logs" },
+      //   { title: "Withdraw Logs", link: "/withdraw-logs" },
+      //   { title: "Wallet transactions", link: "/wallet-transactions" },
+      //   { title: "Transaction Logs", link: "/transaction-logs" },
+      //   { title: "Commission Logs", link: "/commission-logs" },
+      // ],
     },
     {
       icon: (
