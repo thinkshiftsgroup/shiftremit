@@ -488,7 +488,7 @@ const Register = () => {
                 Shift<span className="text-main">Remit</span>
               </h1>
               <p className="text-[8px] italic text-black font-dm-sans">
-                Money exchanger & transfer
+                 Unbeatable Transfer Rates
               </p>
             </div>
           </div>
