@@ -4,6 +4,7 @@ import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import Transfer from "./transfer";
+import CompareRates from "./compareRates";
 
 const SideHero = () => {
   const [isFiat, setIsFiat] = useState(true);
@@ -104,6 +105,8 @@ const SideHero = () => {
           Send Now <CgArrowTopRight />
         </button>
       </div>
+
+      <CompareRates />
     </div>
   );
 };
