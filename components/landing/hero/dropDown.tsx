@@ -68,7 +68,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
     };
 
     return (
-        <div className="relative w-full">
+        <div className="relative w-full z-50">
             {/* Button with Arrow Icon */}
             <button
                 className="flex items-center justify-between transition-all duration-200 gap-2"
@@ -126,7 +126,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
                                                 onClick={() => handleSelect(currency)}
                                                 className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${selectedCurrency?.code === currency.code ? 'bg-[#f1f5f9]' : 'hover:bg-[#f1f5f9]'}`}
                                             >
-                                                <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
                                                     <img
                                                         src={getFlagSrc(currency.flag) || undefined}
                                                         alt={currency.code}
@@ -164,7 +164,7 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
                                                 onClick={() => handleSelect(currency)}
                                                 className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${selectedCurrency?.code === currency.code ? 'bg-[#f1f5f9]' : 'hover:bg-[#f1f5f9]'}`}
                                             >
-                                                <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
                                                     <img
                                                         src={getFlagSrc(currency.flag) || undefined}
                                                         alt={currency.code}
