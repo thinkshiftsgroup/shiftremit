@@ -475,7 +475,7 @@ const Register = () => {
       >
         <div className="absolute inset-0 bg-white/60" />
         <div className="relative h-screen flex flex-col justify-between z-10">
-          <div className="flex items-center gap-1">
+          <div onClick={()=>router.replace("/")} className="flex items-center gap-1 cursor-pointer">
             <Image
               src="/images/shiftremit-logo.png"
               width={100}
