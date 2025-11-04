@@ -11,7 +11,7 @@ import { WalletSection } from "@/components/dashboard/wallets";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 import { cryptoData, fiatData } from "@/data/data";
 
-const Dashboard = () => {
+const CustomerTrxn = () => {
   const cardData = [
     {
       title: "Total send money",
@@ -250,4 +250,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default CustomerTrxn;
