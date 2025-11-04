@@ -330,7 +330,7 @@ const Register = () => {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="+234 700 000 0000"
+                placeholder="+44 700 000 0000"
                 className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
               />
             </div>

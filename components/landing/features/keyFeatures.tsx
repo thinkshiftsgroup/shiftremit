@@ -4,22 +4,22 @@ import { motion } from "framer-motion";
 const KeyFeatures = () => {
   const cardDetails = [
     {
-      image: "/images/send.png",
+      image: "/images/send-2.png",
       title: "Send Money",
       description:
-        "Effortlessly send, swap and exchange currencies with secure, fast and seamless multi-currency transactions online",
+        "Send money home instantly, securely, and with complete peace of mind. ShiftRemit makes international transfers simple and transparent — with no transaction fees and no hidden charges.",
     },
     {
-      image: "/images/stake.png",
+      image: "/images/stake-2.png",
       title: "Request Money",
       description:
-        "Keep more of your money with low transaction fees. Our platform offers affordable rates to make transferring funds easier",
+        "Receive funds effortlessly from anyone in the UK. Share your unique link or partner code to request money, and have it delivered directly to your bank account — fast, reliable, and fee-free.",
     },
     {
-      image: "/images/trade.png",
+      image: "/images/trade-2.png",
       title: "Live Rates",
       description:
-        "Engage in live trading with real-time insights, dynamic strategies, and profitable opportunities in every move",
+        "Stay informed with real-time exchange rates and full transparency on what your recipient will receive before you send. With ShiftRemit, there are no surprises — just fair, honest rates every time.",
     },
   ];
 

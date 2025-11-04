@@ -4,29 +4,13 @@ import DropdownComponent from "./dropDown";
 import { useState } from "react";
 
 const Transfer = () => {
-  const [sending_amount, setSendingAmount] = useState("");
-  const [get_amount, setGetAmount] = useState("");
-  return (
-    <>
-      <div className="relative font-poppins flex flex-wrap justify-between items-start mb-4">
-        <div className="w-[calc(50%-16px)] ">
-          <label className="text-[#ccc] text-sm font-dm-sans font-medium block mb-2">
-            You send exactly
-          </label>
-          <div
-            className="flex relative flex-wrap items-center justify-between border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
-            id="sendMoneyBox"
-          >
-            <input
-              type="text"
-              name="sending_amount"
-              value={sending_amount}
-              onChange={(e) => setSendingAmount(e.target.value)}
-              id="sending_amount"
-              placeholder="1"
-              aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none"
-            />
+    return (
+        <>
+            <div className="relative flex flex-wrap justify-between items-start mb-4">
+                <div className="w-[calc(50%-16px)] ">
+                    <label className="text-[#ccc] text-lg font-medium block mb-2">You send exactly</label>
+                    <div className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full" id="sendMoneyBox">
+                        <input type="text" name="sending_amount" value="10" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold" />
 
             <button
               type="button"
@@ -72,32 +56,12 @@ const Transfer = () => {
           </span>
         </div>
 
-        <div className="w-[calc(50%-16px)]">
-          <label className="text-[#ccc] text-sm font-dm-sans font-medium block mb-2">
-            You get exactly
-          </label>
-          <div
-            className="flex relative flex-wrap items-center justify-between border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
-            id="receiveMoneyBox"
-            data-country="norway"
-            data-currency="EUR"
-          >
-           <input
-              type="text"
-              name="sending_amount"
-              value={get_amount}
-              onChange={(e) => setGetAmount(e.target.value)}
-              id="sending_amount"
-              placeholder="1500"
-              aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none"
-            />
-            <button
-              type="button"
-              id="receiveMoneyCurrencyBtn"
-              className="w-[90px] inline-flex items-center gap-1 relative"
-            >
-              {/* <img src="https://cdn.countryflags.com/thumbs/nigeria/flag-round-500.png" alt="currency flag" width={25} height={25} className="rounded-full" />
+                <div className="w-[calc(50%-16px)]">
+                    <label className="text-[#ccc] text-lg font-medium block mb-2">You get exactly</label>
+                    <div className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full" id="receiveMoneyBox" data-country="norway" data-currency="EUR">
+                        <input type="text" name="sending_amount" value="1493" id="sending_amount" aria-label="Sending Money" className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold" />
+                        <button type="button" id="receiveMoneyCurrencyBtn" className="w-[90px] inline-flex items-center gap-1 relative" >
+                            {/* <img src="https://cdn.countryflags.com/thumbs/nigeria/flag-round-500.png" alt="currency flag" width={25} height={25} className="rounded-full" />
                             <span className="font-semibold">NGN</span> */}
               <DropdownComponent defaultCurrency="NGN" />
             </button>

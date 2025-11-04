@@ -118,7 +118,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <div>
+          {/* <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
               Disclaimer: Before Sending Money
             </p>
@@ -133,19 +133,25 @@ const Footer = () => {
               exchange. It is the sender’s responsibility to comply with
               applicable legal requirements.
             </p>
-          </div>
+          </div> */}
           <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
-              About ShiftRemit
+              Send Money Made Simple with ShiftRemit
+
             </p>
             <p className="text-[#454745] font-poppins text-sm py-3">
-              Double-check the currencies and the exchange amounts before
-              initiating the transaction. Once processed, exchanges cannot be
-              reversed. Currency exchange rates are subject to fluctuation.
-              Ensure that you are satisfied with the rate at the time of the
-              transaction. All exchange transactions are final. Refunds or
-              adjustments may not be possible after the transaction is
-              completed.
+              ShiftRemit is built for one purpose: to make sending money from the UK to Nigeria simple, fast, and completely fee free.
+
+              We believe sending money home should be effortless. That’s why our web platform gives you a secure, transparent, and straightforward way to move your funds without the hidden costs or long delays of traditional remittance services.
+
+              With ShiftRemit, every transfer is clear from start to finish. You’ll see exactly how much your recipient will receive, and your payment reaches any Nigerian bank account in record time.
+
+              Our system is designed around speed, reliability, and great value so you can send more and worry less.
+
+              Most importantly, ShiftRemit is built by the people and for the people, powered by a robust technology infrastructure that puts community, transparency, and trust at the heart of every transaction.
+
+              Stay connected to the people and opportunities that matter most.
+              Choose ShiftRemit, the smart, fee free way to send money to Nigeria.
             </p>
           </div>
         </div>
