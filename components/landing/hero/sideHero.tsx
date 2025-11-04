@@ -3,6 +3,7 @@ import { useState } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
+import Transfer from "./transfer";
 
 const SideHero = () => {
   const [isFiat, setIsFiat] = useState(true);
@@ -39,18 +40,7 @@ const SideHero = () => {
           </p>
         </span>
       </div> */}
-
-      <div>
-        <div>
-          <p className="text-[#ccc] text-lg font-medium pb-2">
-            You send exactly
-          </p>
-          <div>
-            <input type="text" className=" active:ring-0" />
-            <div></div>
-          </div>
-        </div>
-      </div>
+      <Transfer />
 
       <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
         <div className="flex justify-between">
