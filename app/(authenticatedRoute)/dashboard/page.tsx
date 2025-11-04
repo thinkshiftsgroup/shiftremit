@@ -9,6 +9,7 @@ import { GoPlus } from "react-icons/go";
 import { FaArrowRight, FaUserPlus } from "react-icons/fa";
 import { WalletSection } from "@/components/dashboard/wallets";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
+import { cryptoData, fiatData } from "@/data/data";
 
 const Dashboard = () => {
   const cardData = [
@@ -177,8 +178,12 @@ const Dashboard = () => {
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3">
-          <WalletSection title="Fiat Wallets" currency="AED" />
-          <WalletSection title="Crypto Wallets" currency="BTC" />
+          <WalletSection cards={fiatData} title="Fiat Wallets" />
+          <WalletSection
+            cards={cryptoData}
+            title="Crypto Wallets"
+            
+          />
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
@@ -271,12 +276,12 @@ const Dashboard = () => {
                 0.00
               </div>
               <div className="flex items-center gap-1 text-xs font-poppins">
-                <div className="w-3 h-3 rounded-full bg-main-dark" /> Request Money:
-                0.00
+                <div className="w-3 h-3 rounded-full bg-main-dark" /> Request
+                Money: 0.00
               </div>
               <div className="flex items-center gap-1 text-xs font-poppins">
-                <div className="w-3 h-3 rounded-full bg-main-dark-II" /> Deposit:
-                0.00
+                <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
+                Deposit: 0.00
               </div>
               <div className="flex items-center gap-1 text-xs font-poppins">
                 <div className="w-3 h-3 rounded-full bg-primary" /> Withdraw:

@@ -3,24 +3,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import { MdOutlineChevronLeft, MdOutlineChevronRight } from "react-icons/md";
 
-interface WalletCard {
-  currency: string;
-  balance: string;
-  lastTransaction: string;
-}
-
-const cards: WalletCard[] = Array(5).fill({
-  currency: "AED",
-  balance: "0.00 USD",
-  lastTransaction: "0.00 USD",
-});
-
 export const WalletSection = ({
   title,
-  currency,
+  // currency,
+  cards,
 }: {
   title: string;
-  currency: string;
+  // currency: string;
+  cards: any;
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,7 +22,7 @@ export const WalletSection = ({
     const card = container.children[index] as HTMLElement;
     if (!card) return;
 
-    const leftPos = card.offsetLeft; 
+    const leftPos = card.offsetLeft;
     container.scrollTo({
       left: leftPos,
       behavior: "smooth",
@@ -87,7 +77,7 @@ export const WalletSection = ({
         ref={containerRef}
         className="flex items-center gap-3 overflow-x-scroll scrollbar-hide"
       >
-        {cards.map((card, index) => (
+        {cards.map((card: any, index: any) => (
           <div
             key={index}
             className="p-4 flex-none shrink-0 w-[400px] bg-cover bg-center border border-gray-200 rounded-lg"
@@ -98,19 +88,23 @@ export const WalletSection = ({
           >
             <div className="flex items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-1">
-                <div className="w-10 h-10 rounded-full bg-gray-200" />
+                <img
+                  src={card.country}
+                  alt=""
+                  className="w-11 h-11 rounded-fill object-cover"
+                />
                 <p className="text-[#072032] font-semibold text-sm font-dm-sans">
-                  {currency}
+                 {card.name}
                 </p>
               </div>
             </div>
 
             <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1">
-              {card.balance}
+              {card.amount}.00
             </h1>
             <p className="text-xs font-poppins text-[#454745]">
               Last transaction{" "}
-              <span className="font-medium">{card.lastTransaction}</span>
+              <span className="font-medium">{card.lastTxs}.00</span>
             </p>
           </div>
         ))}
