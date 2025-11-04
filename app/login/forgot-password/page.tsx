@@ -10,35 +10,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { loginClient } from "@/api/authService";
 
-const LoginScrn = () => {
+const ForgotPassword = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      setError("Please enter both email and password.");
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      await loginClient(email, password);
-      router.push("/send-money");
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown login error occurred."
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="h-screen flex ">
@@ -115,16 +89,17 @@ const LoginScrn = () => {
         </div>
       </div>
       <div className="w-[60%] flex flex-col justify-center items-center bg-white">
-        <form onSubmit={handleSubmit} className="w-[80%] space-y-3">
-          <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
-            Log in to your account
-          </h1>
+        <form className="w-[60%] space-y-3">
+          <div>
+            <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
+              Recover Password
+            </h1>
 
-          {error && (
-            <div className="p-3 bg-red-100 text-red-700 border border-red-300 rounded-md font-poppins text-sm">
-              {error}
-            </div>
-          )}
+            <p className="font-poppins max-w-lg py-4 text-gray-600">
+              Reset your password by verifying your email or phone to regain
+              account access
+            </p>
+          </div>
 
           <div className="space-y-3">
             <label
@@ -146,62 +121,22 @@ const LoginScrn = () => {
               />
             </div>
           </div>
-          <div>
-            <div className="space-y-3">
-              <label
-                htmlFor="password"
-                className="font-poppins font-semibold text-sm "
-              >
-                Password
-              </label>
-              <div className="relative">
-                <CiLock size={20} className="absolute top-5 left-3" />
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
-                />
-                <IoEyeOutline
-                  className="absolute top-4.5 cursor-pointer right-3"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              </div>
-            </div>
-            <p onClick={()=>router.push("/login/forgot-password")} className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins">
-              Forgot Password?
-            </p>
-          </div>
 
           <button
             type="submit"
-            disabled={isLoading}
             className={`
     text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
+    
   `}
           >
-            {isLoading ? "Logging in..." : "Login"}
+            Send verification code
           </button>
-
-          <p className="font-poppins mt-2 text-center">
-            Don't have an account?{" "}
-            <span
-              className="text-main cursor-pointer"
-              onClick={() => router.push("/signup")}
-            >
-              Signup
-            </span>
-          </p>
         </form>
       </div>
     </div>
   );
 };
 
-export default LoginScrn;
+export default ForgotPassword;

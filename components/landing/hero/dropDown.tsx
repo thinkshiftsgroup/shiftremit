@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Search } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { ChevronDown, ChevronUp, Search } from "lucide-react";
 
 interface Currency {
-    code: string;
-    name: string;
-    flag: { url?: string; file?: File };
-    popular: boolean;
+  code: string;
+  name: string;
+  flag: { url?: string; file?: File };
+  popular: boolean;
 }
 
 interface DropdownComponentProps {
-    defaultCurrency?: string;
+  defaultCurrency?: string;
 }
 
 export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownComponentProps) {
@@ -152,51 +152,73 @@ export default function DropdownComponent({ defaultCurrency = 'GBP' }: DropdownC
                                     <div className="border-t border-gray-200"></div>
                                 )} */}
 
-                                {/* All Currencies Section */}
-                                {otherCurrencies.length > 0 && (
-                                    <div className="p-2.5">
-                                        {!searchTerm && (
-                                            <h3 className="text-sm font-semibold text-gray-700 mb-3 text-start">All Currencies</h3>
-                                        )}
-                                        {otherCurrencies.map((currency, index) => (
-                                            <button
-                                                key={index}
-                                                onClick={() => handleSelect(currency)}
-                                                className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${selectedCurrency?.code === currency.code ? 'bg-[#f1f5f9]' : 'hover:bg-[#f1f5f9]'}`}
-                                            >
-                                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                                    <img
-                                                        src={getFlagSrc(currency.flag) || undefined}
-                                                        alt={currency.code}
-                                                        className="w-6 h-6 rounded-full object-cover"
-                                                    />
-                                                </div>
-                                                <div className='flex gap-2 items-center'>
-                                                    <p className="font-semibold text-gray-800">{currency.code}</p>
-                                                    <p className="text-xs text-gray-600">{currency.name}</p>
-                                                </div>
-                                                {selectedCurrency?.code === currency.code && (
-                                                    <span className="ml-auto text-gray-600"><svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                                                        <path fill="currentColor" d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47" strokeWidth={0.5} stroke="currentColor"></path>
-                                                    </svg></span>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
+                {/* All Currencies Section */}
+                {otherCurrencies.length > 0 && (
+                  <div className="p-2.5">
+                    {!searchTerm && (
+                      <h3 className="text-sm font-semibold text-gray-700 mb-3 text-start">
+                        All Currencies
+                      </h3>
+                    )}
+                    {otherCurrencies.map((currency, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSelect(currency)}
+                        className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${
+                          selectedCurrency?.code === currency.code
+                            ? "bg-[#f1f5f9]"
+                            : "hover:bg-[#f1f5f9]"
+                        }`}
+                      >
+                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                          <img
+                            src={getFlagSrc(currency.flag) || undefined}
+                            alt={currency.code}
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <p className="font-semibold text-gray-800">
+                            {currency.code}
+                          </p>
+                          <p className="text-xs text-gray-600">
+                            {currency.name}
+                          </p>
+                        </div>
+                        {selectedCurrency?.code === currency.code && (
+                          <span className="ml-auto text-gray-600">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width={20}
+                              height={20}
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47"
+                                strokeWidth={0.5}
+                                stroke="currentColor"
+                              ></path>
+                            </svg>
+                          </span>
                         )}
-                    </div>
-                </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
-
-            {/* Close dropdown when clicking outside */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setIsOpen(false)}
-                ></div>
-            )}
+          </div>
         </div>
-    );
+      )}
+
+      {/* Close dropdown when clicking outside */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+    </div>
+  );
 }
