@@ -66,7 +66,7 @@ export const verifyEmailClient = async (
 ): Promise<VerifyEmailResponse> => {
   try {
     const response = await apiInstance.post<VerifyEmailResponse>(
-      "/api/auth/verify",
+      "/api/auth/verify-email",
       {
         email,
         code,
@@ -106,7 +106,7 @@ export const resendCodeClient = async (
 ): Promise<ResendCodeResponse> => {
   try {
     const response = await apiInstance.post<ResendCodeResponse>(
-      "/api/auth//resend-verification",
+      "/api/auth/resend-verification",
       {
         email,
       }
