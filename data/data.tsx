@@ -23,7 +23,7 @@
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/67344db0c8daf-1731481008.png",
-      name: "USD",
+      name: "GBP",
       amount: 0.0,
       lastTxs: 0.0,
     },

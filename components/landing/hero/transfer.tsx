@@ -4,11 +4,13 @@ import DropdownComponent from "./dropDown";
 import { useState } from "react";
 
 const Transfer = () => {
+  const [sending_amount, setSendingAmount] = useState("");
+  const [receive_amount, setReceiveAmount] = useState('')
   return (
     <>
       <div className="relative flex flex-wrap justify-between items-start mb-4 gap-5 md:gap-0">
         <div className="w-full md:w-[calc(50%-16px)] ">
-          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
+          <label className="text-[#ccc] text-sm font-medium block mb-2">
             You send exactly
           </label>
           <div
@@ -18,11 +20,16 @@ const Transfer = () => {
             <input
               type="text"
               name="sending_amount"
-              value="10"
               id="sending_amount"
               aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold"
+              value={sending_amount}
+              placeholder="10"
+              onChange={(e) => setSendingAmount(e.target.value)}
+              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[120px] font-bold"
             />
+            {/* <div className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold">
+              10
+            </div> */}
 
             <button
               type="button"
@@ -37,7 +44,7 @@ const Transfer = () => {
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
         </div>
 
-        <div className="absolute top-[42px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
+        <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
             className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
                         before:absolute 
@@ -69,7 +76,7 @@ const Transfer = () => {
         </div>
 
         <div className="w-full md:w-[calc(50%-16px)]">
-          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
+          <label className="text-[#ccc] text-sm font-medium block mb-2">
             You get exactly
           </label>
           <div
@@ -80,11 +87,13 @@ const Transfer = () => {
           >
             <input
               type="text"
-              name="sending_amount"
-              value="1493"
-              id="sending_amount"
-              aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold"
+              name="receive_amount"
+              id="receive_amount"
+              value={receive_amount}
+              placeholder="1493"
+              onChange={(e) => setReceiveAmount(e.target.value)}
+              aria-label="Receive Money"
+              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[120px] font-bold"
             />
             <button
               type="button"
