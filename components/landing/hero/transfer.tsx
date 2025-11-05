@@ -12,7 +12,7 @@ const Transfer = () => {
             You send exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-flex-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -73,7 +73,7 @@ const Transfer = () => {
             You get exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-flex-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
