@@ -48,9 +48,7 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
   );
 };
 
-export default function CompareRates({isOpen, setIsOpen}:any) {
- 
-
+export default function CompareRates({ isOpen, setIsOpen }: any) {
   const rates = [
     {
       icon: "/images/brands/vec-1.svg",
