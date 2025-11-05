@@ -2,49 +2,35 @@
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/67334ff9d02e2-1731416057.png",
-      name: "BDT",
-      amount: 0.0,
-      lastTxs: 0.0,
+      name: "MonieWorld",
+      amount: 1900,
+      lastTxs: 30,
     },
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/6733544b4fd6d-1731417163.png",
-      name: "BRL",
-      amount: 0.0,
-      lastTxs: 0.0,
+      name: "LemFi",
+      amount: 1870,
+      lastTxs: 37,
     },
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/67343e5d02f2b-1731477085.png",
-      name: "AED",
+      name: "TapTap Send",
       amount: 0.0,
       lastTxs: 0.0,
     },
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/67344db0c8daf-1731481008.png",
-      name: "GBP",
+      name: "FlutterSend",
       amount: 0.0,
       lastTxs: 0.0,
     },
     {
       country:
         "https://transfermax.springsoftit.com/demo/files/image/currency/6734408c339b9-1731477644.png",
-      name: "INR",
-      amount: 0.0,
-      lastTxs: 0.0,
-    },
-    {
-      country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/673441409dc1f-1731477824.png",
-      name: "ZAR",
-      amount: 0.0,
-      lastTxs: 0.0,
-    },
-    {
-      country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg",
-      name: "GBP",
+      name: "Nala",
       amount: 0.0,
       lastTxs: 0.0,
     },

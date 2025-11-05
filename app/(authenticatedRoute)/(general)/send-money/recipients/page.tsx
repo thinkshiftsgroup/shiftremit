@@ -4,7 +4,7 @@ import SideNav from "@/components/dashboard/sideNav";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { CgArrowRight } from "react-icons/cg";
+import { FaArrowLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 
 const Recipients = () => {
@@ -192,7 +192,7 @@ const Recipients = () => {
             onClick={() => router.back()}
             className="font-poppins text-sm flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
-            <X size={16} />
+            <FaArrowLeft size={16} />
             Back
           </button>
           {/* <button

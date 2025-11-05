@@ -2,6 +2,8 @@
 import SendMoneyUI from "@/components/dashboard/send-money/sendMoney";
 import SendSteps from "@/components/dashboard/send-money/sendSteps";
 import SideNav from "@/components/dashboard/sideNav";
+import { WalletSection } from "@/components/dashboard/wallets";
+import { cryptoData, fiatData } from "@/data/data";
 import React, { useState } from "react";
 
 const SendMoney = () => {
@@ -20,6 +22,10 @@ const SendMoney = () => {
         </div>
 
         <SendMoneyUI />
+      </div>
+      <div className="py-3.5 px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
+        <p>Get up to <span className="text-green-900" >₦69.19</span> more with ShiftRemit</p>
+        <WalletSection cards={fiatData} title="Compare  Rates" />
       </div>
     </SideNav>
   );

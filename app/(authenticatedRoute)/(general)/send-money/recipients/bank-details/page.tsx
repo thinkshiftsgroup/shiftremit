@@ -14,7 +14,7 @@ const BankDetails = () => {
 
         <div className="relative">
           <div
-            className="flex items-center absolute top-1 left-1 ml-5 font-poppins gap-2 text-sm cursor-pointer"
+            className="flex items-center my-5 ml-10 font-poppins gap-2 text-sm cursor-pointer"
             onClick={() => router.back()}
           >
             <FaArrowLeft size={16} />
@@ -101,14 +101,14 @@ const BankDetails = () => {
               <div className="flex justify-end">
                 <div className="flex items-center gap-1">
                   <p className="font-poppins text-xs">
-                    is this business Account
+                    Is this a business bank account
                   </p>
                   <input type="checkbox" className="accent-main w-3.5 h-3.5" />
                 </div>
               </div>
             </div>
             <button
-              onClick={() => router.push("/send-money/recipients/bank-details")}
+              onClick={() => router.push("/send-money/fund")}
               className="
     text-white w-full font-poppins border border-[#813FD6] text-sm py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]

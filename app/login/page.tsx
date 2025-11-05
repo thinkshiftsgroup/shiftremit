@@ -9,6 +9,7 @@ import { FaHandHoldingDollar } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { loginClient } from "@/api/authService";
+import Cookies from "js-cookie";
 
 const LoginScrn = () => {
   const router = useRouter();
@@ -36,6 +37,8 @@ const LoginScrn = () => {
         router.push("/admin/dashboard");
       } else if (userRole === "partner") {
         router.push("/partner");
+      } else if (userRole === "user") {
+        router.push("/send-money");
       } else {
         router.push("/send-money");
       }
@@ -174,7 +177,7 @@ const LoginScrn = () => {
                   className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
                 />
                 <IoEyeOutline
-                  className="absolute top-4.5 cursor-pointer right-3"
+                  className="absolute top-6 cursor-pointer right-3"
                   onClick={() => setShowPassword(!showPassword)}
                 />
               </div>

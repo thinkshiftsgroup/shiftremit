@@ -14,9 +14,9 @@ const Find = () => {
       <div className="my-7 relative bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
 
-        <div className="relative">
+        <div className="relative ">
           <div
-            className="flex items-center absolute top-1 left-1 ml-5 font-poppins gap-2 text-sm cursor-pointer"
+            className="flex items-center my-5 ml-10 font-poppins gap-2 text-sm cursor-pointer"
             onClick={() => router.back()}
           >
             <FaArrowLeft size={16} />
@@ -60,21 +60,32 @@ const Find = () => {
                 <hr className="py-2" />
 
                 <div className="pb-5">
-                  <div className="rounded-lg w-full cursor-pointer p-3 flex items-center gap-2 bg-gray-100">
+                  <div
+                    onClick={() => router.push("/send-money/fund")}
+                    className="rounded-lg w-full cursor-pointer p-3 flex items-center gap-2 bg-gray-100"
+                  >
                     <div className="inline-block relative">
                       <div className="font-poppins border-gray-400 border w-14 h-14 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
                         JI
                       </div>
                       <div className="w-4 h-4 absolute bottom-0 -right-1 border border-white rounded-full">
-                        <img src="/images/shiftremit-logo.png" className="object-cover" alt="" />
+                        <img
+                          src="/images/shiftremit-logo.png"
+                          className="object-cover"
+                          alt=""
+                        />
                       </div>
                     </div>
                     <div className="">
-                        <h1 className="font-poppins text-sm font-semibold text-black">Joshua Israel</h1>
-                        <p className="text-xs py-0.5 font-dm-sans text-gray-500">joshisr@gmail.com</p>
-                        <span className="bg-gray-50 inline-block text-gray-500 font-dm-sans rounded-full p-1 text-xs">
-                            <p>@joshisr23</p>
-                        </span>
+                      <h1 className="font-poppins text-sm font-semibold text-black">
+                        Joshua Israel
+                      </h1>
+                      <p className="text-xs py-0.5 font-dm-sans text-gray-500">
+                        joshisr@gmail.com
+                      </p>
+                      <span className="bg-gray-50 inline-block text-gray-500 font-dm-sans rounded-full p-1 text-xs">
+                        <p>@joshisr23</p>
+                      </span>
                     </div>
                   </div>
                 </div>

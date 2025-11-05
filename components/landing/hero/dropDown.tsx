@@ -79,8 +79,8 @@ export default function DropdownComponent({
 
   return (
     <div className="relative w-full z-50">
-      <button
-        type="button"
+      <div
+        // type="button"
         className="flex items-center justify-between transition-all duration-200 gap-2 w-full"
         onClick={toggleDropdown}
       >
@@ -99,7 +99,7 @@ export default function DropdownComponent({
         ) : (
           <ChevronDown size={20} className="text-white flex-none" />
         )}
-      </button>
+      </div>
 
       {isOpen && (
         <div className="absolute w-[350px] max-h-[380px] h-auto pb-2 top-full -left-[265%] mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
