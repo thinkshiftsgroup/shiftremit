@@ -6,16 +6,16 @@ const Recipients = () => {
   const [tab, setTab] = useState("all-account");
   return (
     <SideNav>
-      <div className="py-10 flex items-center justify-between gap-5">
+      <div className="py-10 flex items-start justify-between gap-5">
         <div className="w-1/2 rounded-md bg-white py-3.5 px-6 shadow-md">
-          <h1 className="text-[#072032]  text-lg font-semibold font-dm-sans mb-2">
+          <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
             All Recipients
           </h1>
 
           <div className="border-b flex items-center gap-2">
             <div
               onClick={() => setTab("all-account")}
-              className={`font-poppins text-xs ${
+              className={`font-poppins text-sm ${
                 tab === "all-account"
                   ? "text-main border-b-2 border-b-main"
                   : "text-black"
@@ -32,7 +32,7 @@ const Recipients = () => {
             </div>
             <div
               onClick={() => setTab("my-account")}
-              className={`font-poppins text-xs ${
+              className={`font-poppins text-sm ${
                 tab === "my-account"
                   ? "text-main border-b-2 border-b-main"
                   : "text-black"
@@ -77,7 +77,7 @@ const Recipients = () => {
                   d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
                 ></path>
               </svg>
-              <p className="font-poppins text-xs text-[#8094ae]">
+              <p className="font-poppins text-sm text-[#8094ae]">
                 Don't have any data
               </p>
             </div>
@@ -88,74 +88,91 @@ const Recipients = () => {
             Add New Recipients
           </h1>
           <hr />
-          <div className="h-[55vh] px-6 py-3">
-            <div className="grid grid-cols-2 gap-5 mb-5">
-              <div className="w-full flex gap-2 flex-col font-poppins text-sm">
-                <label className="font-semibold" htmlFor="">
-                  Currency Type
+          <div className="px-6 py-3">
+            <div className="space-y-2">
+              <div>
+                <label
+                  className="text-base font-semibold text-[#072032] font-poppins"
+                  htmlFor=""
+                >
+                  Bank name
                 </label>
                 <select
                   name=""
                   id=""
-                  className="active:border-main rounded-md border p-3 border-[#dee2e6]"
+                  className="rounded-md text-base border-[#072032] font-poppins p-2 border w-full mt-1"
                 >
-                  <option value="">Select Type</option>
-                  <option value="">Fiat Currency</option>
-                  <option value="">Crypto Currency</option>
+                  <option value="">Please choose recipient's bank</option>
                 </select>
               </div>
-              <div className="w-full flex gap-2 flex-col font-poppins text-sm">
-                <label className="font-semibold" htmlFor="">
-                  Currency
-                </label>
-                <select
-                  name=""
-                  id=""
-                  className="active:border-main rounded-md border p-3 border-[#dee2e6]"
+              <div>
+                <label
+                  className="text-base font-semibold text-[#072032] font-poppins"
+                  htmlFor=""
                 >
-                  <option value="">Select a currency</option>
-                </select>
-              </div>
-              <div className="w-full flex gap-2 flex-col font-poppins text-sm">
-                <label className="font-semibold" htmlFor="">
-                  Recipient Type
-                </label>
-                <select
-                  name=""
-                  id=""
-                  className="active:border-main rounded-md border p-3 border-[#dee2e6]"
-                >
-                  <option value="">System User</option>
-                  <option value="">External User</option>
-                  <option value="">My Account</option>
-                </select>
-              </div>
-              <div className="w-full flex gap-2 flex-col font-poppins text-sm">
-                <label className="font-semibold" htmlFor="">
-                  Recipient name <span className="text-red-500">*</span>
+                  Account number
                 </label>
                 <input
                   type="text"
-                  className="active:border-main rounded-md border p-3 border-[#dee2e6]"
-                  placeholder="Enter Recipient Name"
+                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                />
+              </div>{" "}
+              <div>
+                <label
+                  className="text-base font-semibold text-[#072032] font-poppins"
+                  htmlFor=""
+                >
+                  Fullname of the account holder
+                </label>
+                <input
+                  type="text"
+                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
                 />
               </div>
+              <div>
+                <label
+                  className="text-base font-semibold text-[#072032] font-poppins"
+                  htmlFor=""
+                >
+                  Their email (optional)
+                </label>
+                <input
+                  type="email"
+                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                />
+              </div>
+              <div>
+                <label
+                  className="text-base font-semibold text-[#072032] font-poppins"
+                  htmlFor=""
+                >
+                  Purpose
+                </label>
+                <textarea
+                  placeholder="Purpose"
+                  className="rounded-md font-poppins text-base h-[100px] border-[#072032] p-2 border w-full mt-1"
+                />
+              </div>
+              <div className="flex justify-end">
+                <div className="flex items-center gap-1">
+                  <p className="font-poppins text-sm">
+                    Is this a business bank account
+                  </p>
+                  <input type="checkbox" className="accent-main w-3.5 h-3.5" />
+                </div>
+              </div>
             </div>
-            <div className="w-full flex gap-2 flex-col font-poppins text-sm">
-              <label className="font-semibold" htmlFor="">
-                Recipient email <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                className="active:border-main rounded-md border p-3 border-[#dee2e6]"
-                placeholder="Enter Recipient Email"
-              />
-            </div>
-            <div className="mt-5 flex justify-end">
-              <button className="bg-main text-white rounded-md py-2 px-4 cursor-pointer font-poppins">
-                Save
-              </button>
-            </div>
+            <button
+              // onClick={() => router.push("/send-money/fund")}
+              className="
+    text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    bg-linear-to-l from-[#813FD6] to-[#301342]
+    transition-all duration-300 ease-in-out
+    hover:border-transparent my-5 text-center 
+  "
+            >
+              Add
+            </button>
           </div>
         </div>
       </div>

@@ -1,35 +1,35 @@
  export const fiatData = [
     {
       country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/67334ff9d02e2-1731416057.png",
+        "/images/brands/vec-2.svg",
       name: "MonieWorld",
       amount: 1900,
       lastTxs: 30,
     },
     {
       country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/6733544b4fd6d-1731417163.png",
+        "/images/brands/vec-4.svg",
       name: "LemFi",
       amount: 1870,
       lastTxs: 37,
     },
     {
       country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/67343e5d02f2b-1731477085.png",
+        "/images/brands/vec-3.svg",
       name: "TapTap Send",
       amount: 0.0,
       lastTxs: 0.0,
     },
     {
       country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/67344db0c8daf-1731481008.png",
+        "/images/brands/vec-5.svg",
       name: "FlutterSend",
       amount: 0.0,
       lastTxs: 0.0,
     },
     {
       country:
-        "https://transfermax.springsoftit.com/demo/files/image/currency/6734408c339b9-1731477644.png",
+        "/images/brands/vec-6.svg",
       name: "Nala",
       amount: 0.0,
       lastTxs: 0.0,

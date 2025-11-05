@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import { useRef} from "react";
 
 export const WalletSection = ({
   title,
@@ -16,7 +16,7 @@ export const WalletSection = ({
   return (
     <div className="">
       <div className="flex items-center justify-between gap-2 mb-3">
-        <h1 className="text-[#072032] text-lg font-semibold font-dm-sans">
+        <h1 className="text-[#072032] text-xl font-semibold font-dm-sans">
           {title}
         </h1>
       
@@ -42,13 +42,13 @@ export const WalletSection = ({
                   alt=""
                   className="w-11 h-11 rounded-fill object-cover"
                 />
-                <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                <p className="text-[#072032] font-semibold text-base font-dm-sans">
                  {card.name}
                 </p>
               </div>
             </div>
 
-            <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1">
+            <h1 className="text-[#072032] font-medium font-dm-sans text-xl py-1">
               {card.amount}.00
             </h1>
             <p className="text-xs font-poppins text-red-500">

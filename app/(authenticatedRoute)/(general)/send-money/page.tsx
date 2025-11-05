@@ -13,10 +13,10 @@ const SendMoney = () => {
         <SendSteps step={1} />
 
         <div className="my-10">
-          <h1 className=" text-3xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+          <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Send Money
           </h1>
-          <p className="font-poppins text-[#454745] mb-3 text-center">
+          <p className="font-poppins text-lg text-[#454745] mb-3 text-center">
             Fast and reliable international money transfer app.
           </p>
         </div>

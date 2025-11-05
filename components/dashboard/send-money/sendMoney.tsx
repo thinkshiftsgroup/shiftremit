@@ -17,10 +17,10 @@ const SendMoneyUI = () => {
     <div className="p-10">
       <DashTf />
 
-      <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
+      <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
         <div className="flex justify-between">
           <span>Delivery Method</span>
-          <div className="*:text-black font-normal *:cursor-pointer flex items-center gap-1 text-sm ">
+          <div className="*:text-black font-normal *:cursor-pointer flex items-center gap-1 text-base ">
             <p
               onClick={() => setIsBank(true)}
               className={`border relative ${
@@ -52,13 +52,13 @@ const SendMoneyUI = () => {
       <hr />
       <div className="flex font-poppins mt-5 justify-between items-center">
         <div>
-          <p className="text-xs opacity-80">Total Amount</p>
-          <p className="font-semibold text-lg">1 GBP</p>
+          <p className="text-sm opacity-80">Total Amount</p>
+          <p className="font-semibold text-xl">1 GBP</p>
         </div>
         <button
           onClick={() => router.push("/send-money/recipients")}
           className="
-    text-sm text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2
