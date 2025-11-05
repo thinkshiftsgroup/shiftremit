@@ -6,13 +6,13 @@ import { useState } from "react";
 const Transfer = () => {
   return (
     <>
-      <div className="relative flex flex-wrap justify-between items-start mb-4">
-        <div className="w-[calc(50%-16px)] ">
-          <label className="text-[#ccc] text-lg font-medium block mb-2">
+      <div className="relative flex flex-wrap justify-between items-start mb-4 gap-5 md:gap-0">
+        <div className="w-full md:w-[calc(50%-16px)] ">
+          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
             You send exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between md:justify-flex-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -37,7 +37,7 @@ const Transfer = () => {
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
         </div>
 
-        <div className="absolute top-[42px] left-[calc(50%-20px)] z-1 -me-5">
+        <div className="absolute top-[42px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
             className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
                         before:absolute 
@@ -68,12 +68,12 @@ const Transfer = () => {
           </span>
         </div>
 
-        <div className="w-[calc(50%-16px)]">
-          <label className="text-[#ccc] text-lg font-medium block mb-2">
+        <div className="w-full md:w-[calc(50%-16px)]">
+          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
             You get exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between md:justify-flex-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
