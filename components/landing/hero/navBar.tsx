@@ -13,6 +13,13 @@ const Navbar = () => {
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
+  const user = useAuthStore((state) => state.user);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
   const handleNavClick = () => {
     setMobileMenuOpen(false);
   };
@@ -45,9 +52,17 @@ const Navbar = () => {
       ? `${commonButtonClasses} w-full py-2 px-4`
       : commonButtonClasses;
 
-    if (isLoggedIn) {
+    if (isLoggedIn && user) {
+      let redirectPath = "/send-money";
+
+      if (user.userType === "admin" || user.userType === "partner") {
+        redirectPath = "/admin/dashboard";
+      } else if (user.userType === "user") {
+        redirectPath = "/send-money";
+      }
+
       return (
-        <Link href="/dashboard" onClick={handleNavClick}>
+        <Link href={redirectPath} onClick={handleNavClick}>
           <button className={classes}>Account</button>
         </Link>
       );
