@@ -52,24 +52,24 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
           <img
             src={icon}
             alt={name}
-            width="64"
-            height="64"
-            className="w-16 h-16 rounded-lg object-cover"
+            // width="64"
+            // height="64"
+            className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-cover"
           />
         </div>
       </div>
 
       <div className="text-right">
-        <p className="text-xl font-medium text-white">
+        <p className="text-lg md:text-xl font-medium text-white">
           ₦{currentRate.toFixed(2)}
         </p>
 
         {isShiftRemit ? (
-          <p className="text-lg text-[#A8ACAB] line-through">
+          <p className="text-[16px] md:text-lg text-[#A8ACAB] line-through">
             &nbsp;&nbsp;₦{discount.toFixed(2)}&nbsp;&nbsp;
           </p>
         ) : (
-          <p className="text-lg text-red-400">
+          <p className="text-[16px] md:text-lg text-red-400">
             -₦{discount.toFixed(2)}
           </p>
         )}
@@ -129,8 +129,8 @@ export default function CompareRates() {
                     className="w-full px-0 py-6 flex items-start gap-2"
                 >
                     <div className="text-left">
-                        <h2 className="text-xl font-semibold text-white mb-2">Compare rates</h2>
-                        <p className="text-sm text-gray-200">Get up to <span className='font-semibold text-[#01EF01]'>₦69.19</span> more with us</p>
+                        <h2 className="text-lg md:text-xl font-semibold text-white mb-2">Compare rates</h2>
+                        <p className="text-xs md:text-sm text-gray-200">Get up to <span className='font-semibold text-[#01EF01]'>₦69.19</span> more with us</p>
                     </div>
                     <ChevronDown
                         className={`w-8 h-8 text-white transition-transform duration-300 ${isOpen ? 'rotate-180' : ''
@@ -143,7 +143,7 @@ export default function CompareRates() {
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96' : 'max-h-0'
                         }`}
                 >
-                    <div className="px-8 pb-6 grid grid-cols-2 gap-4">
+                    <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">
                         {rates.map((rate, index) => (
                             <RateCard key={index} {...rate} />
                         ))}
