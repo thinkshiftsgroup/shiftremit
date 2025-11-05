@@ -14,7 +14,7 @@ const SideHero = () => {
     <div className="w-full lg:w-1/2 font-poppins flex items-start">
       <div
         className={`bg-main-dark-II   rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
-          isOpen ? "my-10" : "my-0"
+          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0 -mt-5 md:mt-0 mb-5 md:mb-3 lg:mb-0"
         } `}
       >
         <Transfer />
