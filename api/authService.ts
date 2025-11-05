@@ -20,6 +20,13 @@ interface LoginResponse {
 interface ResendCodeResponse {
   message: string;
 }
+interface ForgetPasswordResponse {
+  message: string;
+}
+
+interface ResetPasswordResponse {
+  message: string;
+}
 export const registerUserClient = async (
   firstname: string,
   lastname: string,
@@ -158,5 +165,54 @@ export const loginClient = async (
       );
     }
     throw new Error("An unexpected network error occurred during login.");
+  }
+};
+
+export const forgetPasswordClient = async (
+  email: string
+): Promise<ForgetPasswordResponse> => {
+  try {
+    const response = await apiInstance.post<ForgetPasswordResponse>(
+      "/api/auth/forgot-password",
+      { email }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(
+        error.response.data.message ||
+          "Failed to request password reset. Check the email address."
+      );
+    }
+    throw new Error(
+      "An unexpected network error occurred while requesting password reset."
+    );
+  }
+};
+export const resetPasswordClient = async (
+  email: string,
+  code: string,
+  newPassword: string
+): Promise<ResetPasswordResponse> => {
+  try {
+    const response = await apiInstance.post<ResetPasswordResponse>(
+      "/api/auth/reset-password",
+      {
+        email,
+        code,
+        newPassword,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(
+        error.response.data.message ||
+          "Failed to reset password. Check the code or try again."
+      );
+    }
+    throw new Error(
+      "An unexpected network error occurred during password reset."
+    );
   }
 };
