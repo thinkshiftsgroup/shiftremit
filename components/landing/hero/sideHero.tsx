@@ -7,17 +7,16 @@ import Transfer from "./transfer";
 import CompareRates from "./compareRates";
 
 const SideHero = () => {
-  const [isFiat, setIsFiat] = useState(true);
   const [isBank, setIsBank] = useState(true);
-
-  const [sendAmount, setSendAmount] = useState(100);
-  const [sendCurrency, setSendCurrency] = useState("USD");
-  const [receiveAmount, setReceiveAmount] = useState(11942.6657);
-  const [receiveCurrency, setReceiveCurrency] = useState("BDT");
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="w-full md:w-[55%] flex items-start min-h-screen h-auto">
-      <div className="bg-main-dark-II w-[96%] md:w-[90%] mx-auto rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl mt-0 md:mt-20 md:border-0 border border-[#ffffff30] mb-4 md:mb-0">
+    <div className="w-full md:w-[55%] font-poppins flex items-start">
+      <div
+        className={`bg-main-dark-II w-full  rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
+          isOpen ? "my-10" : "my-0"
+        } `}
+      >
         <Transfer />
 
         <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
@@ -26,8 +25,9 @@ const SideHero = () => {
             <div className="*:text-white font-normal *:cursor-pointer flex items-center gap-1 text-sm ">
               <p
                 onClick={() => setIsBank(true)}
-                className={`border relative ${isBank ? "border-main" : "border-white"
-                  } rounded-sm p-1`}
+                className={`border relative ${
+                  isBank ? "border-main" : "border-white"
+                } rounded-sm p-1`}
               >
                 {isBank && (
                   <span className="bg-main text-white rounded-full inline-flex items-center justify-center w-3.5 h-3.5 absolute -top-2 -right-2">
@@ -68,12 +68,11 @@ const SideHero = () => {
             >
               Send Now <CgArrowTopRight />
             </button>
-            </a>
+          </a>
         </div>
 
-        <CompareRates />
+        <CompareRates isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
-
     </div>
   );
 };

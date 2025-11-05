@@ -123,31 +123,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           viewBox="0 0 24 24"
         >
           {" "}
-          <g fill="none" stroke="currentColor" stroke-width="1.5">
-            {" "}
-            <circle cx="9" cy="6" r="4"></circle>{" "}
-            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
-            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
-            <path
-              stroke-linecap="round"
-              d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
-            ></path>{" "}
-          </g>{" "}
-        </svg>
-      ),
-      title: "Recipients",
-      link: "/recipients",
-      showFor: ["admin"],
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
           <path
             fill="currentColor"
             d="M19 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0"
@@ -170,6 +145,50 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         { title: "Received Request", link: "/request-money/received-request" },
         { title: "Received Wallet", link: "/request-money/received-wallet" },
       ],
+      showFor: ["customer", "admin"],
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          {" "}
+          <g fill="none" stroke="currentColor" stroke-width="1.5">
+            {" "}
+            <circle cx="9" cy="6" r="4"></circle>{" "}
+            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
+            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
+            <path
+              stroke-linecap="round"
+              d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
+            ></path>{" "}
+          </g>{" "}
+        </svg>
+      ),
+      title: "Recipients",
+      link: "/recipients",
+      showFor: ["admin", "customer"],
+    },
+
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M21.71 8.71c1.25-1.25.68-2.71 0-3.42l-3-3c-1.26-1.25-2.71-.68-3.42 0L13.59 4H11C9.1 4 8 5 7.44 6.15L3 10.59v4l-.71.7c-1.25 1.26-.68 2.71 0 3.42l3 3c.54.54 1.12.74 1.67.74c.71 0 1.36-.35 1.75-.74l2.7-2.71H15c1.7 0 2.56-1.06 2.87-2.1c1.13-.3 1.75-1.16 2-2C21.42 14.5 22 13.03 22 12V9h-.59zM20 12c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-4.41l-3.28 3.28c-.31.29-.49.12-.6.01l-2.99-2.98c-.29-.31-.12-.49-.01-.6L5 15.41v-4l2-2V11c0 1.21.8 3 3 3s3-1.79 3-3h7zm.29-4.71L18.59 9H11v2c0 .45-.19 1-1 1s-1-.55-1-1V8c0-.46.17-2 2-2h3.41l2.28-2.28c.31-.29.49-.12.6-.01l2.99 2.98c.29.31.12.49.01.6"
+          />
+        </svg>
+      ),
+      title: "Partner",
+      link: "/partner",
       showFor: ["customer", "admin"],
     },
     {
@@ -275,30 +294,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         >
           <path
             fill="currentColor"
-            d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 3.5-3.5m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
+            d="M10 11.385q-1.237 0-2.119-.882T7 8.385t.881-2.12T10 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.69.348-1.194t.983-.802q1.217-.592 2.51-.975q1.292-.382 3.159-.382h.235q.092 0 .223.011q-.104.258-.165.505l-.116.484H10q-1.679 0-2.928.344t-2.264.89q-.456.24-.632.504Q4 16.618 4 16.97v.647h6.3q.073.236.179.508t.233.492zm13.212.481l-.146-1.154q-.416-.086-.784-.291t-.663-.52l-1.084.43l-.423-.719l.919-.692q-.165-.427-.165-.88t.165-.881l-.9-.731l.423-.72l1.065.45q.275-.315.653-.51t.794-.282l.146-1.154h.846l.127 1.154q.415.087.793.285t.653.519l1.065-.461l.423.73l-.9.731q.166.422.166.878t-.166.872l.92.692l-.423.72l-1.085-.431q-.294.315-.663.52t-.783.291l-.127 1.154zm.405-2.019q.747 0 1.276-.532t.53-1.278t-.531-1.276t-1.278-.53q-.747 0-1.277.532t-.53 1.278t.532 1.276t1.278.53M10 10.384q.825 0 1.413-.587T12 8.385t-.587-1.413T10 6.385t-1.412.587T8 8.385t.588 1.412t1.412.588m.3 7.23"
           />
         </svg>
       ),
       title: "Account",
       link: "/account",
-      showFor: ["customer", "admin"],
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="currentColor"
-            d="M21.71 8.71c1.25-1.25.68-2.71 0-3.42l-3-3c-1.26-1.25-2.71-.68-3.42 0L13.59 4H11C9.1 4 8 5 7.44 6.15L3 10.59v4l-.71.7c-1.25 1.26-.68 2.71 0 3.42l3 3c.54.54 1.12.74 1.67.74c.71 0 1.36-.35 1.75-.74l2.7-2.71H15c1.7 0 2.56-1.06 2.87-2.1c1.13-.3 1.75-1.16 2-2C21.42 14.5 22 13.03 22 12V9h-.59zM20 12c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-4.41l-3.28 3.28c-.31.29-.49.12-.6.01l-2.99-2.98c-.29-.31-.12-.49-.01-.6L5 15.41v-4l2-2V11c0 1.21.8 3 3 3s3-1.79 3-3h7zm.29-4.71L18.59 9H11v2c0 .45-.19 1-1 1s-1-.55-1-1V8c0-.46.17-2 2-2h3.41l2.28-2.28c.31-.29.49-.12.6-.01l2.99 2.98c.29.31.12.49.01.6"
-          />
-        </svg>
-      ),
-      title: "Partner",
-      link: "/partner",
       showFor: ["customer", "admin"],
     },
   ];
