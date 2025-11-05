@@ -17,7 +17,7 @@ const SideHero = () => {
 
   return (
     <div className="w-full md:w-[55%] flex items-start min-h-screen h-auto">
-      <div className="bg-main-dark-II w-[96%] md:w-[90%] mx-auto rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl mt-0 md:mt-20 md:border-0 border border-[#ffffff30] ">
+      <div className="bg-main-dark-II w-[96%] md:w-[90%] mx-auto rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl mt-0 md:mt-20 md:border-0 border border-[#ffffff30] mb-4 md:mb-0">
         <Transfer />
 
         <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
