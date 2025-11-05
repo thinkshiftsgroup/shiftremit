@@ -71,7 +71,7 @@ export function proxy(request: NextRequest) {
     "/profile",
     "/settings",
     "/projects",
-    "/customer",
+    "/user",
     "/send-money",
   ];
   const isClientProtectedPath = clientProtectedPaths.some((path) =>

@@ -196,7 +196,7 @@ const Fund = () => {
           </button>
           {bankStep === 3 && (
             <button
-              onClick={() => router.push("/customer/transactions")}
+              onClick={() => router.push("/user/transactions")}
               className="
     text-white font-poppins border border-[#813FD6] text-sm py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
