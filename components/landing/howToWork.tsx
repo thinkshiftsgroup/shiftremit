@@ -17,7 +17,7 @@ const HowToWork = () => {
       >
         <div className=" w-full flex justify-center">
           <span className="rounded-full mx-auto border border-main text-main font-poppins text-sm px-3.5 py-0.5">
-            How to Work
+            ShiftRemit 
           </span>
         </div>
 
@@ -63,8 +63,7 @@ const HowToWork = () => {
             Add recipient
           </h1>
           <p className="text-[#454745] text-center text-base font-poppins">
-            Add your recipient’s details, like their contact information or bank
-            account, to ensure your funds reach the right person.
+            Add your recipient’s details, like their contact information and bank account, to ensure your funds reach the right person.
           </p>
         </div>
         <div className="relative flex flex-col gap-2.5 items-center justify-between transition-all duration-300  hover:-translate-y-1 mx-3">
@@ -75,8 +74,7 @@ const HowToWork = () => {
             Enter amount to transfer
           </h1>
           <p className="text-[#454745] text-center text-base font-poppins">
-            Input the exact amount you wish to send. Confirm any fees or
-            exchange rates to see the total transfer cost.
+            Input the exact amount you wish to send. Confirm our unbeatable exchange rates to see the total amount to your recipients. 
           </p>
         </div>
       </motion.div>
