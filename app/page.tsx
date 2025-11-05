@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <div className="bg-linear-to-l flex items-center justify-between w-full from-[#813FD6] px-0 md:px-26 to-[#301342] py-4 md:py-6 flex-col md:flex-row gap-5 md:gap-0">
+      <div className="bg-linear-to-l flex items-center justify-between w-full from-[#813FD6] px-0 md:px-3 lg:px-26 to-[#301342] py-4 lg:py-6 flex-col lg:flex-row gap-5 md:gap-0">
         <PaymentSwiper />
         <div className="flex items-center gap-4 md:gap-3 flex-wrap px-3 md:px-0">
           <div className="flex items-center gap-1.5">

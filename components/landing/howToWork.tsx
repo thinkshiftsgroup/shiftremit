@@ -6,7 +6,7 @@ import { BiTransfer } from "react-icons/bi";
 
 const HowToWork = () => {
   return (
-    <div className="container px-3 md:py-10 md:px-20 mx-auto relative ">
+    <div className="container px-3 md:px-5 lg:py-10 lg:px-20 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <motion.div
@@ -36,7 +36,7 @@ const HowToWork = () => {
         initial={{ y: 50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex items-start relative justify-between gap-5 mt-20 mb-5 flex-col md:flex-row"
+        className="flex items-start relative justify-between gap-5 mt-20 mb-5 flex-col lg:flex-row"
       >
         <div className="relative flex flex-col gap-2.5 items-center justify-between transition-all duration-300  hover:-translate-y-1 mx-3">
           <div className="bg-main w-[75px] text-white h-[75px] flex items-center justify-center rounded-md">
