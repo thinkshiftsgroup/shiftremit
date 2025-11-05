@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa6";
 import SideHero from "./sideHero";
 import { useRouter } from "next/navigation";
+import Navbar from "./navBar";
 
 const Hero = () => {
   const router = useRouter();
@@ -19,73 +20,7 @@ const Hero = () => {
       <div className="rt-banner " />
       <div className="rt-banner-2 " />
       <div className="mx-auto relative">
-        <div className="flex px-20 container items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
-          <div className="flex items-center gap-1">
-            <Image
-              src="/images/shiftremit-logo.png"
-              width={100}
-              height={100}
-              alt="shiftremit-logo"
-              className="w-10 h-10 object-cover"
-            />
-            <div>
-              <h1 className="text-xl font-semibold font-poppins text-white">
-                Shift<span className="text-main">Remit</span>
-              </h1>
-              <p className="text-[8px] italic font-semibold text-white font-dm-sans">
-                Unbeatable Transfer Rates
-              </p>
-            </div>
-          </div>
-
-          {/* <ul className="text-white *:py-3 *:px-4 font-medium font-poppins flex items-center *:cursor-pointer">
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Track</li>
-            <li>Blog</li>
-            <li>Contact us</li>
-          </ul> */}
-
-          <div className="flex items-center gap-3">
-            {/* <div className="flex items-center gap-1 cursor-pointer">
-              <Image
-                alt="country"
-                src="https://transfermax.springsoftit.com/demo/files/image/classic/constant_image/en.png"
-                width={100}
-                height={100}
-                className="w-6 h-6 rounded-full"
-              />
-              <p className="text-white text-lg font-poppins">en</p>
-            </div> */}
-            <a href="/login">
-              <button
-                onClick={() => router.push("/login")}
-                className="
-    text-sm text-white font-poppins border border-[#813FD6] py-2 px-6 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
-    transition-all duration-300 ease-in-out
-    hover:border-transparent
-  "
-              >
-                Login
-              </button>
-            </a>
-            <a href="/signup">
-              <button
-                onClick={() => router.push("/signup")}
-                className="
-    text-sm text-white font-poppins border border-[#813FD6] py-2 px-6 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
-    transition-all duration-300 ease-in-out
-    hover:border-transparent
-  "
-              >
-                Signup
-              </button>
-            </a>
-          </div>
-        </div>
-
+        <Navbar />
         <div className="h-auto min-h-[90vh] flex items-center justify-center">
           <div className="
             md:max-w-[720px] 
