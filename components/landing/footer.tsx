@@ -9,12 +9,12 @@ import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className=" container px-20 w-full  mt-10  pt-28 pb-14 mx-auto relative ">
+    <div className=" container px-3 md:px-20 w-full  mt-10  md:pt-28 md:pb-14 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <div className=" ">
-        <div className="flex items-center justify-between gap-2 border-b pb-5">
-          <div className="flex items-center gap-1 w-[40%] ">
+        <div className="flex items-center justify-between gap-2 border-b pb-5 flex-col md:flex-row">
+          <div className="flex items-center gap-1 w-full md:w-[40%] ">
             <Image
               src="/images/shiftremit-logo.png"
               width={100}
@@ -32,8 +32,8 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center w-[60%] gap-3">
-            <div className="whitespace-nowrap">
+          <div className="flex items-center w-full md:w-[60%] gap-3 flex-col md:flex-row">
+            <div className="whitespace-nowrap w-full">
               <p className="font-dm-sans text-xl font-semibold">
                 Subscribe out newsletter
               </p>
@@ -53,8 +53,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-b pb-5 flex justify-between w-full gap-2 my-10">
-          <div className="flex justify-between w-8/10">
+        <div className="border-b pb-5 flex justify-between w-full gap-2 my-10 flex-col md:flex-row">
+          <div className="flex justify-between w-full md:w-8/10">
             {/* <div className="">
             <h1 className="text-black text-lg font-semibold font-dm-sans">
               Quick Links
@@ -162,9 +162,9 @@ const Footer = () => {
             <h1 className="font-semibold font-dm-sans text-sm text-black">
               Legal
             </h1>
-            <ul className="text-[#454745] font-poppins mt-4 flex flex-row *:cursor-pointer gap-2">
-              <li className="border-r-2 pe-3 me-2">Terms & conditions</li>
-              <li className="border-r-2 pe-3 me-2">Privacy Policy</li>
+            <ul className="text-[#454745] font-poppins mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
+              <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li>
+              <li className="md:border-r-2 pe-3 me-2">Privacy Policy</li>
               <li className="">Support</li>
             </ul>
           </div>
