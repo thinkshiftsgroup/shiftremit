@@ -1,9 +1,21 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ["transfermax.springsoftit.com"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "**",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
