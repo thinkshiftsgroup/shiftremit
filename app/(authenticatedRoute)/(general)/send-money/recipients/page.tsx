@@ -14,15 +14,15 @@ const Recipients = () => {
       <div className="my-7 bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
         <div className="my-10 ">
-          <h1 className=" text-3xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+          <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Recipient
           </h1>
-          <p className="font-poppins text-[#454745] mb-3 text-center">
+          <p className="font-poppins text-base text-[#454745] mb-3 text-center">
             Fast and reliable international money transfer app.
           </p>
         </div>
 
-        <div className="max-w-xl  mx-auto">
+        <div className="max-w-2xl  mx-auto">
           <div
             onClick={() => router.push("/send-money/recipients/bank-details")}
             className="flex cursor-pointer items-center justify-between py-3"
@@ -43,10 +43,10 @@ const Recipients = () => {
                 </svg>
               </div>
               <div>
-                <h1 className="font-poppins text-black font-semibold text-sm">
+                <h1 className="font-poppins text-black font-semibold text-base">
                   Bank Details
                 </h1>
-                <p className="font-dm-sans text-[#454745] font-medium text-xs">
+                <p className="font-dm-sans text-[#454745] font-medium text-sm">
                   Enter name, bank and account number
                 </p>
               </div>
@@ -62,10 +62,10 @@ const Recipients = () => {
                 <img src="/images/shiftremit-logo.png" alt="" />
               </div>
               <div>
-                <h1 className="font-poppins text-black font-semibold text-sm">
+                <h1 className="font-poppins text-black font-semibold text-base">
                   Find on ShiftRemit
                 </h1>
-                <p className="font-dm-sans text-[#454745] font-medium text-xs">
+                <p className="font-dm-sans text-[#454745] font-medium text-sm">
                   Find on Shiftremit / search by Shiftremittag, email or mobile
                   number
                 </p>
@@ -79,7 +79,7 @@ const Recipients = () => {
             <FaAngleRight size={16} className="" />
           </div>
           <div className="py-3">
-            <h1 className="font-poppins text-xs font-medium mb-5">Recents</h1>
+            <h1 className="font-poppins text-sm font-medium mb-5">Recents</h1>
             <div className="flex items-center justify-between gap-5">
               <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
                 <div className="relative ">
@@ -94,10 +94,10 @@ const Recipients = () => {
                   />
                 </div>
                 <div className=" text-center">
-                  <h1 className="text-sm font-poppins font-semibold text-[#072032]">
+                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
                     Jason S.
                   </h1>
-                  <p className="font-dm-sans text-xs font-medium text-[#454745]">
+                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
                     Canbank A...
                   </p>
                 </div>
@@ -114,10 +114,10 @@ const Recipients = () => {
                   />
                 </div>
                 <div className=" text-center">
-                  <h1 className="text-sm font-poppins font-semibold text-[#072032]">
+                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
                     Ade I.
                   </h1>
-                  <p className="font-dm-sans text-xs font-medium text-[#454745]">
+                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
                     Nigbank A...
                   </p>
                 </div>
@@ -135,10 +135,10 @@ const Recipients = () => {
                   />
                 </div>
                 <div className=" text-center">
-                  <h1 className="text-sm font-poppins font-semibold text-[#072032]">
+                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
                     Jason S.
                   </h1>
-                  <p className="font-dm-sans text-xs font-medium text-[#454745]">
+                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
                     Canbank A...
                   </p>
                 </div>
@@ -155,10 +155,10 @@ const Recipients = () => {
                   />
                 </div>
                 <div className=" text-center">
-                  <h1 className="text-sm font-poppins font-semibold text-[#072032]">
+                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
                     Ade I.
                   </h1>
-                  <p className="font-dm-sans text-xs font-medium text-[#454745]">
+                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
                     Nigbank A...
                   </p>
                 </div>
@@ -175,10 +175,10 @@ const Recipients = () => {
                   />
                 </div>
                 <div className=" text-center">
-                  <h1 className="text-sm font-poppins font-semibold text-[#072032]">
+                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
                     Ade I.
                   </h1>
-                  <p className="font-dm-sans text-xs font-medium text-[#454745]">
+                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
                     Nigbank A...
                   </p>
                 </div>
@@ -190,7 +190,7 @@ const Recipients = () => {
         <div className="flex justify-between p-5">
           <button
             onClick={() => router.back()}
-            className="font-poppins text-sm flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+            className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
             <FaArrowLeft size={16} />
             Back
@@ -198,7 +198,7 @@ const Recipients = () => {
           {/* <button
             
             className="
-    text-white font-poppins border border-[#813FD6] text-sm py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-white font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2

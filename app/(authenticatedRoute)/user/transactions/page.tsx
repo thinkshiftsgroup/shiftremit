@@ -43,7 +43,7 @@ const CustomerTrxn = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => router.push("/send-money")}
-              className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
+              className="text-[15px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
             >
               Send Money <FaArrowUp />
             </button>
@@ -52,18 +52,18 @@ const CustomerTrxn = () => {
             </button> */}
             <button
               onClick={() => router.push("/request-money/send-request")}
-              className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]"
+              className="text-[15px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]"
             >
               Request Money <FaPlus />
             </button>
-            <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            <button className="text-[15px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Wallet <IoWallet />
             </button>
           </div>
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+          <h1 className="text-[#072032] text-2xl font-semibold font-dm-sans mb-2">
             Overview
           </h1>
 
@@ -75,7 +75,7 @@ const CustomerTrxn = () => {
                   className="py-2 px-3 bg-white border border-gray-200 rounded-md"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                    <p className="text-[#072032] font-semibold text-base font-dm-sans">
                       {card.title}
                     </p>
                     <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
@@ -85,10 +85,10 @@ const CustomerTrxn = () => {
                       />
                     </div>
                   </div>
-                  <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
+                  <h1 className="text-[#072032] font-medium font-dm-sans text-2xl py-1 ">
                     {card.amount} GBP
                   </h1>
-                  <p className="text-xs font-poppins text-[#454745]">
+                  <p className="text-sm font-poppins text-[#454745]">
                     Last transaction{" "}
                     <span className="text-[#22c55e] font-medium">
                       {card.lastTxn} GBP
@@ -122,32 +122,32 @@ const CustomerTrxn = () => {
           </div>
         </div>
         <div className="py-3.5  bg-white rounded-md my-4">
-          <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
+          <h1 className="text-[#072032] px-6 text-2xl font-semibold font-dm-sans mb-2">
             Transactions
           </h1>
           <div className="">
             <table className="w-full">
               <thead className="bg-[#e2e8f0] w-full">
                 <tr className="w-full">
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Transaction Id
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Sending Amount
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Receiving Amount
                   </th>
                 
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Recipient
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Destination
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Date
-                  </th>  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  </th>  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Status
                   </th>
                 </tr>
@@ -187,26 +187,26 @@ const CustomerTrxn = () => {
         </div>
 
         <div className="py-3.5 bg-white rounded-md my-4">
-          <h1 className="text-[#072032]  px-6 text-lg font-semibold font-dm-sans mb-2">
+          <h1 className="text-[#072032]  px-6 text-2xl font-semibold font-dm-sans mb-2">
             Overview
           </h1>
 
           <hr />
           <div className="relative  px-6 ">
             <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer">
-              <div className="flex items-center gap-1 text-xs font-poppins">
+              <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main" /> Send Money:
                 0.00
               </div>
-              <div className="flex items-center gap-1 text-xs font-poppins">
+              <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main-dark" /> Request
                 Money: 0.00
               </div>
-              <div className="flex items-center gap-1 text-xs font-poppins">
+              <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
                 Deposit: 0.00
               </div>
-              <div className="flex items-center gap-1 text-xs font-poppins">
+              <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-primary" /> Withdraw:
                 0.00
               </div>

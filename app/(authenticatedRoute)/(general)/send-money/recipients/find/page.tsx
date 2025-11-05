@@ -16,23 +16,23 @@ const Find = () => {
 
         <div className="relative ">
           <div
-            className="flex items-center my-5 ml-10 font-poppins gap-2 text-sm cursor-pointer"
+            className="flex items-center my-5 ml-10 font-poppins gap-2 text-base cursor-pointer"
             onClick={() => router.back()}
           >
             <FaArrowLeft size={16} />
             Back
           </div>
 
-          <div className="max-w-xl mx-auto relative my-10">
+          <div className="max-w-2xl mx-auto relative my-10">
             <div>
               <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center">
                 <img src="/images/shiftremit-logo.png" alt="" />
               </div>
               <div className="text-center my-5">
-                <h1 className=" text-2xl text-[#072032] font-dm-sans text-center font-semibold">
+                <h1 className=" text-3xl text-[#072032] font-dm-sans text-center font-semibold">
                   Find People and businesses on ShiftRemit
                 </h1>
-                <p className="font-poppins text-sm text-[#454745] text-center">
+                <p className="font-poppins text-base text-[#454745] text-center">
                   Enter Shiftremittag, email or mobile number
                 </p>
               </div>
@@ -44,7 +44,7 @@ const Find = () => {
                 />
                 <input
                   type="text"
-                  className="rounded-[10px] indent-5 w-full p-2 border-2 text-sm border-main-dark-II"
+                  className="rounded-[10px] indent-5 w-full p-2 border-2 text-base border-main-dark-II"
                 />
                 <IoIosCloseCircle
                   size={20}
@@ -53,7 +53,7 @@ const Find = () => {
               </div>
 
               <div className="">
-                <p className="text-sm mt-10 font-dm-sans pb-2 text-gray-500 font-medium">
+                <p className="text-base mt-10 font-dm-sans pb-2 text-gray-500 font-medium">
                   Personal account
                 </p>
 
@@ -65,7 +65,7 @@ const Find = () => {
                     className="rounded-lg w-full cursor-pointer p-3 flex items-center gap-2 bg-gray-100"
                   >
                     <div className="inline-block relative">
-                      <div className="font-poppins border-gray-400 border w-14 h-14 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
+                      <div className="font-poppins border-gray-400 border w-16 h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
                         JI
                       </div>
                       <div className="w-4 h-4 absolute bottom-0 -right-1 border border-white rounded-full">
@@ -77,13 +77,13 @@ const Find = () => {
                       </div>
                     </div>
                     <div className="">
-                      <h1 className="font-poppins text-sm font-semibold text-black">
+                      <h1 className="font-poppins text-base font-semibold text-black">
                         Joshua Israel
                       </h1>
-                      <p className="text-xs py-0.5 font-dm-sans text-gray-500">
+                      <p className="text-base py-0.5 font-dm-sans text-gray-500">
                         joshisr@gmail.com
                       </p>
-                      <span className="bg-gray-50 inline-block text-gray-500 font-dm-sans rounded-full p-1 text-xs">
+                      <span className="bg-gray-50 inline-block text-gray-500 font-dm-sans rounded-full p-1 text-sm">
                         <p>@joshisr23</p>
                       </span>
                     </div>
