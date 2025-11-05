@@ -33,7 +33,7 @@ const Hero = () => {
                 <p className="text-lg text-white font-poppins">
                   Highest Security
                 </p>
-                <h1 className="capitalize text-center text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
+                <h1 className="capitalize text-center md:text-left text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
                   Send Money. <br /> No Fees.
                 </h1>
                 <p className="text-white text-[16px] mt-5 mb-4 font-poppins text-center md:text-left">
