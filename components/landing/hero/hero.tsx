@@ -17,8 +17,8 @@ const Hero = () => {
         className="absolute top-0 left-0 w-full h-screen opacity-[0.2]  object-cover"
       />
 
-      <div className="rt-banner " />
-      <div className="rt-banner-2 " />
+      {/* <div className="rt-banner " />
+      <div className="rt-banner-2 " /> */}
       <div className="mx-auto relative">
         <Navbar />
         <div className="h-auto min-h-[90vh] flex items-center justify-center">
@@ -26,17 +26,17 @@ const Hero = () => {
             md:max-w-[720px] 
             lg:max-w-[960px] 
             xl:max-w-[1140px] 
-            2xl:max-w-[1320px] mx-auto flex items-start justify-between gap-8">
-            <div className="w-[45%] h-screen  flex  justify-content items-center">
-              <div>
+            2xl:max-w-[1320px] mx-auto flex items-start flex-col md:flex-row justify-between gap-8">
+            <div className="w-full md:w-[45%] md:h-screen mt-10 md:mt-0  flex  justify-content items-center">
+              <div className="flex md:block flex-col items-center jusitfy-center">
 
                 <p className="text-lg text-white font-poppins">
                   Highest Security
                 </p>
-                <h1 className="capitalize text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
+                <h1 className="capitalize text-center text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
                   Send Money. <br /> No Fees.
                 </h1>
-                <p className="text-white text-[16px] mt-5 mb-4 font-poppins">
+                <p className="text-white text-[16px] mt-5 mb-4 font-poppins text-center md:text-left">
                   ✨ ShiftRemit gives you more for your money! Send from the UK to
                   any bank in Nigeria — Unbeatable rates and speed.
                 </p>
