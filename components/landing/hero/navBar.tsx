@@ -12,7 +12,8 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const logoutUser = useAuthStore((state: any) => state.logout);
+
+  const user = useAuthStore((state) => state.user);
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
 
   useEffect(() => {
@@ -51,9 +52,17 @@ const Navbar = () => {
       ? `${commonButtonClasses} w-full py-2 px-4`
       : commonButtonClasses;
 
-    if (isLoggedIn) {
+    if (isLoggedIn && user) {
+      let redirectPath = "/send-money";
+
+      if (user.userType === "admin" || user.userType === "partner") {
+        redirectPath = "/admin/dashboard";
+      } else if (user.userType === "user") {
+        redirectPath = "/send-money";
+      }
+
       return (
-        <Link href="/send-money" onClick={handleNavClick}>
+        <Link href={redirectPath} onClick={handleNavClick}>
           <button className={classes}>Account</button>
         </Link>
       );
@@ -64,7 +73,7 @@ const Navbar = () => {
             <button className={classes}>Login</button>
           </Link>
           <Link href="/signup" onClick={handleNavClick}>
-            <button className={classes}>Signup</button>
+            <button className={classes}>Get Started</button>
           </Link>
         </>
       );
@@ -73,7 +82,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex container px-20 mx-auto items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
+      <div className="flex container px-3 md:px-7 lg:px-20 mx-auto items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" onClick={handleNavClick}>
             <Image
@@ -81,14 +90,14 @@ const Navbar = () => {
               width={100}
               height={100}
               alt="shiftremit-logo"
-              className="w-10 h-10 object-cover cursor-pointer"
+              className="w-8 h-8 md:w-10 md:h-10 object-cover cursor-pointer"
             />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold font-poppins text-white">
+            <h1 className="text-lg md:text-2xl font-bold font-poppins text-white">
               Shift<span className="text-main">Remit</span>
             </h1>
-            <p className="text-xs font-normal text-white font-dm-sans">
+            <p className="text-sm md:text-xs font-normal text-white font-dm-sans">
               Unbeatable Transfer Rates
             </p>
           </div>

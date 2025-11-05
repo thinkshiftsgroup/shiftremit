@@ -11,7 +11,7 @@ const SideHero = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="w-1/2 font-poppins flex items-start">
+    <div className="w-full lg:w-1/2 font-poppins flex items-start">
       <div
         className={`bg-main-dark-II   rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
           isOpen ? "my-10" : "my-0"
