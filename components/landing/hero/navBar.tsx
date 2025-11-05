@@ -73,7 +73,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex px-4 sm:px-6 md:px-12 lg:px-20 items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
+      <div className="flex container px-20 mx-auto items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" onClick={handleNavClick}>
             <Image
@@ -85,10 +85,10 @@ const Navbar = () => {
             />
           </Link>
           <div>
-            <h1 className="text-base sm:text-lg md:text-xl font-semibold font-poppins text-white">
+            <h1 className="text-2xl font-bold font-poppins text-white">
               Shift<span className="text-main">Remit</span>
             </h1>
-            <p className="text-[7px] sm:text-[8px] italic font-semibold text-white font-dm-sans">
+            <p className="text-xs font-normal text-white font-dm-sans">
               Unbeatable Transfer Rates
             </p>
           </div>

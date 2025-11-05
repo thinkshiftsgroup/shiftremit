@@ -5,8 +5,7 @@ const SendSteps = ({ step }: { step: number }) => {
   const steps = [
     { id: 1, label: "Amount" },
     { id: 2, label: "Recipient" },
-    { id: 3, label: "Pay" },
-    { id: 4, label: "Preview" },
+    { id: 3, label: "Fund" },
   ];
 
   return (
