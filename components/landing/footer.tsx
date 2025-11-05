@@ -158,14 +158,14 @@ const Footer = () => {
 
         <div>
 
-          <div className="">
+          <div className="mb-5">
             <h1 className="font-semibold font-dm-sans text-sm text-black">
               Legal
             </h1>
             <ul className="text-[#454745] font-poppins mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
               <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li>
               <li className="md:border-r-2 pe-3 me-2">Privacy Policy</li>
-              <li className="">Support</li>
+              <li className="">Partner Account</li>
             </ul>
           </div>
         </div>
