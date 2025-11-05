@@ -179,7 +179,7 @@ const Register = () => {
       try {
         await verifyEmailClient(unverifiedEmail, code);
 
-        router.push("/dashboard");
+        router.push("/send-money");
       } catch (err: any) {
         setError(
           err.message || "Verification failed. Check your code or try again."
@@ -330,7 +330,7 @@ const Register = () => {
                 type="tel"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="+234 700 000 0000"
+                placeholder="+44 700 000 0000"
                 className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
               />
             </div>
@@ -475,7 +475,10 @@ const Register = () => {
       >
         <div className="absolute inset-0 bg-white/60" />
         <div className="relative h-screen flex flex-col justify-between z-10">
-          <div className="flex items-center gap-1">
+          <div
+            onClick={() => router.replace("/")}
+            className="flex items-center gap-1 cursor-pointer"
+          >
             <Image
               src="/images/shiftremit-logo.png"
               width={100}
@@ -488,7 +491,7 @@ const Register = () => {
                 Shift<span className="text-main">Remit</span>
               </h1>
               <p className="text-[8px] italic text-black font-dm-sans">
-                Money exchanger & transfer
+                Unbeatable Transfer Rates
               </p>
             </div>
           </div>

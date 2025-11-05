@@ -1,27 +1,31 @@
 "use client";
+import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
-import { useState } from "react";
 
-const Transfer = () => {
+const DashTf = () => {
+  const [sending_amount, setSendingAmount] = useState("");
+  const [get_amount, setGetAmount] = useState("");
   return (
     <>
-      <div className="relative flex flex-wrap justify-between items-start mb-4 gap-5 md:gap-0">
-        <div className="w-full md:w-[calc(50%-16px)] ">
-          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
+      <div className="relative font-poppins flex flex-wrap justify-between items-start mb-4">
+        <div className="w-[calc(50%-16px)] ">
+          <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You send exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between border border-black ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
               type="text"
               name="sending_amount"
-              value="10"
+              value={sending_amount}
+              onChange={(e) => setSendingAmount(e.target.value)}
               id="sending_amount"
+              placeholder="1"
               aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold"
+              className="focus:ring-0 focus:border-transparent outline-none"
             />
 
             <button
@@ -29,27 +33,25 @@ const Transfer = () => {
               id="sendMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              {/* <img src="https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg" alt="currency flag" width={25} height={25} className="rounded-full" /> */}
-              {/* <span className="font-semibold">GBP</span> */}
               <DropdownComponent />
             </button>
           </div>
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
         </div>
 
-        <div className="absolute top-[42px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
+        <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5">
           <span
-            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
+            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-white
                         before:absolute 
                         before:top-0 
                         before:-left-[7px] 
                         before:w-full 
                         before:h-full 
-                        before:bg-[#230a2f] 
+                        before:bg-white
                         before:-z-10 
                         before:rounded-full 
                         before:border 
-                        before:border-[#ffffff3d]
+                        before:border-white
                         
                         
                         after:content-[''] 
@@ -58,22 +60,22 @@ const Transfer = () => {
                         after:-right-[7px] 
                         after:w-full 
                         after:h-full 
-                        after:bg-[#230a2f] 
+                        after:bg-white 
                         after:-z-10 
                         after:rounded-full 
                         after:border 
-                        after:border-[#ffffff3d]"
+                        after:border-white"
           >
             <FaArrowRight className="text-lg text-white" />
           </span>
         </div>
 
-        <div className="w-full md:w-[calc(50%-16px)]">
-          <label className="text-[#ccc] text-xs md:text-lg font-medium block mb-2">
+        <div className="w-[calc(50%-16px)]">
+          <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You get exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative flex-wrap items-center justify-between border border-black pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
@@ -81,18 +83,18 @@ const Transfer = () => {
             <input
               type="text"
               name="sending_amount"
-              value="1493"
+              value={get_amount}
+              onChange={(e) => setGetAmount(e.target.value)}
               id="sending_amount"
+              placeholder="1500"
               aria-label="Sending Money"
-              className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold"
+              className="focus:ring-0 focus:border-transparent outline-none"
             />
             <button
               type="button"
               id="receiveMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              {/* <img src="https://cdn.countryflags.com/thumbs/nigeria/flag-round-500.png" alt="currency flag" width={25} height={25} className="rounded-full" />
-                            <span className="font-semibold">NGN</span> */}
               <DropdownComponent defaultCurrency="NGN" />
             </button>
           </div>
@@ -103,4 +105,4 @@ const Transfer = () => {
   );
 };
 
-export default Transfer;
+export default DashTf;

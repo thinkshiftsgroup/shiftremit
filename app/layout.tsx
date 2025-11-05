@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Poppins } from "next/font/google";
 import "./globals.css";
+import Favicon from "@/public/favicon/favicon.ico"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Shift Remit",
+  icons: [{ rel: "icon", url: Favicon.src }],
   // description: "Fast and secure money transfers made simple.",
 };
 

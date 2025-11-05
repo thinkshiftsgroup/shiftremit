@@ -9,12 +9,12 @@ import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className=" container px-20 w-full  mt-10  pt-28 pb-14 mx-auto relative ">
+    <div className=" container px-3 md:px-20 w-full  mt-10  md:pt-28 md:pb-14 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <div className=" ">
-        <div className="flex items-center justify-between gap-2 border-b pb-5">
-          <div className="flex items-center gap-1 w-[40%] ">
+        <div className="flex items-center justify-between gap-2 border-b pb-5 flex-col md:flex-row">
+          <div className="flex items-center gap-1 w-full md:w-[40%] ">
             <Image
               src="/images/shiftremit-logo.png"
               width={100}
@@ -32,8 +32,8 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center w-[60%] gap-3">
-            <div className="whitespace-nowrap">
+          <div className="flex items-center w-full md:w-[60%] gap-3 flex-col md:flex-row">
+            <div className="whitespace-nowrap w-full">
               <p className="font-dm-sans text-xl font-semibold">
                 Subscribe out newsletter
               </p>
@@ -53,8 +53,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-b pb-5 flex justify-between w-full gap-2 my-10">
-          <div className="flex justify-between w-8/10">
+        <div className="border-b pb-5 flex justify-between w-full gap-2 my-10 flex-col md:flex-row">
+          <div className="flex justify-between w-full md:w-8/10">
             {/* <div className="">
             <h1 className="text-black text-lg font-semibold font-dm-sans">
               Quick Links
@@ -118,7 +118,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <div>
+          {/* <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
               Disclaimer: Before Sending Money
             </p>
@@ -133,19 +133,25 @@ const Footer = () => {
               exchange. It is the sender’s responsibility to comply with
               applicable legal requirements.
             </p>
-          </div>
+          </div> */}
           <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
-              About ShiftRemit
+              Send Money Made Simple with ShiftRemit
+
             </p>
             <p className="text-[#454745] font-poppins text-sm py-3">
-              Double-check the currencies and the exchange amounts before
-              initiating the transaction. Once processed, exchanges cannot be
-              reversed. Currency exchange rates are subject to fluctuation.
-              Ensure that you are satisfied with the rate at the time of the
-              transaction. All exchange transactions are final. Refunds or
-              adjustments may not be possible after the transaction is
-              completed.
+              ShiftRemit is built for one purpose: to make sending money from the UK to Nigeria simple, fast, and completely fee free.
+
+              We believe sending money home should be effortless. That’s why our web platform gives you a secure, transparent, and straightforward way to move your funds without the hidden costs or long delays of traditional remittance services.
+
+              With ShiftRemit, every transfer is clear from start to finish. You’ll see exactly how much your recipient will receive, and your payment reaches any Nigerian bank account in record time.
+
+              Our system is designed around speed, reliability, and great value so you can send more and worry less.
+
+              Most importantly, ShiftRemit is built by the people and for the people, powered by a robust technology infrastructure that puts community, transparency, and trust at the heart of every transaction.
+
+              Stay connected to the people and opportunities that matter most.
+              Choose ShiftRemit, the smart, fee free way to send money to Nigeria.
             </p>
           </div>
         </div>
@@ -156,9 +162,9 @@ const Footer = () => {
             <h1 className="font-semibold font-dm-sans text-sm text-black">
               Legal
             </h1>
-            <ul className="text-[#454745] font-poppins mt-4 flex flex-row *:cursor-pointer gap-2">
-              <li className="border-r-2 pe-3 me-2">Terms & conditions</li>
-              <li className="border-r-2 pe-3 me-2">Privacy Policy</li>
+            <ul className="text-[#454745] font-poppins mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
+              <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li>
+              <li className="md:border-r-2 pe-3 me-2">Privacy Policy</li>
               <li className="">Support</li>
             </ul>
           </div>

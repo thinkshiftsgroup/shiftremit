@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   // "/dashboard"
   // add dashboard to auth routes later
-  const protectedPaths = ["/profile", "/settings", "/projects"];
+  const protectedPaths = ["/profile", "/settings", "/projects", "/customer", "/send-money"];
   const authPaths = ["/login", "/register"];
   const currentPath = request.nextUrl.pathname;
 
@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
 
   if (authToken && isAuthPath) {
     const url = request.nextUrl.clone();
-    url.pathname = "/profile";
+    url.pathname = "/send-money";
     return NextResponse.redirect(url);
   }
 

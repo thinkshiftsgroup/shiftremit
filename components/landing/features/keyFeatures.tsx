@@ -4,27 +4,27 @@ import { motion } from "framer-motion";
 const KeyFeatures = () => {
   const cardDetails = [
     {
-      image: "/images/send.png",
+      image: "/images/send-2.png",
       title: "Send Money",
       description:
-        "Effortlessly send, swap and exchange currencies with secure, fast and seamless multi-currency transactions online",
+        "Send money home instantly, securely, and with complete peace of mind. ShiftRemit makes international transfers simple and transparent — with no transaction fees and no hidden charges.",
     },
     {
-      image: "/images/stake.png",
+      image: "/images/stake-2.png",
       title: "Request Money",
       description:
-        "Keep more of your money with low transaction fees. Our platform offers affordable rates to make transferring funds easier",
+        "Receive funds effortlessly from anyone in the UK. Share your unique link or partner code to request money, and have it delivered directly to your bank account — fast, reliable, and fee-free.",
     },
     {
-      image: "/images/trade.png",
+      image: "/images/trade-2.png",
       title: "Live Rates",
       description:
-        "Engage in live trading with real-time insights, dynamic strategies, and profitable opportunities in every move",
+        "Stay informed with real-time exchange rates and full transparency on what your recipient will receive before you send. With ShiftRemit, there are no surprises — just fair, honest rates every time.",
     },
   ];
 
   return (
-    <div className="container py-24 px-20 mx-auto relative ">
+    <div className="container py-14 px-3 md:py-24 md:px-20 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <motion.div
@@ -54,7 +54,7 @@ const KeyFeatures = () => {
         initial={{ y: 50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex items-center justify-between gap-5 mt-20 mb-5"
+        className="flex items-center justify-between gap-5 mt-10 md:mt-20 mb-5 flex-col md:flex-row"
       >
         {cardDetails.map((card, index) => {
           return (
