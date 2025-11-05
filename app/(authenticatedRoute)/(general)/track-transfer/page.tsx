@@ -7,7 +7,7 @@ const TrackMoney = () => {
       <div className="mx-20">
         <div className="my-10  p-5 container mx-auto rounded-sm w-full bg-white">
           <h1 className="text-[#072032] text-center text-lg font-semibold font-dm-sans mb-2">
-            Money Tracker
+            Track Transfer
           </h1>
 
           <div className="flex items-center gap-2">
