@@ -18,14 +18,14 @@ const Hero = () => {
       />
       <div className="mx-auto relative">
         <Navbar />
-        <div className="h-auto  px-4 sm:px-6 md:px-12 lg:px-20 mx-auto min-h-[90vh] flex items-center justify-center">
+        <div className="h-auto  container px-20 mx-auto min-h-[90vh] flex items-center justify-center">
           <div
-            className="mx-auto flex items-center flex-col md:flex-row justify-between gap-8"
+            className=" flex items-center flex-col md:flex-row gap-20 justify-between"
           >
-            <div className="w-full md:w-[45%] md:h-screen mt-10 md:mt-0  flex  justify-content items-center">
+            <div className="w-1/2 md:h-screen mt-10 md:mt-0  flex  justify-content items-center">
               <div className="flex md:block flex-col items-center jusitfy-center">
                 <p className="text-lg text-white font-poppins">
-                  Highest Security
+                  Great Value
                 </p>
                 <h1 className="capitalize text-center md:text-left text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
                   Send Money. <br /> No Fees.

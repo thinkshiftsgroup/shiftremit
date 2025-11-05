@@ -28,7 +28,7 @@ export default function Home() {
             <span className="bg-main text-white shadow-md rounded-full inline-flex items-center justify-center w-3.5 h-3.5">
               <IoCheckmarkDone size={20} />
             </span>
-            <p className=" text-white font-poppins">Great exchange rates</p>
+            <p className=" text-white font-poppins">Unbeatable FX</p>
           </div>
         </div>
       </div>

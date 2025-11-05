@@ -14,7 +14,7 @@ const Transfer = () => {
             You send exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -25,11 +25,8 @@ const Transfer = () => {
               value={sending_amount}
               placeholder="10"
               onChange={(e) => setSendingAmount(e.target.value)}
-              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[120px] font-bold"
+              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[40%] font-bold"
             />
-            {/* <div className="focus:ring-0 focus:border-transparent outline-none w-[120px] font-bold">
-              10
-            </div> */}
 
             <button
               type="button"
@@ -80,7 +77,7 @@ const Transfer = () => {
             You get exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
@@ -93,7 +90,7 @@ const Transfer = () => {
               placeholder="1493"
               onChange={(e) => setReceiveAmount(e.target.value)}
               aria-label="Receive Money"
-              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[120px] font-bold"
+              className="focus:ring-0 placeholder:text-white w-[40%] focus:border-transparent outline-none font-bold"
             />
             <button
               type="button"

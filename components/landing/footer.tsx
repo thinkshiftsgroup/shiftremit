@@ -67,7 +67,7 @@ const Footer = () => {
           </div> */}
             <div className="">
               <h1 className="text-black text-lg font-semibold font-dm-sans">
-                24/7 Support 0903874394 | support@shiftremit.com
+                24/7 Support +44shiftremit | support@shiftremit.com
               </h1>
               {/* <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
                 <li>Contact us</li>
