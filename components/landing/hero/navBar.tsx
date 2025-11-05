@@ -94,10 +94,10 @@ const Navbar = () => {
             />
           </Link>
           <div>
-            <h1 className="text-lg md:text-2xl font-bold font-poppins text-white">
+            <h1 className="text-lg md:text-2xl font-bold font-poppins text-white leading-4 lg:leading-5">
               Shift<span className="text-main">Remit</span>
             </h1>
-            <p className="text-sm md:text-xs font-normal text-white font-dm-sans">
+            <p className="text-sm md:text-xs font-normal text-white font-dm-sans leading-4 lg:leading-5">
               Unbeatable Transfer Rates
             </p>
           </div>

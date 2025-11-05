@@ -44,9 +44,8 @@ const KeyFeatures = () => {
         </h1>
         <div className="font-poppins max-w-2xl mx-auto text-center text-[#454745] mb-10">
           <p>
-            Experience the convinience of fast, reliable transfers at any time,
-            from any device. Empower your finances with seamless trasactions
-            right at your fingertips
+            Experience the convenience of fast, reliable transfers anytime, from any device.
+            Send money for business, family, friends, investments, and everything else that matters — with seamless transactions and great daily FX rates right at your fingertips.
           </p>
         </div>
       </motion.div>
