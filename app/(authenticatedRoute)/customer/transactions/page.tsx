@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import SideNav from "@/components/dashboard/sideNav";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -27,7 +27,7 @@ const CustomerTrxn = () => {
       lastTxn: 0,
     },
     {
-      title: "Total Amount in Transit",
+      title: "Total amount in transit",
       amount: 0.0,
       link: "",
       lastTxn: 0,
@@ -108,11 +108,11 @@ const CustomerTrxn = () => {
               </div>
               <div>
                 <h1 className="font-poppins font-medium">
-                  Own a part of ShiftRemit Daily
+                  Take share in ShiftRemit Daily Profits.
                 </h1>
                 <p className="font-poppins text-sm text-[#454745]">
-                  Maximize Rewards - Share your Unique Referral Code for
-                  Exclusive Benefits!
+                  Create your partner account and run your remitting space and
+                  withdraw your earnings from wallet weekly.
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@ const CustomerTrxn = () => {
               <thead className="bg-[#e2e8f0] w-full">
                 <tr className="w-full">
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
-                    Trx
+                    Transaction Id
                   </th>
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
                     Sending Amount
@@ -138,14 +138,23 @@ const CustomerTrxn = () => {
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
                     Receiving Amount
                   </th>
+                
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                    Recipient
+                  </th>
+                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                    Destination
+                  </th>
+                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                    Date
+                  </th>  <th className="font-poppins py-2 px-6 text-sm font-semibold">
                     Status
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={4} className="text-center py-10">
+                  <td colSpan={7} className="text-center py-10">
                     <div className="flex flex-col items-center justify-center gap-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

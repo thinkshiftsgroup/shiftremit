@@ -53,7 +53,7 @@ const Navbar = () => {
 
     if (isLoggedIn) {
       return (
-        <Link href="/dashboard" onClick={handleNavClick}>
+        <Link href="/send-money" onClick={handleNavClick}>
           <button className={classes}>Account</button>
         </Link>
       );
