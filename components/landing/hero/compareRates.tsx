@@ -12,36 +12,6 @@ interface Rate {
   discount: number;
 }
 
-// const RateCard = ({ icon, name, currentRate, discount }: Rate) => (
-
-//     <div className="flex items-center gap-3 py-4">
-//         <div className="flex items-center gap-4">
-//             <div className="w-16 h-16 rounded-lg flex items-center justify-center text-2xl">
-//                 <img
-//                     src={icon}
-//                     alt={'image'}
-//                     width="64"
-//                     height="64"
-//                     className="w-16 h-16 rounded-lg object-cover"
-//                 />
-//             </div>
-//         </div>
-//         <div className="text-right">
-//             <p className="text-xl font-medium text-white">₦{currentRate.toFixed(2)}</p>
-//             {/* {isShiftRemit ? (
-//                 <p className="text-sm text-[#01EF01] line-through">
-//                     ₦{discount.toFixed(2)}
-//                 </p>
-//             ) : (
-//                 <p className="text-sm text-red-400">
-//                     -₦{discount.toFixed(2)}
-//                 </p>
-//             )} */}
-//             <p className="text-sm text-red-400">-₦{discount.toFixed(2)}</p>
-//         </div>
-//     </div>
-// );
-
 const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
   const isShiftRemit = name === "Shift Remit";
 
@@ -78,9 +48,7 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
   );
 };
 
-export default function CompareRates() {
-  const [isOpen, setIsOpen] = useState(true);
-
+export default function CompareRates({ isOpen, setIsOpen }: any) {
   const rates = [
     {
       icon: "/images/brands/vec-1.svg",
@@ -121,7 +89,7 @@ export default function CompareRates() {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-0">
+    <div className="w-full  mx-auto p-0">
       <div className=" rounded-2xl overflow-hidden">
         {/* Header */}
         <button
@@ -148,7 +116,7 @@ export default function CompareRates() {
         {/* Expandable Content */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen ? "max-h-96" : "max-h-0"
+            isOpen ? "block" : "hidden"
           }`}
         >
           <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">

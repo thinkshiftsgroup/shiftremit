@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState, useEffect, useMemo } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 
 interface Currency {
@@ -21,49 +23,47 @@ export default function DropdownComponent({
     null
   );
 
-  const currencies: Currency[] = [
-    // { code: 'USD', name: 'American Samoan US Dollar', flag: { url: 'https://flagcdn.com/us.svg' }, popular: true },
-    {
-      code: "GBP",
-      name: "British Pound sterling",
-      flag: {
-        url: "https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg",
+  const currencies = useMemo<Currency[]>(
+    () => [
+      {
+        code: "GBP",
+        name: "British Pound sterling",
+        flag: {
+          url: "https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg",
+        },
+        popular: true,
       },
-      popular: true,
-    },
-    // { code: 'ZAR', name: 'South African Rand', flag: { url: 'https://flagcdn.com/za.svg' }, popular: false },
-    // { code: 'INR', name: 'Indian Indian Rupee', flag: { url: 'https://flagcdn.com/in.svg' }, popular: false },
-    // { code: 'AED', name: 'Emirati UAE Dirham', flag: { url: 'https://flagcdn.com/ae.svg' }, popular: false },
-    // { code: 'EUR', name: 'Euro', flag: { url: 'https://flagcdn.com/eu.svg' }, popular: false },
-    // { code: 'JPY', name: 'Japanese Yen', flag: { url: 'https://flagcdn.com/jp.svg' }, popular: false },
-    // { code: 'CAD', name: 'Canadian Dollar', flag: { url: 'https://flagcdn.com/ca.svg' }, popular: false },
-    {
-      code: "NGN",
-      name: "Nigeria Naira",
-      flag: { url: "https://flagcdn.com/ng.svg" },
-      popular: true,
-    },
-  ];
+      {
+        code: "NGN",
+        name: "Nigeria Naira",
+        flag: { url: "https://flagcdn.com/ng.svg" },
+        popular: true,
+      },
+    ],
+    []
+  );
 
-  // Set default currency on mount
   useEffect(() => {
-    const currency = currencies.find((c) => c.code === defaultCurrency);
-    if (currency) {
-      setSelectedCurrency(currency);
-    }
+    const found = currencies.find((c) => c.code === defaultCurrency);
+    if (found) setSelectedCurrency(found);
   }, [defaultCurrency, currencies]);
 
-  const filteredCurrencies = currencies.filter(
-    (currency) =>
-      currency.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      currency.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCurrencies = useMemo(
+    () =>
+      currencies.filter(
+        (c) =>
+          c.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          c.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    [searchTerm, currencies]
   );
 
   const popularCurrencies = filteredCurrencies.filter((c) => c.popular);
   const otherCurrencies = filteredCurrencies.filter((c) => !c.popular);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const toggleDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
   };
 
   const handleSelect = (currency: Currency) => {
@@ -72,25 +72,21 @@ export default function DropdownComponent({
     setSearchTerm("");
   };
 
-  const getFlagSrc = (flag: { url?: string; file?: File }): string | null => {
-    if (flag.file) {
-      return URL.createObjectURL(flag.file);
-    }
-
-    return flag.url || null;
-  };
-
-  const isImageFlag = (flag: { url?: string; file?: File }): boolean => {
-    return !!(flag.url || flag.file);
+  const getFlagSrc = (flag: { url?: string; file?: File }) => {
+    if (flag.file) return URL.createObjectURL(flag.file);
+    return flag.url || "";
   };
 
   return (
     <div className="relative w-full z-50">
-      {/* Button with Arrow Icon */}
-      <button className="flex items-center justify-between transition-all duration-200 gap-2">
+      <button
+        type="button"
+        className="flex items-center justify-between transition-all duration-200 gap-2 w-full"
+        onClick={toggleDropdown}
+      >
         {selectedCurrency && (
           <img
-            src={getFlagSrc(selectedCurrency.flag) || undefined}
+            src={getFlagSrc(selectedCurrency.flag)}
             alt={selectedCurrency.code}
             className="rounded-full object-cover w-6.5 h-6.5"
           />
@@ -98,22 +94,15 @@ export default function DropdownComponent({
         <span className="font-semibold">
           {selectedCurrency ? selectedCurrency.code : ""}
         </span>
-        <span
-          onClick={toggleDropdown}
-          className="flex items-center justify-center w-6 h-6 cursor-pointer me-2"
-        >
-          {isOpen ? (
-            <ChevronUp size={24} className="text-white" />
-          ) : (
-            <ChevronDown size={24} className="text-white" />
-          )}
-        </span>
+        {isOpen ? (
+          <ChevronUp size={20} className="text-white flex-none" />
+        ) : (
+          <ChevronDown size={20} className="text-white flex-none" />
+        )}
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute w-[350px] max-h-[380px] h-auto pb-2 top-full -left-[265%] right-full  mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
-          {/* Search Box */}
+        <div className="absolute w-[350px] max-h-[380px] h-auto pb-2 top-full -left-[265%] mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
           <div className="p-2.5">
             <div className="relative">
               <Search
@@ -125,13 +114,11 @@ export default function DropdownComponent({
                 placeholder="Currency Name"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                // autoFocus
                 className="w-full pl-10 pr-4 py-2 border-2 text-black border-[#d1d5db80] rounded-[8.5px] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
           </div>
 
-          {/* Currency List */}
           <div className="max-h-96 overflow-y-auto">
             {filteredCurrencies.length === 0 ? (
               <div className="p-2.5 text-center text-gray-500">
@@ -139,15 +126,14 @@ export default function DropdownComponent({
               </div>
             ) : (
               <>
-                {/* Popular Currencies Section */}
                 {popularCurrencies.length > 0 && (
                   <div className="p-2.5">
                     <h3 className="text-sm font-semibold text-gray-700 mb-3 text-start">
                       Available Currencies
                     </h3>
-                    {popularCurrencies.map((currency, index) => (
+                    {popularCurrencies.map((currency) => (
                       <button
-                        key={index}
+                        key={currency.code}
                         onClick={() => handleSelect(currency)}
                         className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${
                           selectedCurrency?.code === currency.code
@@ -155,13 +141,11 @@ export default function DropdownComponent({
                             : "hover:bg-[#f1f5f9]"
                         }`}
                       >
-                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                          <img
-                            src={getFlagSrc(currency.flag) || undefined}
-                            alt={currency.code}
-                            className="w-6 h-6 rounded-full object-cover"
-                          />
-                        </div>
+                        <img
+                          src={getFlagSrc(currency.flag)}
+                          alt={currency.code}
+                          className="w-6 h-6 rounded-full object-cover"
+                        />
                         <div className="flex gap-2 items-center">
                           <p className="font-semibold text-gray-800">
                             {currency.code}
@@ -183,7 +167,7 @@ export default function DropdownComponent({
                                 d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47"
                                 strokeWidth={0.5}
                                 stroke="currentColor"
-                              ></path>
+                              />
                             </svg>
                           </span>
                         )}
@@ -192,12 +176,6 @@ export default function DropdownComponent({
                   </div>
                 )}
 
-                {/* Divider */}
-                {/* {popularCurrencies.length > 0 && otherCurrencies.length > 0 && (
-                                    <div className="border-t border-gray-200"></div>
-                                )} */}
-
-                {/* All Currencies Section */}
                 {otherCurrencies.length > 0 && (
                   <div className="p-2.5">
                     {!searchTerm && (
@@ -205,9 +183,9 @@ export default function DropdownComponent({
                         All Currencies
                       </h3>
                     )}
-                    {otherCurrencies.map((currency, index) => (
+                    {otherCurrencies.map((currency) => (
                       <button
-                        key={index}
+                        key={currency.code}
                         onClick={() => handleSelect(currency)}
                         className={`w-full text-left px-4 py-3 rounded flex items-center gap-3 transition-colors duration-150 ${
                           selectedCurrency?.code === currency.code
@@ -215,13 +193,11 @@ export default function DropdownComponent({
                             : "hover:bg-[#f1f5f9]"
                         }`}
                       >
-                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                          <img
-                            src={getFlagSrc(currency.flag) || undefined}
-                            alt={currency.code}
-                            className="w-6 h-6 rounded-full object-cover"
-                          />
-                        </div>
+                        <img
+                          src={getFlagSrc(currency.flag)}
+                          alt={currency.code}
+                          className="w-6 h-6 rounded-full object-cover"
+                        />
                         <div className="flex gap-2 items-center">
                           <p className="font-semibold text-gray-800">
                             {currency.code}
@@ -243,7 +219,7 @@ export default function DropdownComponent({
                                 d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47"
                                 strokeWidth={0.5}
                                 stroke="currentColor"
-                              ></path>
+                              />
                             </svg>
                           </span>
                         )}
@@ -257,7 +233,6 @@ export default function DropdownComponent({
         </div>
       )}
 
-      {/* Close dropdown when clicking outside */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40"

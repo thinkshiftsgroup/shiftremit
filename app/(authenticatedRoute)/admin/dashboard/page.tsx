@@ -142,12 +142,12 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                    {card.amount} USD
+                    {card.amount} G
                   </h1>
                   <p className="text-xs font-poppins text-[#454745]">
                     Last transaction{" "}
                     <span className="text-[#22c55e] font-medium">
-                      {card.lastTxn} USD
+                      {card.lastTxn} G
                     </span>
                   </p>
                 </div>

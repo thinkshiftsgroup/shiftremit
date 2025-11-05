@@ -5,15 +5,13 @@ import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import DashTf from "./dashTransfer";
+import { useRouter } from "next/navigation";
 
 const SendMoneyUI = () => {
   const [isFiat, setIsFiat] = useState(true);
   const [isBank, setIsBank] = useState(true);
 
-  const [sendAmount, setSendAmount] = useState(100);
-  const [sendCurrency, setSendCurrency] = useState("USD");
-  const [receiveAmount, setReceiveAmount] = useState(11942.6657);
-  const [receiveCurrency, setReceiveCurrency] = useState("BDT");
+  const router = useRouter();
 
   return (
     <div className="p-10">
@@ -58,8 +56,9 @@ const SendMoneyUI = () => {
           <p className="font-semibold text-lg">1 GBP</p>
         </div>
         <button
+          onClick={() => router.push("/send-money/recipients")}
           className="
-    text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-sm text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2
