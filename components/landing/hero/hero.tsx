@@ -24,7 +24,7 @@ const Hero = () => {
           >
             <div className="w-full lg:w-1/2 lg:h-screen mt-10 md:mt-20 lg:mt-0  flex  justify-content items-center">
               <div className="flex lg:block flex-col items-center jusitfy-center">
-                <p className="text-lg text-white font-poppins">
+                <p className="text-lg text-[#813FD6] font-poppins">
                   Great Value
                 </p>
                 <h1 className="capitalize text-center lg:text-left text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
