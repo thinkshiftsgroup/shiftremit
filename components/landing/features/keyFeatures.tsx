@@ -24,7 +24,7 @@ const KeyFeatures = () => {
   ];
 
   return (
-    <div className="container py-24 px-20 mx-auto relative ">
+    <div className="container py-14 px-3 md:py-24 md:px-20 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <motion.div
@@ -54,7 +54,7 @@ const KeyFeatures = () => {
         initial={{ y: 50, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="flex items-center justify-between gap-5 mt-20 mb-5"
+        className="flex items-center justify-between gap-5 mt-10 md:mt-20 mb-5 flex-col md:flex-row"
       >
         {cardDetails.map((card, index) => {
           return (
