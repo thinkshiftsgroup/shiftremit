@@ -29,8 +29,16 @@ const LoginScrn = () => {
     setError(null);
 
     try {
-      await loginClient(email, password);
-      router.push("/send-money");
+      const response = await loginClient(email, password);
+
+      const userRole = response.user.userType;
+      if (userRole === "admin") {
+        router.push("/admin/dashboard");
+      } else if (userRole === "partner") {
+        router.push("/partner");
+      } else {
+        router.push("/send-money");
+      }
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unknown login error occurred."
@@ -171,7 +179,10 @@ const LoginScrn = () => {
                 />
               </div>
             </div>
-            <p onClick={()=>router.push("/login/forgot-password")} className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins">
+            <p
+              onClick={() => router.push("/login/forgot-password")}
+              className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins"
+            >
               Forgot Password?
             </p>
           </div>

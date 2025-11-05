@@ -8,6 +8,9 @@ interface UserProfileData {
   lastname: string | null;
   fullName: string;
   profilePhotoUrl?: string;
+  userType: "user" | "admin" | "partner";
+  createdAt: Date;
+  updatedAt: Date;
   biodata: {
     dateOfBirth: Date;
     country: string | null;

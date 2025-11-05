@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -7,21 +7,52 @@ import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
-import { FaAngleDown } from "react-icons/fa6";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { FaAngleDown, FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
 import { HiOutlineWallet } from "react-icons/hi2";
+import Cookies from "js-cookie";
+import { toast } from "sonner";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const {
+    user,
+    logout: logoutUser,
+    initializeAuth,
+  } = useAuthStore((state) => ({
+    user: state.user,
+    isLoggedIn: state.isLoggedIn,
+    logout: state.logout,
+    initializeAuth: state.initializeAuth,
+  }));
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
 
   const toggleDropdown = (title: string) => {
     setOpenDropdown(openDropdown === title ? null : title);
   };
 
   const [role, setRole] = useState("customer");
+
+  const handleSignOut = () => {
+    Cookies.remove("shiftremit_auth_token");
+    Cookies.remove("shiftremit_auth_state");
+    logoutUser();
+    toast.info("You have been signed out.");
+  };
+
+  const userDisplayName = user
+    ? user.firstname || user.username || user.email
+    : "Guest";
+
+  const logoRedirectPath =
+    role === "admin" || role === "partner" ? "/admin/dashboard" : "/send-money";
 
   const navItems = [
     {
@@ -38,20 +69,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           height="18px"
           viewBox="0 0 24 24"
         >
-          {" "}
           <g
             fill="none"
             stroke="currentColor"
             stroke-linecap="round"
             stroke-width="1.5"
           >
-            {" "}
-            <path
-              stroke-linejoin="round"
-              d="M17 12h-7m0 0l3 3m-3-3l3-3"
-            ></path>{" "}
-            <path d="M7 16V8m15 4c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"></path>{" "}
-          </g>{" "}
+            <path stroke-linejoin="round" d="M17 12h-7m0 0l3 3m-3-3l3-3"></path>
+            <path d="M7 16V8m15 4c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"></path>
+          </g>
         </svg>
       ),
       title: "Send Money",
@@ -66,21 +92,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           height="18"
           viewBox="0 0 24 24"
         >
-          {" "}
           <g
             fill="none"
             stroke="currentColor"
             stroke-linejoin="round"
             stroke-width="1.5"
           >
-            {" "}
-            <path stroke-linecap="round" d="M17.5 17.5L22 22"></path>{" "}
-            <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>{" "}
+            <path stroke-linecap="round" d="M17.5 17.5L22 22"></path>
+            <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>
             <path
               stroke-linecap="round"
               d="M13.253 9.311c.105-1.264-1.83-2.297-3.308-1.604c-1.847.865-1.686 3.052.595 3.168c1.015.052 1.903-.058 2.506.596c.604.654.865 2.32-.913 2.884c-1.78.565-3.633-.443-3.633-1.672M10.971 6.5v.978m0 7.242v.78"
-            ></path>{" "}
-          </g>{" "}
+            ></path>
+          </g>
         </svg>
       ),
       title: "Track Money",
@@ -122,25 +146,22 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           height="18"
           viewBox="0 0 24 24"
         >
-          {" "}
           <path
             fill="currentColor"
             d="M19 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0"
-          ></path>{" "}
+          ></path>
           <path
             fill="currentColor"
             fill-rule="evenodd"
             d="M9.944 3.25h3.112c1.838 0 3.294 0 4.433.153c1.172.158 2.121.49 2.87 1.238c.924.925 1.219 2.163 1.326 3.77c.577.253 1.013.79 1.06 1.47c.005.061.005.126.005.186v3.866c0 .06 0 .125-.004.185c-.048.68-.484 1.218-1.061 1.472c-.107 1.606-.402 2.844-1.326 3.769c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H9.944c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433v-.112c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238c1.14-.153 2.595-.153 4.433-.153m10.224 12.5H18.23c-2.145 0-3.981-1.628-3.981-3.75s1.836-3.75 3.98-3.75h1.938c-.114-1.341-.371-2.05-.87-2.548c-.423-.423-1.003-.677-2.009-.812c-1.027-.138-2.382-.14-4.289-.14h-3c-1.907 0-3.261.002-4.29.14c-1.005.135-1.585.389-2.008.812S3.025 6.705 2.89 7.71c-.138 1.028-.14 2.382-.14 4.289s.002 3.262.14 4.29c.135 1.005.389 1.585.812 2.008s1.003.677 2.009.812c1.028.138 2.382.14 4.289.14h3c1.907 0 3.262-.002 4.29-.14c1.005-.135 1.585-.389 2.008-.812c.499-.498.756-1.206.87-2.548M5.25 8A.75.75 0 0 1 6 7.25h4a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 8m15.674 1.75H18.23c-1.424 0-2.481 1.059-2.481 2.25s1.057 2.25 2.48 2.25h2.718c.206-.013.295-.152.302-.236V9.986c-.007-.084-.096-.223-.302-.235z"
             clip-rule="evenodd"
-          ></path>{" "}
+          ></path>
         </svg>
       ),
       title: "Request Money",
       link: "/request-money",
       subLinks: [
-        // for customer
         { title: "Send Request", link: "/request-money/send-request" },
-        //
         { title: "Sent Request", link: "/request-money/sent-request" },
         { title: "Received Request", link: "/request-money/received-request" },
         { title: "Received Wallet", link: "/request-money/received-wallet" },
@@ -155,17 +176,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           height="18"
           viewBox="0 0 24 24"
         >
-          {" "}
           <g fill="none" stroke="currentColor" stroke-width="1.5">
-            {" "}
-            <circle cx="9" cy="6" r="4"></circle>{" "}
-            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
-            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
+            <circle cx="9" cy="6" r="4"></circle>
+            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>
+            <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>
             <path
               stroke-linecap="round"
               d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
-            ></path>{" "}
-          </g>{" "}
+            ></path>
+          </g>
         </svg>
       ),
       title: "Recipients",
@@ -199,89 +218,78 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           height="18"
           viewBox="0 0 256 256"
         >
-          {" "}
           <g fill="none" stroke="currentColor" stroke-linecap="round">
-            {" "}
-            <path stroke-width="15.992" d="M 32,48 V 207.9236"></path>{" "}
+            <path stroke-width="15.992" d="M 32,48 V 207.9236"></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="M 224,96 V 208"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="m 64,16 h 80"
-            ></path>{" "}
-            <path stroke-width="15.992" d="M 64,240 H 192"></path>{" "}
+            ></path>
+            <path stroke-width="15.992" d="M 64,240 H 192"></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="m 224,208 c 0.0874,15.98169 -16,32 -32,32"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="m -32,208 c -10e-7,16 -16,32 -32,32"
               transform="scale(-1 1)"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="M -32,-47.976784 C -32,-32 -48,-16.356322 -63.999997,-16.000002"
               transform="scale(-1)"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="M 223.91257,96.071779 144,16"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="m -144,64 c -0.0492,15.912926 -16.06452,31.999995 -32,32"
               transform="scale(-1 1)"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="M 144,64 V 16"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="15.992"
               d="m 176,96 h 48"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="16"
               d="m 64,208 h 48"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="16"
               d="m 64,176 h 80"
-            ></path>{" "}
+            ></path>
             <path
               stroke-linejoin="round"
               stroke-width="16"
               d="m 64,144 h 48"
-            ></path>{" "}
-          </g>{" "}
+            ></path>
+          </g>
         </svg>
       ),
       title: "All Logs",
       link: "/all-logs",
-      // subLinks: [
-      //   { title: "Send Money Logs", link: "/send-money-logs" },
-      //   { title: "Request Money Logs", link: "/request-money-logs" },
-      //   { title: "Exchange Logs", link: "/exchange-logs" },
-      //   { title: "Deposit Logs", link: "/deposit-logs" },
-      //   { title: "Withdraw Logs", link: "/withdraw-logs" },
-      //   { title: "Wallet transactions", link: "/wallet-transactions" },
-      //   { title: "Transaction Logs", link: "/transaction-logs" },
-      //   { title: "Commission Logs", link: "/commission-logs" },
-      // ],
+
       showFor: ["customer", "admin"],
     },
     {
@@ -311,8 +319,8 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   const [openDrop, setOpenDrop] = useState(false);
   const router = useRouter();
 
-  const filteredNavItems = navItems.filter((item: any) =>
-    item?.showFor.includes(role)
+  const filteredNavItems = navItems.filter((item) =>
+    item.showFor.includes(role)
   );
 
   return (
@@ -320,9 +328,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       <div className="w-[20%] rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex flex-col justify-between">
         <div>
           <div
-            onClick={() =>
-              router.push(role === "admin" ? "/admin/dashboard" : "/send-money")
-            }
+            onClick={() => router.push(logoRedirectPath)}
             className="flex cursor-pointer items-center gap-1 p-3"
           >
             <Image
@@ -475,20 +481,23 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               <div>
                 <h1 className="text-sm font-poppins text-black">Hello </h1>
                 <p className="text-xs font-poppins flex items-center gap-1 text-[#8094ae]">
-                  remtony <FaAngleDown size={12} />
+                  {userDisplayName} <FaAngleDown size={12} />
                 </p>
               </div>
               {openDrop && (
-                <div className="rounded-md absolute top-12 bg-white border border-gray-200">
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5">
+                <div className="rounded-md absolute top-12 right-0 z-10 w-40 bg-white border border-gray-200">
+                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
                     <FaRegCircleUser size={14} /> Profile
                   </div>
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5">
+                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
                     <MdOutlineSettings size={14} />
                     Support
                   </div>
                   <hr />
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5">
+                  <div
+                    onClick={handleSignOut}
+                    className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer"
+                  >
                     <IoMdLogOut size={14} /> Logout
                   </div>
                 </div>
