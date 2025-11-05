@@ -9,7 +9,7 @@ import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className=" container px-3 md:px-20 w-full  mt-10  md:pt-28 md:pb-14 mx-auto relative ">
+    <div className=" container px-3 md:px-5 md:pb-8 md:pt-14 lg:px-20 w-full  mt-10  lg:pt-28 lg:pb-14 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute top-0 left-0" />
       <div className=" ">
@@ -32,7 +32,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center w-full md:w-[60%] gap-3 flex-col md:flex-row">
+          <div className="flex items-center w-full lg:w-[60%] gap-3 flex-col lg:flex-row">
             <div className="whitespace-nowrap w-full">
               <p className="font-dm-sans text-xl font-semibold">
                 Subscribe out newsletter
