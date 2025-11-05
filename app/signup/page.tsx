@@ -506,7 +506,7 @@ const Register = () => {
                   <TbPercentage size={16} />
                 </span>
                 <p className="font-poppins text-[#454745] text-lg">
-                  Better Exchange Rates
+                  Best Exchange Rates
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -514,7 +514,7 @@ const Register = () => {
                   <GoGraph size={16} />
                 </span>
                 <p className="font-poppins text-[#454745] text-lg">
-                  Low Transaction Fee
+                  No Transaction Fee
                 </p>
               </div>
               <div className="flex items-center gap-2">
