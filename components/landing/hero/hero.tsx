@@ -19,7 +19,7 @@ const Hero = () => {
       <div className="mx-auto relative">
         <Navbar />
         <div className="h-auto container px-3 md:px-7 lg:px-20 mx-auto min-h-[90vh] flex items-center justify-center">
-          <div className=" flex items-center flex-col lg:flex-row gap-20 justify-between">
+          <div className=" flex items-start flex-col lg:flex-row gap-0 md:gap-10 lg:gap-20 justify-between">
             <div className="w-full lg:w-1/2 lg:h-screen mt-10 md:mt-20 lg:mt-0  flex  justify-content items-center">
               <div className="flex lg:block flex-col items-center jusitfy-center">
                 <p className="text-lg text-white font-poppins">Great Value</p>

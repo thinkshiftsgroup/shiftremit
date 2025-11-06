@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { FaAngleDown, FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
@@ -68,7 +68,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             fill="none"
             stroke="currentColor"
             strokeLinecap="round"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           >
             {" "}
             <path
@@ -135,7 +135,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <path
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
             d="M2 7h18m-4-5l5 5l-5 5m6 5H4m4-5l-5 5l5 5"
           />{" "}
         </svg>
@@ -157,7 +157,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             fill="none"
             stroke="currentColor"
             strokeLinejoin="round"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           >
             {" "}
             <path strokeLinecap="round" d="M17.5 17.5L22 22"></path>{" "}
@@ -219,7 +219,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           viewBox="0 0 24 24"
         >
           {" "}
-          <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <g fill="none" stroke="currentColor" strokeWidth="1.5">
             {" "}
             <circle cx="9" cy="6" r="4"></circle>{" "}
             <path strokeLinecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
@@ -270,13 +270,13 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <path
             fill="currentColor"
             d="M10 3.5C8.563 3.5 7.42 4.631 7.42 6S8.564 8.5 10 8.5s2.579-1.131 2.579-2.5s-1.143-2.5-2.58-2.5M6.42 6c0-1.945 1.615-3.5 3.58-3.5c1.964 0 3.579 1.555 3.579 3.5s-1.615 3.5-3.58 3.5C8.036 9.5 6.422 7.945 6.422 6m1.186 5.756c-.218-.14-.43-.18-.585-.138q-.22.06-.439.13l-.984.316a2.52 2.52 0 0 0-1.629 1.56c-.03.09-.05.194-.064.327l-.39 3.695l-.001.009c-.09.636.252 1.175.824 1.308c1.097.254 2.93.537 5.662.537a.5.5 0 0 1 0 1c-2.8 0-4.71-.29-5.888-.563c-1.147-.266-1.737-1.345-1.59-2.414l.389-3.677c.017-.164.046-.355.113-.549a3.52 3.52 0 0 1 2.269-2.185l.984-.316q.238-.076.478-.142c.52-.143 1.028.026 1.394.263c.394.254 1.045.569 1.85.569s1.457-.315 1.851-.57c.367-.236.874-.405 1.394-.262q.24.067.478.142l.985.316a.5.5 0 1 1-.305.952l-.985-.315q-.217-.07-.438-.13c-.156-.043-.367-.004-.586.137c-.489.317-1.329.73-2.393.73c-1.065 0-1.905-.413-2.394-.73"
-            stroke-width="0.5"
+            strokeWidth="0.5"
             stroke="currentColor"
           />{" "}
           <path
             fill="currentColor"
             d="M15.64 13.16a.73.73 0 0 1 .731-.66h1.257a.73.73 0 0 1 .732.66c.018.207.177.428.463.574q.084.043.167.09c.314.18.621.213.843.114a.74.74 0 0 1 .934.286l.628 1.032a.715.715 0 0 1-.221.971c-.18.118-.303.378-.299.725v.096c-.005.347.12.607.299.725a.715.715 0 0 1 .221.971l-.628 1.032a.74.74 0 0 1-.934.286c-.222-.099-.529-.066-.843.114q-.082.046-.167.09c-.286.146-.445.367-.463.574a.73.73 0 0 1-.732.66H16.37a.73.73 0 0 1-.731-.66c-.019-.207-.178-.428-.464-.574a4 4 0 0 1-.166-.09c-.315-.18-.622-.213-.844-.114a.74.74 0 0 1-.934-.286l-.628-1.032a.715.715 0 0 1 .222-.971c.18-.118.303-.378.298-.725v-.096c.005-.347-.119-.607-.298-.725a.715.715 0 0 1-.222-.971l.628-1.032a.74.74 0 0 1 .934-.286c.222.099.53.066.844-.114q.082-.046.166-.09c.286-.146.445-.367.464-.574m.952.34c-.138.526-.541.911-.962 1.125l-.124.067c-.424.243-.984.395-1.532.237l-.385.632c.401.382.541.934.535 1.404v.07c.006.47-.134 1.022-.535 1.404l.385.632c.548-.158 1.108-.006 1.532.237q.06.034.124.067c.42.214.824.6.962 1.125h.815c.138-.526.542-.911.962-1.125l.124-.067c.424-.243.985-.395 1.533-.237l.384-.632c-.401-.382-.541-.934-.535-1.404v-.07c-.006-.47.134-1.022.535-1.404l-.384-.632c-.549.158-1.109.006-1.533-.237l-.124-.067c-.42-.214-.824-.6-.962-1.125zm1.199 3.093c-.244-.4-.806-.555-1.255-.31c-.434.239-.56.74-.328 1.124c.244.4.806.555 1.255.31c.434-.239.56-.74.328-1.124m-1.735-1.186c.897-.491 2.055-.21 2.589.666c.544.893.209 2.022-.702 2.52c-.897.491-2.055.21-2.589-.666c-.543-.893-.209-2.022.702-2.52"
-            stroke-width="0.5"
+            strokeWidth="0.5"
             stroke="currentColor"
           />{" "}
         </svg>
@@ -296,69 +296,69 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           {" "}
           <g fill="none" stroke="currentColor" strokeLinecap="round">
             {" "}
-            <path stroke-width="15.992" d="M 32,48 V 207.9236"></path>{" "}
+            <path strokeWidth="15.992" d="M 32,48 V 207.9236"></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="M 224,96 V 208"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="m 64,16 h 80"
             ></path>{" "}
-            <path stroke-width="15.992" d="M 64,240 H 192"></path>{" "}
+            <path strokeWidth="15.992" d="M 64,240 H 192"></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="m 224,208 c 0.0874,15.98169 -16,32 -32,32"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="m -32,208 c -10e-7,16 -16,32 -32,32"
               transform="scale(-1 1)"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="M -32,-47.976784 C -32,-32 -48,-16.356322 -63.999997,-16.000002"
               transform="scale(-1)"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="M 223.91257,96.071779 144,16"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="m -144,64 c -0.0492,15.912926 -16.06452,31.999995 -32,32"
               transform="scale(-1 1)"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="M 144,64 V 16"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="15.992"
+              strokeWidth="15.992"
               d="m 176,96 h 48"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="16"
+              strokeWidth="16"
               d="m 64,208 h 48"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="16"
+              strokeWidth="16"
               d="m 64,176 h 80"
             ></path>{" "}
             <path
               strokeLinejoin="round"
-              stroke-width="16"
+              strokeWidth="16"
               d="m 64,144 h 48"
             ></path>{" "}
           </g>{" "}
@@ -376,22 +376,26 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   const filteredNavItems = navItems.filter((item) =>
     item.showFor.includes(user?.userType!)
   );
+  const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <div className="flex gap-4 p-3 bg-[#f1f1f1]">
-      <div className="w-[20%] rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex flex-col justify-between">
-        <div>
-          <div
-            onClick={() => router.push(logoRedirectPath)}
-            className="flex cursor-pointer items-center gap-1 p-3"
-          >
-            <Image
-              src="/images/shiftremit-logo.png"
-              width={40}
-              height={40}
-              alt="shiftremit-logo"
-              className="w-10 h-10 object-cover"
-            />
+  const toggleSidebar = () => setIsOpen(!isOpen);
+  const closeSidebar = () => setIsOpen(false);
+
+  const SideContent = () => (
+    <>
+      <div>
+        <div
+          onClick={() => router.push(logoRedirectPath)}
+          className="flex cursor-pointer items-center gap-1 p-3 z-50"
+        >
+          <Image
+            src="/images/shiftremit-logo.png"
+            width={40}
+            height={40}
+            alt="shiftremit-logo"
+            className="w-10 h-10 object-cover"
+          />
+          <div className="w-full flex justify-between items-center">
             <div>
               <h1 className="text-xl font-bold font-poppins text-black">
                 Shift<span className="text-main">Remit</span>
@@ -400,91 +404,140 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 Unbeatable Transfer Rates
               </p>
             </div>
-          </div>
-          <div className="bg-gray-200 w-full h-px" />
 
-          <div className="h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1">
-            {filteredNavItems.map((nav, i) => {
-              const isActive =
-                pathname.startsWith(nav.link) ||
-                nav.subLinks?.some((s) => pathname.startsWith(s.link));
+            <div className="p-4 pe-0 flex lg:hidden justify-end">
+              <button
+                onClick={closeSidebar}
+                className="text-gray-500 hover:text-black rounded transition"
+                aria-label="Close menu"
+              >
 
-              const isOpen = openDropdown === nav.title;
-
-              return (
-                <div key={i}>
-                  {nav.subLinks ? (
-                    <button
-                      onClick={() => toggleDropdown(nav.title)}
-                      className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${
-                        isActive
-                          ? "bg-[#f1f1f1] text-[#301342]"
-                          : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        {nav.icon}
-                        <p>{nav.title}</p>
-                      </div>
-                      {isOpen ? (
-                        <ChevronDown size={14} />
-                      ) : (
-                        <ChevronRight size={14} />
-                      )}
-                    </button>
-                  ) : (
-                    <Link
-                      href={nav.link || "#"}
-                      className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${
-                        isActive
-                          ? "bg-[#f1f1f1] text-[#301342]"
-                          : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        {nav.icon}
-                        <p>{nav.title}</p>
-                      </div>
-                    </Link>
-                  )}
-
-                  {nav.subLinks && isOpen && (
-                    <div className="ml-8 mt-1 space-y-1 transition-all">
-                      {nav.subLinks.map((sub, j) => (
-                        <Link
-                          key={j}
-                          href={sub.link}
-                          className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${
-                            pathname === sub.link
-                              ? "bg-[#f1f1f1] text-[#301342]"
-                              : "text-[#6b6b6b] hover:text-[#301342]"
-                          }`}
-                        >
-                          - {sub.title}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 1024 1024">
+                  <path fill="currentColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64" strokeWidth={25.5} stroke="currentColor"></path>
+                  <path fill="currentColor" d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z" strokeWidth={25.5} stroke="currentColor"></path>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+        <div className="bg-gray-200 w-full h-px" />
 
-        <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
-          <div>
-            <p className="text-[#454745] text-xs pt-1 font-poppins">
-              Partnership Wallet
-            </p>
-            <p className="text-[#072032] font-dm-sans font-semibold">10.50</p>
-          </div>
-          <IoWallet className="text-main" size={35} />
+        <div className="h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1">
+          {filteredNavItems.map((nav, i) => {
+            const isActive =
+              pathname.startsWith(nav.link) ||
+              nav.subLinks?.some((s) => pathname.startsWith(s.link));
+
+            const isOpen = openDropdown === nav.title;
+
+            return (
+              <div key={i}>
+                {nav.subLinks ? (
+                  <button
+                    onClick={() => toggleDropdown(nav.title)}
+                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${isActive
+                      ? "bg-[#f1f1f1] text-[#301342]"
+                      : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                      }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {nav.icon}
+                      <p>{nav.title}</p>
+                    </div>
+                    {isOpen ? (
+                      <ChevronDown size={14} />
+                    ) : (
+                      <ChevronRight size={14} />
+                    )}
+                  </button>
+                ) : (
+                  <Link
+                    href={nav.link || "#"}
+                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${isActive
+                      ? "bg-[#f1f1f1] text-[#301342]"
+                      : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                      }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {nav.icon}
+                      <p>{nav.title}</p>
+                    </div>
+                  </Link>
+                )}
+
+                {nav.subLinks && isOpen && (
+                  <div className="ml-8 mt-1 space-y-1 transition-all">
+                    {nav.subLinks.map((sub, j) => (
+                      <Link
+                        key={j}
+                        href={sub.link}
+                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${pathname === sub.link
+                          ? "bg-[#f1f1f1] text-[#301342]"
+                          : "text-[#6b6b6b] hover:text-[#301342]"
+                          }`}
+                      >
+                        - {sub.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="w-[80%] h-screen overflow-y-auto scrollbar-hide">
-        <div className="w-full flex items-center justify-between gap-2 rounded-2xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
-          <div className="relative ml-3 w-1/3">
+      <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
+        <div>
+          <p className="text-[#454745] text-xs pt-1 font-poppins">
+            Partnership Wallet
+          </p>
+          <p className="text-[#072032] font-dm-sans font-semibold">10.50</p>
+        </div>
+        <IoWallet className="text-main" size={35} />
+      </div>
+    </>
+  );
+
+  return (
+    <div className="flex gap-4 p-3 bg-[#f1f1f1]">
+
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={closeSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-screen w-64 bg-slate-800 bg-white text-white z-50 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+      >
+        <SideContent />
+      </aside>
+      <div className="w-[20%] hidden lg:flex rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex-col justify-between">
+        <SideContent />
+      </div>
+
+      <div className="w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide">
+        <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
+          <div onClick={toggleSidebar} className="lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={28}
+              height={28}
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M2 5.995c0-.55.446-.995.995-.995h8.01a.995.995 0 0 1 0 1.99h-8.01A.995.995 0 0 1 2 5.995M2 12c0-.55.446-.995.995-.995h18.01a.995.995 0 1 1 0 1.99H2.995A.995.995 0 0 1 2 12m.995 5.01a.995.995 0 0 0 0 1.99h12.01a.995.995 0 0 0 0-1.99z"
+                strokeWidth={0.5}
+                stroke="currentColor"
+              ></path>
+            </svg>
+          </div>
+          <div className="relative ml-3 w-1/3 hidden md:block">
             <input
               type="text"
               className="border w-full border-[#d1d5db80] text-[#072032] bg-white font-normal font-poppins text-sm rounded-md py-2 px-4 "
@@ -533,7 +586,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               className="cursor-pointer relative flex items-center gap-1"
             >
               <div className="w-10 h-10 bg-gray-200 rounded-full" />
-              <div>
+              <div className="hidden md:block">
                 <h1 className="text-sm font-poppins text-black">Hello </h1>
                 <p className="text-xs font-poppins flex items-center gap-1 text-[#8094ae]">
                   {userDisplayName} <FaAngleDown size={12} />
@@ -568,7 +621,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </div>
         {children}
       </div>
-    </div>
+    </div >
   );
 };
 

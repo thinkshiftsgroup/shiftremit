@@ -39,10 +39,10 @@ const SideHero = () => {
       : `${sendingAmount} ${fromCurrency}`;
 
   return (
-    <div className="w-full lg:w-1/2 font-poppins flex items-start">
+    <div className="w-full lg:w-1/2 font-poppins flex items-center max-h-auto">
       <div
-        className={`bg-main-dark-II -mt-20 rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
-          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0  mb-5 md:mb-3 lg:mb-0"
+        className={`bg-main-dark-II mb-5 md:mb-3 lg:mb-0 rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl lg:border-0 border border-[#ffffff30] ${
+          isOpen ? "lg:my-10" : "my-0 lg:mt-20"
         } `}
       >
         <Transfer onRateUpdate={handleRateUpdate} />
