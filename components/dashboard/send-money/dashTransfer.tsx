@@ -11,8 +11,8 @@ const DashTf = () => {
   const { ratesData, isLoading } = useRatesStore();
 
   const moniepointRate = ratesData?.moniepoint?.rate || 0;
-  const conversionRate = moniepointRate + 10;
-  const isRateReady = conversionRate > 10 && !isLoading;
+  const conversionRate = moniepointRate + 8;
+  const isRateReady = conversionRate > 8 && !isLoading;
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {

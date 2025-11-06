@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useMemo } from "react";
 import SideNav from "@/components/dashboard/sideNav";
 import Comingsoon from "@/components/general/coming-soon";
 import { FaArrowUp } from "react-icons/fa6";
@@ -16,6 +17,48 @@ import DataTable from "@/components/dashboard/partner-space/dataTable";
 import React, { useState } from "react";
 import { Check } from "lucide-react";
 
+import { useRatesStore } from "@/stores/useRatesStore";
+
+interface RateCard {
+  country: string;
+  name: string;
+  amount: number;
+  lastTxs: number;
+}
+
+interface Rate {
+  icon: string;
+  name: string;
+  currentRate: number;
+  discount: number;
+}
+
+const PROVIDER_MAP: {
+  [key: string]: { name: string; icon: string; lastTxs: number };
+} = {
+  "Shift Remit": {
+    name: "Shift Remit",
+    icon: "/images/brands/vec-1.svg",
+    lastTxs: 0,
+  },
+  MonieWorld: {
+    name: "MonieWorld",
+    icon: "/images/brands/vec-2.svg",
+    lastTxs: 30,
+  },
+  Nala: { name: "Nala", icon: "/images/brands/vec-6.svg", lastTxs: 0.0 },
+  LemFi: { name: "LemFi", icon: "/images/brands/vec-4.svg", lastTxs: 37 },
+  FlutterSend: {
+    name: "FlutterSend",
+    icon: "/images/brands/vec-5.svg",
+    lastTxs: 0.0,
+  },
+  "TapTap Send": {
+    name: "TapTap Send",
+    icon: "/images/brands/vec-3.svg",
+    lastTxs: 0.0,
+  },
+};
 const Partner = () => {
   const cardData = [
     {
@@ -65,6 +108,100 @@ const Partner = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const { ratesData, isLoading, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const { dynamicFiatData, rateDifference } = useMemo(() => {
+    if (!ratesData) {
+      return { dynamicFiatData: [], rateDifference: 0 };
+    }
+
+    const moniepointRate = ratesData.moniepoint.rate;
+    const lemfiRate = ratesData.lemfi.rate;
+
+    const shiftRemitCurrentRate = moniepointRate + 8.0;
+    const tapTapCurrentRate = lemfiRate + 1.0;
+
+    const allRates: Rate[] = [
+      {
+        ...PROVIDER_MAP["Shift Remit"],
+        currentRate: shiftRemitCurrentRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["MonieWorld"],
+        currentRate: moniepointRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["TapTap Send"],
+        currentRate: tapTapCurrentRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["Nala"],
+        currentRate: ratesData.nala.rate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["LemFi"],
+        currentRate: ratesData.lemfi.rate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["FlutterSend"],
+        currentRate: ratesData.sendApp.rate,
+        discount: 0,
+      },
+    ];
+
+    const shiftRemitRate =
+      allRates.find((r) => r.name === "Shift Remit")?.currentRate || 0;
+
+    const competitorRates = allRates.filter((r) => r.name !== "Shift Remit");
+
+    const lowestCompetitorRate =
+      competitorRates.length > 0
+        ? Math.min(...competitorRates.map((r) => r.currentRate))
+        : 0;
+
+    const calculatedRateDifference = Math.max(
+      0,
+      shiftRemitRate - lowestCompetitorRate
+    );
+
+    const highestRate = shiftRemitRate;
+
+    const competitorCards: RateCard[] = allRates
+      .filter((rate) => rate.name !== "Shift Remit")
+      .map((rate) => {
+        const discount = Math.max(0, highestRate - rate.currentRate);
+
+        return {
+          country: rate.icon,
+          name: rate.name,
+          amount: rate.currentRate,
+          lastTxs: parseFloat(discount.toFixed(2)),
+        };
+      });
+
+    return {
+      dynamicFiatData: competitorCards,
+      rateDifference: calculatedRateDifference,
+    };
+  }, [ratesData]);
+
+  const difference = isLoading
+    ? ""
+    : rateDifference > 0
+    ? rateDifference.toFixed(2)
+    : "";
 
   return (
     <SideNav>
@@ -192,7 +329,6 @@ const Partner = () => {
             </div>
           </div>
           <div className="py-3.5 px-6 bg-white rounded-md my-4 w-3/10">
-
             <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Your Partner Code
             </h1>
@@ -204,7 +340,9 @@ const Partner = () => {
                 onClick={handleCopy}
                 className="p-1 cursor-pointer text-sm rounded transition w-5/12 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
                 title="Copy Code"
-              > Copy Code
+              >
+                {" "}
+                Copy Code
                 {copied ? (
                   <Check size={16} />
                 ) : (
@@ -227,10 +365,16 @@ const Partner = () => {
                 )}
               </button>
             </div>
-            <span className="text-gray-500 text-sm">or simply, share your code directly.</span>
+            <span className="text-gray-500 text-sm">
+              or simply, share your code directly.
+            </span>
             <hr className="mt-3 mb-4" />
             <div className="flex flex-col gap-3">
-              <input type="text" className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2" placeholder="Enter customer email to invite them" />
+              <input
+                type="text"
+                className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2"
+                placeholder="Enter customer email to invite them"
+              />
               <button className="text-white w-1/2 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5">
                 Send Invite
               </button>
@@ -281,16 +425,10 @@ const Partner = () => {
               </div>
             </div>
           </div>
-
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3 hidden">
-          <WalletSection cards={fiatData} title="Fiat Wallets" />
-          <WalletSection
-            cards={cryptoData}
-            title="Crypto Wallets"
-
-          />
+          <WalletSection cards={dynamicFiatData} rateDifference={difference} />
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4 hidden">
