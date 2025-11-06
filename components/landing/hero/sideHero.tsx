@@ -24,10 +24,10 @@ const SideHero = () => {
 
   const rateDisplay = shiftRemitRate.toFixed(2);
   return (
-    <div className="w-full lg:w-1/2 font-poppins flex items-start">
+    <div className="w-full lg:w-1/2 font-poppins flex items-center lg:min-h-screen">
       <div
-        className={`bg-main-dark-II -mt-20 rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
-          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0  mb-5 md:mb-3 lg:mb-0"
+        className={`bg-main-dark-II rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl lg:border-0 border border-[#ffffff30] ${
+          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0 mt-0 md:mt-0 lg:mt-10" : "my-0 mb-5 md:mb-3 lg:mb-0"
         } `}
       >
         <Transfer />
