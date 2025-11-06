@@ -22,7 +22,7 @@ const SendMoneyUI = () => {
 
   const moniepointRate = ratesData?.moniepoint?.rate || 0;
 
-  const shiftRemitRate = moniepointRate + 10;
+  const shiftRemitRate = moniepointRate + 8;
 
   const rateDisplay =
     shiftRemitRate > 20

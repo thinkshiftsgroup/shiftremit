@@ -71,7 +71,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + 10.0;
+    const shiftRemitCurrentRate = moniepointRate + 8.0;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const baseComparisonRate = shiftRemitCurrentRate;
