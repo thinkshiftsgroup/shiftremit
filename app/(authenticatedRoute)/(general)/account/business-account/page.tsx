@@ -87,7 +87,7 @@ const BusinessAcc = () => {
             <div className="space-y-3">
               <label
                 htmlFor="firstname"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 First Name*
               </label>
@@ -95,7 +95,8 @@ const BusinessAcc = () => {
                 id="firstname"
                 name="firstname"
                 type="text"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
@@ -103,7 +104,7 @@ const BusinessAcc = () => {
             <div className="space-y-3">
               <label
                 htmlFor="lastname"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Last Name*
               </label>
@@ -112,14 +113,15 @@ const BusinessAcc = () => {
                 id="lastname"
                 name="lastname"
                 type="text"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
             <div className="space-y-3">
               <label
                 htmlFor="middleName"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Middle Name*
               </label>
@@ -127,7 +129,8 @@ const BusinessAcc = () => {
                 id="middleName"
                 name="middleName"
                 type="text"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
@@ -164,21 +167,22 @@ const BusinessAcc = () => {
             <div className="space-y-3">
               <label
                 htmlFor="dob"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 DOB*
               </label>
 
               <input
                 type="date"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
             <div className="space-y-3">
               <label
                 htmlFor="number"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Mobile Number*
               </label>
@@ -186,7 +190,8 @@ const BusinessAcc = () => {
                 id="number"
                 name="number"
                 type="text"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
@@ -276,12 +281,13 @@ const BusinessAcc = () => {
           <div className="space-y-3 mb-2">
             <label
               htmlFor="political"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-sm text-[#454745] "
             >
               Full Address*
             </label>
             <textarea
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
               required
             />
           </div>
@@ -289,7 +295,7 @@ const BusinessAcc = () => {
             <div className="space-y-3 w-full">
               <label
                 htmlFor="political"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Country of Residency*
               </label>
@@ -297,19 +303,21 @@ const BusinessAcc = () => {
                 id="political"
                 name="political"
                 type="text"
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
             <div className="space-y-3 w-full mb-3">
               <label
                 htmlFor="political"
-                className="font-poppins font-semibold text-sm "
+                className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 What would you be using ShiftRemit transfers for?*
               </label>
               <textarea
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm text-[#454745] border"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>

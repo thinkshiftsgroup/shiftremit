@@ -165,11 +165,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-input {
-  color: #454745;
-  border: 1px solid #d1d5db80;
-}
-label {
-  color: #454745;
-}
