@@ -12,6 +12,9 @@ const SideHero = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [rateLabelFromTransfer, setRateLabelFromTransfer] = useState("");
 
+  const [sendingAmount, setSendingAmount] = useState("1");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+
   const { ratesData, isLoading, error, fetchRates } = useRatesStore();
 
   useEffect(() => {
@@ -20,9 +23,20 @@ const SideHero = () => {
     }
   }, [ratesData, isLoading, fetchRates]);
 
-  const handleRateUpdate = (label: string) => {
+  const handleRateUpdate = (
+    label: string,
+    amount: string,
+    currency: string
+  ) => {
     setRateLabelFromTransfer(label);
+    setSendingAmount(amount);
+    setFromCurrency(currency);
   };
+
+  const totalAmountDisplay =
+    sendingAmount === ""
+      ? `0 ${fromCurrency}`
+      : `${sendingAmount} ${fromCurrency}`;
 
   return (
     <div className="w-full lg:w-1/2 font-poppins flex items-start">
@@ -32,7 +46,6 @@ const SideHero = () => {
         } `}
       >
         <Transfer onRateUpdate={handleRateUpdate} />
-
         <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
           <div className="flex justify-between">
             <span>Delivery Method</span>
@@ -71,11 +84,11 @@ const SideHero = () => {
             <span>2 minutes</span>
           </div>
         </div>
-
         <div className="flex font-poppins justify-between items-center">
           <div>
             <p className="text-xs opacity-80">Total Amount</p>
-            <p className="font-semibold text-lg">1 GBP</p>
+            {/* Display the dynamic total amount */}
+            <p className="font-semibold text-lg">{totalAmountDisplay}</p>
           </div>
           <a href="/login">
             <button
