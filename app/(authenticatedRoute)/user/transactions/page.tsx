@@ -11,6 +11,7 @@ import { FaArrowRight, FaUserPlus } from "react-icons/fa";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 import { IoWallet } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const CustomerTrxn = () => {
   const cardData = [
@@ -116,9 +117,11 @@ const CustomerTrxn = () => {
                 </p>
               </div>
             </div>
-            <button onClick={()=>router.push("/partner")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
-              Start Now <FaArrowRight />
-            </button>
+            <Link href={"/customer/partner-space"}>
+              <button className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
+                Start Now <FaArrowRight />
+              </button>
+            </Link>
           </div>
         </div>
         <div className="py-3.5  bg-white rounded-md my-4">
@@ -138,7 +141,7 @@ const CustomerTrxn = () => {
                   <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Receiving Amount
                   </th>
-                
+
                   <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Recipient
                   </th>
@@ -202,10 +205,10 @@ const CustomerTrxn = () => {
                 <div className="w-3 h-3 rounded-full bg-main-dark" /> Request
                 Money: 0.00
               </div>
-              <div className="flex items-center gap-1 text-sm font-poppins">
+              {/* <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
                 Deposit: 0.00
-              </div>
+              </div> */}
               <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-primary" /> Withdraw:
                 0.00

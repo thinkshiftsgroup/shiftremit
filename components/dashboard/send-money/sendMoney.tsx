@@ -1,17 +1,37 @@
 "use client";
 import CompareRates from "@/components/landing/hero/compareRates";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
-import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import DashTf from "./dashTransfer";
 import { useRouter } from "next/navigation";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 const SendMoneyUI = () => {
-  const [isFiat, setIsFiat] = useState(true);
   const [isBank, setIsBank] = useState(true);
 
   const router = useRouter();
+
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const moniepointRate = ratesData?.moniepoint?.rate || 0;
+
+  const shiftRemitRate = moniepointRate + 10;
+
+  const rateDisplay =
+    shiftRemitRate > 20
+      ? `1 GBP = ${shiftRemitRate.toFixed(2)} NGN`
+      : isLoading
+      ? "Fetching rate..."
+      : error
+      ? "Rate error"
+      : "1 GBP = 0.00 NGN";
 
   return (
     <div className="p-10">
@@ -38,7 +58,7 @@ const SendMoneyUI = () => {
         </div>
         <div className="flex font-poppins justify-between">
           <span>Rate</span>
-          <span>1 GBP = 1,895.23 NGN</span>
+          <span>{rateDisplay}</span>
         </div>
         <div className="flex justify-between">
           <span>Send Fee</span>

@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
-import { filter } from "framer-motion/client";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 interface Rate {
   icon: string;
   name: string;
   currentRate: number;
-  // oldRate: number | null;
   discount: number;
 }
+
+const PROVIDER_MAP: { [key: string]: { name: string; icon: string } } = {
+  "Shift Remit": { name: "Shift Remit", icon: "/images/brands/vec-1.svg" },
+  moniepoint: { name: "Moniepoint", icon: "/images/brands/vec-2.svg" },
+  nala: { name: "Nala", icon: "/images/brands/vec-6.svg" },
+  lemfi: { name: "LemFi", icon: "/images/brands/vec-4.svg" },
+  sendApp: { name: "Send App", icon: "/images/brands/vec-5.svg" },
+  "Tap Tap": { name: "Tap Tap", icon: "/images/brands/vec-3.svg" },
+};
 
 const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
   const isShiftRemit = name === "Shift Remit";
@@ -22,8 +30,6 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
           <img
             src={icon}
             alt={name}
-            // width="64"
-            // height="64"
             className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-cover"
           />
         </div>
@@ -49,49 +55,81 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
 };
 
 export default function CompareRates({ isOpen, setIsOpen }: any) {
-  const rates = [
-    {
-      icon: "/images/brands/vec-1.svg",
-      name: "Shift Remit",
-      currentRate: 1940.0,
-      discount: 1920.0,
-    },
-    {
-      icon: "/images/brands/vec-2.svg",
-      name: "Monie Point",
-      currentRate: 1907.0,
-      discount: 37.0,
-    },
-    {
-      icon: "/images/brands/vec-3.svg",
-      name: "Tap Tap",
-      currentRate: 1910.0,
-      discount: 70.0,
-    },
-    {
-      icon: "/images/brands/vec-4.svg",
-      name: "Lem Fi",
-      currentRate: 1900.0,
-      discount: 43.0,
-    },
-    {
-      icon: "/images/brands/vec-5.svg",
-      name: "Send App",
-      currentRate: 1850.0,
-      discount: 90.0,
-    },
-    {
-      icon: "/images/brands/vec-6.svg",
-      name: "Nala",
-      currentRate: 1850.0,
-      discount: 90.0,
-    },
-  ];
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData) {
+      fetchRates();
+    }
+  }, [ratesData, fetchRates]);
+
+  const rates: Rate[] = useMemo(() => {
+    if (!ratesData) {
+      return [];
+    }
+
+    const moniepointRate = ratesData.moniepoint.rate;
+    const lemfiRate = ratesData.lemfi.rate;
+
+    const shiftRemitCurrentRate = moniepointRate + 10.0;
+    const tapTapCurrentRate = lemfiRate + 1.0;
+
+    const baseComparisonRate = shiftRemitCurrentRate;
+
+    const rawRates: (Rate & { sortRate: number })[] = [
+      {
+        ...PROVIDER_MAP["Shift Remit"],
+        currentRate: shiftRemitCurrentRate,
+        discount: moniepointRate,
+        sortRate: shiftRemitCurrentRate,
+      },
+      {
+        ...PROVIDER_MAP["Tap Tap"],
+        currentRate: tapTapCurrentRate,
+        discount: baseComparisonRate - tapTapCurrentRate,
+        sortRate: tapTapCurrentRate,
+      },
+      {
+        ...PROVIDER_MAP["moniepoint"],
+        currentRate: moniepointRate,
+        discount: baseComparisonRate - moniepointRate,
+        sortRate: moniepointRate,
+      },
+      {
+        ...PROVIDER_MAP["nala"],
+        currentRate: ratesData.nala.rate,
+        discount: baseComparisonRate - ratesData.nala.rate,
+        sortRate: ratesData.nala.rate,
+      },
+      {
+        ...PROVIDER_MAP["lemfi"],
+        currentRate: ratesData.lemfi.rate,
+        discount: baseComparisonRate - ratesData.lemfi.rate,
+        sortRate: ratesData.lemfi.rate,
+      },
+      {
+        ...PROVIDER_MAP["sendApp"],
+        currentRate: ratesData.sendApp.rate,
+        discount: baseComparisonRate - ratesData.sendApp.rate,
+        sortRate: ratesData.sendApp.rate,
+      },
+    ];
+
+    const sortedRates = rawRates
+      .sort((a, b) => b.sortRate - a.sortRate)
+      .map(({ sortRate, ...rest }) => rest);
+
+    return sortedRates;
+  }, [ratesData]);
+
+  const shiftRemitRate =
+    rates.find((r) => r.name === "Shift Remit")?.currentRate || 0;
+  const lowestRate = rates.length > 0 ? rates[rates.length - 1].currentRate : 0;
+  const rateDifference = Math.max(0, shiftRemitRate - lowestRate);
 
   return (
-    <div className="w-full  mx-auto p-0">
+    <div className="w-full  mx-auto p-0">
       <div className=" rounded-2xl overflow-hidden">
-        {/* Header */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="w-full px-0 py-6 flex items-start gap-2"
@@ -102,8 +140,10 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
             </h2>
             <p className="text-xs md:text-sm text-gray-200">
               Get up to{" "}
-              <span className="font-semibold text-[#01EF01]">₦69.19</span> more
-              with us
+              <span className="font-semibold text-[#01EF01]">
+                ₦{rateDifference.toFixed(2)}
+              </span>{" "}
+              more with us
             </p>
           </div>
           <ChevronDown
@@ -113,16 +153,19 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
           />
         </button>
 
-        {/* Expandable Content */}
         <div
           className={`overflow-hidden transition-all duration-300 ease-in-out ${
             isOpen ? "block" : "hidden"
           }`}
         >
           <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">
-            {rates.map((rate, index) => (
-              <RateCard key={index} {...rate} />
-            ))}
+            {isLoading ? (
+              <p className="text-white col-span-2"></p>
+            ) : error ? (
+              <p className="text-red-400 col-span-2">Error: {error}</p>
+            ) : (
+              rates.map((rate) => <RateCard key={rate.name} {...rate} />)
+            )}
           </div>
         </div>
       </div>

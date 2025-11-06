@@ -67,12 +67,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <g
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
+            strokeLinecap="round"
             stroke-width="1.5"
           >
             {" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               d="M17 12h-7m0 0l3 3m-3-3l3-3"
             ></path>{" "}
             <path d="M7 16V8m15 4c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"></path>{" "}
@@ -116,14 +116,14 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <g
             fill="none"
             stroke="currentColor"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
             stroke-width="1.5"
           >
             {" "}
-            <path stroke-linecap="round" d="M17.5 17.5L22 22"></path>{" "}
+            <path strokeLinecap="round" d="M17.5 17.5L22 22"></path>{" "}
             <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>{" "}
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               d="M13.253 9.311c.105-1.264-1.83-2.297-3.308-1.604c-1.847.865-1.686 3.052.595 3.168c1.015.052 1.903-.058 2.506.596c.604.654.865 2.32-.913 2.884c-1.78.565-3.633-.443-3.633-1.672M10.971 6.5v.978m0 7.242v.78"
             ></path>{" "}
           </g>{" "}
@@ -182,10 +182,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <g fill="none" stroke="currentColor" stroke-width="1.5">
             {" "}
             <circle cx="9" cy="6" r="4"></circle>{" "}
-            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
+            <path strokeLinecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
             <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
             ></path>{" "}
           </g>{" "}
@@ -210,8 +210,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           />{" "}
         </svg>
       ),
-      title: "Partner",
-      link: "/partner",
+      title: "Partner Business",
+      link: "/customer/partner-space",
+      subLinks: [
+        { title: "Partner Space", link: "/customer/partner-space" },
+        { title: "Transaction Logs", link: "/partner/transactions" },
+      ],
       showFor: ["user", "admin"],
     },
     {
@@ -250,70 +254,70 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           viewBox="0 0 256 256"
         >
           {" "}
-          <g fill="none" stroke="currentColor" stroke-linecap="round">
+          <g fill="none" stroke="currentColor" strokeLinecap="round">
             {" "}
             <path stroke-width="15.992" d="M 32,48 V 207.9236"></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="M 224,96 V 208"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="m 64,16 h 80"
             ></path>{" "}
             <path stroke-width="15.992" d="M 64,240 H 192"></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="m 224,208 c 0.0874,15.98169 -16,32 -32,32"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="m -32,208 c -10e-7,16 -16,32 -32,32"
               transform="scale(-1 1)"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="M -32,-47.976784 C -32,-32 -48,-16.356322 -63.999997,-16.000002"
               transform="scale(-1)"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="M 223.91257,96.071779 144,16"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="m -144,64 c -0.0492,15.912926 -16.06452,31.999995 -32,32"
               transform="scale(-1 1)"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="M 144,64 V 16"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="15.992"
               d="m 176,96 h 48"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="16"
               d="m 64,208 h 48"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="16"
               d="m 64,176 h 80"
             ></path>{" "}
             <path
-              stroke-linejoin="round"
+              strokeLinejoin="round"
               stroke-width="16"
               d="m 64,144 h 48"
             ></path>{" "}

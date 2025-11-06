@@ -1,20 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import Transfer from "./transfer";
 import CompareRates from "./compareRates";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 const SideHero = () => {
   const [isBank, setIsBank] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
 
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const moniepointRate = ratesData?.moniepoint?.rate || 0;
+  const shiftRemitRate = moniepointRate + 10;
+
+  const rateDisplay = shiftRemitRate.toFixed(2);
   return (
-    <div className="w-full lg:w-1/2 font-poppins flex items-start">
+    <div className="w-full lg:w-1/2 font-poppins flex items-center lg:min-h-screen">
       <div
-        className={`bg-main-dark-II   rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
-          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0 -mt-5 md:mt-0 mb-5 md:mb-3 lg:mb-0"
+        className={`bg-main-dark-II rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl lg:border-0 border border-[#ffffff30] ${
+          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0 mt-0 md:mt-0 lg:mt-10" : "my-0 mb-5 md:mb-3 lg:mb-0"
         } `}
       >
         <Transfer />
@@ -40,7 +53,13 @@ const SideHero = () => {
           </div>
           <div className="flex font-poppins justify-between">
             <span>Rate</span>
-            <span>1 GBP = 1,895.23 NGN</span>
+            <span>
+              {isLoading && !ratesData
+                ? ""
+                : error
+                ? "Error"
+                : `1 GBP = ${rateDisplay} NGN`}
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Send Fee</span>

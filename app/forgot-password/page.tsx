@@ -29,10 +29,9 @@ const ForgotPassword = () => {
   const commonButtonClass = (isDisabled: boolean) => `
     text-base text-white w-full font-poppins py-3 px-6 font-medium rounded-[6px] cursor-pointer
     transition-all duration-300 ease-in-out
-    ${
-      isDisabled
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-linear-to-l from-[#813FD6] to-[#301342] hover:shadow-lg hover:shadow-[#813FD6]/50"
+    ${isDisabled
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-linear-to-l from-[#813FD6] to-[#301342] hover:shadow-lg hover:shadow-[#813FD6]/50"
     }
   `;
 
@@ -95,7 +94,7 @@ const ForgotPassword = () => {
       const response = await resetPasswordClient(email, code, newPassword);
       setSuccess(
         response.message ||
-          "Password successfully reset! Redirecting to login..."
+        "Password successfully reset! Redirecting to login..."
       );
 
       router.replace("/login");
@@ -112,7 +111,7 @@ const ForgotPassword = () => {
     switch (step) {
       case 1:
         return (
-          <form className="w-[60%] space-y-3" onSubmit={handleSendCode}>
+          <form className="w-[90%] lg:w-[60%] space-y-3" onSubmit={handleSendCode}>
             <div>
               <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
                 Recover Password
@@ -171,7 +170,7 @@ const ForgotPassword = () => {
 
       case 2:
         return (
-          <form className="w-[60%] space-y-5" onSubmit={handleVerifyCode}>
+          <form className="w-[90%] lg:w-[60%] space-y-5" onSubmit={handleVerifyCode}>
             <div>
               <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
                 Verify Code
@@ -248,7 +247,7 @@ const ForgotPassword = () => {
 
       case 3:
         return (
-          <form className="w-[60%] space-y-3" onSubmit={handleResetPassword}>
+          <form className="w-[90%] lg:w-[60%] space-y-3" onSubmit={handleResetPassword}>
             <div>
               <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
                 Set New Password
@@ -329,8 +328,8 @@ const ForgotPassword = () => {
               }
               className={commonButtonClass(
                 loading ||
-                  newPassword !== confirmPassword ||
-                  newPassword.length < 8
+                newPassword !== confirmPassword ||
+                newPassword.length < 8
               )}
             >
               {loading ? "Resetting..." : "Reset Password"}
@@ -346,7 +345,7 @@ const ForgotPassword = () => {
   return (
     <div className="h-screen flex ">
       <div
-        className="relative w-[40%] p-14 flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
+        className="relative w-[40%] p-14 hidden lg:flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
             "url('https://transfermax.springsoftit.com/demo/files/image/classic/cms/673bbb7d868e7-1731967869.jpg')",
@@ -417,7 +416,27 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
-      <div className="w-[60%] flex flex-col justify-center items-center bg-white">
+      <div className="w-full lg:w-[60%] flex flex-col justify-center items-center bg-white">
+        <div
+          onClick={() => router.replace("/")}
+          className="flex lg:hidden items-center justify-start gap-1 cursor-pointer w-[90%] mb-3"
+        >
+          <Image
+            src="/images/shiftremit-logo.png"
+            width={100}
+            height={100}
+            alt="shiftremit-logo"
+            className="w-10 h-10 object-cover"
+          />
+          <div>
+            <h1 className="text-xl pt-3 font-bold font-poppins text-black">
+              Shift<span className="text-main">Remit</span>
+            </h1>
+            <p className="text-[8px] italic text-black font-dm-sans">
+              Unbeatable Transfer Rates
+            </p>
+          </div>
+        </div>
         {renderFormContent()}
       </div>
     </div>

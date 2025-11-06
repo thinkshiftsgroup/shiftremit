@@ -1,31 +1,29 @@
 "use client";
 
-import { useRef} from "react";
+import { useRef } from "react";
 
 export const WalletSection = ({
-  title,
-  // currency,
+  rateDifference,
   cards,
 }: {
-  title: string;
-  // currency: string;
+  rateDifference: string;
   cards: any;
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <div className="">
+      <p className="my-1">
+        Get up to <span className="text-green-600">{rateDifference}</span> more
+        with ShiftRemit
+      </p>
       <div className="flex items-center justify-between gap-2 mb-3">
         <h1 className="text-[#072032] text-xl font-semibold font-dm-sans">
-          {title}
+          Compare Rates
         </h1>
-      
       </div>
 
-      <div
-        ref={containerRef}
-        className="grid grid-cols-5 gap-5"
-      >
+      <div ref={containerRef} className="grid grid-cols-5 gap-5">
         {cards.map((card: any, index: any) => (
           <div
             key={index}
@@ -43,7 +41,7 @@ export const WalletSection = ({
                   className="w-11 h-11 rounded-fill object-cover"
                 />
                 <p className="text-[#072032] font-semibold text-base font-dm-sans">
-                 {card.name}
+                  {card.name}
                 </p>
               </div>
             </div>

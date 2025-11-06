@@ -1,4 +1,6 @@
+"use client";
 import SideNav from "@/components/dashboard/sideNav";
+import Comingsoon from "@/components/general/coming-soon";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { FaArrowDown } from "react-icons/fa6";
@@ -10,8 +12,11 @@ import { FaArrowRight, FaUserPlus } from "react-icons/fa";
 import { WalletSection } from "@/components/dashboard/wallets";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 import { cryptoData, fiatData } from "@/data/data";
+import DataTable from "@/components/dashboard/partner-space/dataTable";
+import React, { useState } from "react";
+import { Check } from "lucide-react";
 
-const Dashboard = () => {
+const Partner = () => {
   const cardData = [
     {
       title: "Total send money",
@@ -51,16 +56,25 @@ const Dashboard = () => {
     },
   ];
   const cards = Array(5).fill(null);
+  const partnerCode = "SR7X2AI";
+
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(partnerCode);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <SideNav>
       <div className="py-5">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <p className="text-[#454745] text-sm font-poppins mb-2">
-              Welcome Back
+            <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
+              Partner Business Space
             </p>
-            <h1 className="font-dm-sans font-medium text-xl text-[#072032] flex items-center gap-1">
+            <h1 className="font-dm-sans font-medium text-[16px] text-[#454745] flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -98,7 +112,7 @@ const Dashboard = () => {
                   d="M10.6 81.3c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.3-1.7 2.1-2 2.6-.4m6-5.5c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.2-1.7 2.1-2 2.6-.4m76.9-41.2c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.7-2.3 1.9-2.7.2m6.5-4.8c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.6-2.2 1.8-2.7.2"
                 ></path>
               </svg>
-              , Hello Remi Tony
+              Welcome back John!
             </h1>
           </div>
 
@@ -117,76 +131,169 @@ const Dashboard = () => {
             </button> */}
           </div>
         </div>
+        <div className="flex gap-5">
+          <div className="py-3.5 px-6 bg-white rounded-md my-4 w-7/10">
+            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+              &nbsp;
+            </h1>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
-            Overview
-          </h1>
-
-          <div className="grid grid-cols-3 gap-3">
-            {cardData.map((card, index) => {
-              return (
-                <div
-                  key={index}
-                  className="py-2 px-3 bg-white border border-gray-200 rounded-md"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-[#072032] font-semibold text-sm font-dm-sans">
-                      {card.title}
-                    </p>
-                    <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
-                      <RiArrowRightUpLine
-                        className="text-[#22c55e]"
-                        size={20}
-                      />
+            <div className="grid grid-cols-3 gap-3">
+              {cardData.map((card, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="py-2 px-3 bg-white border border-gray-200 rounded-md"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        {card.title}
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
                     </div>
+                    <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
+                      {card.amount} G
+                    </h1>
+                    <p className="text-xs font-poppins text-[#454745]">
+                      Last transaction{" "}
+                      <span className="text-[#22c55e] font-medium">
+                        {card.lastTxn} G
+                      </span>
+                    </p>
                   </div>
-                  <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                    {card.amount} G
-                  </h1>
-                  <p className="text-xs font-poppins text-[#454745]">
-                    Last transaction{" "}
-                    <span className="text-[#22c55e] font-medium">
-                      {card.lastTxn} G
-                    </span>
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className=" bg-white border my-4 border-gray-200 rounded-md">
-            <div className="flex items-center justify-between gap-2 py-2 px-3">
-              <h1 className="text-[#072032] font-semibold text-xl font-dm-sans mb-2">
-                Quick Recipients
-              </h1>
-              <p className="text-main font-semibold flex items-center gap-1 font-poppins text-sm">
-                View All <MdKeyboardArrowRight className="" />{" "}
-              </p>
+                );
+              })}
             </div>
-            <hr />
 
-            <div className="">
-              <div className="inline-flex flex-col py-2 px-3 gap-2 items-center">
-                <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
-                  <GoPlus size={25} />
+            <div className=" bg-white border my-4 border-gray-200 rounded-md overflow-hidden">
+              <DataTable />
+              {/* <div className="flex items-center justify-between gap-2 py-2 px-3">
+                <h1 className="text-[#072032] font-semibold text-xl font-dm-sans mb-2">
+                  Quick Recipients
+                </h1>
+                <p className="text-main font-semibold flex items-center gap-1 font-poppins text-sm">
+                  View All <MdKeyboardArrowRight className="" />{" "}
+                </p>
+              </div> */}
+              {/* <hr /> */}
+
+              {/* <div className="">
+                <div className="inline-flex flex-col py-2 px-3 gap-2 items-center">
+                  <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
+                    <GoPlus size={25} />
+                  </div>
+                  <p className=" text-sm font-medium  font-dm-sans">Add</p>
                 </div>
-                <p className=" text-sm font-medium  font-dm-sans">Add</p>
+              </div> */}
+            </div>
+          </div>
+          <div className="py-3.5 px-6 bg-white rounded-md my-4 w-3/10">
+
+            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+              Your Partner Code
+            </h1>
+
+            <div className="rounded-xs py-0 px-2 pe-0 flex items-center justify-between gap-2 border border-[#f1f1f1] w-full">
+              <p className="text-sm truncate w-7/12">{partnerCode}</p>
+
+              <button
+                onClick={handleCopy}
+                className="p-1 cursor-pointer text-sm rounded transition w-5/12 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
+                title="Copy Code"
+              > Copy Code
+                {copied ? (
+                  <Check size={16} />
+                ) : (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 243 243"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="text-white"
+                  >
+                    <path
+                      d="M210.474 129.958C212.202 125.784 212.202 120.479 212.202 109.889C212.202 99.2992 212.202 93.9941 210.474 89.8208C209.332 87.0614 207.657 84.5542 205.545 82.4424C203.433 80.3306 200.926 78.6555 198.166 77.5129C193.993 75.7849 188.688 75.7849 178.098 75.7849H112.163C99.4306 75.7849 93.0645 75.7849 88.204 78.2607C83.9221 80.4411 80.4411 83.9221 78.2607 88.204C75.7849 93.0544 75.7849 99.4205 75.7849 112.163V178.098C75.7849 188.688 75.7849 193.993 77.5129 198.166C79.8269 203.734 84.2529 208.17 89.8208 210.474C93.9941 212.202 99.2992 212.202 109.889 212.202C120.479 212.202 125.784 212.202 129.958 210.474M210.474 129.958C209.332 132.717 207.657 135.224 205.545 137.336C203.433 139.448 200.926 141.123 198.166 142.266C193.993 143.994 188.688 143.994 178.098 143.994C167.508 143.994 162.203 143.994 158.029 145.722C155.27 146.864 152.763 148.539 150.651 150.651C148.539 152.763 146.864 155.27 145.722 158.029C143.994 162.203 143.994 167.508 143.994 178.098C143.994 188.688 143.994 193.993 142.266 198.166C141.123 200.926 139.448 203.433 137.336 205.545C135.224 207.657 132.717 209.332 129.958 210.474M210.474 129.958C205.038 148.701 195.039 165.805 181.372 179.736C167.705 193.668 150.797 203.993 132.161 209.787L129.958 210.474M166.73 75.7849V66.6905C166.73 53.9582 166.73 47.592 164.254 42.7315C162.076 38.4512 158.599 34.9704 154.321 32.7882C149.45 30.3125 143.084 30.3125 130.352 30.3125H66.6905C53.9582 30.3125 47.592 30.3125 42.7315 32.7882C38.4497 34.9687 34.9687 38.4497 32.7882 42.7315C30.3125 47.5819 30.3125 53.9481 30.3125 66.6905V130.352C30.3125 143.084 30.3125 149.45 32.7882 154.311C34.9709 158.595 38.447 162.071 42.7315 164.254C47.5819 166.73 53.9582 166.73 66.7006 166.73H75.7849"
+                      stroke="currentColor"
+                      strokeWidth="15.1575"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+            <span className="text-gray-500 text-sm">or simply, share your code directly.</span>
+            <hr className="mt-3 mb-4" />
+            <div className="flex flex-col gap-3">
+              <input type="text" className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2" placeholder="Enter customer email to invite them" />
+              <button className="text-white w-1/2 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5">
+                Send Invite
+              </button>
+            </div>
+            <div className=" bg-white my-4 rounded-md">
+              <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+                Wallet Actions
+              </h1>
+              <div className="flex items-center justify-between gap-2">
+                <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-2 py-1.5">
+                  Withdraw Funds
+                </button>
+                <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-2 py-1.5">
+                  Bank Account
+                </button>
+              </div>
+
+              <div className="w-full overflow-x-auto my-3 rounded">
+                <table className="w-full min-w-max border-collapse">
+                  <thead>
+                    <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
+                      <th className="px-4 py-2 whitespace-nowrap">ID</th>
+                      <th className="px-4 py-2 whitespace-nowrap">Amount</th>
+                      <th className="px-4 py-2 whitespace-nowrap">Date</th>
+                      <th className="px-4 py-2 whitespace-nowrap">Status</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr className="border-b border-gray-100">
+                      <td className="px-4 py-1 text-sm font-medium text-gray-900">
+                        1
+                      </td>
+                      <td className="px-4 py-1 text-sm text-gray-700">
+                        <span>£ 400</span>
+                      </td>
+                      <td className="px-4 py-1 text-sm text-gray-700">
+                        12/03/26
+                      </td>
+                      <td className="px-4 py-1 text-sm text-gray-700">
+                        <span className="p-1 m-1 rounded-xs flex bg-[#e8f7eb]">
+                          Completed (12/03/26)
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
+
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3">
+        <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3 hidden">
           <WalletSection cards={fiatData} title="Fiat Wallets" />
           <WalletSection
             cards={cryptoData}
             title="Crypto Wallets"
-            
+
           />
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4">
+        <div className="py-3.5 px-6 bg-white rounded-md my-4 hidden">
           <div className="flex items-center justify-between">
             <div className="flex  items-center gap-2.5">
               <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
@@ -207,7 +314,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-        <div className="py-3.5  bg-white rounded-md my-4">
+        <div className="py-3.5  bg-white rounded-md my-4 hidden">
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
             Latest Sending Log
           </h1>
@@ -263,7 +370,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="py-3.5 bg-white rounded-md my-4">
+        <div className="py-3.5 bg-white rounded-md my-4 hidden">
           <h1 className="text-[#072032]  px-6 text-lg font-semibold font-dm-sans mb-2">
             Overview
           </h1>
@@ -296,4 +403,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Partner;
