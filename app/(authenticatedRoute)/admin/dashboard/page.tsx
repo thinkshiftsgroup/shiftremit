@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useMemo } from "react";
 import SideNav from "@/components/dashboard/sideNav";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -9,8 +11,49 @@ import { GoPlus } from "react-icons/go";
 import { FaArrowRight, FaUserPlus } from "react-icons/fa";
 import { WalletSection } from "@/components/dashboard/wallets";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
-import { cryptoData, fiatData } from "@/data/data";
 
+import { useRatesStore } from "@/stores/useRatesStore";
+
+interface RateCard {
+  country: string;
+  name: string;
+  amount: number;
+  lastTxs: number;
+}
+
+interface Rate {
+  icon: string;
+  name: string;
+  currentRate: number;
+  discount: number;
+}
+
+const PROVIDER_MAP: {
+  [key: string]: { name: string; icon: string; lastTxs: number };
+} = {
+  "Shift Remit": {
+    name: "Shift Remit",
+    icon: "/images/brands/vec-1.svg",
+    lastTxs: 0,
+  },
+  MonieWorld: {
+    name: "MonieWorld",
+    icon: "/images/brands/vec-2.svg",
+    lastTxs: 30,
+  },
+  Nala: { name: "Nala", icon: "/images/brands/vec-6.svg", lastTxs: 0.0 },
+  LemFi: { name: "LemFi", icon: "/images/brands/vec-4.svg", lastTxs: 37 },
+  FlutterSend: {
+    name: "FlutterSend",
+    icon: "/images/brands/vec-5.svg",
+    lastTxs: 0.0,
+  },
+  "TapTap Send": {
+    name: "TapTap Send",
+    icon: "/images/brands/vec-3.svg",
+    lastTxs: 0.0,
+  },
+};
 const Dashboard = () => {
   const cardData = [
     {
@@ -50,7 +93,99 @@ const Dashboard = () => {
       lastTxn: 0,
     },
   ];
-  const cards = Array(5).fill(null);
+  const { ratesData, isLoading, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const { dynamicFiatData, rateDifference } = useMemo(() => {
+    if (!ratesData) {
+      return { dynamicFiatData: [], rateDifference: 0 };
+    }
+
+    const moniepointRate = ratesData.moniepoint.rate;
+    const lemfiRate = ratesData.lemfi.rate;
+
+    const shiftRemitCurrentRate = moniepointRate + 8.0;
+    const tapTapCurrentRate = lemfiRate + 1.0;
+
+    const allRates: Rate[] = [
+      {
+        ...PROVIDER_MAP["Shift Remit"],
+        currentRate: shiftRemitCurrentRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["MonieWorld"],
+        currentRate: moniepointRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["TapTap Send"],
+        currentRate: tapTapCurrentRate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["Nala"],
+        currentRate: ratesData.nala.rate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["LemFi"],
+        currentRate: ratesData.lemfi.rate,
+        discount: 0,
+      },
+      {
+        ...PROVIDER_MAP["FlutterSend"],
+        currentRate: ratesData.sendApp.rate,
+        discount: 0,
+      },
+    ];
+
+    const shiftRemitRate =
+      allRates.find((r) => r.name === "Shift Remit")?.currentRate || 0;
+
+    const competitorRates = allRates.filter((r) => r.name !== "Shift Remit");
+
+    const lowestCompetitorRate =
+      competitorRates.length > 0
+        ? Math.min(...competitorRates.map((r) => r.currentRate))
+        : 0;
+
+    const calculatedRateDifference = Math.max(
+      0,
+      shiftRemitRate - lowestCompetitorRate
+    );
+
+    const highestRate = shiftRemitRate;
+
+    const competitorCards: RateCard[] = allRates
+      .filter((rate) => rate.name !== "Shift Remit")
+      .map((rate) => {
+        const discount = Math.max(0, highestRate - rate.currentRate);
+
+        return {
+          country: rate.icon,
+          name: rate.name,
+          amount: rate.currentRate,
+          lastTxs: parseFloat(discount.toFixed(2)),
+        };
+      });
+
+    return {
+      dynamicFiatData: competitorCards,
+      rateDifference: calculatedRateDifference,
+    };
+  }, [ratesData]);
+
+  const difference = isLoading
+    ? ""
+    : rateDifference > 0
+    ? rateDifference.toFixed(2)
+    : "";
 
   return (
     <SideNav>
@@ -112,9 +247,9 @@ const Dashboard = () => {
             <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Request Money <FaPlus />
             </button>
-            <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            {/* <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Exchange Money <FaArrowDown />
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -178,12 +313,7 @@ const Dashboard = () => {
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3">
-          <WalletSection cards={fiatData} title="Fiat Wallets" />
-          <WalletSection
-            cards={cryptoData}
-            title="Crypto Wallets"
-            
-          />
+          <WalletSection cards={dynamicFiatData} rateDifference={difference} />
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">

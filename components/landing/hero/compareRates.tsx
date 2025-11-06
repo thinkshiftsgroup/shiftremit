@@ -71,7 +71,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + 20.0;
+    const shiftRemitCurrentRate = moniepointRate + 8.0;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const baseComparisonRate = shiftRemitCurrentRate;
@@ -160,7 +160,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
         >
           <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">
             {isLoading ? (
-              <p className="text-white col-span-2">Loading rates...</p>
+              <p className="text-white col-span-2"></p>
             ) : error ? (
               <p className="text-red-400 col-span-2">Error: {error}</p>
             ) : (

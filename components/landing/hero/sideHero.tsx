@@ -1,24 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import Transfer from "./transfer";
 import CompareRates from "./compareRates";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 const SideHero = () => {
   const [isBank, setIsBank] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
+  const [rateLabelFromTransfer, setRateLabelFromTransfer] = useState("");
+
+  const [sendingAmount, setSendingAmount] = useState("1");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const handleRateUpdate = (
+    label: string,
+    amount: string,
+    currency: string
+  ) => {
+    setRateLabelFromTransfer(label);
+    setSendingAmount(amount);
+    setFromCurrency(currency);
+  };
+
+  const totalAmountDisplay =
+    sendingAmount === ""
+      ? `0 ${fromCurrency}`
+      : `${sendingAmount} ${fromCurrency}`;
 
   return (
     <div className="w-full lg:w-1/2 font-poppins flex items-start">
       <div
         className={`bg-main-dark-II -mt-20 rounded-xl p-4 md:p-6 sm:p-8 text-white shadow-xl md:border-0 border border-[#ffffff30] ${
-          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0  mb-5 md:mb-3 lg:mb-0"
+          isOpen ? "my-10 mb-5 md:mb-3 lg:mb-0" : "my-0  mb-5 md:mb-3 lg:mb-0"
         } `}
       >
-        <Transfer />
-
+        <Transfer onRateUpdate={handleRateUpdate} />
         <div className="bg-[#ffffff0d] text-[#cccccc] rounded-lg p-4 mb-6 font-poppins text-sm space-y-2">
           <div className="flex justify-between">
             <span>Delivery Method</span>
@@ -40,7 +67,13 @@ const SideHero = () => {
           </div>
           <div className="flex font-poppins justify-between">
             <span>Rate</span>
-            <span>1 GBP = 1,895.23 NGN</span>
+            <span>
+              {isLoading && !ratesData
+                ? "Loading..."
+                : error
+                ? "Error"
+                : rateLabelFromTransfer || "Checking live rates..."}
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Send Fee</span>
@@ -51,11 +84,11 @@ const SideHero = () => {
             <span>2 minutes</span>
           </div>
         </div>
-
         <div className="flex font-poppins justify-between items-center">
           <div>
             <p className="text-xs opacity-80">Total Amount</p>
-            <p className="font-semibold text-lg">1 GBP</p>
+            {/* Display the dynamic total amount */}
+            <p className="font-semibold text-lg">{totalAmountDisplay}</p>
           </div>
           <a href="/login">
             <button

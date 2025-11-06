@@ -12,10 +12,12 @@ interface Currency {
 
 interface DropdownComponentProps {
   defaultCurrency?: string;
+  onSelect: (currencyCode: string) => void;
 }
 
 export default function DropdownComponent({
   defaultCurrency = "GBP",
+  onSelect,
 }: DropdownComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -68,6 +70,7 @@ export default function DropdownComponent({
 
   const handleSelect = (currency: Currency) => {
     setSelectedCurrency(currency);
+    onSelect(currency.code);
     setIsOpen(false);
     setSearchTerm("");
   };
@@ -80,7 +83,6 @@ export default function DropdownComponent({
   return (
     <div className="relative w-full z-50">
       <div
-        // type="button"
         className="flex items-center justify-between transition-all duration-200 gap-2 w-full"
         onClick={toggleDropdown}
       >
@@ -88,6 +90,13 @@ export default function DropdownComponent({
           <img
             src={getFlagSrc(selectedCurrency.flag)}
             alt={selectedCurrency.code}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = `https://placehold.co/26x26/667885/ffffff?text=${selectedCurrency.code.substring(
+                0,
+                1
+              )}`;
+            }}
             className="rounded-full object-cover w-6.5 h-6.5"
           />
         )}
@@ -144,6 +153,13 @@ export default function DropdownComponent({
                         <img
                           src={getFlagSrc(currency.flag)}
                           alt={currency.code}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = `https://placehold.co/26x26/667885/ffffff?text=${currency.code.substring(
+                              0,
+                              1
+                            )}`;
+                          }}
                           className="w-6 h-6 rounded-full object-cover"
                         />
                         <div className="flex gap-2 items-center">
@@ -196,6 +212,13 @@ export default function DropdownComponent({
                         <img
                           src={getFlagSrc(currency.flag)}
                           alt={currency.code}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = `https://placehold.co/26x26/667885/ffffff?text=${currency.code.substring(
+                              0,
+                              1
+                            )}`;
+                          }}
                           className="w-6 h-6 rounded-full object-cover"
                         />
                         <div className="flex gap-2 items-center">

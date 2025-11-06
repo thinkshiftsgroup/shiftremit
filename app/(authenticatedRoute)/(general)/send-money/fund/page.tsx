@@ -70,18 +70,6 @@ const Fund = () => {
                           <span className="font-semibold">a fixed period.</span>
                         </p>
                       </div>
-                      <div>
-                        <label
-                          htmlFor=""
-                          className="text-sm font-semibold text-[#072032] font-poppins"
-                        >
-                          Reference (optional)
-                        </label>
-                        <input
-                          type="text"
-                          className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
-                        />
-                      </div>
                       <div className="flex mt-5 items-center gap-1">
                         <input
                           type="checkbox"
@@ -90,6 +78,18 @@ const Fund = () => {
                         <p className="font-poppins text-sm text-gray-500">
                           I understand these instructions
                         </p>
+                      </div>
+                      <div className="my-5">
+                        <label
+                          htmlFor=""
+                          className="text-sm font-semibold text-[#072032] font-poppins"
+                        >
+                          Your Reference (optional)
+                        </label>
+                        <input
+                          type="text"
+                          className="rounded-md border-[#e3e3e3] p-2 border w-full mt-1 text-base font-poppins active:border-[#e3e3e3]"
+                        />
                       </div>
                       <button
                         onClick={() => setBankStep(2)}
@@ -125,8 +125,8 @@ const Fund = () => {
                           </span>
                         </p>
                         <p>
-                          Transfer Reference:{" "}
-                          <span className="text-base font-medium">Sr3454</span>
+                         Use Transfer Reference:{" "}
+                          <span className="text-base font-medium">Sr342454</span>
                         </p>
 
                         <button
@@ -148,8 +148,8 @@ const Fund = () => {
                         <p className="font-poppins text-sm text-black font-normal">
                           John Israel
                         </p>
-                        <p className="font-poppins text-sm text-black font-normal">
-                          NGN 2,000,000
+                        <p className="font-poppins text-sm text-black font-semibold">
+                          NGN 10,000,000
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
                           Wema Bank

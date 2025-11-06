@@ -1,11 +1,177 @@
 "use client";
+import { useEffect, useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useState } from "react";
+import { useRatesStore } from "@/stores/useRatesStore";
 
-const Transfer = () => {
-  const [sending_amount, setSendingAmount] = useState("");
-  const [receive_amount, setReceiveAmount] = useState('')
+interface TransferProps {
+  onRateUpdate: (
+    label: string,
+    sendingAmount: string,
+    fromCurrency: string
+  ) => void;
+}
+
+const Transfer = ({ onRateUpdate }: TransferProps) => {
+  const [sending_amount, setSendingAmount] = useState("1");
+  const [receive_amount, setReceiveAmount] = useState("");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+  const [toCurrency, setToCurrency] = useState("NGN");
+
+  const { ratesData, isLoading } = useRatesStore();
+
+  const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
+    if (fromCurrency === toCurrency) {
+      return {
+        conversionRate: 1,
+        isRateReady: true,
+        rateLabel: `1 ${fromCurrency} = 1.00 ${toCurrency}`,
+      };
+    }
+
+    const moniepointRate = ratesData?.moniepoint?.rate || 0;
+    let rate = 0;
+    let ready = false;
+    let label = "Rate Loading...";
+
+    if (fromCurrency === "GBP" && toCurrency === "NGN") {
+      rate = moniepointRate + 8;
+      ready = rate > 8 && !isLoading;
+      label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : label;
+    } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+      rate = 1 / 1973;
+      ready = !isLoading;
+      label = ready ? `1 NGN = ${rate.toFixed(8)} GBP` : label;
+    }
+
+    return {
+      conversionRate: rate,
+      isRateReady: ready,
+      rateLabel: label,
+    };
+  }, [fromCurrency, toCurrency, ratesData, isLoading]);
+
+  useEffect(() => {
+    let label = rateLabel;
+    if (!isRateReady && !isLoading) {
+      label = "Rate error";
+    }
+    // Pass the rate label, sending amount, and from currency to the parent
+    onRateUpdate(label, sending_amount, fromCurrency);
+  }, [
+    rateLabel,
+    isRateReady,
+    isLoading,
+    onRateUpdate,
+    sending_amount,
+    fromCurrency,
+  ]);
+
+  const initialReceiveAmount = useMemo(() => {
+    if (isRateReady) {
+      const initialAmount = parseFloat(sending_amount);
+      if (fromCurrency === toCurrency) {
+        return initialAmount.toFixed(2);
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        return (initialAmount * conversionRate).toFixed(2);
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        return (initialAmount * conversionRate).toFixed(8);
+      }
+    }
+    return "";
+  }, [conversionRate, isRateReady, sending_amount, fromCurrency, toCurrency]);
+
+  useEffect(() => {
+    if (isRateReady) {
+      const amount = parseFloat(sending_amount);
+      if (!isNaN(amount)) {
+        let received;
+        if (fromCurrency === toCurrency) {
+          received = amount;
+          setReceiveAmount(received.toFixed(2));
+        } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+          received = amount * conversionRate;
+          setReceiveAmount(received.toFixed(2));
+        } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+          received = amount * conversionRate;
+          setReceiveAmount(received.toFixed(8));
+        }
+      } else if (sending_amount === "") {
+        setReceiveAmount("");
+      }
+    } else if (!isLoading) {
+      setReceiveAmount("");
+    }
+  }, [
+    isRateReady,
+    sending_amount,
+    conversionRate,
+    fromCurrency,
+    toCurrency,
+    isLoading,
+  ]);
+
+  const handleSendingAmountChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setSendingAmount(numericValue);
+
+    const amount = parseFloat(numericValue);
+
+    if (!isNaN(amount) && isRateReady) {
+      let received;
+      if (fromCurrency === toCurrency) {
+        received = amount;
+        setReceiveAmount(received.toFixed(2));
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        received = amount * conversionRate;
+        setReceiveAmount(received.toFixed(2));
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        received = amount * conversionRate;
+        setReceiveAmount(received.toFixed(8));
+      }
+    } else if (numericValue === "") {
+      setReceiveAmount("");
+    }
+  };
+
+  const handleReceiveAmountChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setReceiveAmount(numericValue);
+
+    const amount = parseFloat(numericValue);
+
+    if (!isNaN(amount) && isRateReady) {
+      let sent;
+      if (fromCurrency === toCurrency) {
+        sent = amount;
+        setSendingAmount(sent.toFixed(2));
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        sent = amount / conversionRate;
+        setSendingAmount(sent.toFixed(2));
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        sent = amount / conversionRate;
+        setSendingAmount(sent.toFixed(2));
+      }
+    } else if (numericValue === "") {
+      setSendingAmount("");
+    }
+  };
+
+  const handleFromCurrencySelect = (currencyCode: string) => {
+    setFromCurrency(currencyCode);
+  };
+
+  const handleToCurrencySelect = (currencyCode: string) => {
+    setToCurrency(currencyCode);
+  };
+
   return (
     <>
       <div className="relative flex flex-wrap justify-between items-start mb-4 gap-5 md:gap-0">
@@ -14,7 +180,7 @@ const Transfer = () => {
             You send exactly
           </label>
           <div
-            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -23,9 +189,14 @@ const Transfer = () => {
               id="sending_amount"
               aria-label="Sending Money"
               value={sending_amount}
-              placeholder="10"
-              onChange={(e) => setSendingAmount(e.target.value)}
-              className="focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[40%] font-bold"
+              placeholder={
+                isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
+              }
+              onChange={handleSendingAmountChange}
+              disabled={!isRateReady}
+              className={`focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[40%] font-bold bg-transparent ${
+                !isRateReady ? "opacity-60" : ""
+              }`}
             />
 
             <button
@@ -33,9 +204,10 @@ const Transfer = () => {
               id="sendMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              {/* <img src="https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg" alt="currency flag" width={25} height={25} className="rounded-full" /> */}
-              {/* <span className="font-semibold">GBP</span> */}
-              <DropdownComponent />
+              <DropdownComponent
+                defaultCurrency="GBP"
+                onSelect={handleFromCurrencySelect}
+              />
             </button>
           </div>
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
@@ -43,30 +215,30 @@ const Transfer = () => {
 
         <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
-            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
-                        before:absolute 
-                        before:top-0 
-                        before:-left-[7px] 
-                        before:w-full 
-                        before:h-full 
-                        before:bg-[#230a2f] 
-                        before:-z-10 
-                        before:rounded-full 
-                        before:border 
-                        before:border-[#ffffff3d]
-                        
-                        
-                        after:content-[''] 
-                        after:absolute 
-                        after:top-0 
-                        after:-right-[7px] 
-                        after:w-full 
-                        after:h-full 
-                        after:bg-[#230a2f] 
-                        after:-z-10 
-                        after:rounded-full 
-                        after:border 
-                        after:border-[#ffffff3d]"
+            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
+                        before:absolute 
+                        before:top-0 
+                        before:-left-[7px] 
+                        before:w-full 
+                        before:h-full 
+                        before:bg-[#230a2f] 
+                        before:-z-10 
+                        before:rounded-full 
+                        before:border 
+                        before:border-[#ffffff3d]
+                        
+                        
+                        after:content-[''] 
+                        after:absolute 
+                        after:top-0 
+                        after:-right-[7px] 
+                        after:w-full 
+                        after:h-full 
+                        after:bg-[#230a2f] 
+                        after:-z-10 
+                        after:rounded-full 
+                        after:border 
+                        after:border-[#ffffff3d]"
           >
             <FaArrowRight className="text-lg text-white" />
           </span>
@@ -87,19 +259,23 @@ const Transfer = () => {
               name="receive_amount"
               id="receive_amount"
               value={receive_amount}
-              placeholder="1493"
-              onChange={(e) => setReceiveAmount(e.target.value)}
+              placeholder={initialReceiveAmount}
+              onChange={handleReceiveAmountChange}
+              disabled={!isRateReady}
               aria-label="Receive Money"
-              className="focus:ring-0 placeholder:text-white w-[40%] focus:border-transparent outline-none font-bold"
+              className={`focus:ring-0 placeholder:text-white w-[40%] focus:border-transparent outline-none font-bold bg-transparent ${
+                !isRateReady ? "opacity-60" : ""
+              }`}
             />
             <button
               type="button"
               id="receiveMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              {/* <img src="https://cdn.countryflags.com/thumbs/nigeria/flag-round-500.png" alt="currency flag" width={25} height={25} className="rounded-full" />
-                            <span className="font-semibold">NGN</span> */}
-              <DropdownComponent defaultCurrency="NGN" />
+              <DropdownComponent
+                defaultCurrency="NGN"
+                onSelect={handleToCurrencySelect}
+              />
             </button>
           </div>
           <p id="receivingError" className="text-deep-danger text-sm mt-1"></p>

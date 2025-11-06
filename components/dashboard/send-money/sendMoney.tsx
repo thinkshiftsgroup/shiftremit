@@ -1,21 +1,42 @@
 "use client";
 import CompareRates from "@/components/landing/hero/compareRates";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
-import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import DashTf from "./dashTransfer";
 import { useRouter } from "next/navigation";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 const SendMoneyUI = () => {
-  const [isFiat, setIsFiat] = useState(true);
   const [isBank, setIsBank] = useState(true);
+  const [rateLabelFromTransfer, setRateLabelFromTransfer] = useState("");
 
   const router = useRouter();
 
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const handleRateUpdate = (label: string) => {
+    setRateLabelFromTransfer(label);
+  };
+  const totalAmountDisplay = useMemo(() => {
+    if (rateLabelFromTransfer && rateLabelFromTransfer.includes("=")) {
+      const parts = rateLabelFromTransfer.split("=");
+
+      const sentPart = parts[0].trim();
+      return sentPart;
+    }
+    return "1 GBP";
+  }, [rateLabelFromTransfer]);
+
   return (
     <div className="p-10">
-      <DashTf />
+      <DashTf onRateUpdate={handleRateUpdate} />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
         <div className="flex justify-between">
@@ -38,7 +59,13 @@ const SendMoneyUI = () => {
         </div>
         <div className="flex font-poppins justify-between">
           <span>Rate</span>
-          <span>1 GBP = 1,895.23 NGN</span>
+          <span>
+            {isLoading && !ratesData
+              ? "Fetching rate..."
+              : error
+              ? "Rate error"
+              : rateLabelFromTransfer || "Loading..."}
+          </span>
         </div>
         <div className="flex justify-between">
           <span>Send Fee</span>

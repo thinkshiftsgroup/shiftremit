@@ -67,7 +67,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <g
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
+            strokeLinecap="round"
             stroke-width="1.5"
           >
             {" "}
@@ -82,6 +82,46 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       title: "Send Money",
       link: "/send-money",
       showFor: ["user"],
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M14.77 15.5h2.96q.213 0 .357-.144t.144-.356V9q0-.213-.144-.356t-.356-.144h-2.962q-.212 0-.356.144T14.269 9v6q0 .213.144.356t.356.144m.5-1v-5h1.962v5zm-6.23 1H12q.213 0 .356-.144T12.5 15V9q0-.213-.144-.356T12 8.5H9.039q-.213 0-.357.144T8.54 9v6q0 .213.143.356t.357.144m.5-1v-5h1.96v5zm-2.77.5V9q0-.213-.144-.356T6.27 8.5t-.356.144T5.769 9v6q0 .213.144.356q.144.144.357.144t.356-.144t.143-.356M3 17.384V6.616q0-.667.475-1.141T4.615 5h14.77q.666 0 1.14.475T21 6.615v10.77q0 .666-.475 1.14t-1.14.475H4.615q-.666 0-1.14-.475T3 17.386M4.616 18h14.769q.269 0 .442-.173t.173-.442V6.615q0-.269-.173-.442T19.385 6H4.615q-.269 0-.442.173T4 6.616v10.769q0 .269.173.442t.443.173M4 18V6z"
+          />
+        </svg>
+      ),
+      title: "FX Rates",
+      link: "/admin/fxrates",
+      showFor: ["admin"],
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="23"
+          height="23"
+          viewBox="0 0 48 48"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.5 15.402H22v15.5m0-15.5l-17.5 17.5m37-.304H26v-15.5m0 15.5l17.5-17.5"
+            stroke-width="2"
+          />
+        </svg>
+      ),
+      title: "Transactions",
+      link: "/admin/transactions",
+      showFor: ["admin"],
     },
     {
       icon: (
@@ -120,10 +160,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             stroke-width="1.5"
           >
             {" "}
-            <path stroke-linecap="round" d="M17.5 17.5L22 22"></path>{" "}
+            <path strokeLinecap="round" d="M17.5 17.5L22 22"></path>{" "}
             <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>{" "}
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               d="M13.253 9.311c.105-1.264-1.83-2.297-3.308-1.604c-1.847.865-1.686 3.052.595 3.168c1.015.052 1.903-.058 2.506.596c.604.654.865 2.32-.913 2.884c-1.78.565-3.633-.443-3.633-1.672M10.971 6.5v.978m0 7.242v.78"
             ></path>{" "}
           </g>{" "}
@@ -182,10 +222,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <g fill="none" stroke="currentColor" stroke-width="1.5">
             {" "}
             <circle cx="9" cy="6" r="4"></circle>{" "}
-            <path stroke-linecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
+            <path strokeLinecap="round" d="M15 9a3 3 0 1 0 0-6"></path>{" "}
             <ellipse cx="9" cy="17" rx="7" ry="4"></ellipse>{" "}
             <path
-              stroke-linecap="round"
+              strokeLinecap="round"
               d="M18 14c1.754.385 3 1.359 3 2.5c0 1.03-1.014 1.923-2.5 2.37"
             ></path>{" "}
           </g>{" "}
@@ -210,8 +250,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           />{" "}
         </svg>
       ),
-      title: "Partner",
+      title: "Partner Business",
       link: "/customer/partner-space",
+      subLinks: [
+        { title: "Partner Space", link: "/customer/partner-space" },
+        { title: "Transaction Logs", link: "/partner/transactions" },
+      ],
       showFor: ["user", "admin"],
     },
     {
@@ -250,7 +294,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           viewBox="0 0 256 256"
         >
           {" "}
-          <g fill="none" stroke="currentColor" stroke-linecap="round">
+          <g fill="none" stroke="currentColor" strokeLinecap="round">
             {" "}
             <path stroke-width="15.992" d="M 32,48 V 207.9236"></path>{" "}
             <path
@@ -325,7 +369,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       showFor: ["user", "admin"],
     },
   ];
-
 
   const [openDrop, setOpenDrop] = useState(false);
   const router = useRouter();
@@ -498,13 +541,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               </div>
               {openDrop && (
                 <div className="rounded-md absolute top-12 right-0 z-10 w-40 bg-white border border-gray-200">
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
+                  <div
+                    onClick={() => router.push("/account")}
+                    className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors"
+                  >
                     <FaRegCircleUser size={14} /> Profile
                   </div>
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
-                    <MdOutlineSettings size={14} />
-                    Support
-                  </div>
+                  <a href="mailto:support@shiftremit.com">
+                    <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer">
+                      <MdOutlineSettings size={14} />
+                      Support
+                    </div>
+                  </a>
+
                   <hr />
                   <div
                     onClick={handleSignOut}
