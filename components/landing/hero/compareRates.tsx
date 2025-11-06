@@ -160,7 +160,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
         >
           <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">
             {isLoading ? (
-              <p className="text-white col-span-2">Loading rates...</p>
+              <p className="text-white col-span-2"></p>
             ) : error ? (
               <p className="text-red-400 col-span-2">Error: {error}</p>
             ) : (
