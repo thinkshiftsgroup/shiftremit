@@ -56,9 +56,9 @@ const CustomerTrxn = () => {
             >
               Request Money <FaPlus />
             </button>
-            <button className="text-[15px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            {/* <button className="text-[15px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Wallet <IoWallet />
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -116,7 +116,7 @@ const CustomerTrxn = () => {
                 </p>
               </div>
             </div>
-            <button className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
+            <button onClick={()=>router.push("/partner")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
               Start Now <FaArrowRight />
             </button>
           </div>

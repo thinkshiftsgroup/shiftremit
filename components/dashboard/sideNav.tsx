@@ -326,7 +326,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
-
   const [openDrop, setOpenDrop] = useState(false);
   const router = useRouter();
 
@@ -498,13 +497,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               </div>
               {openDrop && (
                 <div className="rounded-md absolute top-12 right-0 z-10 w-40 bg-white border border-gray-200">
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
+                  <div
+                    onClick={() => router.push("/account")}
+                    className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors"
+                  >
                     <FaRegCircleUser size={14} /> Profile
                   </div>
-                  <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors">
-                    <MdOutlineSettings size={14} />
-                    Support
-                  </div>
+                  <a href="mailto:support@shiftremit.com">
+                    <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer">
+                      <MdOutlineSettings size={14} />
+                      Support
+                    </div>
+                  </a>
+
                   <hr />
                   <div
                     onClick={handleSignOut}
