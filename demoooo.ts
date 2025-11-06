@@ -19,7 +19,7 @@ const decodeJwtPayload = (token: string): JwtPayload | null => {
   }
 };
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const currentPath = request.nextUrl.pathname;
   const authToken = request.cookies.get("shiftremit_auth_token");
 
