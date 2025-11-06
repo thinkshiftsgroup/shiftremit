@@ -141,7 +141,6 @@ const CustomerTrxn = () => {
                   <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Receiving Amount
                   </th>
-
                   <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Recipient
                   </th>
@@ -150,38 +149,32 @@ const CustomerTrxn = () => {
                   </th>
                   <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Date
-                  </th>  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  </th>{" "}
+                  <th className="font-poppins py-2 px-6 text-base font-semibold">
                     Status
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={7} className="text-center py-10">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="72"
-                        height="72"
-                        viewBox="0 0 24 24"
-                      >
-                        <g fill="none" stroke="currentColor" strokeWidth="1.5">
-                          <path
-                            strokeLinecap="round"
-                            d="M11.5 21c-4.478 0-6.718 0-8.109-1.391S2 15.979 2 11.5c0-4.478 0-6.718 1.391-8.109S7.021 2 11.5 2c4.478 0 6.718 0 8.109 1.391S21 7.021 21 11.5"
-                          />
-                          <path strokeLinejoin="round" d="M2 7h19" />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10 16h1m-5 0h1m3-4h4m-8 0h1m13.4 8.4L22 22m-.8-4.4a3.6 3.6 0 1 0-7.2 0a3.6 3.6 0 0 0 7.2 0"
-                          />
-                        </g>
-                      </svg>
-                      <p className="font-poppins text-[#8094ae]">
-                        Don't have data
-                      </p>
-                    </div>
+                  <td className=" px-2 text-sm py-2 font-poppins">726h36</td>
+                  <td className=" px-2 text-sm py-2 font-poppins">£5000</td>
+                  <td className=" px-2 text-sm py-2 font-poppins">₦10,000,000</td>
+                  <td className=" px-2 text-sm py-2 font-poppins">
+                    <span className="flex flex-col gap-0.5 px-2 text-sm py-2 font-poppins">
+                      Joshua Israel
+                      <p>joshisr@gmail.com</p>
+                    </span>
+                  </td>
+                  <td className="px-2 text-sm py-2 font-poppins">
+                    <span>
+                      Wema Bank
+                      <p>9736524134</p>
+                    </span>
+                  </td>
+                  <td>23/11/25 18:00</td>
+                  <td className="">
+                    <span className="p-1 bg-green-500 text-white rounded-sm">Completed</span>
                   </td>
                 </tr>
               </tbody>
@@ -209,10 +202,7 @@ const CustomerTrxn = () => {
                 <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
                 Deposit: 0.00
               </div> */}
-              <div className="flex items-center gap-1 text-sm font-poppins">
-                <div className="w-3 h-3 rounded-full bg-primary" /> Withdraw:
-                0.00
-              </div>
+             
             </div>
             <ChartRadialSimple />
           </div>

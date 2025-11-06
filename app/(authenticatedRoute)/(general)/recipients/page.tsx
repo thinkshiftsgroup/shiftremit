@@ -1,21 +1,28 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
 import PurposeModal from "@/components/general/recipientPurposeModal";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 
 const Recipients = () => {
   const [tab, setTab] = useState("all-account");
   const [openPurpose, setOpenPurpose] = useState(false);
-
+  const router = useRouter();
   return (
     <SideNav>
       <div className="py-10 flex items-start justify-between gap-5">
         <div className="w-[60%] rounded-md bg-white py-3.5 px-6 shadow-md">
-          <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
-            All Recipients
-          </h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
+              All Recipients
+            </h1>
+            <button onClick={()=>router.push("/send-money")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
+              Send Money <FaArrowRight />
+            </button>
+          </div>
 
           <div className="border-b border-gray-300 flex items-center gap-6">
             <div
@@ -239,26 +246,18 @@ const Recipients = () => {
                             </span>
                           </div>
                         </div>
-                        <svg
-                          width="20"
-                          className="cursor-pointer"
-                          height="20"
-                          viewBox="0 0 25 25"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.1875 0C5.4675 0 0 5.4675 0 12.1875C0 18.9075 5.4675 24.375 12.1875 24.375C18.9075 24.375 24.375 18.9075 24.375 12.1875C24.375 5.4675 18.9075 0 12.1875 0ZM12.1875 1.875C17.8941 1.875 22.5 6.48094 22.5 12.1875C22.5 17.8941 17.8941 22.5 12.1875 22.5C6.48094 22.5 1.875 17.8941 1.875 12.1875C1.875 6.48094 6.48094 1.875 12.1875 1.875ZM11.25 6.5625V11.25H6.5625V13.125H11.25V17.8125H13.125V13.125H17.8125V11.25H13.125V6.5625H11.25Z"
-                            fill="#813FD6"
-                          />
-                        </svg>
                       </div>
 
+                      <p className="text-base mt-10 font-dm-sans pb-2 text-gray-500 font-medium">
+                        Added
+                      </p>
+                      <hr className="mb-5" />
+
                       <div className="my-5">
-                        <div className="rounded-lg w-full cursor-pointer p-3 flex justify-between items-center gap-2 bg-gray-100">
+                        <div className="rounded-lg w-full cursor-pointer p-3 flex justify-between items-center gap-2 bg-main/20">
                           <div className="flex items-center gap-2">
                             <div className="inline-block relative">
-                              <div className="font-poppins border-gray-400 border w-16 h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
+                              <div className="font-poppins bg-white border-gray-400 border w-16 h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
                                 JI
                               </div>
                               <div className="w-4 h-4 absolute bottom-0 -right-1 border border-white rounded-full">
@@ -281,21 +280,6 @@ const Recipients = () => {
                               </span>
                             </div>
                           </div>
-                          <svg
-                            className="cursor-pointer"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 23 23"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
-                              stroke="#813FD6"
-                              stroke-width="1.875"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
                         </div>
                       </div>
                     </div>

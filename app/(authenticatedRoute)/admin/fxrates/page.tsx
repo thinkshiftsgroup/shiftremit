@@ -10,7 +10,7 @@ const FXRates = () => {
       <div className="py-10 flex items-start justify-between gap-5">
         <div className="w-1/2  rounded-md bg-white py-3.5 px-6 shadow-md">
           <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
-            All Recipients
+            Rate History
           </h1>
 
           <div className="border-b border-gray-300 flex items-center gap-6">
@@ -18,7 +18,7 @@ const FXRates = () => {
               onClick={() => setTab("all-account")}
               className="flex items-center gap-2 py-2 px-4 cursor-pointer"
             >
-              <p className="font-poppins text-sm">All Account</p>
+              <p className="font-poppins text-sm">Naira (₦)</p>
 
               <div className="relative flex items-center justify-center">
                 <div className="w-5 font-poppins h-5 rounded-full bg-main text-white text-xs flex items-center justify-center">
@@ -35,7 +35,7 @@ const FXRates = () => {
               onClick={() => setTab("my-account")}
               className="flex items-center gap-2 py-2 px-4 cursor-pointer"
             >
-              <p className="font-poppins text-sm">My Account</p>
+              <p className="font-poppins text-sm">Pounds (£)</p>
 
               <div className="relative flex items-center justify-center">
                 <div className="w-5 font-poppins h-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
@@ -121,94 +121,39 @@ const FXRates = () => {
           )}
         </div>
         <div className="w-1/2 rounded-md bg-white  shadow-md">
-          <h1 className="text-[#072032] py-3.5 px-6 text-lg font-semibold font-dm-sans mb-2">
-            Add New Recipients
+          <h1 className="text-[#072032] py-3 px-6 text-lg font-semibold font-dm-sans mb-2">
+            Manage Live Rates
           </h1>
           <hr />
           <div className="px-6 py-3">
             <div className="space-y-2">
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
-                  Bank name
-                </label>
-                <select
-                  name=""
-                  id=""
-                  className="rounded-md text-base border-[#072032] font-poppins p-2 border w-full mt-1"
-                >
-                  <option value="">Please choose recipient's bank</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
-                  htmlFor=""
-                >
-                  Account number
+                  NGN (Actual Daily Rates)
                 </label>
                 <input
+                  placeholder="₦"
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
-              </div>{" "}
+              </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
-                  Fullname of the account holder
+                  GBP (Benchmark Daily Rates)
                 </label>
                 <input
+                  placeholder="£"
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
-              </div>
-              <div>
-                <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
-                  htmlFor=""
-                >
-                  Their email (optional)
-                </label>
-                <input
-                  type="email"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
-                />
-              </div>
-              <div>
-                <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
-                  htmlFor=""
-                >
-                  Their mobile number (optional)
-                </label>
-                <input
-                  type="email"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
-                />
-              </div>
-              <div>
-                <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
-                  htmlFor=""
-                >
-                  Purpose
-                </label>
-                <textarea
-                  placeholder="Purpose"
-                  className="rounded-md font-poppins text-base h-[100px] border-[#072032] p-2 border w-full mt-1"
-                />
-              </div>
-              <div className="flex justify-end">
-                <div className="flex items-center gap-1">
-                  <p className="font-poppins text-sm">
-                    Is this a business bank account
-                  </p>
-                  <input type="checkbox" className="accent-main w-3.5 h-3.5" />
-                </div>
               </div>
             </div>
             <button
@@ -220,7 +165,7 @@ const FXRates = () => {
          hover:border-transparent my-5 text-center 
        "
             >
-              Add
+              Go Live
             </button>
           </div>
         </div>
