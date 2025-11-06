@@ -225,7 +225,7 @@ focus:border-main focus:outline-none transition-colors"
             required
           />
         </div>
-        <div className="w-1/3">
+        <div className="">
           <label
             htmlFor="lastname"
             className="font-poppins font-semibold text-sm text-[#454745] "
