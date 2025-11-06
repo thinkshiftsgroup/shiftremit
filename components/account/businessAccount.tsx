@@ -89,18 +89,6 @@ const BusinessAccount = () => {
           />
         </div>
       </div>
-      {/* <div className="space-y-3">
-        <label
-          htmlFor="political"
-          className="font-poppins font-semibold text-sm "
-        >
-          Political Exposed Person?*
-        </label>
-        <textarea
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#454745] text-[#454745] border"
-          required
-        />
-      </div> */}
       <div className="space-y-3 my-2">
         <label
           htmlFor="political"
