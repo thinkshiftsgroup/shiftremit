@@ -7,20 +7,53 @@ import { useRatesStore } from "@/stores/useRatesStore";
 const DashTf = () => {
   const [sending_amount, setSendingAmount] = useState("1");
   const [get_amount, setGetAmount] = useState("");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+  const [toCurrency, setToCurrency] = useState("NGN");
 
   const { ratesData, isLoading } = useRatesStore();
 
-  const moniepointRate = ratesData?.moniepoint?.rate || 0;
-  const conversionRate = moniepointRate + 8;
-  const isRateReady = conversionRate > 8 && !isLoading;
+  const NGN_TO_GBP_RATE = 1973;
+
+  const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
+    let baseRate = ratesData?.moniepoint?.rate || 0;
+    let rate = baseRate + 8;
+    let ready = rate > 8 && !isLoading;
+    let label = ready
+      ? `1 ${fromCurrency} = ${rate.toFixed(2)} ${toCurrency}`
+      : "Rate Loading...";
+    let precision = 2;
+
+    if (fromCurrency === "NGN" && toCurrency === "GBP") {
+      rate = 1 / NGN_TO_GBP_RATE;
+      ready = true;
+      precision = 8;
+      label = `1 NGN = ${rate.toFixed(precision)} GBP`;
+    } else if (fromCurrency === toCurrency) {
+      rate = 1;
+      ready = true;
+      label = `1 ${fromCurrency} = 1.00 ${toCurrency}`;
+    }
+
+    return {
+      conversionRate: rate,
+      isRateReady: ready,
+      rateLabel: label,
+      precision: precision,
+    };
+  }, [fromCurrency, toCurrency, ratesData, isLoading]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
       const initialAmount = parseFloat(sending_amount);
-      return (initialAmount * conversionRate).toFixed(2);
+      if (fromCurrency === toCurrency) {
+        return initialAmount.toFixed(2);
+      }
+      return (initialAmount * conversionRate).toFixed(
+        conversionRate === 1 / NGN_TO_GBP_RATE ? 8 : 2
+      );
     }
     return "";
-  }, [conversionRate, isRateReady, sending_amount]);
+  }, [conversionRate, isRateReady, sending_amount, fromCurrency, toCurrency]);
 
   useEffect(() => {
     if (isRateReady && get_amount === "") {
@@ -32,13 +65,24 @@ const DashTf = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    setSendingAmount(value);
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setSendingAmount(numericValue);
 
-    const amount = parseFloat(value);
+    const amount = parseFloat(numericValue);
     if (!isNaN(amount) && isRateReady) {
-      const received = amount * conversionRate;
-      setGetAmount(received.toFixed(2));
-    } else if (value === "") {
+      let received;
+      let precision = 2;
+
+      if (fromCurrency === toCurrency) {
+        received = amount;
+      } else {
+        received = amount * conversionRate;
+        if (fromCurrency === "NGN" && toCurrency === "GBP") {
+          precision = 8;
+        }
+      }
+      setGetAmount(received.toFixed(precision));
+    } else if (numericValue === "") {
       setGetAmount("");
     }
   };
@@ -47,15 +91,33 @@ const DashTf = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    setGetAmount(value);
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setGetAmount(numericValue);
 
-    const amount = parseFloat(value);
+    const amount = parseFloat(numericValue);
     if (!isNaN(amount) && isRateReady) {
-      const sent = amount / conversionRate;
+      let sent;
+      if (fromCurrency === toCurrency) {
+        sent = amount;
+      } else {
+        sent = amount / conversionRate;
+      }
       setSendingAmount(sent.toFixed(2));
-    } else if (value === "") {
+    } else if (numericValue === "") {
       setSendingAmount("");
     }
+  };
+
+  const handleFromCurrencySelect = (currencyCode: string) => {
+    setFromCurrency(currencyCode);
+    setSendingAmount("1");
+    setGetAmount("");
+  };
+
+  const handleToCurrencySelect = (currencyCode: string) => {
+    setToCurrency(currencyCode);
+    setSendingAmount("1");
+    setGetAmount("");
   };
 
   const placeholderReceive = isRateReady
@@ -96,7 +158,10 @@ const DashTf = () => {
               id="sendMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              <DropdownComponent defaultCurrency="GBP" />
+              <DropdownComponent
+                defaultCurrency="GBP"
+                onSelect={handleFromCurrencySelect}
+              />
             </button>
           </div>
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
@@ -161,7 +226,10 @@ const DashTf = () => {
               id="receiveMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              <DropdownComponent defaultCurrency="NGN" />
+              <DropdownComponent
+                defaultCurrency="NGN"
+                onSelect={handleToCurrencySelect}
+              />
             </button>
           </div>
           <p id="receivingError" className="text-deep-danger text-sm mt-1"></p>

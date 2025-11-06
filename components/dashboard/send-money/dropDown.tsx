@@ -12,10 +12,12 @@ interface Currency {
 
 interface DropdownComponentProps {
   defaultCurrency?: string;
+  onSelect?: (currencyCode: string) => void;
 }
 
 export default function DropdownComponent({
   defaultCurrency = "GBP",
+  onSelect,
 }: DropdownComponentProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,7 +25,6 @@ export default function DropdownComponent({
     null
   );
 
-  // Stable currencies data
   const currencies = useMemo<Currency[]>(
     () => [
       {
@@ -40,6 +41,18 @@ export default function DropdownComponent({
         flag: { url: "https://flagcdn.com/ng.svg" },
         popular: true,
       },
+      // {
+      //   code: "EUR",
+      //   name: "Euro",
+      //   flag: { url: "https://flagcdn.com/eu.svg" },
+      //   popular: true,
+      // },
+      // {
+      //   code: "USD",
+      //   name: "United States Dollar",
+      //   flag: { url: "https://flagcdn.com/us.svg" },
+      //   popular: true,
+      // },
     ],
     []
   );
@@ -71,6 +84,9 @@ export default function DropdownComponent({
     setSelectedCurrency(currency);
     setIsOpen(false);
     setSearchTerm("");
+    if (onSelect) {
+      onSelect(currency.code);
+    }
   };
 
   const getFlagSrc = (flag: { url?: string; file?: File }) => {
@@ -80,9 +96,7 @@ export default function DropdownComponent({
 
   return (
     <div className="relative w-full z-50">
-      {/* Button */}
       <div
-       
         className="flex items-center justify-between transition-all duration-200 gap-2 w-full"
         onClick={toggleDropdown}
       >
@@ -103,10 +117,8 @@ export default function DropdownComponent({
         )}
       </div>
 
-      {/* Dropdown */}
       {isOpen && (
         <div className="absolute w-[350px] max-h-[380px] h-auto pb-2 top-full -left-[265%] mt-5 bg-white rounded-lg shadow-xl border border-gray-200 z-50 overflow-hidden">
-          {/* Search box */}
           <div className="p-2.5">
             <div className="relative">
               <Search
@@ -123,7 +135,6 @@ export default function DropdownComponent({
             </div>
           </div>
 
-          {/* List */}
           <div className="max-h-96 overflow-y-auto">
             {filteredCurrencies.length === 0 ? (
               <div className="p-2.5 text-center text-gray-500">
@@ -238,7 +249,6 @@ export default function DropdownComponent({
         </div>
       )}
 
-      {/* Backdrop */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40"

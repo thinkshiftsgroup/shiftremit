@@ -4,41 +4,112 @@ import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useState } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
+
 const Transfer = () => {
   const [sending_amount, setSendingAmount] = useState("1");
   const [receive_amount, setReceiveAmount] = useState("");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+  const [toCurrency, setToCurrency] = useState("NGN");
 
   const { ratesData, isLoading } = useRatesStore();
 
-  const moniepointRate = ratesData?.moniepoint?.rate || 0;
-  const conversionRate = moniepointRate + 8;
-  const isRateReady = conversionRate > 8 && !isLoading;
+  const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
+    if (fromCurrency === toCurrency) {
+      return {
+        conversionRate: 1,
+        isRateReady: true,
+        rateLabel: `1 ${fromCurrency} = 1.00 ${toCurrency}`,
+      };
+    }
+
+    const moniepointRate = ratesData?.moniepoint?.rate || 0;
+    let rate = 0;
+    let ready = false;
+    let label = "Rate Loading...";
+
+    if (fromCurrency === "GBP" && toCurrency === "NGN") {
+      rate = moniepointRate + 8;
+      ready = rate > 8 && !isLoading;
+      label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : label;
+    } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+      rate = 1 / 1973;
+      ready = !isLoading;
+      label = ready ? `1 NGN = ${rate.toFixed(8)} GBP` : label;
+    }
+
+    return {
+      conversionRate: rate,
+      isRateReady: ready,
+      rateLabel: label,
+    };
+  }, [fromCurrency, toCurrency, ratesData, isLoading]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
       const initialAmount = parseFloat(sending_amount);
-      return (initialAmount * conversionRate).toFixed(2);
+      if (fromCurrency === toCurrency) {
+        return initialAmount.toFixed(2);
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        return (initialAmount * conversionRate).toFixed(2);
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        return (initialAmount * conversionRate).toFixed(8);
+      }
     }
     return "";
-  }, [conversionRate, isRateReady, sending_amount]);
+  }, [conversionRate, isRateReady, sending_amount, fromCurrency, toCurrency]);
 
   useEffect(() => {
-    if (isRateReady && receive_amount === "") {
-      setReceiveAmount(initialReceiveAmount);
+    if (isRateReady) {
+      const amount = parseFloat(sending_amount);
+      if (!isNaN(amount)) {
+        let received;
+        if (fromCurrency === toCurrency) {
+          received = amount;
+          setReceiveAmount(received.toFixed(2));
+        } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+          received = amount * conversionRate;
+          setReceiveAmount(received.toFixed(2));
+        } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+          received = amount * conversionRate;
+          setReceiveAmount(received.toFixed(8));
+        }
+      } else if (sending_amount === "") {
+        setReceiveAmount("");
+      }
+    } else if (!isLoading) {
+      setReceiveAmount("");
     }
-  }, [isRateReady, initialReceiveAmount, receive_amount]);
+  }, [
+    isRateReady,
+    sending_amount,
+    conversionRate,
+    fromCurrency,
+    toCurrency,
+    isLoading,
+  ]);
 
   const handleSendingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    setSendingAmount(value);
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setSendingAmount(numericValue);
 
-    const amount = parseFloat(value);
+    const amount = parseFloat(numericValue);
+
     if (!isNaN(amount) && isRateReady) {
-      const received = amount * conversionRate;
-      setReceiveAmount(received.toFixed(2));
-    } else if (value === "") {
+      let received;
+      if (fromCurrency === toCurrency) {
+        received = amount;
+        setReceiveAmount(received.toFixed(2));
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        received = amount * conversionRate;
+        setReceiveAmount(received.toFixed(2));
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        received = amount * conversionRate;
+        setReceiveAmount(received.toFixed(8));
+      }
+    } else if (numericValue === "") {
       setReceiveAmount("");
     }
   };
@@ -47,15 +118,34 @@ const Transfer = () => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    setReceiveAmount(value);
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setReceiveAmount(numericValue);
 
-    const amount = parseFloat(value);
+    const amount = parseFloat(numericValue);
+
     if (!isNaN(amount) && isRateReady) {
-      const sent = amount / conversionRate;
-      setSendingAmount(sent.toFixed(2));
-    } else if (value === "") {
+      let sent;
+      if (fromCurrency === toCurrency) {
+        sent = amount;
+        setSendingAmount(sent.toFixed(2));
+      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+        sent = amount / conversionRate;
+        setSendingAmount(sent.toFixed(2));
+      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
+        sent = amount / conversionRate;
+        setSendingAmount(sent.toFixed(2));
+      }
+    } else if (numericValue === "") {
       setSendingAmount("");
     }
+  };
+
+  const handleFromCurrencySelect = (currencyCode: string) => {
+    setFromCurrency(currencyCode);
+  };
+
+  const handleToCurrencySelect = (currencyCode: string) => {
+    setToCurrency(currencyCode);
   };
 
   return (
@@ -90,10 +180,16 @@ const Transfer = () => {
               id="sendMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              <DropdownComponent defaultCurrency="GBP" />
+              <DropdownComponent
+                defaultCurrency="GBP"
+                onSelect={handleFromCurrencySelect}
+              />
             </button>
           </div>
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
+        </div>
+        <div className="w-full text-center text-sm font-medium text-white p-2 md:absolute md:top-[-30px] md:left-0 md:w-full">
+          {isRateReady ? rateLabel : "Checking live rates..."}
         </div>
 
         <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
@@ -161,7 +257,10 @@ const Transfer = () => {
               id="receiveMoneyCurrencyBtn"
               className="w-[90px] inline-flex items-center gap-1 relative"
             >
-              <DropdownComponent defaultCurrency="NGN" />
+              <DropdownComponent
+                defaultCurrency="NGN"
+                onSelect={handleToCurrencySelect}
+              />
             </button>
           </div>
           <p id="receivingError" className="text-deep-danger text-sm mt-1"></p>
