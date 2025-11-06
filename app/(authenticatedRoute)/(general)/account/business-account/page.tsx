@@ -6,6 +6,11 @@ import React, { useRef, useState } from "react";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
+import DocUpload from "@/components/account/docUpload";
+import DirectorForm from "@/components/account/business-acc/directorForm";
+import KnowBusiness from "@/components/account/business-acc/knowBusiness";
+import PEPForm from "@/components/account/business-acc/PEPForm";
+import ShareHolderForm from "@/components/account/business-acc/shareHoldersForm";
 
 const BusinessAcc = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -123,7 +128,7 @@ focus:border-main focus:outline-none transition-colors"
                 htmlFor="middleName"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
-                Middle Name*
+                Middle Name
               </label>
               <input
                 id="middleName"
@@ -334,16 +339,23 @@ focus:border-main focus:outline-none transition-colors"
               Update
             </button>
           </div>{" "}
-          <div
-            onClick={() => router.back()}
-            className="font-poppins bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
-          >
-            <ChevronLeft size={25} className="text-main cursor-pointer my-2" />
-            Back
-          </div>
         </div>
 
-        <div className="bg-white flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
+        <KnowBusiness />
+        <DirectorForm />
+        <ShareHolderForm/>
+        <PEPForm />
+        <DocUpload />
+
+        <div
+          onClick={() => router.back()}
+          className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
+        >
+          <ChevronLeft size={25} className="text-main cursor-pointer" />
+          Back
+        </div>
+
+        <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
           <button className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm">
             Submit KYC for approval
           </button>

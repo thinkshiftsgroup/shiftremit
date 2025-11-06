@@ -1,4 +1,5 @@
 "use client";
+import DocUpload from "@/components/account/docUpload";
 import SideNav from "@/components/dashboard/sideNav";
 import { Camera, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -364,16 +365,19 @@ focus:border-main focus:outline-none transition-colors"
               Update
             </button>
           </div>
-
-          <div
-            onClick={() => router.back()}
-            className="font-poppins bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
-          >
-            <ChevronLeft size={25} className="text-main cursor-pointer my-2" />
-            Back
-          </div>
         </div>
-        <div className="bg-white flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
+
+        <DocUpload />
+
+        <div
+          onClick={() => router.back()}
+          className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
+        >
+          <ChevronLeft size={25} className="text-main cursor-pointer" />
+          Back
+        </div>
+
+        <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
           <button className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm">
             Submit KYC for approval
           </button>
