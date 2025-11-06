@@ -1,15 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoIosCheckmark } from "react-icons/io";
 import Transfer from "./transfer";
 import CompareRates from "./compareRates";
+import { useRatesStore } from "@/stores/useRatesStore";
 
 const SideHero = () => {
   const [isBank, setIsBank] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
 
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+
+  useEffect(() => {
+    if (!ratesData && !isLoading) {
+      fetchRates();
+    }
+  }, [ratesData, isLoading, fetchRates]);
+
+  const moniepointRate = ratesData?.moniepoint?.rate || 0;
+  const shiftRemitRate = moniepointRate + 20;
+
+  const rateDisplay = shiftRemitRate.toFixed(2);
   return (
     <div className="w-full lg:w-1/2 font-poppins flex items-start">
       <div
@@ -40,7 +53,13 @@ const SideHero = () => {
           </div>
           <div className="flex font-poppins justify-between">
             <span>Rate</span>
-            <span>1 GBP = 1,895.23 NGN</span>
+            <span>
+              {isLoading && !ratesData
+                ? ""
+                : error
+                ? "Error"
+                : `1 GBP = ${rateDisplay} NGN`}
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Send Fee</span>
