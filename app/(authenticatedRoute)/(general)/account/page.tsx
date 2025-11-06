@@ -7,8 +7,6 @@ import { useRef, useState } from "react";
 import { Camera } from "lucide-react";
 import ChangePassword from "@/components/account/changePasswordModal";
 import { FaCheckCircle } from "react-icons/fa";
-import IndividualAccount from "@/components/account/individualAccount";
-import BusinessAccount from "@/components/account/businessAccount";
 import { useRouter } from "next/navigation";
 
 const Account = () => {
