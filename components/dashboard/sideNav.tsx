@@ -516,14 +516,13 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       >
         <SideContent />
       </aside>
-
-      <div className="w-[20%] hidden md:block rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex flex-col justify-between">
+      <div className="w-[20%] hidden lg:flex rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex-col justify-between">
         <SideContent />
       </div>
 
       <div className="w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide">
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
-          <div onClick={toggleSidebar}>
+          <div onClick={toggleSidebar} className="lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={28}
