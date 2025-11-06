@@ -465,7 +465,7 @@ const Register = () => {
   );
 
   return (
-    <div className="h-auto md:h-screen flex md:items-center ">
+    <div className="h-auto min-h-screen md:h-screen flex md:items-center ">
       <div
         className="relative w-[40%] p-14 hidden lg:flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
         style={{
