@@ -63,7 +63,7 @@ const Navbar = () => {
 
       return (
         <Link href={redirectPath} onClick={handleNavClick}>
-          <button className={classes}>Account</button>
+          <button className={classes}>My Account</button>
         </Link>
       );
     } else {
