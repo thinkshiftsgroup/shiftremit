@@ -20,7 +20,7 @@ const SideHero = () => {
   }, [ratesData, isLoading, fetchRates]);
 
   const moniepointRate = ratesData?.moniepoint?.rate || 0;
-  const shiftRemitRate = moniepointRate + 20;
+  const shiftRemitRate = moniepointRate + 10;
 
   const rateDisplay = shiftRemitRate.toFixed(2);
   return (

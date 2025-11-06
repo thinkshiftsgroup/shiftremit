@@ -11,8 +11,8 @@ const Transfer = () => {
   const { ratesData, isLoading } = useRatesStore();
 
   const moniepointRate = ratesData?.moniepoint?.rate || 0;
-  const conversionRate = moniepointRate + 20;
-  const isRateReady = conversionRate > 20 && !isLoading;
+  const conversionRate = moniepointRate + 10;
+  const isRateReady = conversionRate > 10 && !isLoading;
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
