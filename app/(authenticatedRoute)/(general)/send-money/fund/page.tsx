@@ -84,7 +84,7 @@ const Fund = () => {
                           htmlFor=""
                           className="text-sm font-semibold text-[#072032] font-poppins"
                         >
-                          Reference (optional)
+                          Your Reference (optional)
                         </label>
                         <input
                           type="text"
@@ -125,8 +125,8 @@ const Fund = () => {
                           </span>
                         </p>
                         <p>
-                          Transfer Reference:{" "}
-                          <span className="text-base font-medium">Sr3454</span>
+                         Use Transfer Reference:{" "}
+                          <span className="text-base font-medium">Sr342454</span>
                         </p>
 
                         <button

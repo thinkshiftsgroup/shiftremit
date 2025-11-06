@@ -19,14 +19,10 @@ const Hero = () => {
       <div className="mx-auto relative">
         <Navbar />
         <div className="h-auto container px-3 md:px-7 lg:px-20 mx-auto min-h-[90vh] flex items-center justify-center">
-          <div
-            className=" flex items-start flex-col lg:flex-row lg:gap-20 md:gap-5 justify-between"
-          >
-            <div className="w-full lg:w-1/2 lg:min-h-screen mt-10 md:mt-20 lg:mt-0  flex  justify-start items-start">
-              <div className="flex lg:flex flex-col items-center lg:items-start justify-center lg:min-h-screen">
-                <p className="text-lg text-white font-poppins">
-                  Great Value
-                </p>
+          <div className=" flex items-center flex-col lg:flex-row gap-20 justify-between">
+            <div className="w-full lg:w-1/2 lg:h-screen mt-10 md:mt-20 lg:mt-0  flex  justify-content items-center">
+              <div className="flex lg:block flex-col items-center jusitfy-center">
+                <p className="text-lg text-white font-poppins">Great Value</p>
                 <h1 className="capitalize text-center lg:text-left text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
                   Send Money. <br className="hidden md:inline" /> No Fees.
                 </h1>

@@ -103,7 +103,7 @@ const DocUpload = () => {
             htmlFor="fileUpload"
             className="font-poppins font-semibold text-sm text-[#454745] "
           >
-            CAC Status Report
+            Company Status Report
           </label>
 
           <label

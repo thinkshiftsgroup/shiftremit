@@ -6,7 +6,11 @@ import { useState } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
 
 interface TransferProps {
-  onRateUpdate: (label: string) => void;
+  onRateUpdate: (
+    label: string,
+    sendingAmount: string,
+    fromCurrency: string
+  ) => void;
 }
 
 const Transfer = ({ onRateUpdate }: TransferProps) => {
@@ -49,12 +53,20 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   }, [fromCurrency, toCurrency, ratesData, isLoading]);
 
   useEffect(() => {
-    if (isRateReady) {
-      onRateUpdate(rateLabel);
-    } else if (!isLoading) {
-      onRateUpdate("Rate error");
+    let label = rateLabel;
+    if (!isRateReady && !isLoading) {
+      label = "Rate error";
     }
-  }, [rateLabel, isRateReady, isLoading, onRateUpdate]);
+    // Pass the rate label, sending amount, and from currency to the parent
+    onRateUpdate(label, sending_amount, fromCurrency);
+  }, [
+    rateLabel,
+    isRateReady,
+    isLoading,
+    onRateUpdate,
+    sending_amount,
+    fromCurrency,
+  ]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
@@ -247,13 +259,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               name="receive_amount"
               id="receive_amount"
               value={receive_amount}
-              placeholder={
-                isRateReady
-                  ? initialReceiveAmount
-                  : isLoading
-                  ? "Loading..."
-                  : "Rate error"
-              }
+              placeholder={initialReceiveAmount}
               onChange={handleReceiveAmountChange}
               disabled={!isRateReady}
               aria-label="Receive Money"

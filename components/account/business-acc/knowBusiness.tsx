@@ -181,7 +181,7 @@ focus:border-main focus:outline-none transition-colors"
             htmlFor="lastname"
             className="font-poppins font-semibold text-sm text-[#454745] "
           >
-            Zip Code*
+            Zip Code/Post Code*
           </label>
 
           <input
@@ -196,7 +196,7 @@ focus:border-main focus:outline-none transition-colors"
             htmlFor="lastname"
             className="font-poppins font-semibold text-sm text-[#454745] "
           >
-            State*
+            State/Province*
           </label>
 
           <input
@@ -242,7 +242,7 @@ focus:border-main focus:outline-none transition-colors"
             htmlFor="lastname"
             className="font-poppins flex items-center gap-1 font-semibold text-sm text-[#454745] "
           >
-            Company Website*{" "}
+            Company Website
             <FaCircleQuestion size={16} className="text-[#454745]" />
           </label>
 

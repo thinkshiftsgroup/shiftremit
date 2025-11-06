@@ -1,6 +1,6 @@
 "use client";
 import CompareRates from "@/components/landing/hero/compareRates";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CgArrowTopRight } from "react-icons/cg";
 import { IoIosCheckmark } from "react-icons/io";
 import DashTf from "./dashTransfer";
@@ -24,6 +24,15 @@ const SendMoneyUI = () => {
   const handleRateUpdate = (label: string) => {
     setRateLabelFromTransfer(label);
   };
+  const totalAmountDisplay = useMemo(() => {
+    if (rateLabelFromTransfer && rateLabelFromTransfer.includes("=")) {
+      const parts = rateLabelFromTransfer.split("=");
+
+      const sentPart = parts[0].trim();
+      return sentPart;
+    }
+    return "1 GBP";
+  }, [rateLabelFromTransfer]);
 
   return (
     <div className="p-10">
