@@ -87,24 +87,14 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18px"
-          height="18px"
+          width="18"
+          height="18"
           viewBox="0 0 24 24"
         >
-          {" "}
-          <g
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            stroke-width="1.5"
-          >
-            {" "}
-            <path
-              strokeLinejoin="round"
-              d="M17 12h-7m0 0l3 3m-3-3l3-3"
-            ></path>{" "}
-            <path d="M7 16V8m15 4c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"></path>{" "}
-          </g>{" "}
+          <path
+            fill="currentColor"
+            d="M14.77 15.5h2.96q.213 0 .357-.144t.144-.356V9q0-.213-.144-.356t-.356-.144h-2.962q-.212 0-.356.144T14.269 9v6q0 .213.144.356t.356.144m.5-1v-5h1.962v5zm-6.23 1H12q.213 0 .356-.144T12.5 15V9q0-.213-.144-.356T12 8.5H9.039q-.213 0-.357.144T8.54 9v6q0 .213.143.356t.357.144m.5-1v-5h1.96v5zm-2.77.5V9q0-.213-.144-.356T6.27 8.5t-.356.144T5.769 9v6q0 .213.144.356q.144.144.357.144t.356-.144t.143-.356M3 17.384V6.616q0-.667.475-1.141T4.615 5h14.77q.666 0 1.14.475T21 6.615v10.77q0 .666-.475 1.14t-1.14.475H4.615q-.666 0-1.14-.475T3 17.386M4.616 18h14.769q.269 0 .442-.173t.173-.442V6.615q0-.269-.173-.442T19.385 6H4.615q-.269 0-.442.173T4 6.616v10.769q0 .269.173.442t.443.173M4 18V6z"
+          />
         </svg>
       ),
       title: "FX Rates",
@@ -115,24 +105,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18px"
-          height="18px"
-          viewBox="0 0 24 24"
+          width="23"
+          height="23"
+          viewBox="0 0 48 48"
         >
-          {" "}
-          <g
+          <path
             fill="none"
             stroke="currentColor"
-            strokeLinecap="round"
-            stroke-width="1.5"
-          >
-            {" "}
-            <path
-              strokeLinejoin="round"
-              d="M17 12h-7m0 0l3 3m-3-3l3-3"
-            ></path>{" "}
-            <path d="M7 16V8m15 4c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12s0-7.071 1.464-8.536C4.93 2 7.286 2 12 2s7.071 0 8.535 1.464c.974.974 1.3 2.343 1.41 4.536"></path>{" "}
-          </g>{" "}
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6.5 15.402H22v15.5m0-15.5l-17.5 17.5m37-.304H26v-15.5m0 15.5l17.5-17.5"
+            stroke-width="2"
+          />
         </svg>
       ),
       title: "Transactions",
