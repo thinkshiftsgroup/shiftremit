@@ -210,8 +210,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           />{" "}
         </svg>
       ),
-      title: "Partner",
+      title: "Partner Business",
       link: "/customer/partner-space",
+      subLinks: [
+        { title: "Partner Space", link: "/customer/partner-space" },
+        { title: "Transaction Logs", link: "/partner/transactions" },
+      ],
       showFor: ["user", "admin"],
     },
     {
