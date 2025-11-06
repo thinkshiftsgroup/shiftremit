@@ -184,7 +184,7 @@ const PaymentSwiper = () => {
         setCurrentPayment(generateRandomPayment());
         setIsShuffling(false);
       }, 300);
-    }, 4000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, []);

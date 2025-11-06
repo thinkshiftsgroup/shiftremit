@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { IoMailOutline } from "react-icons/io5";
 import { BsFillSendFill } from "react-icons/bs";
-import { FaDiscord } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -108,7 +108,7 @@ const Footer = () => {
               Find us on social media
             </p> */}
             <div className="*:cursor-pointer *:hover:text-main *:text-gray-500 *:w-4 *:h-4 flex items-center gap-4">
-              <FaDiscord />
+              <FaXTwitter />
               <FaFacebookF />
               <FaYoutube />
               <FaLinkedinIn />

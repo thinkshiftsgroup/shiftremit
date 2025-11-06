@@ -227,7 +227,7 @@ const Register = () => {
   });
   const RegisterForm = useMemo(
     () => (
-      <form onSubmit={handleSubmit} className="w-[80%] space-y-3">
+      <form onSubmit={handleSubmit} className="w-[90%] lg:w-[80%] space-y-3">
         <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
           Create an account
         </h1>
@@ -236,7 +236,7 @@ const Register = () => {
             {error}
           </div>
         )}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="md:grid grid-cols-2 gap-5">
           <div className="space-y-3">
             <label
               htmlFor="firstname"
@@ -465,9 +465,9 @@ const Register = () => {
   );
 
   return (
-    <div className="h-screen flex ">
+    <div className="h-auto md:h-screen flex md:items-center ">
       <div
-        className="relative w-[40%] p-14 flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
+        className="relative w-[40%] p-14 hidden lg:flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
             "url('https://transfermax.springsoftit.com/demo/files/image/classic/cms/673bbb7d868e7-1731967869.jpg')",
@@ -539,9 +539,30 @@ const Register = () => {
         </div>
       </div>
 
-      <div className="w-[60%] flex flex-col justify-center items-center bg-white">
+      <div className="w-full lg:w-[60%] flex flex-col justify-center items-center bg-white py-5 lg:py-0">
+
+        <div
+          onClick={() => router.replace("/")}
+          className="flex lg:hidden items-center justify-start gap-1 cursor-pointer w-[90%] mb-3"
+        >
+          <Image
+            src="/images/shiftremit-logo.png"
+            width={100}
+            height={100}
+            alt="shiftremit-logo"
+            className="w-10 h-10 object-cover"
+          />
+          <div>
+            <h1 className="text-xl pt-3 font-bold font-poppins text-black">
+              Shift<span className="text-main">Remit</span>
+            </h1>
+            <p className="text-[8px] italic text-black font-dm-sans">
+              Unbeatable Transfer Rates
+            </p>
+          </div>
+        </div>
         {showVerification ? (
-          <div className="w-[80%] space-y-3 flex flex-col items-center">
+          <div className="w-[90%] lg:w-[80%] space-y-3 flex flex-col items-center">
             <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
               Verify Your Email
             </h1>
@@ -552,11 +573,10 @@ const Register = () => {
             )}
             {resendMessage && (
               <div
-                className={`p-3 text-sm font-semibold rounded-md w-full text-center ${
-                  error
+                className={`p-3 text-sm font-semibold rounded-md w-full text-center ${error
                     ? "text-red-700 bg-red-100"
                     : "text-green-700 bg-green-100"
-                }`}
+                  }`}
               >
                 {resendMessage}
               </div>
@@ -565,9 +585,8 @@ const Register = () => {
             <p className="font-poppins text-center text-sm pt-4">
               Didn't receive the code?
               <span
-                className={`cursor-pointer font-bold ${
-                  isResending ? "text-gray-500" : "text-main"
-                }`}
+                className={`cursor-pointer font-bold ${isResending ? "text-gray-500" : "text-main"
+                  }`}
                 onClick={isResending ? undefined : handleResendCode}
                 role="button"
                 aria-disabled={isResending}

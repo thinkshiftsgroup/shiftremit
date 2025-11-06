@@ -54,7 +54,7 @@ const LoginScrn = () => {
   return (
     <div className="h-screen flex ">
       <div
-        className="relative w-[40%] p-14 flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
+        className="relative w-[40%] p-14 hidden lg:flex flex-col justify-between h-screen bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
             "url('https://transfermax.springsoftit.com/demo/files/image/classic/cms/673bbb7d868e7-1731967869.jpg')",
@@ -125,8 +125,28 @@ const LoginScrn = () => {
           </div>
         </div>
       </div>
-      <div className="w-[60%] flex flex-col justify-center items-center bg-white">
-        <form onSubmit={handleSubmit} className="w-[80%] space-y-3">
+      <div className="w-full lg:w-[60%] flex flex-col justify-center items-center bg-white">
+        <div
+          onClick={() => router.replace("/")}
+          className="flex lg:hidden items-center justify-start gap-1 cursor-pointer w-[90%] mb-3"
+        >
+          <Image
+            src="/images/shiftremit-logo.png"
+            width={100}
+            height={100}
+            alt="shiftremit-logo"
+            className="w-10 h-10 object-cover"
+          />
+          <div>
+            <h1 className="text-xl pt-3 font-bold font-poppins text-black">
+              Shift<span className="text-main">Remit</span>
+            </h1>
+            <p className="text-[8px] italic text-black font-dm-sans">
+              Unbeatable Transfer Rates
+            </p>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} className="w-[90%] md:w-[80%] space-y-3">
           <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
             Log in to your account
           </h1>
