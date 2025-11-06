@@ -203,7 +203,7 @@ const LoginScrn = () => {
               </div>
             </div>
             <p
-              onClick={() => router.push("/login/forgot-password")}
+              onClick={() => router.push("/forgot-password")}
               className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins"
             >
               Forgot Password?
