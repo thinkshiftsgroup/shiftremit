@@ -311,14 +311,14 @@ focus:border-main focus:outline-none transition-colors"
             id="lastname"
             name="lastname"
             type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+            className="font-poppins text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             required
           />
         </div>
       </div>
 
-      <button className="font-poppins text-sm border border-[#d1d5db80] text-[#454745] p-2 rounded-sm bg-[#e6e5e5]">
+      <button className="font-poppins mt-3 text-sm border border-[#d1d5db80] text-[#454745] p-2 rounded-sm bg-[#e6e5e5]">
         Save and Add Another Shareholder +{" "}
       </button>
       <hr className="my-4" />
