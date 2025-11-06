@@ -126,9 +126,9 @@ const Partner = () => {
             <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Request Money <FaPlus />
             </button>
-            <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            {/* <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Exchange Money <FaArrowDown />
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="flex gap-5">
