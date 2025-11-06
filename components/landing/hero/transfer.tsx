@@ -5,7 +5,11 @@ import DropdownComponent from "./dropDown";
 import { useState } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
 
-const Transfer = () => {
+interface TransferProps {
+  onRateUpdate: (label: string) => void;
+}
+
+const Transfer = ({ onRateUpdate }: TransferProps) => {
   const [sending_amount, setSendingAmount] = useState("1");
   const [receive_amount, setReceiveAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("GBP");
@@ -43,6 +47,14 @@ const Transfer = () => {
       rateLabel: label,
     };
   }, [fromCurrency, toCurrency, ratesData, isLoading]);
+
+  useEffect(() => {
+    if (isRateReady) {
+      onRateUpdate(rateLabel);
+    } else if (!isLoading) {
+      onRateUpdate("Rate error");
+    }
+  }, [rateLabel, isRateReady, isLoading, onRateUpdate]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
@@ -187,9 +199,6 @@ const Transfer = () => {
             </button>
           </div>
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
-        </div>
-        <div className="w-full text-center text-sm font-medium text-white p-2 md:absolute md:top-[-30px] md:left-0 md:w-full">
-          {isRateReady ? rateLabel : "Checking live rates..."}
         </div>
 
         <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
