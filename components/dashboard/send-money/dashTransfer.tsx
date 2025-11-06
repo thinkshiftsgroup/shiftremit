@@ -4,7 +4,11 @@ import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useRatesStore } from "@/stores/useRatesStore";
 
-const DashTf = () => {
+interface DashTfProps {
+  onRateUpdate: (label: string) => void;
+}
+
+const DashTf = ({ onRateUpdate }: DashTfProps) => {
   const [sending_amount, setSendingAmount] = useState("1");
   const [get_amount, setGetAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("GBP");
@@ -12,7 +16,7 @@ const DashTf = () => {
 
   const { ratesData, isLoading } = useRatesStore();
 
-  const NGN_TO_GBP_RATE = 1973;
+  const NGN_TO_GBP_RATE = 1963;
 
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
     let baseRate = ratesData?.moniepoint?.rate || 0;
@@ -32,6 +36,8 @@ const DashTf = () => {
       rate = 1;
       ready = true;
       label = `1 ${fromCurrency} = 1.00 ${toCurrency}`;
+    } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
+      label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : "Rate Loading...";
     }
 
     return {
@@ -41,6 +47,14 @@ const DashTf = () => {
       precision: precision,
     };
   }, [fromCurrency, toCurrency, ratesData, isLoading]);
+
+  useEffect(() => {
+    if (isRateReady) {
+      onRateUpdate(rateLabel);
+    } else if (!isLoading) {
+      onRateUpdate("Rate error");
+    }
+  }, [rateLabel, isRateReady, isLoading, onRateUpdate]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {

@@ -9,6 +9,7 @@ import { useRatesStore } from "@/stores/useRatesStore";
 
 const SendMoneyUI = () => {
   const [isBank, setIsBank] = useState(true);
+  const [rateLabelFromTransfer, setRateLabelFromTransfer] = useState("");
 
   const router = useRouter();
 
@@ -20,22 +21,13 @@ const SendMoneyUI = () => {
     }
   }, [ratesData, isLoading, fetchRates]);
 
-  const moniepointRate = ratesData?.moniepoint?.rate || 0;
-
-  const shiftRemitRate = moniepointRate + 8;
-
-  const rateDisplay =
-    shiftRemitRate > 20
-      ? `1 GBP = ${shiftRemitRate.toFixed(2)} NGN`
-      : isLoading
-      ? "Fetching rate..."
-      : error
-      ? "Rate error"
-      : "1 GBP = 0.00 NGN";
+  const handleRateUpdate = (label: string) => {
+    setRateLabelFromTransfer(label);
+  };
 
   return (
     <div className="p-10">
-      <DashTf />
+      <DashTf onRateUpdate={handleRateUpdate} />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
         <div className="flex justify-between">
@@ -58,7 +50,13 @@ const SendMoneyUI = () => {
         </div>
         <div className="flex font-poppins justify-between">
           <span>Rate</span>
-          <span>{rateDisplay}</span>
+          <span>
+            {isLoading && !ratesData
+              ? "Fetching rate..."
+              : error
+              ? "Rate error"
+              : rateLabelFromTransfer || "Loading..."}
+          </span>
         </div>
         <div className="flex justify-between">
           <span>Send Fee</span>
