@@ -143,12 +143,12 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   return (
     <>
       <div className="relative font-poppins flex flex-wrap justify-between items-start mb-4">
-        <div className="w-[calc(50%-16px)] ">
+        <div className="w-full nd:w-[calc(50%-16px)] ">
           <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You send exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between border border-black ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative md:flex-wrap items-center justify-between border border-black ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -162,7 +162,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
               }
               aria-label="Sending Money"
               disabled={!isRateReady}
-              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent ${
+              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-auto ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />
@@ -181,7 +181,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           <p id="sendingError" className="text-deep-danger text-sm mt-1"></p>
         </div>
 
-        <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5">
+        <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
             className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-white
                         before:absolute 
@@ -212,12 +212,12 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           </span>
         </div>
 
-        <div className="w-[calc(50%-16px)]">
+        <div className="w-full nd:w-[calc(50%-16px)]">
           <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You get exactly
           </label>
           <div
-            className="flex relative flex-wrap items-center justify-between border border-black pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative md:flex-wrap items-center justify-between border border-black pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
@@ -231,7 +231,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
               placeholder={placeholderReceive}
               aria-label="Receiving Money"
               disabled={!isRateReady}
-              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent ${
+              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-auto ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />

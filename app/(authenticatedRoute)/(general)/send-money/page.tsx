@@ -144,21 +144,21 @@ const SendMoney = () => {
 
   return (
     <SideNav>
-      <div className="my-7 bg-white  rounded-lg mx-auto ">
+      <div className="my-4 md:my-7 bg-white rounded-lg mx-auto ">
         <SendSteps step={1} />
 
-        <div className="my-10">
-          <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+        <div className="mt-5 md:my-10">
+          <h1 className="text-3xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Send Money
           </h1>
-          <p className="font-poppins text-lg text-[#454745] mb-3 text-center">
+          <p className="font-poppins md:text-lg text-[#454745] mb-3 text-center">
             Fast and reliable international money transfer app.
           </p>
         </div>
 
         <SendMoneyUI />
       </div>
-      <div className="py-3.5 px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
+      <div className="px-3 py-4 md:py-3.5 md:px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
         <WalletSection cards={dynamicFiatData} rateDifference={difference} />
       </div>
     </SideNav>
