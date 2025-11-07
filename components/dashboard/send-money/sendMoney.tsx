@@ -6,6 +6,8 @@ import { IoIosCheckmark } from "react-icons/io";
 import DashTf from "./dashTransfer";
 import { useRouter } from "next/navigation";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { toast } from "sonner";
+import { useTransferStore } from "@/stores/useTransaferStore";
 
 const SendMoneyUI = () => {
   const [isBank, setIsBank] = useState(true);
@@ -14,7 +16,7 @@ const SendMoneyUI = () => {
   const router = useRouter();
 
   const { ratesData, isLoading, error, fetchRates } = useRatesStore();
-  const [sendingAmount, setSendingAmount] = useState("1");
+  const [sendingAmount, setSendingAmount] = useState("10");
   const [fromCurrency, setFromCurrency] = useState("GBP");
 
   useEffect(() => {
@@ -37,6 +39,8 @@ const SendMoneyUI = () => {
     sendingAmount === ""
       ? `0 ${fromCurrency}`
       : `${sendingAmount} ${fromCurrency}`;
+
+  const { setTransfer } = useTransferStore();
 
   return (
     <div className="p-5 md:p-10">
@@ -87,7 +91,17 @@ const SendMoneyUI = () => {
           <p className="font-semibold text-xl">{totalAmountDisplay}</p>
         </div>
         <button
-          onClick={() => router.push("/send-money/recipients")}
+          onClick={() => {
+            if (parseFloat(sendingAmount) < 10) {
+              toast.error("Minimum transferable amount is 10 GBP");
+              return;
+            }
+            setTransfer({
+              amount: parseInt(sendingAmount),
+              fromCurrency: fromCurrency,
+            });
+            router.push("/send-money/recipients");
+          }}
           className="
     text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]

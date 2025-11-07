@@ -195,17 +195,7 @@ const Recipients = () => {
             <FaArrowLeft size={16} />
             Back
           </button>
-          {/* <button
-            
-            className="
-    text-white font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
-    transition-all duration-300 ease-in-out
-    hover:border-transparent flex items-center gap-2
-  "
-          >
-            Next <CgArrowRight />
-          </button> */}
+        
         </div>
       </div>
     </SideNav>
