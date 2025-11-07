@@ -21,7 +21,6 @@ const FXRates = () => {
     pageSize: 5,
   });
   const history = data?.data || [];
-  console.log(data, "jis");
 
   useEffect(() => {
     if (!adminRateData && !isLoading) {
@@ -125,27 +124,31 @@ const FXRates = () => {
                 </div>
               )}
 
-              <div className="flex items-center justify-between mt-4">
-                <button
-                  disabled={page === 1}
-                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                  className="p-2 disabled:opacity-40"
-                >
-                  <ChevronLeft />
-                </button>
+              {loadHistory ? (
+                ""
+              ) : (
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronLeft />
+                  </button>
 
-                <p className="text-xs font-poppins text-main-dark">
-                  Page {data.meta.page} of {data.meta.totalPages}
-                </p>
+                  <p className="text-xs font-poppins text-main-dark">
+                    Page {data?.meta.page} of {data?.meta.totalPages}
+                  </p>
 
-                <button
-                  disabled={page === data.meta.totalPages}
-                  onClick={() => setPage((p) => p + 1)}
-                  className="p-2 disabled:opacity-40"
-                >
-                  <ChevronRight size={20} className="text-main-dark-II" />
-                </button>
-              </div>
+                  <button
+                    disabled={page === data?.meta.totalPages}
+                    onClick={() => setPage((p) => p + 1)}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronRight size={20} className="text-main-dark-II" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
           {tab === "pounds" && (
@@ -191,27 +194,31 @@ const FXRates = () => {
                 </div>
               )}
 
-              <div className="flex items-center justify-between mt-4">
-                <button
-                  disabled={page === 1}
-                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                  className="p-2 disabled:opacity-40"
-                >
-                  <ChevronLeft />
-                </button>
+              {loadHistory ? (
+                ""
+              ) : (
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronLeft />
+                  </button>
 
-                <p className="text-xs font-poppins text-main-dark">
-                  Page {data.meta.page} of {data.meta.totalPages}
-                </p>
+                  <p className="text-xs font-poppins text-main-dark">
+                    Page {data?.meta.page} of {data?.meta.totalPages}
+                  </p>
 
-                <button
-                  disabled={page === data.meta.totalPages}
-                  onClick={() => setPage((p) => p + 1)}
-                  className="p-2 disabled:opacity-40"
-                >
-                  <ChevronRight size={20} className="text-main-dark-II" />
-                </button>
-              </div>
+                  <button
+                    disabled={page === data?.meta.totalPages}
+                    onClick={() => setPage((p) => p + 1)}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronRight size={20} className="text-main-dark-II" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
