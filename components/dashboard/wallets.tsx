@@ -23,7 +23,7 @@ export const WalletSection = ({
         </h1>
       </div>
 
-      <div ref={containerRef} className="grid grid-cols-5 gap-5">
+      <div ref={containerRef} className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
         {cards.map((card: any, index: any) => (
           <div
             key={index}
