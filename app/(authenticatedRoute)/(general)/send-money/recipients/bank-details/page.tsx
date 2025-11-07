@@ -2,25 +2,54 @@
 import SendSteps from "@/components/dashboard/send-money/sendSteps";
 import SideNav from "@/components/dashboard/sideNav";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { FaArrowLeft } from "react-icons/fa6";
+import { useRecipient } from "../../../recipients/useRecipient";
 
+interface BankI {
+  id: number;
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  pay_with_bank: boolean;
+  supports_transfer: boolean;
+  available_for_direct_debit: boolean;
+  active: boolean;
+  country: string;
+  currency: string;
+  type: string;
+  is_deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 const BankDetails = () => {
   const router = useRouter();
+
+  const [accountNumber, setAccountNumber] = useState("");
+  const [bankCode, setBankCode] = useState("");
+
+  const { getBanks, getBankDetails } = useRecipient();
+  const {
+    mutate: resolveAccount,
+    data: bankDetails,
+    isPending: resolvingAccount,
+  } = getBankDetails({ accountNumber, bankCode });
+
+  useEffect(() => {
+    if (accountNumber.length === 10 && bankCode) {
+      resolveAccount();
+    }
+  }, [accountNumber, bankCode, resolveAccount]);
+
   return (
     <SideNav>
       <div className="my-7 relative bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
 
         <div className="relative">
-          <div
-            className="flex items-center my-5 ml-10 font-poppins gap-2 text-base cursor-pointer"
-            onClick={() => router.back()}
-          >
-            <FaArrowLeft size={16} />
-            Back
-          </div>
-
           <div className="my-10 ">
             <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
               Enter their account details
@@ -37,65 +66,90 @@ const BankDetails = () => {
             <div className="space-y-2">
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Bank name
                 </label>
                 <select
-                  name=""
-                  id=""
-                  className="rounded-md text-base border-[#072032] font-poppins p-2 border w-full mt-1"
+                  name="bank name"
+                  id="bank name"
+                  onChange={(e) => setBankCode(e.target.value)}
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 >
-                  <option value="">Please choose recipient's bank</option>
+                  {getBanks.isLoading ? (
+                    <option value="">Please choose recipient's bank</option>
+                  ) : (
+                    getBanks.data.data.map((bank: BankI) => {
+                      return <option value={bank.code}>{bank.name}</option>;
+                    })
+                  )}
                 </select>
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Account number
                 </label>
                 <input
+                  id="account-number"
+                  value={accountNumber}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                    setAccountNumber(val);
+                  }}
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  maxLength={10}
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>{" "}
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Fullname of the account holder
                 </label>
                 <input
+                  value={
+                    resolvingAccount
+                      ? "Please wait..."
+                      : bankDetails?.data?.account_name || ""
+                  }
+                  readOnly
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Their email (optional)
                 </label>
                 <input
                   type="email"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Purpose
                 </label>
                 <textarea
                   placeholder="Purpose"
-                  className="rounded-md font-poppins text-base h-[100px] border-[#072032] p-2 border w-full mt-1"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div className="flex justify-end">
@@ -119,6 +173,15 @@ const BankDetails = () => {
               Continue
             </button>
           </div>
+            <div className="flex justify-between p-5">
+              <button
+                onClick={() => router.back()}
+                className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+              >
+                <FaArrowLeft size={16} />
+                Back
+              </button>
+            </div>
         </div>
       </div>
     </SideNav>
