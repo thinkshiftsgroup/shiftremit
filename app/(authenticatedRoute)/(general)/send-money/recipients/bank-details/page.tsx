@@ -76,6 +76,7 @@ const BankDetails = () => {
         recipientFullName: bankDetails?.data?.account_name,
         purpose: purpose,
         isRecipientBusinessAccount: isBusiness,
+        convertedNGNAmount: transfer?.convertedNGNAmount,
       },
       {
         onSuccess: (data) => {

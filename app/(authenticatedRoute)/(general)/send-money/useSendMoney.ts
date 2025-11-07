@@ -16,6 +16,7 @@ export const useSendMoney = () => {
       recipientFullName,
       purpose,
       isRecipientBusinessAccount,
+      convertedNGNAmount
     }: TransferData) => {
       const res = await apiInstance.post("/api/bank-transfer/request", {
         amount,

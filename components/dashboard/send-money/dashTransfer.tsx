@@ -118,7 +118,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
         setGetAmount((numericValue * conversionRate).toFixed(precision));
         setTransfer({
-          recipientNGN: parseInt(
+          convertedNGNAmount: parseInt(
             (numericValue * conversionRate).toFixed(precision)
           ),
         });
@@ -255,10 +255,10 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           >
             <input
               type="text"
-              name="sending_amount"
+              name="receiving_amount"
               value={get_amount}
               onChange={handleReceiveAmountChange}
-              id="sending_amount"
+              id="receiving_amount"
               placeholder={placeholderReceive}
               aria-label="Receiving Money"
               disabled={!isRateReady}
