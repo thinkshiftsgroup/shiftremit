@@ -27,13 +27,13 @@ export const WalletSection = ({
         {cards.map((card: any, index: any) => (
           <div
             key={index}
-            className="p-4 flex-none shrink-0 bg-cover bg-center border border-gray-200 rounded-lg"
+            className="py-2 px-3.5 md:p-4 flex-none shrink-0 bg-cover bg-center border border-gray-200 rounded-lg"
             style={{
               backgroundImage:
                 "url('https://transfermax.springsoftit.com/demo/files/image/classic/constant_image/wallet-bg2.jpg')",
             }}
           >
-            <div className="flex items-center justify-between gap-2 mb-4">
+            <div className="flex items-center justify-between gap-2 mb-2 md:mb-4">
               <div className="flex items-center gap-1">
                 <img
                   src={card.country}
