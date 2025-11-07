@@ -63,15 +63,15 @@ const IndiAcc = () => {
                 />
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="font-poppins text-2xl font-semibold">
+                <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
+                  <h1 className="font-poppins md:text-2xl font-semibold">
                     Joshua Israel
                   </h1>
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>Individual Account</p>
                   </span>
                 </div>
-                <div className="flex pt-2 items-center gap-2">
+                <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
                     josh****el@gmail.com
