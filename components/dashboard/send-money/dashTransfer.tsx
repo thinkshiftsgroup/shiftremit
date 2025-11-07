@@ -6,7 +6,11 @@ import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
 
 interface DashTfProps {
-  onRateUpdate: (label: string) => void;
+  onRateUpdate: (
+    label: string,
+    sendingAmount: string,
+    fromCurrency: string
+  ) => void;
 }
 
 const DashTf = ({ onRateUpdate }: DashTfProps) => {
@@ -29,7 +33,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
     let baseRate = ratesData?.moniepoint?.rate || 0;
     let rate = baseRate + benchmarkGBP;
-    let ready = rate > 8 && !isLoading;
+    let ready = rate > benchmarkGBP && !isLoading;
     let label = ready
       ? `1 ${fromCurrency} = ${rate.toFixed(2)} ${toCurrency}`
       : "Rate Loading...";
@@ -57,12 +61,19 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   }, [fromCurrency, toCurrency, ratesData, isLoading]);
 
   useEffect(() => {
-    if (isRateReady) {
-      onRateUpdate(rateLabel);
-    } else if (!isLoading) {
-      onRateUpdate("Rate error");
+    let label = rateLabel;
+    if (!isRateReady && !isLoading) {
+      label = "Rate error";
     }
-  }, [rateLabel, isRateReady, isLoading, onRateUpdate]);
+    onRateUpdate(label, sending_amount, fromCurrency);
+  }, [
+    rateLabel,
+    isRateReady,
+    isLoading,
+    onRateUpdate,
+    sending_amount,
+    fromCurrency,
+  ]);
 
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
@@ -71,7 +82,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
         return initialAmount.toFixed(2);
       }
       return (initialAmount * conversionRate).toFixed(
-        conversionRate === 1 / rateNGN ? benchmarkGBP : 2
+        conversionRate === 1 / rateNGN ? 8 : 2
       );
     }
     return "";
@@ -100,7 +111,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
       } else {
         received = amount * conversionRate;
         if (fromCurrency === "NGN" && toCurrency === "GBP") {
-          precision = benchmarkGBP;
+          precision = 8;
         }
       }
       setGetAmount(received.toFixed(precision));
