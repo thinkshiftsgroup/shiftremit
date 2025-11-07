@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 
 import { FaArrowLeft } from "react-icons/fa6";
 import { useRecipient } from "../../../recipients/useRecipient";
+import { useTransferStore } from "@/stores/useTransaferStore";
+import { useSendMoney } from "../../useSendMoney";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface BankI {
   id: number;
@@ -27,11 +31,17 @@ interface BankI {
 }
 const BankDetails = () => {
   const router = useRouter();
-
   const [accountNumber, setAccountNumber] = useState("");
   const [bankCode, setBankCode] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [email, setEmail] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [isBusiness, setIsBusiness] = useState(false);
 
   const { getBanks, getBankDetails } = useRecipient();
+  const { setTransfer } = useTransferStore();
+  const { sendTfDetails } = useSendMoney();
+  const transfer = useTransferStore((state) => state.transfer);
   const {
     mutate: resolveAccount,
     data: bankDetails,
@@ -43,6 +53,44 @@ const BankDetails = () => {
       resolveAccount();
     }
   }, [accountNumber, bankCode, resolveAccount]);
+
+  const handleBankDetails = () => {
+    setTransfer({
+      recipientBankName: bankName,
+      recipientAccountNumber: accountNumber,
+      recipientFullName: bankDetails?.data?.account_name,
+      recipientEmail: email,
+      purpose: purpose,
+      isRecipientBusinessAccount: isBusiness,
+    });
+    console.log(transfer, "td deets");
+
+    sendTfDetails.mutate(
+      {
+        amount: transfer?.amount,
+        fromCurrency: "GBP",
+        toCurrency: "NGN",
+        recipientBankName: bankName,
+        recipientEmail: email,
+        recipientAccountNumber: accountNumber,
+        recipientFullName: bankDetails?.data?.account_name,
+        purpose: purpose,
+        isRecipientBusinessAccount: isBusiness,
+      },
+      {
+        onSuccess: (data) => {
+          router.push("/send-money/fund");
+          toast.success(data?.message, data?.nextStep);
+
+          setTransfer({
+            transferReference: data?.transferReference,
+            GBPAccountNumber: data?.GBP_Payment_Details?.GBPAccountNumber,
+            GBPAccountName: data?.GBP_Payment_Details?.GBPAccountName,
+          });
+        },
+      }
+    );
+  };
 
   return (
     <SideNav>
@@ -74,7 +122,11 @@ const BankDetails = () => {
                 <select
                   name="bank name"
                   id="bank name"
-                  onChange={(e) => setBankCode(e.target.value)}
+                  onChange={(e) => {
+                    const { name, code } = JSON.parse(e.target.value);
+                    setBankCode(code);
+                    setBankName(name);
+                  }}
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 >
@@ -82,7 +134,17 @@ focus:border-main focus:outline-none transition-colors"
                     <option value="">Please choose recipient's bank</option>
                   ) : (
                     getBanks.data.data.map((bank: BankI) => {
-                      return <option value={bank.code}>{bank.name}</option>;
+                      return (
+                        <option
+                          key={bank.id}
+                          value={JSON.stringify({
+                            name: bank.name,
+                            code: bank.code,
+                          })}
+                        >
+                          {bank.name}
+                        </option>
+                      );
                     })
                   )}
                 </select>
@@ -134,6 +196,8 @@ focus:border-main focus:outline-none transition-colors"
                   Their email (optional)
                 </label>
                 <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -147,6 +211,8 @@ focus:border-main focus:outline-none transition-colors"
                   Purpose
                 </label>
                 <textarea
+                  value={purpose}
+                  onChange={(e) => setPurpose(e.target.value)}
                   placeholder="Purpose"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -157,31 +223,46 @@ focus:border-main focus:outline-none transition-colors"
                   <p className="font-poppins text-xs">
                     Is this a business bank account
                   </p>
-                  <input type="checkbox" className="accent-main w-3.5 h-3.5" />
+                  <input
+                    type="checkbox"
+                    checked={isBusiness}
+                    onChange={(e) => setIsBusiness(e.target.checked)}
+                    className="accent-main w-3.5 h-3.5"
+                  />
                 </div>
               </div>
             </div>
             <button
-              onClick={() => router.push("/send-money/fund")}
+              disabled={
+                resolvingAccount ||
+                !accountNumber ||
+                !bankName ||
+                !bankDetails?.data?.account_name
+              }
+              onClick={handleBankDetails}
               className="
-    text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
+    text-white w-full font-poppins flex justify-center disabled:cursor-not-allowed border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    bg-linear-to-l from-[#813FD6] disabled:from-[#813FD6]/30 to-[#301342] disabled:to-[#301342]/30
     transition-all duration-300 ease-in-out
     hover:border-transparent my-5 text-center 
   "
             >
-              Continue
+              {sendTfDetails.isPending ? (
+                <Loader2 className="animate-spin" size={20} />
+              ) : (
+                "Continue"
+              )}
             </button>
           </div>
-            <div className="flex justify-between p-5">
-              <button
-                onClick={() => router.back()}
-                className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
-              >
-                <FaArrowLeft size={16} />
-                Back
-              </button>
-            </div>
+          <div className="flex justify-between p-5">
+            <button
+              onClick={() => router.back()}
+              className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+            >
+              <FaArrowLeft size={16} />
+              Back
+            </button>
+          </div>
         </div>
       </div>
     </SideNav>

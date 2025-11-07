@@ -1,6 +1,7 @@
 "use client";
 import SendSteps from "@/components/dashboard/send-money/sendSteps";
 import SideNav from "@/components/dashboard/sideNav";
+import { useTransferStore } from "@/stores/useTransaferStore";
 import { Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -14,7 +15,10 @@ const Fund = () => {
   const [method, setMethod] = useState<"bank-transfer" | "bank-card">(
     "bank-transfer"
   );
+  const [understand, setUnderstand] = useState(false);
   const [bankStep, setBankStep] = useState<1 | 2 | 3>(1);
+  const transfer = useTransferStore((state) => state.transfer);
+  const clearTransfer = useTransferStore((state) => state.clearTransfer);
 
   return (
     <SideNav>
@@ -52,7 +56,10 @@ const Fund = () => {
                       <div className="flex items-center gap-1 font-poppins text-base">
                         <FaCircleCheck className="text-black" size={16} />
                         <p className="font-normal">
-                          Transfer <span className="font-semibold">£5000 </span>{" "}
+                          Transfer{" "}
+                          <span className="font-semibold">
+                            £{transfer?.amount}{" "}
+                          </span>{" "}
                           to be credited to your recipient
                         </p>
                       </div>
@@ -72,6 +79,8 @@ const Fund = () => {
                       </div>
                       <div className="flex mt-5 items-center gap-1">
                         <input
+                          checked={understand}
+                          onChange={(e) => setUnderstand(e.target.checked)}
                           type="checkbox"
                           className="accent-main w-3.5 h-3.5"
                         />{" "}
@@ -92,10 +101,11 @@ const Fund = () => {
                         />
                       </div>
                       <button
+                        disabled={!understand}
                         onClick={() => setBankStep(2)}
                         className="
-    text-white font-poppins border border-[#813FD6] mt-4 text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
+    text-white font-poppins border disabled:cursor-not-allowed border-[#813FD6] mt-4 text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
+    bg-linear-to-l from-[#813FD6] to-[#301342] disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2
   "
@@ -109,24 +119,28 @@ const Fund = () => {
                       <div className="bg-[#FAF7FF] p-3 space-y-1 font-poppins text-sm w-[75%] border rounded-[10px] border-[#E1E1E1]">
                         <p>
                           Transfer{" "}
-                          <span className="text-base font-medium">£5000</span>{" "}
+                          <span className="text-base font-medium">
+                            £{transfer?.amount}
+                          </span>{" "}
                           to account below using the reference.
                         </p>
                         <p>
                           Account Number:{" "}
                           <span className="text-base font-medium">
-                            07797478
+                            {transfer?.GBPAccountNumber}
                           </span>
                         </p>
                         <p>
                           Account Name:{" "}
                           <span className="text-base font-medium">
-                            Prospa Technology Limited
+                            {transfer?.GBPAccountName}
                           </span>
                         </p>
                         <p>
-                         Use Transfer Reference:{" "}
-                          <span className="text-base font-medium">Sr342454</span>
+                          Use Transfer Reference:{" "}
+                          <span className="text-base font-medium">
+                            {transfer?.transferReference}
+                          </span>
                         </p>
 
                         <button
@@ -146,16 +160,16 @@ const Fund = () => {
                           Your Recipient
                         </h1>
                         <p className="font-poppins text-sm text-black font-normal">
-                          John Israel
+                          {transfer?.recipientFullName}
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
-                          NGN 10,000,000
+                          NGN {transfer?.recipientNGN}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          Wema Bank
+                          {transfer?.recipientBankName}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          7687323332
+                          {transfer?.recipientAccountNumber}
                         </p>
                       </div>
                     </div>
@@ -167,7 +181,9 @@ const Fund = () => {
                         <p className="font-poppins text-base">
                           Confirming Your Bank Transfer
                         </p>
-                        <p className="font-poppins text-xl font-bold ">£5000</p>
+                        <p className="font-poppins text-xl font-bold ">
+                          £{transfer?.amount}
+                        </p>
                       </div>
                       <div className="w-[25%]  space-y-1 text-center">
                         <p className="font-poppins text-sm text-black font-semibold">
@@ -208,7 +224,10 @@ const Fund = () => {
           </button>
           {bankStep === 3 && (
             <button
-              onClick={() => router.push("/user/transactions")}
+              onClick={() => {
+                router.push("/user/transactions");
+                clearTransfer();
+              }}
               className="
     text-white font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]

@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
+import { useTransferStore } from "@/stores/useTransaferStore";
 
 interface DashTfProps {
   onRateUpdate: (
@@ -28,6 +29,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
     (state) => state.adminRateData as AdminRateData | null
   );
   const isLoading = useRatesStore((state) => state.isLoading);
+  const { setTransfer } = useTransferStore();
 
   const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
   const rateNGN = adminRateData?.rateNGN || 1973;
@@ -115,6 +117,11 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
         const precision =
           fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
         setGetAmount((numericValue * conversionRate).toFixed(precision));
+        setTransfer({
+          recipientNGN: parseInt(
+            (numericValue * conversionRate).toFixed(precision)
+          ),
+        });
       }
     }
   };
