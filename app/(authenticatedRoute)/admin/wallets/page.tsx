@@ -69,8 +69,8 @@ const Wallets = () => {
           </div>
         </div>
       </div> */}
-      <div className="py-10 flex items-center justify-between gap-5">
-        <div className="w-1/2 rounded-md bg-white py-3.5 px-6 shadow-md">
+      <div className="py-5 md:py-10 flex items-center justify-between gap-5 flex-col md:flex-row">
+        <div className="w-full md:w-1/2 rounded-md bg-white py-3.5 px-6 shadow-md">
           <h1 className="text-[#072032]  text-lg font-semibold font-dm-sans mb-2">
             All Recipients
           </h1>
