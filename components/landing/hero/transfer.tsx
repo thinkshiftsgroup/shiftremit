@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useState } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { AdminRateData, FxRateData } from "@/api/rateService";
 
 interface TransferProps {
   onRateUpdate: (
@@ -19,7 +20,13 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
 
-  const { ratesData, isLoading } = useRatesStore();
+  const ratesData = useRatesStore(
+    (state) => state.ratesData as FxRateData | null
+  );
+  const adminRateData = useRatesStore(
+    (state) => state.adminRateData as AdminRateData | null
+  );
+  const isLoading = useRatesStore((state) => state.isLoading);
 
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
     if (fromCurrency === toCurrency) {
@@ -31,17 +38,21 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     }
 
     const moniepointRate = ratesData?.moniepoint?.rate || 0;
+
+    const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
+    const rateNGN = adminRateData?.rateNGN || 1973;
+
     let rate = 0;
     let ready = false;
     let label = "Rate Loading...";
 
     if (fromCurrency === "GBP" && toCurrency === "NGN") {
-      rate = moniepointRate + 8;
-      ready = rate > 8 && !isLoading;
+      rate = moniepointRate + benchmarkGBP;
+      ready = rate > benchmarkGBP && !isLoading;
       label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : label;
     } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
-      rate = 1 / 1973;
-      ready = !isLoading;
+      rate = 1 / rateNGN;
+      ready = rateNGN > 0 && !isLoading;
       label = ready ? `1 NGN = ${rate.toFixed(8)} GBP` : label;
     }
 
@@ -50,14 +61,13 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
       isRateReady: ready,
       rateLabel: label,
     };
-  }, [fromCurrency, toCurrency, ratesData, isLoading]);
+  }, [fromCurrency, toCurrency, ratesData, adminRateData, isLoading]);
 
   useEffect(() => {
     let label = rateLabel;
     if (!isRateReady && !isLoading) {
       label = "Rate error";
     }
-    // Pass the rate label, sending amount, and from currency to the parent
     onRateUpdate(label, sending_amount, fromCurrency);
   }, [
     rateLabel,
@@ -134,7 +144,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
         setReceiveAmount(received.toFixed(8));
       }
     } else if (numericValue === "") {
-      setReceiveAmount("");
+      setSendingAmount("");
     }
   };
 
@@ -180,7 +190,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
             You send exactly
           </label>
           <div
-            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -215,30 +225,30 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
 
         <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
-            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
-                        before:absolute 
-                        before:top-0 
-                        before:-left-[7px] 
-                        before:w-full 
-                        before:h-full 
-                        before:bg-[#230a2f] 
-                        before:-z-10 
-                        before:rounded-full 
-                        before:border 
-                        before:border-[#ffffff3d]
-                        
-                        
-                        after:content-[''] 
-                        after:absolute 
-                        after:top-0 
-                        after:-right-[7px] 
-                        after:w-full 
-                        after:h-full 
-                        after:bg-[#230a2f] 
-                        after:-z-10 
-                        after:rounded-full 
-                        after:border 
-                        after:border-[#ffffff3d]"
+            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
+						 before:absolute 
+						 before:top-0 
+						 before:-left-[7px] 
+						 before:w-full 
+						 before:h-full 
+						 before:bg-[#230a2f] 
+						 before:-z-10 
+						 before:rounded-full 
+						 before:border 
+						 before:border-[#ffffff3d]
+						 
+						 
+						 after:content-[''] 
+						 after:absolute 
+						 after:top-0 
+						 after:-right-[7px] 
+						 after:w-full 
+						 after:h-full 
+						 after:bg-[#230a2f] 
+						 after:-z-10 
+						 after:rounded-full 
+						 after:border 
+						 after:border-[#ffffff3d]"
           >
             <FaArrowRight className="text-lg text-white" />
           </span>

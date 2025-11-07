@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { AdminRateData, FxRateData } from "@/api/rateService";
 
 interface DashTfProps {
   onRateUpdate: (label: string) => void;
@@ -14,13 +15,20 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
 
-  const { ratesData, isLoading } = useRatesStore();
+  const ratesData = useRatesStore(
+    (state) => state.ratesData as FxRateData | null
+  );
+  const adminRateData = useRatesStore(
+    (state) => state.adminRateData as AdminRateData | null
+  );
+  const isLoading = useRatesStore((state) => state.isLoading);
 
-  const NGN_TO_GBP_RATE = 1963;
+  const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
+  const rateNGN = adminRateData?.rateNGN || 1973;
 
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
     let baseRate = ratesData?.moniepoint?.rate || 0;
-    let rate = baseRate + 8;
+    let rate = baseRate + benchmarkGBP;
     let ready = rate > 8 && !isLoading;
     let label = ready
       ? `1 ${fromCurrency} = ${rate.toFixed(2)} ${toCurrency}`
@@ -28,9 +36,9 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
     let precision = 2;
 
     if (fromCurrency === "NGN" && toCurrency === "GBP") {
-      rate = 1 / NGN_TO_GBP_RATE;
+      rate = 1 / rateNGN;
       ready = true;
-      precision = 8;
+      precision = benchmarkGBP;
       label = `1 NGN = ${rate.toFixed(precision)} GBP`;
     } else if (fromCurrency === toCurrency) {
       rate = 1;
@@ -63,7 +71,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
         return initialAmount.toFixed(2);
       }
       return (initialAmount * conversionRate).toFixed(
-        conversionRate === 1 / NGN_TO_GBP_RATE ? 8 : 2
+        conversionRate === 1 / rateNGN ? benchmarkGBP : 2
       );
     }
     return "";
@@ -92,7 +100,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
       } else {
         received = amount * conversionRate;
         if (fromCurrency === "NGN" && toCurrency === "GBP") {
-          precision = 8;
+          precision = benchmarkGBP;
         }
       }
       setGetAmount(received.toFixed(precision));
