@@ -158,7 +158,7 @@ const SendMoney = () => {
 
         <SendMoneyUI />
       </div>
-      <div className="py-3.5 px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
+      <div className="px-3 py-4 md:py-3.5 md:px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
         <WalletSection cards={dynamicFiatData} rateDifference={difference} />
       </div>
     </SideNav>
