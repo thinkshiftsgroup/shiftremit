@@ -4,8 +4,8 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 const TrackMoney = () => {
   return (
     <SideNav>
-      <div className="mx-20">
-        <div className="my-10  p-5 container mx-auto rounded-sm w-full bg-white">
+      <div className="md:mx-20">
+        <div className="my-5 md:my-10  p-5 container mx-auto rounded-sm w-full bg-white">
           <h1 className="text-[#072032] text-center text-lg font-semibold font-dm-sans mb-2">
             Track Transfer
           </h1>

@@ -40,7 +40,7 @@ const CustomerTrxn = () => {
   return (
     <SideNav>
       <div className="py-5">
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-center md:justify-end gap-2">
           <div className="flex items-center gap-2">
             <button
               onClick={() => router.push("/send-money")}
@@ -63,12 +63,12 @@ const CustomerTrxn = () => {
           </div>
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <h1 className="text-[#072032] text-2xl font-semibold font-dm-sans mb-2">
+        <div className="px-2.5 py-4 md:py-3.5 md:px-6 bg-white rounded-md my-4">
+          <h1 className="text-[#072032] text-xl md:text-2xl font-semibold font-dm-sans mb-2">
             Overview
           </h1>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-3 gap-3">
             {cardData.map((card, index) => {
               return (
                 <div
@@ -102,8 +102,8 @@ const CustomerTrxn = () => {
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <div className="flex items-center justify-between">
-            <div className="flex  items-center gap-2.5">
+          <div className="flex md:items-center justify-between flex-col md:flex-row space-y-3">
+            <div className="flex  md:items-center gap-2.5 flex-col md:flex-row">
               <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
                 <FaUserPlus size={25} />
               </div>
@@ -125,55 +125,55 @@ const CustomerTrxn = () => {
           </div>
         </div>
         <div className="py-3.5  bg-white rounded-md my-4">
-          <h1 className="text-[#072032] px-6 text-2xl font-semibold font-dm-sans mb-2">
+          <h1 className="text-[#072032] px-3 md:px-6 text-xl md:text-2xl font-semibold font-dm-sans mb-2">
             Transactions
           </h1>
-          <div className="">
-            <table className="w-full">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full w-full min-w-max border-collapse">
               <thead className="bg-[#e2e8f0] w-full">
-                <tr className="w-full">
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                <tr className="w-full text-left">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Transaction Id
                   </th>
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Sending Amount
                   </th>
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Receiving Amount
                   </th>
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Recipient
                   </th>
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Destination
                   </th>
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Date
                   </th>{" "}
-                  <th className="font-poppins py-2 px-6 text-base font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Status
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className=" px-2 text-sm py-2 font-poppins">726h36</td>
-                  <td className=" px-2 text-sm py-2 font-poppins">£5000</td>
-                  <td className=" px-2 text-sm py-2 font-poppins">₦10,000,000</td>
-                  <td className=" px-2 text-sm py-2 font-poppins">
-                    <span className="flex flex-col gap-0.5 px-2 text-sm py-2 font-poppins">
+                  <td className=" px-4 text-sm py-1 font-poppins">726h36</td>
+                  <td className=" px-4 text-sm py-1 font-poppins">£5000</td>
+                  <td className=" px-4 text-sm py-1 font-poppins">₦10,000,000</td>
+                  <td className=" px-4 text-sm py-1 font-poppins">
+                    <span className="flex flex-col gap-0.5  text-sm py-1 font-poppins">
                       Joshua Israel
                       <p>joshisr@gmail.com</p>
                     </span>
                   </td>
-                  <td className="px-2 text-sm py-2 font-poppins">
+                  <td className="px-4 text-sm py-1 font-poppins">
                     <span>
                       Wema Bank
                       <p>9736524134</p>
                     </span>
                   </td>
-                  <td>23/11/25 18:00</td>
-                  <td className="">
+                  <td className="px-4 text-sm py-1 font-poppins">23/11/25 18:00</td>
+                  <td className="px-4 text-sm py-1 font-poppins">
                     <span className="p-1 bg-green-500 text-white rounded-sm">Completed</span>
                   </td>
                 </tr>
@@ -189,7 +189,7 @@ const CustomerTrxn = () => {
 
           <hr />
           <div className="relative  px-6 ">
-            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer">
+            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer z-50 md:auto">
               <div className="flex items-center gap-1 text-sm font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main" /> Send Money:
                 0.00

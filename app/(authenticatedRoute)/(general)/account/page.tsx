@@ -176,11 +176,11 @@ const Account = () => {
         )}
       </div>{" "}
       <div className="w-full bg-white rounded-[10px]">
-        <div className="flex items-center p-3 w-full border-b justify-between">
-          <div className="flex items-center   gap-2">
+        <div className="flex items-center p-3 w-full border-b justify-between flex-col md:flex-row gap-3 md:gap-0">
+          <div className="flex items-center   gap-2 w-full md:w-auto">
             <div
               onClick={openFilePicker}
-              className="inline-block relative group cursor-pointer w-24 h-24"
+              className="inline-block relative group cursor-pointer w-20 h-20 md:w-24 md:h-24"
             >
               {image ? (
                 <img
@@ -212,7 +212,7 @@ const Account = () => {
               <h1 className=" font-dm-sans text-xl font-semibold text-[#071032]">
                 Joshua Israel
               </h1>
-              <div className="flex pt-2 items-center gap-2">
+              <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                 <p className="font-dm-sans text-sm flex items-center gap-1">
                   <MdOutlineEmail size={16} />
                   josh****el@gmail.com

@@ -35,7 +35,7 @@ const SendMoneyUI = () => {
   }, [rateLabelFromTransfer]);
 
   return (
-    <div className="p-10">
+    <div className="p-5 md:p-10">
       <DashTf onRateUpdate={handleRateUpdate} />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">

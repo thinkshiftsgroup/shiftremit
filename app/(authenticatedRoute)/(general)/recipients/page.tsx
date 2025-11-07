@@ -13,13 +13,13 @@ const Recipients = () => {
   const router = useRouter();
   return (
     <SideNav>
-      <div className="py-10 flex items-start justify-between gap-5">
-        <div className="w-[60%] rounded-md bg-white py-3.5 px-6 shadow-md">
+      <div className="py-5 md:py-7 lg:py-10 flex items-start justify-between gap-5 flex-col md:flex-row">
+        <div className="w-full md:w-[50%] lg:w-[60%] rounded-md bg-white py-3.5 px-4 lg:px-6 shadow-md">
           <div className="flex items-center justify-between">
-            <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
+            <h1 className="text-[#072032]  text-lg md:text-xl font-semibold font-dm-sans mb-2">
               All Recipients
             </h1>
-            <button onClick={()=>router.push("/send-money")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
+            <button onClick={() => router.push("/send-money")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
               Send Money <FaArrowRight />
             </button>
           </div>
@@ -27,7 +27,7 @@ const Recipients = () => {
           <div className="border-b border-gray-300 flex items-center gap-6">
             <div
               onClick={() => setTab("all-account")}
-              className="flex items-center gap-2 py-2 px-4 cursor-pointer"
+              className="relative flex items-center gap-2 py-2 px-4 cursor-pointer justify-start"
             >
               <p className="font-poppins text-sm">Created Recipients</p>
 
@@ -36,15 +36,18 @@ const Recipients = () => {
                   2
                 </div>
 
-                {tab === "all-account" && (
+                {/* {tab === "all-account" && (
                   <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-main rounded-full"></div>
-                )}
+                )} */}
               </div>
+              {tab === "all-account" && (
+                <div className="absolute -bottom-0.5 left-4/9 -translate-x-1/2 w-[80%] h-[3px] bg-main rounded-full"></div>
+              )}
             </div>
 
             <div
               onClick={() => setTab("my-account")}
-              className="flex items-center gap-2 py-2 px-4 cursor-pointer"
+              className="relative flex items-center gap-2 py-2 px-4 cursor-pointer"
             >
               <p className="font-poppins text-sm">Discovered Recipients</p>
 
@@ -53,22 +56,25 @@ const Recipients = () => {
                   0
                 </div>
 
-                {tab === "my-account" && (
+                {/* {tab === "my-account" && (
                   <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-main rounded-full"></div>
-                )}
+                )} */}
               </div>
+              {tab === "my-account" && (
+                <div className="absolute -bottom-0.5 left-4/9 -translate-x-1/2 w-[80%] h-[3px] bg-main rounded-full"></div>
+              )}
             </div>
           </div>
 
           {tab === "all-account" && (
-            <div className="my-4">
-              <div className="rounded-lg flex items-center justify-between w-full cursor-pointer p-3  bg-gray-100">
-                <div className="flex items-center gap-2">
+            <div className="my-3">
+              <div className="rounded-lg flex items-center justify-between w-full cursor-pointer p-1.5 lg:p-3  bg-gray-100 flex-col lg:flex-row gap-2 lg:gap-0">
+                <div className="flex items-center gap-2 w-full lg:w-auto border-b lg:border-0 pb-4 lg:pb-0">
                   <div className="inline-block relative">
-                    <div className="font-poppins border-gray-400 border w-16 h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
+                    <div className="font-poppins border-gray-400 border w-12 h-12 md:w-16 md:h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
                       JI
                     </div>
-                    <div className="w-4 h-4 absolute bottom-0 -right-1 border border-white rounded-full">
+                    <div className="w-3 h-3 md:w-4 md:h-4 absolute bottom-0 -right-1 border border-white rounded-full">
                       <img
                         src="/images/shiftremit-logo.png"
                         className="object-cover"
@@ -77,74 +83,80 @@ const Recipients = () => {
                     </div>
                   </div>
                   <div className="">
-                    <h1 className="font-poppins text-base font-semibold text-black">
-                      Joshua Israel
-                    </h1>
+                    <div className="flex items-center gap-1">
+                      <h1 className="font-poppins text-base font-semibold text-black">
+                        Joshua Israel
+                      </h1>
+                      <p className="text-black font-dm-sans text-xs lg:hidden">
+                        @joshisr23
+                      </p>
+                    </div>
                     <p className="text-base font-dm-sans text-black">
                       joshisr@gmail.com
                     </p>
-                    <p className="text-black font-dm-sans text-sm">
+                    <p className="text-black font-dm-sans text-sm hidden lg:block">
                       @joshisr23
                     </p>
                   </div>
                 </div>
+                <div className="flex lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
+                  <div className="font-medium px-2 lg:px-0">
+                    <p className="text-base font-dm-sans text-black">Wema Bank</p>
+                    <p className="text-base font-dm-sans text-black">
+                      0367829034
+                    </p>
+                    <p className="text-base font-dm-sans text-black">
+                      Business Account
+                    </p>
+                  </div>
 
-                <div className="font-medium ">
-                  <p className="text-base font-dm-sans text-black">Wema Bank</p>
-                  <p className="text-base font-dm-sans text-black">
-                    0367829034
-                  </p>
-                  <p className="text-base font-dm-sans text-black">
-                    Business Account
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <svg
-                    className="cursor-pointer"
-                    onClick={() => setOpenPurpose(true)}
-                    width="20"
-                    height="20"
-                    viewBox="0 0 26 26"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M20.5833 14.0861V11.5468C20.5833 10.6606 20.5833 10.2176 20.4187 9.8189C20.254 9.42023 19.9409 9.10715 19.3137 8.48098L14.183 3.34706C13.6424 2.80648 13.3727 2.53673 13.0368 2.3764C12.9673 2.34301 12.8961 2.31335 12.8234 2.28756C12.4735 2.16406 12.0911 2.16406 11.3273 2.16406C7.81192 2.16406 6.05367 2.16406 4.86308 3.1239C4.62262 3.31809 4.40362 3.53745 4.20983 3.77823C3.25 4.9699 3.25 6.72815 3.25 10.2457V15.1695C3.25 19.2569 3.25 21.3011 4.51967 22.5708C5.54125 23.5924 7.06333 23.7917 9.75 23.8307M13 2.70573V3.2474C13 6.31323 13 7.84614 13.9523 8.79839C14.9034 9.75064 16.4363 9.75065 19.5 9.75065H20.0417"
-                      stroke="#4F4F4F"
-                      strokeWidth="1.875"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
-                      stroke="#4F4F4F"
-                      strokeWidth="1.875"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M17.3203 20.5781H17.3311"
-                      stroke="#4F4F4F"
-                      strokeWidth="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <svg
-                    className="cursor-pointer"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 23 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
-                      stroke="#813FD6"
-                      strokeWidth="1.875"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="cursor-pointer"
+                      onClick={() => setOpenPurpose(true)}
+                      width="20"
+                      height="20"
+                      viewBox="0 0 26 26"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M20.5833 14.0861V11.5468C20.5833 10.6606 20.5833 10.2176 20.4187 9.8189C20.254 9.42023 19.9409 9.10715 19.3137 8.48098L14.183 3.34706C13.6424 2.80648 13.3727 2.53673 13.0368 2.3764C12.9673 2.34301 12.8961 2.31335 12.8234 2.28756C12.4735 2.16406 12.0911 2.16406 11.3273 2.16406C7.81192 2.16406 6.05367 2.16406 4.86308 3.1239C4.62262 3.31809 4.40362 3.53745 4.20983 3.77823C3.25 4.9699 3.25 6.72815 3.25 10.2457V15.1695C3.25 19.2569 3.25 21.3011 4.51967 22.5708C5.54125 23.5924 7.06333 23.7917 9.75 23.8307M13 2.70573V3.2474C13 6.31323 13 7.84614 13.9523 8.79839C14.9034 9.75064 16.4363 9.75065 19.5 9.75065H20.0417"
+                        stroke="#4F4F4F"
+                        strokeWidth="1.875"
+                        strokeLinecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
+                        stroke="#4F4F4F"
+                        strokeWidth="1.875"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M17.3203 20.5781H17.3311"
+                        stroke="#4F4F4F"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <svg
+                      className="cursor-pointer"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 23 23"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
+                        stroke="#813FD6"
+                        strokeWidth="1.875"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -183,16 +195,16 @@ const Recipients = () => {
               </p>
             </div> */}
               {/* if empty; use for both tabs */}
-              <div className=" relative my-10">
+              <div className=" relative my-5 md:my-7 lg:my-10">
                 <div>
-                  <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 md:w-12 md:h-12 mx-auto rounded-full flex items-center justify-center">
                     <img src="/images/shiftremit-logo.png" alt="" />
                   </div>
                   <div className="text-center my-5">
-                    <h1 className=" text-3xl text-[#072032] font-dm-sans text-center font-semibold">
+                    <h1 className="text-xl md:text-2xl lg:text-3xl text-[#072032] font-dm-sans text-center font-semibold">
                       Find People and businesses on ShiftRemit
                     </h1>
-                    <p className="font-poppins text-base text-[#454745] text-center">
+                    <p className="font-poppins text-sm md:text-base text-[#454745] text-center">
                       Enter Shiftremittag, email or mobile number
                     </p>
                   </div>
@@ -219,7 +231,7 @@ const Recipients = () => {
 
                     <hr className="py-2" />
 
-                    <div className="pb-5">
+                    <div className="pb-3 md:pb-5">
                       <div className="rounded-lg w-full cursor-pointer p-3 flex justify-between items-center gap-2 bg-gray-100">
                         <div className="flex items-center gap-2">
                           <div className="inline-block relative">
@@ -289,12 +301,12 @@ const Recipients = () => {
             </div>
           )}
         </div>
-        <div className="w-[40%] rounded-md bg-white  shadow-md">
-          <h1 className="text-[#072032] py-3.5 px-6 text-lg font-semibold font-dm-sans mb-2">
+        <div className="w-full md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
+          <h1 className="text-[#072032] py-2 px-4 md:py-4 md:px-6 text-lg font-semibold font-dm-sans">
             Add New Recipients
           </h1>
           <hr />
-          <div className="px-6 py-3">
+          <div className="px-3 md:px-4 lg:px-6 py-3">
             <div className="space-y-2">
               <div>
                 <label

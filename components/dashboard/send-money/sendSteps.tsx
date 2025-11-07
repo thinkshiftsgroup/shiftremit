@@ -9,7 +9,7 @@ const SendSteps = ({ step }: { step: number }) => {
   ];
 
   return (
-    <div className="flex py-3.5 px-10 border-b items-center justify-between gap-6">
+    <div className="flex px-2.5 py-4 md:py-3.5 md:px-10 border-b items-center justify-between gap-6">
       {steps.map((item) => {
         const isCompleted = step > item.id;
         const isActive = step === item.id;
