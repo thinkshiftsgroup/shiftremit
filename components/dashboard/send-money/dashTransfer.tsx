@@ -162,7 +162,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   return (
     <>
       <div className="relative font-poppins flex flex-wrap justify-between items-start mb-4">
-        <div className="w-full nd:w-[calc(50%-16px)] ">
+        <div className="w-full md:w-[calc(50%-16px)] ">
           <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You send exactly
           </label>
@@ -231,7 +231,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           </span>
         </div>
 
-        <div className="w-full nd:w-[calc(50%-16px)]">
+        <div className="w-full md:w-[calc(50%-16px)]">
           <label className="text-black text-sm font-dm-sans font-medium block mb-2">
             You get exactly
           </label>
