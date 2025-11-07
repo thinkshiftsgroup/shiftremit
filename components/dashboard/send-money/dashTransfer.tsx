@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import DropdownComponent from "./dropDown";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
+import { useTransferStore } from "@/stores/useTransaferStore";
 
 interface DashTfProps {
   onRateUpdate: (
@@ -14,10 +15,12 @@ interface DashTfProps {
 }
 
 const DashTf = ({ onRateUpdate }: DashTfProps) => {
-  const [sending_amount, setSendingAmount] = useState("1");
+  const [sending_amount, setSendingAmount] = useState("10");
   const [get_amount, setGetAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
+
+  const MIN_SENDING = 10;
 
   const ratesData = useRatesStore(
     (state) => state.ratesData as FxRateData | null
@@ -26,6 +29,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
     (state) => state.adminRateData as AdminRateData | null
   );
   const isLoading = useRatesStore((state) => state.isLoading);
+  const { setTransfer } = useTransferStore();
 
   const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
   const rateNGN = adminRateData?.rateNGN || 1973;
@@ -97,59 +101,62 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
   const handleSendingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = e.target.value;
-    const numericValue = value.replace(/[^0-9.]/g, "");
-    setSendingAmount(numericValue);
+    const raw = e.target.value.replace(/[^0-9.]/g, "");
 
-    const amount = parseFloat(numericValue);
-    if (!isNaN(amount) && isRateReady) {
-      let received;
-      let precision = 2;
-
-      if (fromCurrency === toCurrency) {
-        received = amount;
-      } else {
-        received = amount * conversionRate;
-        if (fromCurrency === "NGN" && toCurrency === "GBP") {
-          precision = 8;
-        }
-      }
-      setGetAmount(received.toFixed(precision));
-    } else if (numericValue === "") {
+    if (raw === "") {
+      setSendingAmount("");
       setGetAmount("");
+      return;
+    }
+
+    const numericValue = parseFloat(raw);
+    if (!isNaN(numericValue)) {
+      setSendingAmount(raw);
+
+      if (isRateReady) {
+        const precision =
+          fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
+        setGetAmount((numericValue * conversionRate).toFixed(precision));
+        setTransfer({
+          recipientNGN: parseInt(
+            (numericValue * conversionRate).toFixed(precision)
+          ),
+        });
+      }
     }
   };
 
   const handleReceiveAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = e.target.value;
-    const numericValue = value.replace(/[^0-9.]/g, "");
-    setGetAmount(numericValue);
+    const value = e.target.value.replace(/[^0-9.]/g, "");
+    setGetAmount(value);
 
-    const amount = parseFloat(numericValue);
-    if (!isNaN(amount) && isRateReady) {
-      let sent;
-      if (fromCurrency === toCurrency) {
-        sent = amount;
-      } else {
-        sent = amount / conversionRate;
-      }
+    if (value === "") {
+      setSendingAmount(String(MIN_SENDING));
+      return;
+    }
+
+    const numericValue = parseFloat(value);
+    if (!isNaN(numericValue) && isRateReady) {
+      let sent =
+        fromCurrency === toCurrency
+          ? numericValue
+          : numericValue / conversionRate;
+      sent = Math.max(sent, MIN_SENDING);
       setSendingAmount(sent.toFixed(2));
-    } else if (numericValue === "") {
-      setSendingAmount("");
     }
   };
 
   const handleFromCurrencySelect = (currencyCode: string) => {
     setFromCurrency(currencyCode);
-    setSendingAmount("1");
+    setSendingAmount("10");
     setGetAmount("");
   };
 
   const handleToCurrencySelect = (currencyCode: string) => {
     setToCurrency(currencyCode);
-    setSendingAmount("1");
+    setSendingAmount("10");
     setGetAmount("");
   };
 
@@ -171,7 +178,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
             id="sendMoneyBox"
           >
             <input
-              type="text"
+              type="number"
               name="sending_amount"
               value={sending_amount}
               onChange={handleSendingAmountChange}
@@ -179,7 +186,12 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
               placeholder={
                 isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
               }
+              // onBlur={() => {
+              //   const numeric = parseFloat(sending_amount) || MIN_SENDING;
+              //   setSendingAmount(String(Math.max(numeric, MIN_SENDING)));
+              // }}
               aria-label="Sending Money"
+              min={10}
               disabled={!isRateReady}
               className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-auto ${
                 !isRateReady ? "opacity-60" : ""

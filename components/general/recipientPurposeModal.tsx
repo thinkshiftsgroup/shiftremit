@@ -16,18 +16,18 @@ const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
             Purpose
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3 text-sm font-poppins">
+        {/* <div className="space-y-3 text-sm font-poppins">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab libero
             molestiae ea quisquam, voluptate iusto voluptatum recusandae
             pariatur tenetur esse modi atque possimus porro corrupti asperiores
             rerum aliquid sequi laborum.
           </p>
-        </div>
+        </div> */}
 
-        {/* <div className="space-y-3 text-sm font-poppins">
+        <div className="space-y-3 text-sm font-poppins">
           <p className="text-gray-600">
-            Select or describe the purpose of this transfer.
+            Purpose
           </p>
 
           <textarea
@@ -35,9 +35,9 @@ const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
             placeholder="Write purpose here..."
             rows={4}
           />
-        </div> */}
+        </div>
 
-        {/* <DialogFooter>
+        <DialogFooter>
           <Button
             variant="outline"
             onClick={() => setOpenPurpose(false)}
@@ -47,7 +47,7 @@ const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
           </Button>
 
           <Button className="bg-main text-white font-poppins">Save</Button>
-        </DialogFooter> */}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
