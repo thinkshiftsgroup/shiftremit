@@ -372,13 +372,13 @@ const Partner = () => {
                 or simply, share your code directly.
               </span>
               <hr className="mt-3 mb-4" />
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 items-start">
                 <input
                   type="text"
                   className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2"
                   placeholder="Enter customer email to invite them"
                 />
-                <button className="text-white w-4/9 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
+                <button className="text-white bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
                   Send Invite
                   <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
