@@ -1,9 +1,58 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
-import React, { useState } from "react";
+import { useRatesStore } from "@/stores/useRatesStore";
+import { useEffect, useState } from "react";
+import { useFxRate } from "./useFxRates";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { AdminRateData } from "@/api/rateService";
+import { useQueryClient } from "@tanstack/react-query";
 
 const FXRates = () => {
-  const [tab, setTab] = useState("all-account");
+  const [tab, setTab] = useState("naira");
+  const [rateNGN, setRateNGN] = useState("");
+  const [benchmarkGBP, setBenchmarkGBP] = useState("");
+  const [page, setPage] = useState(1);
+
+  const { fetchAdminRate, adminRateData, isLoading, error } = useRatesStore();
+  const { updateAdminRate, getRateHistory } = useFxRate();
+  const { data, isLoading: loadHistory } = getRateHistory({
+    page,
+    pageSize: 5,
+  });
+  const history = data?.data || [];
+  console.log(data, "jis");
+
+  useEffect(() => {
+    if (!adminRateData && !isLoading) {
+      fetchAdminRate();
+      return;
+    }
+    if (adminRateData) {
+      setRateNGN(String(adminRateData.rateNGN || ""));
+      setBenchmarkGBP(String(adminRateData.benchmarkGBP || ""));
+    }
+  }, [isLoading, adminRateData, fetchAdminRate]);
+
+  const queryClient = useQueryClient();
+
+  const handleUpdate = () => {
+    const newNGN = parseInt(rateNGN);
+    const newGBP = parseInt(benchmarkGBP);
+
+    updateAdminRate.mutate(
+      { rateNGN: newNGN, benchmarkGBP: newGBP },
+      {
+        onSuccess: () => {
+          toast.success("Rates updated successfully!");
+          setRateNGN(String(newNGN));
+          setBenchmarkGBP(String(newGBP));
+          fetchAdminRate();
+          queryClient.invalidateQueries({ queryKey: ["fetch-rate-history"] });
+        },
+      }
+    );
+  };
 
   return (
     <SideNav>
@@ -15,107 +64,153 @@ const FXRates = () => {
 
           <div className="border-b border-gray-300 flex items-center gap-6">
             <div
-              onClick={() => setTab("all-account")}
-              className="flex items-center gap-2 py-2 px-4 cursor-pointer"
+              onClick={() => setTab("naira")}
+              className={`flex items-center gap-2 py-2 px-4 cursor-pointer ${
+                tab === "naira" ? " border-b-2 border-b-main " : ""
+              } `}
             >
               <p className="font-poppins text-sm">Naira (₦)</p>
-
-              <div className="relative flex items-center justify-center">
-                <div className="w-5 font-poppins h-5 rounded-full bg-main text-white text-xs flex items-center justify-center">
-                  2
-                </div>
-
-                {tab === "all-account" && (
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-main rounded-full"></div>
-                )}
-              </div>
             </div>
 
             <div
-              onClick={() => setTab("my-account")}
-              className="flex items-center gap-2 py-2 px-4 cursor-pointer"
+              onClick={() => setTab("pounds")}
+              className={`flex items-center gap-2 py-2 px-4 cursor-pointer ${
+                tab === "pounds" ? " border-b-2 border-b-main " : ""
+              } `}
             >
               <p className="font-poppins text-sm">Pounds (£)</p>
-
-              <div className="relative flex items-center justify-center">
-                <div className="w-5 font-poppins h-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
-                  0
-                </div>
-
-                {tab === "my-account" && (
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-main rounded-full"></div>
-                )}
-              </div>
             </div>
           </div>
 
-          {tab === "all-account" && (
-            <div>
-              <div className="flex flex-col items-center justify-center gap-2 h-[60vh]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
+          {tab === "naira" && (
+            <div className="">
+              {loadHistory ? (
+                <div className="flex justify-center my-10">
+                  <Loader2 className="animate-spin text-main" size={30} />
+                </div>
+              ) : history.length > 0 ? (
+                history.map((historyItem: AdminRateData) => (
+                  <div
+                    key={historyItem.id}
+                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
+                  >
+                    <div>
+                      <p className="text-main font-poppins font-medium">
+                        ₦{historyItem.rateNGN.toLocaleString()}
+                      </p>
+                      <p className="text-xs font-poppins text-main-dark">
+                        Benchmark: £{historyItem.benchmarkGBP}
+                      </p>
+                    </div>
+
+                    <p className="text-xs font-dm-sans text-main-dark">
+                      {new Date(historyItem.recordedAt!).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-2 py-10">
+                  <p className="font-poppins text-sm text-[#8094ae]">
+                    No rate history found.
+                  </p>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between mt-4">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                  className="p-2 disabled:opacity-40"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M10 20h3.627a5.25 5.25 0 1 1 8.369-6.34Q22 12.9 22 12c0-.442 0-1.608-.002-2H2.002C2 10.392 2 11.558 2 12c0 3.771 0 5.657 1.172 6.828S6.229 20 10 20"
-                    opacity=".5"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="M5.25 16a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    fillRule="evenodd"
-                    d="M17.75 14.5a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5M14 16.75a3.75 3.75 0 1 1 6.879 2.068l.901.902a.75.75 0 1 1-1.06 1.06l-.902-.901A3.75 3.75 0 0 1 14 16.75"
-                    clipRule="evenodd"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
-                  ></path>
-                </svg>
-                <p className="font-poppins text-sm text-[#8094ae]">
-                  Don't have any data
+                  <ChevronLeft />
+                </button>
+
+                <p className="text-xs font-poppins text-main-dark">
+                  Page {data.meta.page} of {data.meta.totalPages}
                 </p>
+
+                <button
+                  disabled={page === data.meta.totalPages}
+                  onClick={() => setPage((p) => p + 1)}
+                  className="p-2 disabled:opacity-40"
+                >
+                  <ChevronRight size={20} className="text-main-dark-II" />
+                </button>
               </div>
             </div>
           )}
-          {tab === "my-account" && (
-            <div>
-              <div className="flex flex-col items-center justify-center gap-2 h-[60vh]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="80"
-                  height="80"
-                  viewBox="0 0 24 24"
+          {tab === "pounds" && (
+            <div className="">
+              {loadHistory ? (
+                <div className="flex justify-center my-10">
+                  <Loader2 className="animate-spin text-main" size={30} />
+                </div>
+              ) : history.length > 0 ? (
+                history.map((historyItem: AdminRateData) => (
+                  <div
+                    key={historyItem.id}
+                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
+                  >
+                    <div>
+                      <p className="text-main font-poppins font-medium">
+                        Benchmark: £{historyItem.benchmarkGBP}
+                      </p>
+                      <p className="text-xs font-poppins text-main-dark">
+                        ₦{historyItem.rateNGN.toLocaleString()}
+                      </p>
+                    </div>
+
+                    <p className="text-xs font-dm-sans text-main-dark">
+                      {new Date(historyItem.recordedAt!).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-2 py-10">
+                  <p className="font-poppins text-sm text-[#8094ae]">
+                    No rate history found.
+                  </p>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between mt-4">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                  className="p-2 disabled:opacity-40"
                 >
-                  <path
-                    fill="currentColor"
-                    d="M10 20h3.627a5.25 5.25 0 1 1 8.369-6.34Q22 12.9 22 12c0-.442 0-1.608-.002-2H2.002C2 10.392 2 11.558 2 12c0 3.771 0 5.657 1.172 6.828S6.229 20 10 20"
-                    opacity=".5"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="M5.25 16a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    fillRule="evenodd"
-                    d="M17.75 14.5a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5M14 16.75a3.75 3.75 0 1 1 6.879 2.068l.901.902a.75.75 0 1 1-1.06 1.06l-.902-.901A3.75 3.75 0 0 1 14 16.75"
-                    clipRule="evenodd"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
-                  ></path>
-                </svg>
-                <p className="font-poppins text-sm text-[#8094ae]">
-                  Don't have any data
+                  <ChevronLeft />
+                </button>
+
+                <p className="text-xs font-poppins text-main-dark">
+                  Page {data.meta.page} of {data.meta.totalPages}
                 </p>
+
+                <button
+                  disabled={page === data.meta.totalPages}
+                  onClick={() => setPage((p) => p + 1)}
+                  className="p-2 disabled:opacity-40"
+                >
+                  <ChevronRight size={20} className="text-main-dark-II" />
+                </button>
               </div>
             </div>
           )}
@@ -128,44 +223,52 @@ const FXRates = () => {
           <div className="px-6 py-3">
             <div className="space-y-2">
               <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
+                <label className="font-poppins font-semibold text-sm text-[#454745]">
                   NGN (Actual Daily Rates)
                 </label>
                 <input
-                  placeholder="₦"
                   type="text"
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+                  value={rateNGN}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (/^[0-9]*\.?[0-9]*$/.test(val)) setRateNGN(val);
+                  }}
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+        rounded-sm border border-[#d1d5db80] text-[#454745]
+        focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
+                <label className="font-poppins font-semibold text-sm text-[#454745]">
                   GBP (Benchmark Daily Rates)
                 </label>
                 <input
-                  placeholder="£"
                   type="text"
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+                  value={benchmarkGBP}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (/^[0-9]*\.?[0-9]*$/.test(val)) setBenchmarkGBP(val);
+                  }}
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+        rounded-sm border border-[#d1d5db80] text-[#454745]
+        focus:border-main focus:outline-none transition-colors"
                 />
               </div>
             </div>
             <button
-              // onClick={() => router.push("/send-money/fund")}
+              onClick={handleUpdate}
               className="
-         text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+         text-white flex justify-center w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
          bg-linear-to-l from-[#813FD6] to-[#301342]
          transition-all duration-300 ease-in-out
          hover:border-transparent my-5 text-center 
        "
             >
-              Go Live
+              {updateAdminRate.isPending ? (
+                <Loader2 className="animate-spin text-main" size={20} />
+              ) : (
+                "Go Live"
+              )}
             </button>
           </div>
         </div>

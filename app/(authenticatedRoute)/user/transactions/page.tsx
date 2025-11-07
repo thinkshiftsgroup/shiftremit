@@ -129,7 +129,7 @@ const CustomerTrxn = () => {
             Transactions
           </h1>
           <div className="w-full overflow-x-auto">
-            <table className="w-full w-full min-w-max border-collapse">
+            <table className="w-full min-w-max border-collapse">
               <thead className="bg-[#e2e8f0] w-full">
                 <tr className="w-full text-left">
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">

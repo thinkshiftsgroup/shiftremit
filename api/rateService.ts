@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import apiInstance from "./apiInstance";
 import axios from "axios";
 
@@ -48,6 +49,7 @@ export interface AdminRateData {
   rateNGN: number;
   createdAt: string;
   updatedAt: string;
+  recordedAt?: string;
 }
 
 export interface AdminFxRateResponse {
