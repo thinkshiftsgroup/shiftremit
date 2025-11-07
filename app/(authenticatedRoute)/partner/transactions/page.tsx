@@ -28,12 +28,12 @@ const PartnerTransaction = () => {
         <SideNav>
 
             <div className="py-5">
-                <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="flex items-center justify-between gap-2 mb-3 flex-col lg:flex-row">
                     <div>
                         <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
                             Partner Business Space
                         </p>
-                        <h1 className="font-dm-sans font-medium text-[16px] text-[#454745] flex items-center gap-1">
+                        <h1 className="font-dm-sans font-medium text-[16px] text-[#454745] hidden lg:flex items-center gap-1">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="22"
@@ -75,7 +75,7 @@ const PartnerTransaction = () => {
                         </h1>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-col md:flex-row">
                         <div className="rounded-xs py-0 px-3 pe-0 flex items-center justify-between gap-2 border border-[#f1f1f1] bg-white">
                             <p className="text-sm truncate">{partnerCode}</p>
 
@@ -83,7 +83,7 @@ const PartnerTransaction = () => {
                                 onClick={handleCopy}
                                 className="p-1 cursor-pointer text-sm rounded transition flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
                                 title="Copy Code"
-                            > Copy Code
+                            > Copy <span className="hidden md:inline">Code</span>
                                 {copied ? (
                                     <Check size={16} />
                                 ) : (
@@ -112,7 +112,10 @@ const PartnerTransaction = () => {
                             <button
                                 className="p-1 cursor-pointer text-sm rounded transition w-2/7 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342] flex gap-2"
                                 title="Send Invite"
-                            > Send Invite
+                            >
+                                <span className="hidden md:inline">
+                                    Send
+                                </span> Invite
                                 <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
                                     <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
                                         <path d="M22 12.5c0-.491-.005-1.483-.016-1.976c-.065-3.065-.098-4.598-1.229-5.733c-1.131-1.136-2.705-1.175-5.854-1.254a115 115 0 0 0-5.802 0c-3.149.079-4.723.118-5.854 1.254c-1.131 1.135-1.164 2.668-1.23 5.733a69 69 0 0 0 0 2.952c.066 3.065.099 4.598 1.23 5.733c1.131 1.136 2.705 1.175 5.854 1.254q1.204.03 2.401.036"></path>
@@ -123,24 +126,45 @@ const PartnerTransaction = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white flex gap-0">
-                    <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-7/10">
-                        <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+                <div className="bg-white flex gap-0 flex-col md:flex-row">
+                    <div className="py-3.5 px-3 md:px-4 lg:px-6 pe-3 bg-white rounded-md my-4 w-full md:w-6/10 lg:w-7/10">
+                        <h1 className="text-[#072032] md:text-lg font-semibold font-dm-sans mb-2">
                             Transactions
                         </h1>
                         <p>
                             1 Transaction
                         </p>
-                        <div className="flex sm:hidden justify-end">
+                        <div className="flex lg:hidden items-center gap-3 mb-5 lg:mb-15 lg:mt-5">
+                            <div className="relative ">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="TRX ID..."
+                                    value={searchId}
+                                    onChange={(e) => setSearchId(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
+                            <button
+                                onClick={handleFilter}
+                                className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                                </svg>
+                                Filter
+                            </button>
+                        </div>
+                        {/* <div className="flex sm:hidden justify-end">
                             <Filter
                                 className="flex justify-end sm:hidden w-6 h-6 my-2"
                                 onClick={() => setShowAPT((prev) => !prev)}
                                 size={20}
                             />
-                        </div>
-                        <div className="flex items-center gap-3 mb-15 mt-5">
+                        </div> */}
+                        <div className="flex items-center gap-3 lg:p-2 lg:mb-15 lg:mt-5 flex-col md:flex-row">
                             {/* Search Input */}
-                            <div className="relative">
+                            <div className="relative hidden lg:block">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                                 <input
                                     type="text"
@@ -152,34 +176,34 @@ const PartnerTransaction = () => {
                             </div>
 
                             {/* Start Date */}
-                            <div className="relative">
+                            <div className="relative w-full md:w-auto">
                                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                 <input
                                     type="date"
                                     value={startDate}
                                     onChange={(e) => setStartDate(e.target.value)}
                                     placeholder="dd/mm/yyyy"
-                                    className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full md:w-auto"
                                 />
                             </div>
 
                             <span className="text-gray-700 font-medium hidden sm:inline">to</span>
                             {/* End Date */}
-                            <div className="relative">
+                            <div className="relative w-full md:w-auto">
                                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
                                 <input
                                     type="date"
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
                                     placeholder="dd/mm/yyyy"
-                                    className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full md:w-auto"
                                 />
                             </div>
 
                             {/* Filter Button */}
                             <button
                                 onClick={handleFilter}
-                                className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
+                                className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 hidden lg:flex items-center gap-2 whitespace-nowrap"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -340,13 +364,13 @@ const PartnerTransaction = () => {
                                     </div>
                                 </div>
                                 <h1 className="text-[#072032] font-bold text-xl font-dm-sans mb-2">
-                                    £141.00 GBP
+                                    £141.00 <span className="hidden md:inline">GBP</span>
                                 </h1>
                             </div>
                         </div>
                     </div>
                     <hr className="rotate-180" />
-                    <div className="py-3.5 bg-white my-4 w-3/10 space-y-3 border-l ps-3">
+                    <div className="py-3.5 bg-white my-4 w-full md:w-4/10 lg:w-3/10 space-y-3 border-l md:border-0 ps-3">
                         <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
                             Transactions Details
                         </h1>
