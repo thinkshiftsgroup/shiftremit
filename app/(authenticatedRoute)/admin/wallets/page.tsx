@@ -69,8 +69,8 @@ const Wallets = () => {
           </div>
         </div>
       </div> */}
-      <div className="py-10 flex items-center justify-between gap-5">
-        <div className="w-1/2 rounded-md bg-white py-3.5 px-6 shadow-md">
+      <div className="py-5 md:py-10 flex items-center justify-between gap-5 flex-col md:flex-row">
+        <div className="w-full md:w-1/2 rounded-md bg-white py-3.5 px-6 shadow-md">
           <h1 className="text-[#072032]  text-lg font-semibold font-dm-sans mb-2">
             All Recipients
           </h1>
@@ -146,13 +146,13 @@ const Wallets = () => {
             </div>
           </div>
         </div>
-        <div className="w-1/2 rounded-md bg-white  shadow-md">
+        <div className="w-full md:w-1/2 rounded-md bg-white  shadow-md">
           <h1 className="text-[#072032] py-3.5 px-6 text-lg font-semibold font-dm-sans mb-2">
             Add New Recipients
           </h1>
           <hr />
-          <div className="h-[55vh] px-6 py-3">
-            <div className="grid grid-cols-2 gap-5 mb-5">
+          <div className="md:h-[55vh] px-3 md:px-6 py-3">
+            <div className="grid md:grid-cols-2 gap-5 mb-5">
               <div className="w-full flex gap-2 flex-col font-poppins text-sm">
                 <label className="font-semibold" htmlFor="">
                   Currency Type

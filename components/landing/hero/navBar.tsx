@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -80,9 +80,34 @@ const Navbar = () => {
     }
   };
 
+  const sourceRef = useRef<HTMLDivElement | null>(null);
+  const [height, setHeight] = useState(0);
+
+  // Measure height when mounted and on resize
+  useEffect(() => {
+    const updateHeight = () => {
+      if (sourceRef.current) {
+        setHeight(sourceRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight(); // initial measurement
+
+    window.addEventListener("resize", updateHeight);
+
+    const observer = new ResizeObserver(updateHeight);
+    if (sourceRef.current) observer.observe(sourceRef.current);
+
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+      observer.disconnect();
+    };
+  }, []);
+
+
   return (
     <>
-      <div className="flex container px-3 md:px-7 lg:px-20 mx-auto items-center py-3 border-b border-b-[#ffffff1a] w-full justify-between">
+      <div ref={sourceRef} className="flex container px-3 md:px-7 lg:px-20 mx-auto items-center py-3 border-0 border-b-[#ffffff1a] w-full justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" onClick={handleNavClick}>
             <Image
@@ -113,6 +138,9 @@ const Navbar = () => {
           {mobileMenuOpen ? <X size={28} /> : <MenuIcon />}
         </button>
       </div>
+      <div style={{top: `${height}px`  }} className="w-full  border-b border-b-[#ffffff1a]">
+
+      </div>
 
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-b-[#ffffff1a] bg-main-dark-II">
@@ -121,6 +149,8 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
+
     </>
   );
 };
