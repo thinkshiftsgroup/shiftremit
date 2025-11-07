@@ -84,7 +84,7 @@ const IndiAcc = () => {
               </div>
             </div>
           </div>
-          <div className="grid mb-2 grid-cols-3 gap-3">
+          <div className="grid mb-2 md:grid-cols-3 gap-3">
             <div className="space-y-3">
               <label
                 htmlFor="firstname"
@@ -217,7 +217,7 @@ focus:border-main focus:outline-none transition-colors"
             >
               Means of Identification*
             </label>
-            <div className="flex -space-x-3">
+            <div className="flex -space-x-3 flex-col md:flex-row">
               <div className="relative w-full">
                 <select
                   className="
