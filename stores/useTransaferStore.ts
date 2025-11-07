@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 
 export interface TransferData {
   amount?: number;
-  recipientNGN?: number;
+  convertedNGNAmount?: number;
   fromCurrency?: string;
   toCurrency?: string;
   recipientBankName?: string;

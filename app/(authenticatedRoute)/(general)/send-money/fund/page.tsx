@@ -163,7 +163,7 @@ const Fund = () => {
                           {transfer?.recipientFullName}
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
-                          NGN {transfer?.recipientNGN}
+                          NGN {transfer?.convertedNGNAmount}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
                           {transfer?.recipientBankName}
