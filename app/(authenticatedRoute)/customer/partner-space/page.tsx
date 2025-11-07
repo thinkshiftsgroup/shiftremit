@@ -392,10 +392,10 @@ const Partner = () => {
                 <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
                   Wallet Actions
                 </h1>
-                <div className="flex items-center justify-between gap-2">
-                  <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-1 py-1.5 flex gap-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <button className="border text-sm border-[#f1f1f1] rounded cursor-pointer p-1.5 flex gap-2">
                     Withdraw Funds
-                    <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 256 256">
+                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 256 256">
                       <path fill="currentColor" d="M232 198.65V240a8 8 0 0 1-16 0v-41.35A74.84 74.84 0 0 0 192 144v58.35a8 8 0 0 1-14.69 4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12 12 0 0 0-20.89 11.83l22.13 33.79a8 8 0 0 1-13.39 8.76l-22.26-34l-.24-.38A28 28 0 0 1 176 176.4V64h-16a8 8 0 0 1 0-16h16a16 16 0 0 1 16 16v59.62a90.89 90.89 0 0 1 40 75.03M88 56a8 8 0 0 0-8-8H64a16 16 0 0 0-16 16v136a8 8 0 0 0 16 0V64h16a8 8 0 0 0 8-8m69.66 42.34a8 8 0 0 0-11.32 0L128 116.69V16a8 8 0 0 0-16 0v100.69L93.66 98.34a8 8 0 0 0-11.32 11.32l32 32a8 8 0 0 0 11.32 0l32-32a8 8 0 0 0 0-11.32" strokeWidth={4.5} stroke="currentColor"></path>
                     </svg>
                   </button>
