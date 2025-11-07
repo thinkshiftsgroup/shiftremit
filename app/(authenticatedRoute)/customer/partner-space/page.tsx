@@ -294,12 +294,12 @@ const Partner = () => {
                         </div>
                       </div>
                       <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                        {card.amount} G
+                        {card.amount} GBP
                       </h1>
                       <p className="text-xs font-poppins text-[#454745]">
                         Last transaction{" "}
                         <span className="text-[#22c55e] font-medium">
-                          {card.lastTxn} G
+                          {card.lastTxn} GBP
                         </span>
                       </p>
                     </div>
