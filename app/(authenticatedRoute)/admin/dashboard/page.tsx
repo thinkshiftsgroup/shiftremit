@@ -354,7 +354,7 @@ const Dashboard = () => {
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Receiving Amount
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Status
                   </th>
                 </tr>
@@ -400,7 +400,7 @@ const Dashboard = () => {
 
           <hr />
           <div className="relative  px-6 ">
-            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer">
+            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer z-50">
               <div className="flex items-center gap-1 text-xs font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main" /> Send Money:
                 0.00
