@@ -411,10 +411,24 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 className="text-gray-500 hover:text-black rounded transition"
                 aria-label="Close menu"
               >
-
-                <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 1024 1024">
-                  <path fill="currentColor" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64" strokeWidth={25.5} stroke="currentColor"></path>
-                  <path fill="currentColor" d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z" strokeWidth={25.5} stroke="currentColor"></path>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 1024 1024"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64"
+                    strokeWidth={25.5}
+                    stroke="currentColor"
+                  ></path>
+                  <path
+                    fill="currentColor"
+                    d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z"
+                    strokeWidth={25.5}
+                    stroke="currentColor"
+                  ></path>
                 </svg>
               </button>
             </div>
@@ -435,10 +449,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 {nav.subLinks ? (
                   <button
                     onClick={() => toggleDropdown(nav.title)}
-                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${isActive
-                      ? "bg-[#f1f1f1] text-[#301342]"
-                      : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                      }`}
+                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${
+                      isActive
+                        ? "bg-[#f1f1f1] text-[#301342]"
+                        : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                    }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
@@ -453,10 +468,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <Link
                     href={nav.link || "#"}
-                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${isActive
-                      ? "bg-[#f1f1f1] text-[#301342]"
-                      : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                      }`}
+                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${
+                      isActive
+                        ? "bg-[#f1f1f1] text-[#301342]"
+                        : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                    }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
@@ -471,10 +487,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       <Link
                         key={j}
                         href={sub.link}
-                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${pathname === sub.link
-                          ? "bg-[#f1f1f1] text-[#301342]"
-                          : "text-[#6b6b6b] hover:text-[#301342]"
-                          }`}
+                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${
+                          pathname === sub.link
+                            ? "bg-[#f1f1f1] text-[#301342]"
+                            : "text-[#6b6b6b] hover:text-[#301342]"
+                        }`}
                       >
                         - {sub.title}
                       </Link>
@@ -492,7 +509,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <p className="text-[#454745] text-xs pt-1 font-poppins">
             Partnership Wallet
           </p>
-          <p className="text-[#072032] font-dm-sans font-semibold">10.50</p>
+          <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
         </div>
         <IoWallet className="text-main" size={35} />
       </div>
@@ -501,18 +518,13 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-100"
-          onClick={closeSidebar}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 z-100" onClick={closeSidebar} />}
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-64 bg-slate-800 bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
+        className={`fixed top-0 left-0 h-screen w-64 bg-slate-800 bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <SideContent />
       </aside>
@@ -621,7 +633,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </div>
         {children}
       </div>
-    </div >
+    </div>
   );
 };
 

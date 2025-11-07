@@ -3,6 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { FxRateData, AdminRateData } from "@/api/rateService";
 
 interface Rate {
   icon: string;
@@ -55,23 +56,26 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
 };
 
 export default function CompareRates({ isOpen, setIsOpen }: any) {
-  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
-
-  useEffect(() => {
-    if (!ratesData) {
-      fetchRates();
-    }
-  }, [ratesData, fetchRates]);
+  const ratesData = useRatesStore(
+    (state) => state.ratesData as FxRateData | null
+  );
+  const isLoading = useRatesStore((state) => state.isLoading);
+  const error = useRatesStore((state) => state.error);
+  const adminRateData = useRatesStore(
+    (state) => state.adminRateData as AdminRateData | null
+  );
 
   const rates: Rate[] = useMemo(() => {
     if (!ratesData) {
       return [];
     }
 
+    const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
+
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + 8.0;
+    const shiftRemitCurrentRate = moniepointRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const baseComparisonRate = shiftRemitCurrentRate;
@@ -120,7 +124,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       .map(({ sortRate, ...rest }) => rest);
 
     return sortedRates;
-  }, [ratesData]);
+  }, [ratesData, adminRateData]);
 
   const shiftRemitRate =
     rates.find((r) => r.name === "Shift Remit")?.currentRate || 0;
@@ -160,7 +164,9 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
         >
           <div className="px-0 md:px-8 pb-2 md:pb-6 grid grid-cols-2 gap-4">
             {isLoading ? (
-              <p className="text-white col-span-2"></p>
+              <p className="text-white col-span-2">
+                Loading comparison rates...
+              </p>
             ) : error ? (
               <p className="text-red-400 col-span-2">Error: {error}</p>
             ) : (

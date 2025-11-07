@@ -5,6 +5,7 @@ import SideNav from "@/components/dashboard/sideNav";
 import { WalletSection } from "@/components/dashboard/wallets";
 import React, { useEffect, useMemo } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { AdminRateData, FxRateData } from "@/api/rateService";
 
 interface RateCard {
   country: string;
@@ -48,13 +49,23 @@ const PROVIDER_MAP: {
 };
 
 const SendMoney = () => {
-  const { ratesData, isLoading, fetchRates } = useRatesStore();
+  const { fetchRates } = useRatesStore();
+
+  const ratesData = useRatesStore(
+    (state) => state.ratesData as FxRateData | null
+  );
+  const adminRateData = useRatesStore(
+    (state) => state.adminRateData as AdminRateData | null
+  );
+  const isLoading = useRatesStore((state) => state.isLoading);
 
   useEffect(() => {
-    if (!ratesData && !isLoading) {
+    if (!ratesData && !adminRateData && !isLoading) {
       fetchRates();
     }
   }, [ratesData, isLoading, fetchRates]);
+
+  const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
   const { dynamicFiatData, rateDifference } = useMemo(() => {
     if (!ratesData) {
@@ -64,7 +75,7 @@ const SendMoney = () => {
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + 8.0;
+    const shiftRemitCurrentRate = moniepointRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const allRates: Rate[] = [

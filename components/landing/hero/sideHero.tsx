@@ -15,11 +15,19 @@ const SideHero = () => {
   const [sendingAmount, setSendingAmount] = useState("1");
   const [fromCurrency, setFromCurrency] = useState("GBP");
 
-  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+  const {
+    ratesData,
+    adminRateData,
+    isLoading,
+    error,
+    fetchRates,
+    fetchAdminRate,
+  } = useRatesStore();
 
   useEffect(() => {
-    if (!ratesData && !isLoading) {
+    if (!ratesData && !adminRateData && !isLoading) {
       fetchRates();
+      fetchAdminRate();
     }
   }, [ratesData, isLoading, fetchRates]);
 
