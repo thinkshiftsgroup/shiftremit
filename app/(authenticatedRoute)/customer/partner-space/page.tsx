@@ -200,18 +200,18 @@ const Partner = () => {
   const difference = isLoading
     ? ""
     : rateDifference > 0
-    ? rateDifference.toFixed(2)
-    : "";
+      ? rateDifference.toFixed(2)
+      : "";
 
   return (
     <SideNav>
-      <div className="py-5">
-        <div className="flex items-center justify-between gap-2">
+      <div className="py-3 md:py-5">
+        <div className="flex items-center flex-col md:flex-row justify-between gap-2">
           <div>
             <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
               Partner Business Space
             </p>
-            <h1 className="font-dm-sans font-medium text-[16px] text-[#454745] flex items-center gap-1">
+            <h1 className="font-dm-sans font-medium text-[16px] text-[#454745] hidden md:flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -268,47 +268,48 @@ const Partner = () => {
             </button> */}
           </div>
         </div>
-        <div className="flex gap-5">
-          <div className="py-3.5 px-6 bg-white rounded-md my-4 w-7/10">
-            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
-              &nbsp;
-            </h1>
+        <div className="flex flex-col md:flex-row">
+          <div className="my-4 w-full md:w-5/10 lg:w-7/10 md:pe-1.5 lg:pe-2">
+            <div className="px-3 py-3.5 md:px-6 bg-white rounded-md">
+              <h1 className="text-[#072032] md:text-lg font-semibold font-dm-sans md:mb-2">
+                &nbsp;
+              </h1>
 
-            <div className="grid grid-cols-3 gap-3">
-              {cardData.map((card, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="py-2 px-3 bg-white border border-gray-200 rounded-md"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
-                        {card.title}
-                      </p>
-                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
-                        <RiArrowRightUpLine
-                          className="text-[#22c55e]"
-                          size={20}
-                        />
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {cardData.map((card, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="py-2 px-3 bg-white border border-gray-200 rounded-md"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                          {card.title}
+                        </p>
+                        <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                          <RiArrowRightUpLine
+                            className="text-[#22c55e]"
+                            size={20}
+                          />
+                        </div>
                       </div>
+                      <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
+                        {card.amount} G
+                      </h1>
+                      <p className="text-xs font-poppins text-[#454745]">
+                        Last transaction{" "}
+                        <span className="text-[#22c55e] font-medium">
+                          {card.lastTxn} G
+                        </span>
+                      </p>
                     </div>
-                    <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                      {card.amount} G
-                    </h1>
-                    <p className="text-xs font-poppins text-[#454745]">
-                      Last transaction{" "}
-                      <span className="text-[#22c55e] font-medium">
-                        {card.lastTxn} G
-                      </span>
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            <div className=" bg-white border my-4 border-gray-200 rounded-md overflow-hidden">
-              <DataTable />
-              {/* <div className="flex items-center justify-between gap-2 py-2 px-3">
+              <div className=" bg-white border my-4 border-gray-200 rounded-md overflow-hidden">
+                <DataTable />
+                {/* <div className="flex items-center justify-between gap-2 py-2 px-3">
                 <h1 className="text-[#072032] font-semibold text-xl font-dm-sans mb-2">
                   Quick Recipients
                 </h1>
@@ -316,9 +317,9 @@ const Partner = () => {
                   View All <MdKeyboardArrowRight className="" />{" "}
                 </p>
               </div> */}
-              {/* <hr /> */}
+                {/* <hr /> */}
 
-              {/* <div className="">
+                {/* <div className="">
                 <div className="inline-flex flex-col py-2 px-3 gap-2 items-center">
                   <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
                     <GoPlus size={25} />
@@ -326,108 +327,126 @@ const Partner = () => {
                   <p className=" text-sm font-medium  font-dm-sans">Add</p>
                 </div>
               </div> */}
+              </div>
             </div>
           </div>
-          <div className="py-3.5 px-6 bg-white rounded-md my-4 w-3/10">
-            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
-              Your Partner Code
-            </h1>
-
-            <div className="rounded-xs py-0 px-2 pe-0 flex items-center justify-between gap-2 border border-[#f1f1f1] w-full">
-              <p className="text-sm truncate w-7/12">{partnerCode}</p>
-
-              <button
-                onClick={handleCopy}
-                className="p-1 cursor-pointer text-sm rounded transition w-5/12 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
-                title="Copy Code"
-              >
-                {" "}
-                Copy Code
-                {copied ? (
-                  <Check size={16} />
-                ) : (
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 243 243"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="text-white"
-                  >
-                    <path
-                      d="M210.474 129.958C212.202 125.784 212.202 120.479 212.202 109.889C212.202 99.2992 212.202 93.9941 210.474 89.8208C209.332 87.0614 207.657 84.5542 205.545 82.4424C203.433 80.3306 200.926 78.6555 198.166 77.5129C193.993 75.7849 188.688 75.7849 178.098 75.7849H112.163C99.4306 75.7849 93.0645 75.7849 88.204 78.2607C83.9221 80.4411 80.4411 83.9221 78.2607 88.204C75.7849 93.0544 75.7849 99.4205 75.7849 112.163V178.098C75.7849 188.688 75.7849 193.993 77.5129 198.166C79.8269 203.734 84.2529 208.17 89.8208 210.474C93.9941 212.202 99.2992 212.202 109.889 212.202C120.479 212.202 125.784 212.202 129.958 210.474M210.474 129.958C209.332 132.717 207.657 135.224 205.545 137.336C203.433 139.448 200.926 141.123 198.166 142.266C193.993 143.994 188.688 143.994 178.098 143.994C167.508 143.994 162.203 143.994 158.029 145.722C155.27 146.864 152.763 148.539 150.651 150.651C148.539 152.763 146.864 155.27 145.722 158.029C143.994 162.203 143.994 167.508 143.994 178.098C143.994 188.688 143.994 193.993 142.266 198.166C141.123 200.926 139.448 203.433 137.336 205.545C135.224 207.657 132.717 209.332 129.958 210.474M210.474 129.958C205.038 148.701 195.039 165.805 181.372 179.736C167.705 193.668 150.797 203.993 132.161 209.787L129.958 210.474M166.73 75.7849V66.6905C166.73 53.9582 166.73 47.592 164.254 42.7315C162.076 38.4512 158.599 34.9704 154.321 32.7882C149.45 30.3125 143.084 30.3125 130.352 30.3125H66.6905C53.9582 30.3125 47.592 30.3125 42.7315 32.7882C38.4497 34.9687 34.9687 38.4497 32.7882 42.7315C30.3125 47.5819 30.3125 53.9481 30.3125 66.6905V130.352C30.3125 143.084 30.3125 149.45 32.7882 154.311C34.9709 158.595 38.447 162.071 42.7315 164.254C47.5819 166.73 53.9582 166.73 66.7006 166.73H75.7849"
-                      stroke="currentColor"
-                      strokeWidth="15.1575"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
-            <span className="text-gray-500 text-sm">
-              or simply, share your code directly.
-            </span>
-            <hr className="mt-3 mb-4" />
-            <div className="flex flex-col gap-3">
-              <input
-                type="text"
-                className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2"
-                placeholder="Enter customer email to invite them"
-              />
-              <button className="text-white w-1/2 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5">
-                Send Invite
-              </button>
-            </div>
-            <div className=" bg-white my-4 rounded-md">
+          <div className="my-4 w-full md:w-5/10 lg:w-3/10 md:ps-1.5 lg:ps-2">
+            <div className="py-3.5 px-3 md:px-6 bg-white rounded-md h-full">
               <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
-                Wallet Actions
+                Your Partner Code
               </h1>
-              <div className="flex items-center justify-between gap-2">
-                <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-2 py-1.5">
-                  Withdraw Funds
-                </button>
-                <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-2 py-1.5">
-                  Bank Account
+
+              <div className="rounded-xs py-0 px-2 pe-0 flex items-center justify-between gap-2 border border-[#f1f1f1] w-full">
+                <p className="text-sm truncate w-7/12">{partnerCode}</p>
+
+                <button
+                  onClick={handleCopy}
+                  className="p-1 cursor-pointer text-sm rounded transition w-5/12 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
+                  title="Copy Code"
+                >
+                  {" "}
+                  Copy Code
+                  {copied ? (
+                    <Check size={16} />
+                  ) : (
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 243 243"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="text-white"
+                    >
+                      <path
+                        d="M210.474 129.958C212.202 125.784 212.202 120.479 212.202 109.889C212.202 99.2992 212.202 93.9941 210.474 89.8208C209.332 87.0614 207.657 84.5542 205.545 82.4424C203.433 80.3306 200.926 78.6555 198.166 77.5129C193.993 75.7849 188.688 75.7849 178.098 75.7849H112.163C99.4306 75.7849 93.0645 75.7849 88.204 78.2607C83.9221 80.4411 80.4411 83.9221 78.2607 88.204C75.7849 93.0544 75.7849 99.4205 75.7849 112.163V178.098C75.7849 188.688 75.7849 193.993 77.5129 198.166C79.8269 203.734 84.2529 208.17 89.8208 210.474C93.9941 212.202 99.2992 212.202 109.889 212.202C120.479 212.202 125.784 212.202 129.958 210.474M210.474 129.958C209.332 132.717 207.657 135.224 205.545 137.336C203.433 139.448 200.926 141.123 198.166 142.266C193.993 143.994 188.688 143.994 178.098 143.994C167.508 143.994 162.203 143.994 158.029 145.722C155.27 146.864 152.763 148.539 150.651 150.651C148.539 152.763 146.864 155.27 145.722 158.029C143.994 162.203 143.994 167.508 143.994 178.098C143.994 188.688 143.994 193.993 142.266 198.166C141.123 200.926 139.448 203.433 137.336 205.545C135.224 207.657 132.717 209.332 129.958 210.474M210.474 129.958C205.038 148.701 195.039 165.805 181.372 179.736C167.705 193.668 150.797 203.993 132.161 209.787L129.958 210.474M166.73 75.7849V66.6905C166.73 53.9582 166.73 47.592 164.254 42.7315C162.076 38.4512 158.599 34.9704 154.321 32.7882C149.45 30.3125 143.084 30.3125 130.352 30.3125H66.6905C53.9582 30.3125 47.592 30.3125 42.7315 32.7882C38.4497 34.9687 34.9687 38.4497 32.7882 42.7315C30.3125 47.5819 30.3125 53.9481 30.3125 66.6905V130.352C30.3125 143.084 30.3125 149.45 32.7882 154.311C34.9709 158.595 38.447 162.071 42.7315 164.254C47.5819 166.73 53.9582 166.73 66.7006 166.73H75.7849"
+                        stroke="currentColor"
+                        strokeWidth="15.1575"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
+              <span className="text-gray-500 text-sm">
+                or simply, share your code directly.
+              </span>
+              <hr className="mt-3 mb-4" />
+              <div className="flex flex-col gap-3">
+                <input
+                  type="text"
+                  className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2"
+                  placeholder="Enter customer email to invite them"
+                />
+                <button className="text-white w-4/9 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
+                  Send Invite
+                  <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+                      <path d="M22 12.5c0-.491-.005-1.483-.016-1.976c-.065-3.065-.098-4.598-1.229-5.733c-1.131-1.136-2.705-1.175-5.854-1.254a115 115 0 0 0-5.802 0c-3.149.079-4.723.118-5.854 1.254c-1.131 1.135-1.164 2.668-1.23 5.733a69 69 0 0 0 0 2.952c.066 3.065.099 4.598 1.23 5.733c1.131 1.136 2.705 1.175 5.854 1.254q1.204.03 2.401.036"></path>
+                      <path d="m7 8.5l2.942 1.74c1.715 1.014 2.4 1.014 4.116 0L17 8.5m5 9h-8m8 0c0-.7-1.994-2.008-2.5-2.5m2.5 2.5c0 .7-1.994 2.009-2.5 2.5"></path>
+                    </g>
+                  </svg>
+                </button>
+              </div>
+              <div className=" bg-white my-4 rounded-md">
+                <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+                  Wallet Actions
+                </h1>
+                <div className="flex items-center justify-between gap-2">
+                  <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-1 py-1.5 flex gap-3">
+                    Withdraw Funds
+                    <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 256 256">
+                      <path fill="currentColor" d="M232 198.65V240a8 8 0 0 1-16 0v-41.35A74.84 74.84 0 0 0 192 144v58.35a8 8 0 0 1-14.69 4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12 12 0 0 0-20.89 11.83l22.13 33.79a8 8 0 0 1-13.39 8.76l-22.26-34l-.24-.38A28 28 0 0 1 176 176.4V64h-16a8 8 0 0 1 0-16h16a16 16 0 0 1 16 16v59.62a90.89 90.89 0 0 1 40 75.03M88 56a8 8 0 0 0-8-8H64a16 16 0 0 0-16 16v136a8 8 0 0 0 16 0V64h16a8 8 0 0 0 8-8m69.66 42.34a8 8 0 0 0-11.32 0L128 116.69V16a8 8 0 0 0-16 0v100.69L93.66 98.34a8 8 0 0 0-11.32 11.32l32 32a8 8 0 0 0 11.32 0l32-32a8 8 0 0 0 0-11.32" strokeWidth={4.5} stroke="currentColor"></path>
+                    </svg>
+                  </button>
+                  <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-1 py-1.5 flex gap-3">
+                    Bank Account
+                    <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 24 24">
+                      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+                        <rect width={18.5} height={3} x={2.75} y={18.376} rx={1}></rect>
+                        <path d="M11.04 3.15L3.27 7.4a1 1 0 0 0-.52.877v.997a.6.6 0 0 0 .6.6h17.3a.6.6 0 0 0 .6-.6v-.997a1 1 0 0 0-.52-.877l-7.77-4.25a2 2 0 0 0-1.92 0M5.25 9.874v8.51m13.5-8.51v8.51m-4.25-8.51v8.51m-5-8.51v8.51"></path>
+                      </g>
+                    </svg>
+                  </button>
+                </div>
 
-              <div className="w-full overflow-x-auto my-3 rounded">
-                <table className="w-full min-w-max border-collapse">
-                  <thead>
-                    <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
-                      <th className="px-4 py-2 whitespace-nowrap">ID</th>
-                      <th className="px-4 py-2 whitespace-nowrap">Amount</th>
-                      <th className="px-4 py-2 whitespace-nowrap">Date</th>
-                      <th className="px-4 py-2 whitespace-nowrap">Status</th>
-                    </tr>
-                  </thead>
+                <div className="w-full overflow-x-auto my-3 rounded">
+                  <table className="w-full min-w-max border-collapse">
+                    <thead>
+                      <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
+                        <th className="px-4 py-2 whitespace-nowrap">ID</th>
+                        <th className="px-4 py-2 whitespace-nowrap">Amount</th>
+                        <th className="px-4 py-2 whitespace-nowrap">Date</th>
+                        <th className="px-4 py-2 whitespace-nowrap">Status</th>
+                      </tr>
+                    </thead>
 
-                  <tbody>
-                    <tr className="border-b border-gray-100">
-                      <td className="px-4 py-1 text-sm font-medium text-gray-900">
-                        1
-                      </td>
-                      <td className="px-4 py-1 text-sm text-gray-700">
-                        <span>£ 400</span>
-                      </td>
-                      <td className="px-4 py-1 text-sm text-gray-700">
-                        12/03/26
-                      </td>
-                      <td className="px-4 py-1 text-sm text-gray-700">
-                        <span className="p-1 m-1 rounded-xs flex bg-[#e8f7eb]">
-                          Completed (12/03/26)
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    <tbody>
+                      <tr className="border-b border-gray-100">
+                        <td className="px-4 py-1 text-sm font-medium text-gray-900">
+                          1
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          <span>£ 400</span>
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          12/03/26
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          <span className="p-1 m-1 rounded-xs flex bg-[#e8f7eb]">
+                            Completed (12/03/26)
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3 hidden">
+        {/* <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3 hidden">
           <WalletSection cards={dynamicFiatData} rateDifference={difference} />
         </div>
 
@@ -535,7 +554,7 @@ const Partner = () => {
             </div>
             <ChartRadialSimple />
           </div>
-        </div>
+        </div> */}
       </div>
     </SideNav>
   );
