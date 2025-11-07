@@ -14,7 +14,7 @@ const DirectorForm = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-3 gap-5">
         <div className="">
           <label
             htmlFor="firstname"
@@ -259,7 +259,7 @@ focus:border-main focus:outline-none transition-colors"
           </p>
         </div>
 
-        <div className="w-1/3">
+        <div className="md:w-1/3">
           <label
             htmlFor="lastname"
             className="font-poppins font-semibold text-sm text-[#454745] "
