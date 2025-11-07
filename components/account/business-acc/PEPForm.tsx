@@ -18,7 +18,7 @@ const PEPForm = () => {
         Add Another pep +
       </button>
 
-      <div className="w-full grid grid-cols-3 mb-5 gap-5 shadow-sm p-3 rounded-md">
+      <div className="w-full grid md:grid-cols-3 mb-5 gap-5 shadow-sm p-3 rounded-md">
         <div className="">
           <label className="font-poppins font-semibold text-sm text-[#454745] ">
             Name
