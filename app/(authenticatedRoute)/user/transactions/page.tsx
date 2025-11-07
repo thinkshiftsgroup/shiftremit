@@ -143,9 +143,9 @@ const CustomerTrxn = () => {
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Sending Amount
                   </th>
-                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
+                  {/* <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Receiving Amount
-                  </th>
+                  </th> */}
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Recipient
                   </th>
@@ -188,9 +188,9 @@ const CustomerTrxn = () => {
                         £{trx.amount}
                       </td>
 
-                      <td className="px-4 text-sm py-1 font-poppins">
+                      {/* <td className="px-4 text-sm py-1 font-poppins">
                         ₦{trx.receivingAmount}
-                      </td>
+                      </td> */}
 
                       <td className="px-4 text-sm py-1 font-poppins">
                         <span className="flex flex-col gap-0.5">
@@ -202,7 +202,7 @@ const CustomerTrxn = () => {
                       <td className="px-4 text-sm py-1 font-poppins">
                         <span>
                           {trx.recipientBankName}
-                          <p className="text-main font-semibold">
+                          <p>
                             {trx.recipientAccountNumber}
                           </p>
                         </span>
