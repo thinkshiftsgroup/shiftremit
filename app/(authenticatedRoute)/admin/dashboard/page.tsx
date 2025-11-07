@@ -348,10 +348,10 @@ const Dashboard = () => {
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Trx
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Sending Amount
                   </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Receiving Amount
                   </th>
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
