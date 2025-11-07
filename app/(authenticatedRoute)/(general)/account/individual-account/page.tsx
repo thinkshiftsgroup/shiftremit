@@ -305,7 +305,7 @@ focus:border-main focus:outline-none transition-colors"
               required
             />
           </div>
-          <div className="flex items-center justify-between mb-3 gap-5">
+          <div className="flex items-center justify-between mb-3 gap-5 flex-col md:flex-row">
             <div className="space-y-3 w-full">
               <label
                 htmlFor="political"
@@ -353,7 +353,7 @@ focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
-          <div className="flex items-center gap-2 justify-between">
+          <div className="flex items-start md:items-center gap-2 justify-between flex-col md:flex-row">
             <div className="text-[#979797] flex items-center gap-2 font-poppins">
               <input
                 type="checkbox"
