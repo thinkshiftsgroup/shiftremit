@@ -189,13 +189,13 @@ const Dashboard = () => {
 
   return (
     <SideNav>
-      <div className="py-5">
-        <div className="flex items-center justify-between gap-2">
+      <div className="py-3 md:py-5">
+        <div className="flex items-center justify-between gap-2 flex-col md:flex-row">
           <div>
             <p className="text-[#454745] text-sm font-poppins mb-2">
               Welcome Back
             </p>
-            <h1 className="font-dm-sans font-medium text-xl text-[#072032] flex items-center gap-1">
+            <h1 className="font-dm-sans font-medium text-xl text-[#072032] hidden md:flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
