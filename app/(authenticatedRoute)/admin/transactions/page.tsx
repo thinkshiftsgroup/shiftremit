@@ -73,20 +73,43 @@ const AminTrx = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-white flex gap-0">
-          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-7/10">
-            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
+        <div className="bg-white flex gap-0 flex-col md:flex-row">
+          <div className="py-3.5 px-3 md:px-4 lg:px-6 pe-3 bg-white rounded-md my-4 w-full md:w-6/10 lg:w-7/10">
+            <h1 className="text-[#072032] md:text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
-            <p>1 Transaction</p>
-            <div className="flex sm:hidden justify-end">
-              <Filter
-                className="flex justify-end sm:hidden w-6 h-6 my-2"
-                onClick={() => setShowAPT((prev) => !prev)}
-                size={20}
-              />
+            <p>
+              1 Transaction
+            </p>
+            <div className="flex lg:hidden items-center gap-3 mb-5 lg:mb-15 lg:mt-5">
+              <div className="relative ">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="TRX ID..."
+                  value={searchId}
+                  onChange={(e) => setSearchId(e.target.value)}
+                  className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <button
+                onClick={handleFilter}
+                className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Filter
+              </button>
             </div>
-            <div className="flex items-center gap-3 mb-15 mt-5">
+            {/* <div className="flex sm:hidden justify-end">
+                                  <Filter
+                                      className="flex justify-end sm:hidden w-6 h-6 my-2"
+                                      onClick={() => setShowAPT((prev) => !prev)}
+                                      size={20}
+                                  />
+                              </div> */}
+            <div className="flex items-center gap-3 lg:p-2 lg:mb-15 lg:mt-5 flex-col md:flex-row">
               {/* Search Input */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
