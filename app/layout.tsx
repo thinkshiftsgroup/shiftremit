@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { DM_Sans, Poppins } from "next/font/google";
 import "./globals.css";
-import Favicon from "@/public/favicon/favicon.ico"
+import Favicon from "@/public/favicon/favicon.ico";
+import Providers from "@/providers/provider";
+import { Toaster } from "sonner";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -11,7 +13,7 @@ const dmSans = DM_Sans({
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900", "100", "200", "300"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-poppins",
   display: "swap",
 });
@@ -19,7 +21,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Shift Remit",
   icons: [{ rel: "icon", url: Favicon.src }],
-  // description: "Fast and secure money transfers made simple.",
 };
 
 export default function RootLayout({
@@ -32,7 +33,8 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${poppins.variable} antialiased bg-background text-foreground`}
       >
-        {children}
+        <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );

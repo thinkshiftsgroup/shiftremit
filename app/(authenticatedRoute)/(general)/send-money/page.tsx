@@ -3,7 +3,7 @@ import SendMoneyUI from "@/components/dashboard/send-money/sendMoney";
 import SendSteps from "@/components/dashboard/send-money/sendSteps";
 import SideNav from "@/components/dashboard/sideNav";
 import { WalletSection } from "@/components/dashboard/wallets";
-import React, { useEffect, useMemo } from "react";
+import  { useEffect, useMemo } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
 
