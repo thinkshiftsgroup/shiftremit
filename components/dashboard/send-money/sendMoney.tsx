@@ -14,6 +14,8 @@ const SendMoneyUI = () => {
   const router = useRouter();
 
   const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+  const [sendingAmount, setSendingAmount] = useState("1");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
 
   useEffect(() => {
     if (!ratesData && !isLoading) {
@@ -21,18 +23,20 @@ const SendMoneyUI = () => {
     }
   }, [ratesData, isLoading, fetchRates]);
 
-  const handleRateUpdate = (label: string) => {
+  const handleRateUpdate = (
+    label: string,
+    amount: string,
+    currency: string
+  ) => {
     setRateLabelFromTransfer(label);
+    setSendingAmount(amount);
+    setFromCurrency(currency);
   };
-  const totalAmountDisplay = useMemo(() => {
-    if (rateLabelFromTransfer && rateLabelFromTransfer.includes("=")) {
-      const parts = rateLabelFromTransfer.split("=");
 
-      const sentPart = parts[0].trim();
-      return sentPart;
-    }
-    return "1 GBP";
-  }, [rateLabelFromTransfer]);
+  const totalAmountDisplay =
+    sendingAmount === ""
+      ? `0 ${fromCurrency}`
+      : `${sendingAmount} ${fromCurrency}`;
 
   return (
     <div className="p-5 md:p-10">
@@ -80,7 +84,7 @@ const SendMoneyUI = () => {
       <div className="flex font-poppins mt-5 justify-between items-center">
         <div>
           <p className="text-sm opacity-80">Total Amount</p>
-          <p className="font-semibold text-xl">1 GBP</p>
+          <p className="font-semibold text-xl">{totalAmountDisplay}</p>
         </div>
         <button
           onClick={() => router.push("/send-money/recipients")}
