@@ -249,7 +249,7 @@ const Account = () => {
             {individualAcc === "individual" ? (
               <FaCheckCircle className="w-5 h-5 text-main" />
             ) : (
-              <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full" />
+              <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full flex-shrink-0" />
             )}
           </div>
           <div
