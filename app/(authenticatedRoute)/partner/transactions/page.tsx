@@ -110,9 +110,15 @@ const PartnerTransaction = () => {
                             <input type="text" placeholder="Email" className="w-3/7 border-r" />
                             <input type="text" placeholder="Name" className="w-3/7" />
                             <button
-                                className="p-1 cursor-pointer text-sm rounded transition w-2/7 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342]"
+                                className="p-1 cursor-pointer text-sm rounded transition w-2/7 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342] flex gap-2"
                                 title="Send Invite"
                             > Send Invite
+                                <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+                                        <path d="M22 12.5c0-.491-.005-1.483-.016-1.976c-.065-3.065-.098-4.598-1.229-5.733c-1.131-1.136-2.705-1.175-5.854-1.254a115 115 0 0 0-5.802 0c-3.149.079-4.723.118-5.854 1.254c-1.131 1.135-1.164 2.668-1.23 5.733a69 69 0 0 0 0 2.952c.066 3.065.099 4.598 1.23 5.733c1.131 1.136 2.705 1.175 5.854 1.254q1.204.03 2.401.036"></path>
+                                        <path d="m7 8.5l2.942 1.74c1.715 1.014 2.4 1.014 4.116 0L17 8.5m5 9h-8m8 0c0-.7-1.994-2.008-2.5-2.5m2.5 2.5c0 .7-1.994 2.009-2.5 2.5"></path>
+                                    </g>
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -346,8 +352,8 @@ const PartnerTransaction = () => {
                         </h1>
                         <div className="flex gap-2">
                             <div className="rounded-full p-3 bg-[#dbefe5] text-[#23c45f]">
-                                <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M18.005 7h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h15zm-14 2v10h16V9zm0-4v2h12V5zm11 8h3v2h-3z" strokeWidth={0.5} stroke="currentColor"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 2048 2048">
+                                    <path fill="currentColor" d="M1888 256q33 0 62 12t51 35t34 51t13 62v1088q0 33-12 62t-35 51t-51 34t-62 13H160q-33 0-62-12t-51-35t-34-51t-13-62V416q0-33 12-62t35-51t51-34t62-13zM160 384q-14 0-23 9t-9 23v224h1792V416q0-14-9-23t-23-9zm1728 1152q14 0 23-9t9-23V768H128v736q0 14 9 23t23 9zm-480-384h256v128h-256z" strokeWidth={51} stroke="currentColor"></path>
                                 </svg>
                             </div>
                             <div className="flex flex-col">
