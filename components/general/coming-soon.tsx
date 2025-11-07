@@ -2,8 +2,8 @@ import React from "react";
 
 const Comingsoon = () => {
   return (
-    <div className="mx-20">
-      <div className="my-10  p-5 container mx-auto rounded-sm w-full bg-white">
+    <div className="md:mx-20">
+      <div className="my-5 md:my-10  p-5 container mx-auto rounded-sm w-full bg-white">
         <div className="rounded-sm mt-5 font-poppins w-full flex items-center justify-center p-5 min-h-[400px] font-normal border border-[#d1d5db80]">
           <div className="flex flex-col items-center gap-2">
             <svg
