@@ -317,8 +317,8 @@ const Dashboard = () => {
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <div className="flex items-center justify-between">
-            <div className="flex  items-center gap-2.5">
+          <div className="flex items-start md:items-center justify-between flex-col md:flex-row">
+            <div className="flex  items-start md:items-center gap-2.5 flex-col md:flex-row">
               <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
                 <FaUserPlus size={25} />
               </div>
@@ -341,11 +341,11 @@ const Dashboard = () => {
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
             Latest Sending Log
           </h1>
-          <div className="">
-            <table className="w-full">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full min-w-max border-collapse">
               <thead className="bg-[#e2e8f0] w-full">
-                <tr className="w-full">
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
+                <tr className="w-full text-left">
+                  <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Trx
                   </th>
                   <th className="font-poppins py-2 px-6 text-sm font-semibold">
