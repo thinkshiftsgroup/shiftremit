@@ -125,20 +125,20 @@ const Recipients = () => {
                         stroke="#4F4F4F"
                         strokeWidth="1.875"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
                         stroke="#4F4F4F"
                         strokeWidth="1.875"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M17.3203 20.5781H17.3311"
                         stroke="#4F4F4F"
                         strokeWidth="2.5"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                     <svg
@@ -153,7 +153,7 @@ const Recipients = () => {
                         d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
                         stroke="#813FD6"
                         strokeWidth="1.875"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </div>
