@@ -253,12 +253,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4">
+        <div className="px-2.5 py-4 md:py-3.5 md:px-6 bg-white rounded-md my-4">
           <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
             Overview
           </h1>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-3 gap-3">
             {cardData.map((card, index) => {
               return (
                 <div
