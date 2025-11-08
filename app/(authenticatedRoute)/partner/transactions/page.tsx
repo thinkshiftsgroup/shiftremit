@@ -110,7 +110,7 @@ const PartnerTransaction = () => {
                             <input type="text" placeholder="Email" className="w-3/7 border-r" />
                             <input type="text" placeholder="Name" className="w-3/7" />
                             <button
-                                className="p-1 cursor-pointer text-sm rounded transition w-2/7 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342] flex gap-2"
+                                className="p-1 cursor-pointer text-sm rounded transition w-2/7 flex items-center justify-center text-white  bg-linear-to-l from-[#813FD6] to-[#301342] gap-2"
                                 title="Send Invite"
                             >
                                 <span className="hidden md:inline">
