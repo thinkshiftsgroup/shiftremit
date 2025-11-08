@@ -3,11 +3,17 @@ import DataTable from "@/components/dashboard/partner-space/dataTable";
 import SideNav from "@/components/dashboard/sideNav";
 import { Calendar, Check, Filter, Search } from "lucide-react";
 import React, { useState } from "react";
+import { useTrx } from "../../user/transactions/useTrx";
 
 const AminTrx = () => {
   const partnerCode = "SR7X2AI";
 
   const [copied, setCopied] = useState(false);
+  const [page, setPage] = useState(1);
+  const { getBankTrfsAdmin } = useTrx();
+  const { data, isLoading } = getBankTrfsAdmin({ page, pageSize: 5 });
+  const Trxs = data?.transfers || [];
+  console.log(data, "admin trx");
 
   const handleCopy = () => {
     navigator.clipboard.writeText(partnerCode);
@@ -74,7 +80,7 @@ const AminTrx = () => {
           </div>
         </div>
         <div className="bg-white flex gap-0">
-          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-7/10">
+          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-6/10">
             <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
@@ -86,18 +92,18 @@ const AminTrx = () => {
                 size={20}
               />
             </div>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="TRX ID..."
+                value={searchId}
+                onChange={(e) => setSearchId(e.target.value)}
+                className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
             <div className="flex items-center gap-3 mb-15 mt-5">
               {/* Search Input */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="TRX ID..."
-                  value={searchId}
-                  onChange={(e) => setSearchId(e.target.value)}
-                  className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
 
               {/* Start Date */}
               <div className="relative">
@@ -286,7 +292,7 @@ const AminTrx = () => {
                                 </span>
                             </div>
                         )} */}
-            <div className=" bg-[#f1f5f9] my-4 border-gray-200 rounded-md">
+            {/* <div className=" bg-[#f1f5f9] my-4 border-gray-200 rounded-md">
               <div className="flex items-center justify-between gap-2 py-3 px-3">
                 <div className="flex items-center gap-4">
                   <div className="rounded-full p-3 bg-[#dbefe5] text-[#23c45f]">
@@ -311,12 +317,12 @@ const AminTrx = () => {
                   £141.00 GBP
                 </h1>
               </div>
-            </div>
+            </div> */}
           </div>
           <hr className="rotate-180" />
-          <div className="py-3.5 bg-white my-4 w-3/10 space-y-3 border-l ps-3">
+          <div className="py-3.5 bg-white my-4 w-4/10 space-y-3 border-l ps-3">
             <div className="flex gap-2">
-              <div className="rounded-full p-3 bg-[#dbefe5] text-[#23c45f]">
+              <div className="rounded-full p-3 w-14 flex justify-center items-center h-14 bg-[#dbefe5] text-[#23c45f]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={26}
@@ -331,11 +337,50 @@ const AminTrx = () => {
                   ></path>
                 </svg>
               </div>
-              <div className="flex flex-col">
-                <p className="">Total Transaction Amount</p>
-                <h1 className="text-gray-600 font-bold text-xl font-dm-sans">
-                  ₦141.00 NGN
-                </h1>
+              <div className="">
+                <div className="flex flex-col">
+                  <p className="">Total Transaction Amount</p>
+                  <div className="flex items-center my-2 gap-1">
+                    <div className="relative">
+                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        placeholder="dd/mm/yyyy"
+                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    {/* <span className="text-gray-700 font-medium hidden sm:inline">
+                      to
+                    </span> */}
+                    {/* End Date */}
+                    <div className="relative">
+                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        placeholder="dd/mm/yyyy"
+                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <h1 className="text-gray-600 font-bold text-xl font-dm-sans">
+                      141.00 GBP
+                    </h1>
+                    <select
+                      className="text-gray-600 font-bold text-xl font-dm-sans"
+                      name=""
+                      id=""
+                    >
+                      <option value="">NGN</option>
+                      <option value="">GBP</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -369,9 +414,7 @@ const AminTrx = () => {
                 <span className="text-gray-600 text-sm text-medium">
                   Abandoned
                 </span>
-                <span className="text-black font-semibold text-sm">
-                  100
-                </span>
+                <span className="text-black font-semibold text-sm">100</span>
               </div>
             </div>
           </div>

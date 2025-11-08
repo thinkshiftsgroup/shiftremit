@@ -38,6 +38,8 @@ const BankDetails = () => {
   const [purpose, setPurpose] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
 
+  const [error, setError] = useState(false);
+
   const { getBanks, getBankDetails } = useRecipient();
   const { setTransfer } = useTransferStore();
   const { sendTfDetails } = useSendMoney();
@@ -49,8 +51,19 @@ const BankDetails = () => {
   } = getBankDetails({ accountNumber, bankCode });
 
   useEffect(() => {
+    if (getBanks.data?.data?.length > 0) {
+      const first = getBanks.data.data[0];
+      setBankCode(first.code);
+      setBankName(first.name);
+    }
+  }, [getBanks.data]);
+
+  useEffect(() => {
     if (accountNumber.length === 10 && bankCode) {
       resolveAccount();
+      setError(false);
+    } else {
+      setError(true);
     }
   }, [accountNumber, bankCode, resolveAccount]);
 
@@ -63,7 +76,6 @@ const BankDetails = () => {
       purpose: purpose,
       isRecipientBusinessAccount: isBusiness,
     });
-    console.log(transfer, "td deets");
 
     sendTfDetails.mutate(
       {
@@ -123,6 +135,7 @@ const BankDetails = () => {
                 <select
                   name="bank name"
                   id="bank name"
+                  value={JSON.stringify({ name: bankName, code: bankCode })}
                   onChange={(e) => {
                     const { name, code } = JSON.parse(e.target.value);
                     setBankCode(code);
@@ -188,6 +201,11 @@ focus:border-main focus:outline-none transition-colors"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 />
+                {error && (
+                  <p className="text-xs text-red-500 font-dm-sans mt-1">
+                    Invalid account details
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -236,7 +254,7 @@ focus:border-main focus:outline-none transition-colors"
             <button
               disabled={
                 resolvingAccount ||
-                !accountNumber ||
+                accountNumber.length < 10 ||
                 !bankName ||
                 !bankDetails?.data?.account_name
               }
