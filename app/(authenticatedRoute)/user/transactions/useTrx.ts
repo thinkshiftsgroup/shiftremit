@@ -1,5 +1,6 @@
 import apiInstance from "@/api/apiInstance";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export const useTrx = () => {
   const getBankTrfsUser = ({
@@ -23,24 +24,40 @@ export const useTrx = () => {
   // get all trx: admin
   const getBankTrfsAdmin = ({
     page,
-    pageSize,
+    limit,
+    status,
   }: {
     page: number;
-    pageSize: number;
+    limit: number;
+    status: string;
   }) =>
     useQuery({
-      queryKey: ["fetch-bank-tfs-admin", page, pageSize],
+      queryKey: ["fetch-bank-tfs-admin", page, limit],
       queryFn: async () => {
         const res = await apiInstance.get(
-          `/api/admin/transfers/history?page=${page}&pageSize=${pageSize}`
+          `/api/admin/transfers/history?page=${page}&limit=${limit}&status=${status}`
         );
         return res.data;
       },
       keepPreviousData: true,
     });
 
+  const updateTrxStatus = useMutation({
+    mutationKey: ["update-trx-status"],
+    mutationFn: async ({ status, id }: { status: string; id: string }) => {
+      const res = await apiInstance.post(`/api/admin/transfers/${id}/status`, {
+        status,
+      });
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+    },
+  });
+
   return {
     getBankTrfsUser,
     getBankTrfsAdmin,
+    updateTrxStatus,
   };
 };
