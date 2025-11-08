@@ -317,7 +317,7 @@ const AminTrx = () => {
                   £141.00 <span className="hidden md:inline">GBP</span>
                 </h1>
               </div>
-            </div> */}
+            </div> 
           </div>
           <hr className="rotate-180" />
           <div className="py-3.5 bg-white my-4 w-4/10 space-y-3 border-l ps-3">
