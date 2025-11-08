@@ -167,7 +167,7 @@ const Partner = () => {
     const competitorRates = allRates.filter((r) => r.name !== "Shift Remit");
 
     const lowestCompetitorRate =
-      competitorRates.length > 0
+      competitorRates?.length > 0
         ? Math.min(...competitorRates.map((r) => r.currentRate))
         : 0;
 
