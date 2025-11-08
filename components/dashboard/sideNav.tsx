@@ -276,6 +276,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Verifications",
       link: "/admin/kyc",
+      badge: 5,
       showFor: ["admin"],
     },
     {
@@ -496,7 +497,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
-                      <p>{nav.title}</p>
+                      <div className="flex items-center gap-2">
+                        <span>{nav.title}</span>
+
+                        {(nav.badge ?? 0) > 0 && (
+                          <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
+                            {nav.badge}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </Link>
                 )}

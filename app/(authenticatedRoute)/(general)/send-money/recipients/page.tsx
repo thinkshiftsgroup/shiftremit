@@ -11,7 +11,7 @@ const Recipients = () => {
   const router = useRouter();
   return (
     <SideNav>
-      <div className="my-7 bg-white rounded-lg mx-auto ">
+      <div className="my-4 md:my-7 bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
         <div className="my-10 ">
           <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
@@ -22,13 +22,13 @@ const Recipients = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl  mx-auto">
+        <div className="max-w-2xl px-2 md:px-0 mx-auto">
           <div
             onClick={() => router.push("/send-money/recipients/bank-details")}
             className="flex cursor-pointer items-center justify-between py-3"
           >
             <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center">
+              <div className="w-12 flex-none h-12 rounded-full border border-gray-200 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
@@ -58,9 +58,12 @@ const Recipients = () => {
             className="flex cursor-pointer items-center justify-between border-t border-t-gray-200 border-b border-b-gray-200 py-3"
           >
             <div className="flex items-start gap-2">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center">
-                <img src="/images/shiftremit-logo.png" alt="" />
-              </div>
+              <img
+                src="/images/shiftremit-logo.png"
+                className="w-12 flex-none h-12 rounded-full "
+                alt=""
+              />
+
               <div>
                 <h1 className="font-poppins text-black font-semibold text-base">
                   Find on ShiftRemit
@@ -80,7 +83,7 @@ const Recipients = () => {
           </div>
           <div className="py-3">
             <h1 className="font-poppins text-sm font-medium mb-5">Recents</h1>
-            <div className="flex items-center justify-between gap-5">
+            <div className="flex flex-wrap items-center justify-between gap-5">
               <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
                 <div className="relative ">
                   <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
@@ -195,7 +198,6 @@ const Recipients = () => {
             <FaArrowLeft size={16} />
             Back
           </button>
-        
         </div>
       </div>
     </SideNav>

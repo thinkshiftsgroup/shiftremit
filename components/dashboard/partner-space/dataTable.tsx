@@ -115,9 +115,12 @@ export default function DataTable() {
                     </svg>
                   </span>
                 </td>
-                {/* <td className="px-4 flex items-center  py-1 text-sm text-gray-700">
-                 
-                </td> */}
+                <td className="px-4  py-1 text-sm text-gray-700">
+                  <div className="text-white font-poppins *:cursor-pointer flex items-center *:p-3 text-sm">
+                    <span className="flex items-center gap-1 ">Accept</span>
+                    <span className="flex items-center gap-1 ">Decline</span>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

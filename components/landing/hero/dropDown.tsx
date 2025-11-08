@@ -83,7 +83,7 @@ export default function DropdownComponent({
   return (
     <div className="relative w-full z-50">
       <div
-        className="flex items-center justify-between transition-all duration-200 gap-2 w-full"
+        className="flex items-center transition-all duration-200 gap-1 w-full"
         onClick={toggleDropdown}
       >
         {selectedCurrency && (
@@ -97,10 +97,10 @@ export default function DropdownComponent({
                 1
               )}`;
             }}
-            className="rounded-full object-cover w-6.5 h-6.5"
+            className="rounded-full object-cover w-5 h-5"
           />
         )}
-        <span className="font-semibold">
+        <span className="font-semibold text-sm">
           {selectedCurrency ? selectedCurrency.code : ""}
         </span>
         {isOpen ? (
