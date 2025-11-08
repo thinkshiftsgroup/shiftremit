@@ -39,8 +39,8 @@ const CustomerTrxn = () => {
   ];
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const { getBankTrfs } = useTrx();
-  const { data, isLoading } = getBankTrfs({ page, pageSize: 5 });
+  const { getBankTrfsUser } = useTrx();
+  const { data, isLoading } = getBankTrfsUser({ page, pageSize: 5 });
   const Trxs = data?.transfers || [];
   return (
     <SideNav>
@@ -220,12 +220,12 @@ const CustomerTrxn = () => {
 
                       <td className="px-4 text-sm py-1 font-poppins">
                         <span
-                          className={`p-1 rounded-sm text-white ${
-                            trx.status === "Completed"
-                              ? "bg-green-500"
-                              : trx.status === "Pending"
-                              ? "bg-yellow-500"
-                              : "bg-red-500"
+                          className={`p-1 rounded-sm border capitalize ${
+                            trx.status === "COMPLETED"
+                              ? "bg-green-500/40 text-green-500 border-green-500"
+                              : trx.status === "PENDING"
+                              ? "bg-[#FFB90D]/20 text-[#FFB90D] border-[#FFB90D]"
+                              : "bg-red-500/40 text-red-500 border-red-500"
                           }`}
                         >
                           {trx.status}

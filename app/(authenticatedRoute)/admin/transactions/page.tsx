@@ -3,11 +3,17 @@ import DataTable from "@/components/dashboard/partner-space/dataTable";
 import SideNav from "@/components/dashboard/sideNav";
 import { Calendar, Check, Filter, Search } from "lucide-react";
 import React, { useState } from "react";
+import { useTrx } from "../../user/transactions/useTrx";
 
 const AminTrx = () => {
   const partnerCode = "SR7X2AI";
 
   const [copied, setCopied] = useState(false);
+  const [page, setPage] = useState(1);
+  const { getBankTrfsAdmin } = useTrx();
+  const { data, isLoading } = getBankTrfsAdmin({ page, pageSize: 5 });
+  const Trxs = data?.transfers || [];
+  console.log(data, "admin trx");
 
   const handleCopy = () => {
     navigator.clipboard.writeText(partnerCode);
@@ -73,9 +79,9 @@ const AminTrx = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-white flex gap-0 flex-col md:flex-row">
-          <div className="py-3.5 px-3 md:px-4 lg:px-6 pe-3 bg-white rounded-md my-4 w-full md:w-6/10 lg:w-7/10">
-            <h1 className="text-[#072032] md:text-lg font-semibold font-dm-sans mb-2">
+        <div className="bg-white flex gap-0">
+          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-6/10">
+            <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
             <p>
@@ -102,25 +108,18 @@ const AminTrx = () => {
                 Filter
               </button>
             </div>
-            {/* <div className="flex sm:hidden justify-end">
-                                  <Filter
-                                      className="flex justify-end sm:hidden w-6 h-6 my-2"
-                                      onClick={() => setShowAPT((prev) => !prev)}
-                                      size={20}
-                                  />
-                              </div> */}
-            <div className="flex items-center gap-3 lg:p-2 lg:mb-15 lg:mt-5 flex-col md:flex-row">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="TRX ID..."
+                value={searchId}
+                onChange={(e) => setSearchId(e.target.value)}
+                className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div className="flex items-center gap-3 mb-15 mt-5">
               {/* Search Input */}
-              <div className="relative hidden lg:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="TRX ID..."
-                  value={searchId}
-                  onChange={(e) => setSearchId(e.target.value)}
-                  className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
 
               {/* Start Date */}
               <div className="relative w-full md:w-auto">
@@ -318,22 +317,70 @@ const AminTrx = () => {
                   £141.00 <span className="hidden md:inline">GBP</span>
                 </h1>
               </div>
-            </div>
+            </div> */}
           </div>
           <hr className="rotate-180" />
-          <div className="py-3.5 bg-white my-4 w-full md:w-4/10 lg:w-3/10 space-y-3 md:border-l p-3 md:ps-3">
-            {/* <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
-              Transactions Details
-            </h1> */}
+          <div className="py-3.5 bg-white my-4 w-4/10 space-y-3 border-l ps-3">
             <div className="flex gap-2">
-              <div className="rounded-full p-3 bg-[#dbefe5] text-[#23c45f]">
-                <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 2048 2048">
-                  <path fill="currentColor" d="M1888 256q33 0 62 12t51 35t34 51t13 62v1088q0 33-12 62t-35 51t-51 34t-62 13H160q-33 0-62-12t-51-35t-34-51t-13-62V416q0-33 12-62t35-51t51-34t62-13zM160 384q-14 0-23 9t-9 23v224h1792V416q0-14-9-23t-23-9zm1728 1152q14 0 23-9t9-23V768H128v736q0 14 9 23t23 9zm-480-384h256v128h-256z" strokeWidth={51} stroke="currentColor"></path>
+              <div className="rounded-full p-3 w-14 flex justify-center items-center h-14 bg-[#dbefe5] text-[#23c45f]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={26}
+                  height={26}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M18.005 7h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h15zm-14 2v10h16V9zm0-4v2h12V5zm11 8h3v2h-3z"
+                    strokeWidth={0.5}
+                    stroke="currentColor"
+                  ></path>
                 </svg>
               </div>
-              <div className="flex flex-col">
-                <p className="">Total Transaction Amount</p>
-                <h1 className="text-gray-600 font-bold text-xl font-dm-sans">£141.00 GBP</h1>
+              <div className="">
+                <div className="flex flex-col">
+                  <p className="">Total Transaction Amount</p>
+                  <div className="flex items-center my-2 gap-1">
+                    <div className="relative">
+                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        placeholder="dd/mm/yyyy"
+                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    {/* <span className="text-gray-700 font-medium hidden sm:inline">
+                      to
+                    </span> */}
+                    {/* End Date */}
+                    <div className="relative">
+                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        placeholder="dd/mm/yyyy"
+                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <h1 className="text-gray-600 font-bold text-xl font-dm-sans">
+                      141.00 GBP
+                    </h1>
+                    <select
+                      className="text-gray-600 font-bold text-xl font-dm-sans"
+                      name=""
+                      id=""
+                    >
+                      <option value="">NGN</option>
+                      <option value="">GBP</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -354,7 +401,9 @@ const AminTrx = () => {
                                       </span> */}
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-gray-600 text-sm text-medium">Abandoned</span>
+                <span className="text-gray-600 text-sm text-medium">
+                  Abandoned
+                </span>
                 <span className="text-black font-semibold text-sm">100</span>
               </div>
             </div>
