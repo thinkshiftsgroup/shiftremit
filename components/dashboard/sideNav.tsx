@@ -113,7 +113,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             fill="none"
             stroke="currentColor"
             strokeLinecap="round"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
             d="M6.5 15.402H22v15.5m0-15.5l-17.5 17.5m37-.304H26v-15.5m0 15.5l17.5-17.5"
             stroke-width="2"
           />

@@ -55,8 +55,8 @@ const FXRates = () => {
 
   return (
     <SideNav>
-      <div className="py-10 flex items-start justify-between gap-5">
-        <div className="w-1/2  rounded-md bg-white py-3.5 px-6 shadow-md">
+      <div className="py-5 md:py-7 lg:py-10 flex items-start justify-between gap-5 flex-col md:flex-row">
+        <div className="w-full md:w-1/2  rounded-md bg-white py-3.5 px-3 md:px-6 shadow-md">
           <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
             Rate History
           </h1>
@@ -222,12 +222,12 @@ const FXRates = () => {
             </div>
           )}
         </div>
-        <div className="w-1/2 rounded-md bg-white  shadow-md">
+        <div className="w-full md:w-1/2 rounded-md bg-white  shadow-md">
           <h1 className="text-[#072032] py-3 px-6 text-lg font-semibold font-dm-sans mb-2">
             Manage Live Rates
           </h1>
           <hr />
-          <div className="px-6 py-3">
+          <div className="px-4 md:px-6 py-3">
             <div className="space-y-2">
               <div>
                 <label className="font-poppins font-semibold text-sm text-[#454745]">
