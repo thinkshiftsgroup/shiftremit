@@ -12,6 +12,9 @@ import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 import { IoWallet } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTrx } from "./useTrx";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const CustomerTrxn = () => {
   const cardData = [
@@ -34,9 +37,11 @@ const CustomerTrxn = () => {
       lastTxn: 0,
     },
   ];
-
   const router = useRouter();
-
+  const [page, setPage] = useState(1);
+  const { getBankTrfsUser } = useTrx();
+  const { data, isLoading } = getBankTrfsUser({ page, pageSize: 5 });
+  const Trxs = data?.transfers || [];
   return (
     <SideNav>
       <div className="py-5">
@@ -149,37 +154,112 @@ const CustomerTrxn = () => {
                   </th>
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Date
-                  </th>{" "}
+                  </th>
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Status
                   </th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                  <td className=" px-4 text-sm py-1 font-poppins">726h36</td>
-                  <td className=" px-4 text-sm py-1 font-poppins">£5000</td>
-                  <td className=" px-4 text-sm py-1 font-poppins">₦10,000,000</td>
-                  <td className=" px-4 text-sm py-1 font-poppins">
-                    <span className="flex flex-col gap-0.5  text-sm py-1 font-poppins">
-                      Joshua Israel
-                      <p>joshisr@gmail.com</p>
-                    </span>
-                  </td>
-                  <td className="px-4 text-sm py-1 font-poppins">
-                    <span>
-                      Wema Bank
-                      <p>9736524134</p>
-                    </span>
-                  </td>
-                  <td className="px-4 text-sm py-1 font-poppins">23/11/25 18:00</td>
-                  <td className="px-4 text-sm py-1 font-poppins">
-                    <span className="p-1 bg-green-500 text-white rounded-sm">Completed</span>
-                  </td>
-                </tr>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={7} className="text-center py-8">
+                      <Loader2 className="animate-spin mx-auto" />
+                    </td>
+                  </tr>
+                ) : Trxs.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="text-center py-6 text-sm font-poppins opacity-70"
+                    >
+                      No transactions found
+                    </td>
+                  </tr>
+                ) : (
+                  Trxs.map((trx: any) => (
+                    <tr key={trx.id}>
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        {trx.transferReference}
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        £{trx.amount}
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        ₦{trx.convertedNGNAmount}
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        <span className="flex flex-col gap-0.5">
+                          {trx.recipientFullName}
+                          <p>{trx.recipientEmail}</p>
+                        </span>
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        <span>
+                          {trx.recipientBankName}
+                          <p>
+                            {trx.recipientAccountNumber}
+                          </p>
+                        </span>
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        {new Date(trx.createdAt).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+
+                      <td className="px-4 text-sm py-1 font-poppins">
+                        <span
+                          className={`p-1 rounded-sm border capitalize ${
+                            trx.status === "COMPLETED"
+                              ? "bg-green-500/40 text-green-500 border-green-500"
+                              : trx.status === "PENDING"
+                              ? "bg-[#FFB90D]/20 text-[#FFB90D] border-[#FFB90D]"
+                              : "bg-red-500/40 text-red-500 border-red-500"
+                          }`}
+                        >
+                          {trx.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
+
+          {!isLoading && (
+            <div className="flex items-center justify-between mt-4 px-3 md:px-6">
+              <button
+                disabled={page === 1}
+                onClick={() => setPage(page - 1)}
+                className="p-2 disabled:opacity-40"
+              >
+                <ChevronLeft />
+              </button>
+
+              <p className="text-xs font-poppins text-main-dark">
+                Page {data?.meta.page}
+              </p>
+
+              <button
+                onClick={() => setPage(page + 1)}
+                className="p-2 disabled:opacity-40"
+              >
+                <ChevronRight size={20} className="text-main-dark-II" />
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="py-3.5 bg-white rounded-md my-4">
@@ -202,7 +282,6 @@ const CustomerTrxn = () => {
                 <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
                 Deposit: 0.00
               </div> */}
-             
             </div>
             <ChartRadialSimple />
           </div>

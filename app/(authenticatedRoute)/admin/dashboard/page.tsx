@@ -189,13 +189,13 @@ const Dashboard = () => {
 
   return (
     <SideNav>
-      <div className="py-5">
-        <div className="flex items-center justify-between gap-2">
+      <div className="py-3 md:py-5">
+        <div className="flex items-center justify-between gap-2 flex-col md:flex-row">
           <div>
             <p className="text-[#454745] text-sm font-poppins mb-2">
               Welcome Back
             </p>
-            <h1 className="font-dm-sans font-medium text-xl text-[#072032] flex items-center gap-1">
+            <h1 className="font-dm-sans font-medium text-xl text-[#072032] hidden md:flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -241,24 +241,24 @@ const Dashboard = () => {
             <button className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
               Send <FaArrowUp />
             </button>
-            <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            {/* <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Deposit <FaPlus />
             </button>
             <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Request Money <FaPlus />
-            </button>
+            </button> */}
             {/* <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Exchange Money <FaArrowDown />
             </button> */}
           </div>
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4">
+        <div className="px-2.5 py-4 md:py-3.5 md:px-6 bg-white rounded-md my-4">
           <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
             Overview
           </h1>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-3 gap-3">
             {cardData.map((card, index) => {
               return (
                 <div
@@ -277,12 +277,12 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                    {card.amount} G
+                    {card.amount} GBP
                   </h1>
                   <p className="text-xs font-poppins text-[#454745]">
                     Last transaction{" "}
                     <span className="text-[#22c55e] font-medium">
-                      {card.lastTxn} G
+                      {card.lastTxn} GBP
                     </span>
                   </p>
                 </div>
@@ -317,8 +317,8 @@ const Dashboard = () => {
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
-          <div className="flex items-center justify-between">
-            <div className="flex  items-center gap-2.5">
+          <div className="flex items-start md:items-center justify-between flex-col md:flex-row">
+            <div className="flex  items-start md:items-center gap-2.5 flex-col md:flex-row">
               <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
                 <FaUserPlus size={25} />
               </div>
@@ -339,24 +339,19 @@ const Dashboard = () => {
         </div>
         <div className="py-3.5  bg-white rounded-md my-4">
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
-            Latest Sending Log
+            Latest Transaction Log
           </h1>
           <div className="">
             <table className="w-full">
-              <thead className="bg-[#e2e8f0] w-full">
-                <tr className="w-full">
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
-                    Trx
-                  </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
-                    Sending Amount
-                  </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
-                    Receiving Amount
-                  </th>
-                  <th className="font-poppins py-2 px-6 text-sm font-semibold">
-                    Status
-                  </th>
+              <thead>
+                <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
+                  <th className="px-4 py-2 whitespace-nowrap">Customer</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Trx ID</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Sending Trx</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Recipient</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Date</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Status</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -400,7 +395,7 @@ const Dashboard = () => {
 
           <hr />
           <div className="relative  px-6 ">
-            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer">
+            <div className="absolute flex mt-5 flex-col gap-1 *:cursor-pointer z-50">
               <div className="flex items-center gap-1 text-xs font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main" /> Send Money:
                 0.00
@@ -409,14 +404,14 @@ const Dashboard = () => {
                 <div className="w-3 h-3 rounded-full bg-main-dark" /> Request
                 Money: 0.00
               </div>
-              <div className="flex items-center gap-1 text-xs font-poppins">
+              {/* <div className="flex items-center gap-1 text-xs font-poppins">
                 <div className="w-3 h-3 rounded-full bg-main-dark-II" />{" "}
                 Deposit: 0.00
               </div>
               <div className="flex items-center gap-1 text-xs font-poppins">
                 <div className="w-3 h-3 rounded-full bg-primary" /> Withdraw:
                 0.00
-              </div>
+              </div> */}
             </div>
             <ChartRadialSimple />
           </div>

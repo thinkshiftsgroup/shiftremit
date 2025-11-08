@@ -257,9 +257,9 @@ const Partner = () => {
             <button className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
               Send <FaArrowUp />
             </button>
-            <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
+            {/* <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Deposit <FaPlus />
-            </button>
+            </button> */}
             <button className="text-[13px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]">
               Request Money <FaPlus />
             </button>
@@ -294,12 +294,12 @@ const Partner = () => {
                         </div>
                       </div>
                       <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                        {card.amount} G
+                        {card.amount} GBP
                       </h1>
                       <p className="text-xs font-poppins text-[#454745]">
                         Last transaction{" "}
                         <span className="text-[#22c55e] font-medium">
-                          {card.lastTxn} G
+                          {card.lastTxn} GBP
                         </span>
                       </p>
                     </div>
@@ -372,13 +372,13 @@ const Partner = () => {
                 or simply, share your code directly.
               </span>
               <hr className="mt-3 mb-4" />
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 items-start">
                 <input
                   type="text"
                   className="rounded w-full border border-[#f1f1f1] focus:border-gray-600 p-2"
                   placeholder="Enter customer email to invite them"
                 />
-                <button className="text-white w-4/9 bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
+                <button className="text-white bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
                   Send Invite
                   <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
@@ -392,16 +392,16 @@ const Partner = () => {
                 <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
                   Wallet Actions
                 </h1>
-                <div className="flex items-center justify-between gap-2">
-                  <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-1 py-1.5 flex gap-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <button className="border text-sm border-[#f1f1f1] rounded cursor-pointer p-1.5 flex gap-2">
                     Withdraw Funds
-                    <svg xmlns="http://www.w3.org/2000/svg" width={22} height={22} viewBox="0 0 256 256">
+                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 256 256">
                       <path fill="currentColor" d="M232 198.65V240a8 8 0 0 1-16 0v-41.35A74.84 74.84 0 0 0 192 144v58.35a8 8 0 0 1-14.69 4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12 12 0 0 0-20.89 11.83l22.13 33.79a8 8 0 0 1-13.39 8.76l-22.26-34l-.24-.38A28 28 0 0 1 176 176.4V64h-16a8 8 0 0 1 0-16h16a16 16 0 0 1 16 16v59.62a90.89 90.89 0 0 1 40 75.03M88 56a8 8 0 0 0-8-8H64a16 16 0 0 0-16 16v136a8 8 0 0 0 16 0V64h16a8 8 0 0 0 8-8m69.66 42.34a8 8 0 0 0-11.32 0L128 116.69V16a8 8 0 0 0-16 0v100.69L93.66 98.34a8 8 0 0 0-11.32 11.32l32 32a8 8 0 0 0 11.32 0l32-32a8 8 0 0 0 0-11.32" strokeWidth={4.5} stroke="currentColor"></path>
                     </svg>
                   </button>
-                  <button className="border border-[#f1f1f1] rounded cursor-pointer w-1/2 px-1 py-1.5 flex gap-3">
+                  <button className="border text-sm border-[#f1f1f1] rounded cursor-pointer p-1.5 flex gap-2">
                     Bank Account
-                    <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 24 24">
+                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
                       <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
                         <rect width={18.5} height={3} x={2.75} y={18.376} rx={1}></rect>
                         <path d="M11.04 3.15L3.27 7.4a1 1 0 0 0-.52.877v.997a.6.6 0 0 0 .6.6h17.3a.6.6 0 0 0 .6-.6v-.997a1 1 0 0 0-.52-.877l-7.77-4.25a2 2 0 0 0-1.92 0M5.25 9.874v8.51m13.5-8.51v8.51m-4.25-8.51v8.51m-5-8.51v8.51"></path>

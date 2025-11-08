@@ -2,15 +2,50 @@
 import SideNav from "@/components/dashboard/sideNav";
 import PurposeModal from "@/components/general/recipientPurposeModal";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useRecipient } from "./useRecipient";
 
+interface BankI {
+  id: number;
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  pay_with_bank: boolean;
+  supports_transfer: boolean;
+  available_for_direct_debit: boolean;
+  active: boolean;
+  country: string;
+  currency: string;
+  type: string;
+  is_deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 const Recipients = () => {
+  const router = useRouter();
   const [tab, setTab] = useState("all-account");
   const [openPurpose, setOpenPurpose] = useState(false);
-  const router = useRouter();
+  const [accountNumber, setAccountNumber] = useState("");
+  const [bankCode, setBankCode] = useState("");
+
+  const { getBanks, getBankDetails } = useRecipient();
+  const {
+    mutate: resolveAccount,
+    data: bankDetails,
+    isPending: resolvingAccount,
+  } = getBankDetails({ accountNumber, bankCode });
+
+  useEffect(() => {
+    if (accountNumber.length === 10 && bankCode) {
+      resolveAccount();
+    }
+  }, [accountNumber, bankCode, resolveAccount]);
+
   return (
     <SideNav>
       <div className="py-5 md:py-7 lg:py-10 flex items-start justify-between gap-5 flex-col md:flex-row">
@@ -19,7 +54,10 @@ const Recipients = () => {
             <h1 className="text-[#072032]  text-lg md:text-xl font-semibold font-dm-sans mb-2">
               All Recipients
             </h1>
-            <button onClick={() => router.push("/send-money")} className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
+            <button
+              onClick={() => router.push("/send-money")}
+              className="text-[13px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
+            >
               Send Money <FaArrowRight />
             </button>
           </div>
@@ -101,7 +139,9 @@ const Recipients = () => {
                 </div>
                 <div className="flex lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
                   <div className="font-medium px-2 lg:px-0">
-                    <p className="text-base font-dm-sans text-black">Wema Bank</p>
+                    <p className="text-base font-dm-sans text-black">
+                      Wema Bank
+                    </p>
                     <p className="text-base font-dm-sans text-black">
                       0367829034
                     </p>
@@ -125,20 +165,20 @@ const Recipients = () => {
                         stroke="#4F4F4F"
                         strokeWidth="1.875"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
                         stroke="#4F4F4F"
                         strokeWidth="1.875"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                       <path
                         d="M17.3203 20.5781H17.3311"
                         stroke="#4F4F4F"
                         strokeWidth="2.5"
                         strokeLinecap="round"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                     <svg
@@ -153,7 +193,7 @@ const Recipients = () => {
                         d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
                         stroke="#813FD6"
                         strokeWidth="1.875"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </div>
@@ -307,80 +347,108 @@ const Recipients = () => {
           </h1>
           <hr />
           <div className="px-3 md:px-4 lg:px-6 py-3">
-            <div className="space-y-2">
+            <div className="space-y-1">
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Bank name
                 </label>
                 <select
-                  name=""
-                  id=""
-                  className="rounded-md text-base border-[#072032] font-poppins p-2 border w-full mt-1"
+                  name="bank name"
+                  id="bank name"
+                  onChange={(e) => setBankCode(e.target.value)}
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 >
-                  <option value="">Please choose recipient's bank</option>
+                  {getBanks.isLoading ? (
+                    <option value="">Please choose recipient's bank</option>
+                  ) : (
+                    getBanks.data.data.map((bank: BankI) => {
+                      return <option value={bank.code}>{bank.name}</option>;
+                    })
+                  )}
                 </select>
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
-                  htmlFor=""
+                  className="font-poppins font-semibold text-sm text-[#454745]"
+                  htmlFor="account-number"
                 >
                   Account number
                 </label>
                 <input
+                  id="account-number"
+                  value={accountNumber}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "").slice(0, 10);
+                    setAccountNumber(val);
+                  }}
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  maxLength={10}
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+    focus:border-main focus:outline-none transition-colors"
+                  placeholder="10 digits"
                 />
-              </div>{" "}
+              </div>
+
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Fullname of the account holder
                 </label>
                 <input
+                  value={
+                    resolvingAccount
+                      ? "Please wait..."
+                      : bankDetails?.data?.account_name || ""
+                  }
+                  readOnly
                   type="text"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Their email (optional)
                 </label>
                 <input
                   type="email"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Their mobile number (optional)
                 </label>
                 <input
                   type="email"
-                  className="rounded-md border-[#072032] p-2 border w-full mt-1 text-base font-poppins active:border-[#072032]"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="text-base font-semibold text-[#072032] font-poppins"
+                  className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Purpose
                 </label>
                 <textarea
                   placeholder="Purpose"
-                  className="rounded-md font-poppins text-base h-[100px] border-[#072032] p-2 border w-full mt-1"
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div className="flex justify-end">
@@ -393,10 +461,11 @@ const Recipients = () => {
               </div>
             </div>
             <button
+              disabled={getBanks.isLoading}
               // onClick={() => router.push("/send-money/fund")}
               className="
     text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
-    bg-linear-to-l from-[#813FD6] to-[#301342]
+    bg-linear-to-l disabled:from-[#8134d6]/70 disabled:to-[#301342]/70 disabled:cursor-not-allowed from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent my-5 text-center 
   "

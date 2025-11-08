@@ -19,8 +19,8 @@ const ShareHolderForm = () => {
           Is this shareholder an individual or a legal entity (Company, NGO,
           etc)
         </p>
-        <div className="flex items-center my-6 gap-2">
-          <div className="text-[#454745] flex items-start gap-1">
+        <div className="flex items-center my-6 gap-2 flex-col md:flex-row">
+          <div className="text-[#454745] flex items-center md:items-start gap-3 md:gap-1 w-full md:w-auto">
             <input
               type="checkbox"
               className="w-4 h-4 mt-1 rounded-sm accent-main"
@@ -34,7 +34,7 @@ const ShareHolderForm = () => {
               </p>
             </div>
           </div>
-          <div className="text-[#454745] flex items-start gap-1">
+          <div className="text-[#454745] flex items-center md:items-start gap-3 md:gap-1 w-full md:w-auto">
             <input
               type="checkbox"
               className="w-4 h-4 mt-1 rounded-sm accent-main"
@@ -49,7 +49,7 @@ const ShareHolderForm = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-3 gap-5">
         <div className="">
           <label
             htmlFor="firstname"
