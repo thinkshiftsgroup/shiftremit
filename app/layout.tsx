@@ -4,7 +4,7 @@ import "./globals.css";
 import Favicon from "@/public/favicon/favicon.ico";
 import Providers from "@/providers/provider";
 import { Toaster } from "sonner";
-
+import AuthProviders from "./provider";
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
@@ -33,7 +33,10 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${poppins.variable} antialiased bg-background text-foreground`}
       >
-        <Providers>{children}</Providers>
+        <AuthProviders>
+          {" "}
+          <Providers>{children}</Providers>
+        </AuthProviders>
         <Toaster />
       </body>
     </html>
