@@ -20,6 +20,11 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
 
+  const safeNumber = (value: any, decimals = 2) => {
+    const n = parseFloat(value);
+    return isNaN(n) ? "0" : n.toFixed(decimals);
+  };
+
   const ratesData = useRatesStore(
     (state) => state.ratesData as FxRateData | null
   );
@@ -125,26 +130,26 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   const handleSendingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = e.target.value;
-    const numericValue = value.replace(/[^0-9.]/g, "");
-    setSendingAmount(numericValue);
+    const value = e.target.value.replace(/[^0-9.]/g, "");
+    const amount = parseFloat(value);
 
-    const amount = parseFloat(numericValue);
+    if (isNaN(amount) || amount < 1) {
+      setSendingAmount("1");
+      setReceiveAmount(
+        isRateReady
+          ? (1 * conversionRate).toFixed(fromCurrency === "GBP" ? 2 : 8)
+          : ""
+      );
+      return;
+    }
 
-    if (!isNaN(amount) && isRateReady) {
-      let received;
-      if (fromCurrency === toCurrency) {
-        received = amount;
-        setReceiveAmount(received.toFixed(2));
-      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
-        received = amount * conversionRate;
-        setReceiveAmount(received.toFixed(2));
-      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
-        received = amount * conversionRate;
-        setReceiveAmount(received.toFixed(8));
-      }
-    } else if (numericValue === "") {
-      setSendingAmount("");
+    setSendingAmount(value);
+
+    if (isRateReady) {
+      let result = amount * conversionRate;
+      setReceiveAmount(
+        fromCurrency === "GBP" ? result.toFixed(2) : result.toFixed(8)
+      );
     }
   };
 
@@ -190,7 +195,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
             You send exactly
           </label>
           <div
-            className="flex relative  items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative  items-center justify-between md:justify-start gap-1.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -204,7 +209,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               }
               onChange={handleSendingAmountChange}
               disabled={!isRateReady}
-              className={`focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-[40%] font-bold bg-transparent ${
+              className={`focus:ring-0 placeholder:text-white focus:border-transparent outline-none w-full font-bold bg-transparent ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />
@@ -212,7 +217,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
             <button
               type="button"
               id="sendMoneyCurrencyBtn"
-              className="w-[90px] inline-flex items-center gap-1 relative"
+              className="w-32 inline-flex items-center gap-1 relative"
             >
               <DropdownComponent
                 defaultCurrency="GBP"
@@ -259,7 +264,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
             You get exactly
           </label>
           <div
-            className="flex relative items-center justify-between md:justify-start gap-5.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative items-center justify-between md:justify-start gap-1.5 border border-[#ffffff3d] pe-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="receiveMoneyBox"
             data-country="norway"
             data-currency="EUR"
@@ -273,7 +278,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               onChange={handleReceiveAmountChange}
               disabled={!isRateReady}
               aria-label="Receive Money"
-              className={`focus:ring-0 placeholder:text-white w-[40%] focus:border-transparent outline-none font-bold bg-transparent ${
+              className={`focus:ring-0 placeholder:text-white w-[80%] focus:border-transparent outline-none font-bold bg-transparent ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />
