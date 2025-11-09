@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useTrx } from "./useTrx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useState } from "react";
+import FilterComponent from "@/components/admin/filterBar";
 
 const CustomerTrxn = () => {
   const cardData = [
@@ -45,6 +46,7 @@ const CustomerTrxn = () => {
   return (
     <SideNav>
       <div className="py-5">
+        <FilterComponent />
         <div className="flex items-center justify-center md:justify-end gap-2">
           <div className="flex items-center gap-2">
             <button
