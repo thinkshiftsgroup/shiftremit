@@ -202,9 +202,7 @@ const CustomerTrxn = () => {
                       <td className="px-4 text-sm py-1 font-poppins">
                         <span>
                           {trx.recipientBankName}
-                          <p>
-                            {trx.recipientAccountNumber}
-                          </p>
+                          <p>{trx.recipientAccountNumber}</p>
                         </span>
                       </td>
 

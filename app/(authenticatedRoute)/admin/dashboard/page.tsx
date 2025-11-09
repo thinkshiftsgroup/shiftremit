@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SideNav from "@/components/dashboard/sideNav";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
@@ -13,6 +13,9 @@ import { WalletSection } from "@/components/dashboard/wallets";
 import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 
 import { useRatesStore } from "@/stores/useRatesStore";
+import { useTrx } from "../../user/transactions/useTrx";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { LuArrowUpRight } from "react-icons/lu";
 
 interface RateCard {
   country: string;
@@ -187,6 +190,15 @@ const Dashboard = () => {
     ? rateDifference.toFixed(2)
     : "";
 
+  const [page, setPage] = useState(1);
+  const { getBankTrfsAdmin } = useTrx();
+  const { data, isLoading: tfLoad } = getBankTrfsAdmin({
+    page,
+    limit: 5,
+    status: "COMPLETED",
+  });
+  const Trxs = data?.transfers || [];
+
   return (
     <SideNav>
       <div className="py-3 md:py-5">
@@ -341,50 +353,145 @@ const Dashboard = () => {
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
             Latest Transaction Log
           </h1>
-          <div className="">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
-                  <th className="px-4 py-2 whitespace-nowrap">Customer</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Trx ID</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Sending Trx</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Recipient</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Date</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Status</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colSpan={4} className="text-center py-10">
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="72"
-                        height="72"
-                        viewBox="0 0 24 24"
+          <div className=" ">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full font-poppins min-w-max border-collapse">
+                <thead>
+                  <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
+                    <th className="px-4 py-2 whitespace-nowrap">Customer</th>
+                    <th className="px-4 py-2 whitespace-nowrap">Trx ID</th>
+                    <th className="px-4 py-2 whitespace-nowrap">Sending Trx</th>
+                    <th className="px-4 py-2 whitespace-nowrap">Recipient</th>
+                    <th className="px-4 py-2 whitespace-nowrap">Date</th>
+                    <th className="px-4 py-2 whitespace-nowrap">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan={7} className="text-center py-8">
+                        <Loader2 className="animate-spin mx-auto" />
+                      </td>
+                    </tr>
+                  ) : Trxs.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="text-center py-6 text-sm font-poppins opacity-70"
                       >
-                        <g fill="none" stroke="currentColor" strokeWidth="1.5">
-                          <path
-                            strokeLinecap="round"
-                            d="M11.5 21c-4.478 0-6.718 0-8.109-1.391S2 15.979 2 11.5c0-4.478 0-6.718 1.391-8.109S7.021 2 11.5 2c4.478 0 6.718 0 8.109 1.391S21 7.021 21 11.5"
-                          />
-                          <path strokeLinejoin="round" d="M2 7h19" />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10 16h1m-5 0h1m3-4h4m-8 0h1m13.4 8.4L22 22m-.8-4.4a3.6 3.6 0 1 0-7.2 0a3.6 3.6 0 0 0 7.2 0"
-                          />
-                        </g>
-                      </svg>
-                      <p className="font-poppins text-[#8094ae]">
-                        Don't have data
-                      </p>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        No transactions found
+                      </td>
+                    </tr>
+                  ) : (
+                    Trxs.map((row: any, index: any) => (
+                      <tr
+                        key={row.no}
+                        className={`${
+                          index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
+                        } border-b border-gray-100`}
+                      >
+                        <td className="px-4 py-1 flex items-center gap-1 cursor-pointer text-sm font-medium text-gray-900">
+                          {row.user.fullName}
+                          <LuArrowUpRight size={14} />
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          {row.transferReference}
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          <span className="font-bold">£{row.amount}</span>
+                          {/* (ref:{row.id}) */}
+                        </td>
+                        <td className="px-4 flex flex-col py-1 text-sm text-gray-700">
+                          <span className="font-medium">
+                            {row.recipientFullName}
+                          </span>
+                          <span>{row.recipientAccountNumber}</span>
+                          <span>{row.recipientBankName}</span>
+                        </td>
+                        <td className="px-4 py-1 text-sm text-gray-700">
+                          {new Date(row.createdAt).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </td>
+                        <td className="px-4 py-1 gap-1 flex flex-col text-sm text-gray-700">
+                          <span
+                            className={`p-1 rounded-sm border capitalize ${
+                              row.status === "COMPLETED"
+                                ? "bg-green-500/20 text-green-500 border-green-500"
+                                : row.status === "PENDING"
+                                ? "bg-[#FFB90D]/20 text-[#FFB90D] border-[#FFB90D]"
+                                : "bg-red-500/20 text-red-500 border-red-500"
+                            }`}
+                          >
+                            {row.status}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            {row.status !== "PENDING" ? (
+                              new Date(row.updatedAt).toLocaleString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })
+                            ) : (
+                              <span className="text-gray-400 italic"></span>
+                            )}
+
+                            <a target="_blank" href={row.pdfFile}>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                className="text-black"
+                              >
+                                <g fill="">
+                                  <path d="M6.5 12a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1z" />
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M11.185 1H4.5A1.5 1.5 0 0 0 3 2.5v15A1.5 1.5 0 0 0 4.5 19h11a1.5 1.5 0 0 0 1.5-1.5V7.202a1.5 1.5 0 0 0-.395-1.014l-4.314-4.702A1.5 1.5 0 0 0 11.185 1M4 2.5a.5.5 0 0 1 .5-.5h6.685a.5.5 0 0 1 .369.162l4.314 4.702a.5.5 0 0 1 .132.338V17.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"
+                                    clip-rule="evenodd"
+                                  />
+                                  <path d="M11 7h5.5a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0z" />
+                                </g>
+                              </svg>
+                            </a>
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {!isLoading && (
+              <div className="flex items-center justify-between mt-4 px-3 md:px-6">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="p-2 disabled:opacity-40"
+                >
+                  <ChevronLeft />
+                </button>
+
+                <p className="text-xs font-poppins text-main-dark">
+                  Page {data?.meta.currentPage}
+                </p>
+
+                <button
+                  onClick={() => setPage(page + 1)}
+                  className="p-2 disabled:opacity-40"
+                >
+                  <ChevronRight size={20} className="text-main-dark-II" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,9 +1,9 @@
 "use client";
-import DataTable from "@/components/dashboard/partner-space/dataTable";
 import SideNav from "@/components/dashboard/sideNav";
 import { Calendar, Check, Filter, Search } from "lucide-react";
 import React, { useState } from "react";
 import { useTrx } from "../../user/transactions/useTrx";
+import AdminDataTable from "@/components/admin/dataTable";
 
 const AminTrx = () => {
   const partnerCode = "SR7X2AI";
@@ -11,9 +11,8 @@ const AminTrx = () => {
   const [copied, setCopied] = useState(false);
   const [page, setPage] = useState(1);
   const { getBankTrfsAdmin } = useTrx();
-  const { data, isLoading } = getBankTrfsAdmin({ page, pageSize: 5 });
+  const { data, isLoading } = getBankTrfsAdmin({ page, limit: 10, status: "" });
   const Trxs = data?.transfers || [];
-  console.log(data, "admin trx");
 
   const handleCopy = () => {
     navigator.clipboard.writeText(partnerCode);
@@ -84,9 +83,7 @@ const AminTrx = () => {
             <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
-            <p>
-              1 Transaction
-            </p>
+            <p>{data?.kpis.totalTransactions || 0} Transaction</p>
             <div className="flex lg:hidden items-center gap-3 mb-5 lg:mb-15 lg:mt-5">
               <div className="relative ">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -102,8 +99,18 @@ const AminTrx = () => {
                 onClick={handleFilter}
                 className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
                 </svg>
                 Filter
               </button>
@@ -133,7 +140,9 @@ const AminTrx = () => {
                 />
               </div>
 
-              <span className="text-gray-700 font-medium hidden sm:inline">to</span>
+              <span className="text-gray-700 font-medium hidden sm:inline">
+                to
+              </span>
               {/* End Date */}
               <div className="relative w-full md:w-auto">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
@@ -151,173 +160,22 @@ const AminTrx = () => {
                 onClick={handleFilter}
                 className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 hidden lg:flex items-center gap-2 whitespace-nowrap"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
                 </svg>
                 Filter
               </button>
             </div>
-            {/* <div className="text-black my-2 p-2 sm:p-0 whitespace-nowrap border bg-[#F9F9FB] text-xs font-medium justify-around border-[#D5D5D5] hidden sm:flex sm:flex-row flex-col items-center rounded-md">
-                                  <span className="flex gap-2 pl-1 w-1/3 cursor-pointer">
-                                      <svg
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 91 91"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                          <path
-                                              fillRule="evenodd"
-                                              clipRule="evenodd"
-                                              d="M62.1609 56.8028L82.3762 77.0181C83.0867 77.7292 83.4857 78.6933 83.4853 79.6985C83.485 80.7038 83.0853 81.6676 82.3743 82.3782C81.6633 83.0887 80.6991 83.4877 79.6939 83.4874C78.6887 83.487 77.7248 83.0873 77.0142 82.3763L56.7989 62.161C50.7558 66.8416 43.1565 69.0443 35.547 68.3209C27.9376 67.5974 20.8895 64.0023 15.8366 58.2668C10.7837 52.5313 8.10559 45.0863 8.34705 37.4463C8.58851 29.8063 11.7314 22.5453 17.1364 17.1403C22.5414 11.7353 29.8024 8.59242 37.4424 8.35095C45.0824 8.10949 52.5274 10.7876 58.2629 15.8405C63.9984 20.8934 67.5935 27.9415 68.317 35.551C69.0404 43.1604 66.8377 50.7597 62.1571 56.8028M38.3947 60.9398C44.374 60.9398 50.1084 58.5646 54.3364 54.3366C58.5644 50.1086 60.9397 44.3742 60.9397 38.3949C60.9397 32.4156 58.5644 26.6812 54.3364 22.4532C50.1084 18.2252 44.374 15.85 38.3947 15.85C32.4155 15.85 26.6811 18.2252 22.4531 22.4532C18.2251 26.6812 15.8498 32.4156 15.8498 38.3949C15.8498 44.3742 18.2251 50.1086 22.4531 54.3366C26.6811 58.5646 32.4155 60.9398 38.3947 60.9398Z"
-                                              fill="#041827"
-                                          />
-                                      </svg>
-                                  </span>
-      
-                                  <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                  <span className="flex items-center py-3 ">
-                                      <select
-                                          className="bg-transparent outline-none cursor-pointer w-full text-[#041827] appearance-none"
-                                          defaultValue=""
-                                      >
-                                          <option value="" disabled>
-                                              Date
-                                          </option>
-                                          <option value="today">Today</option>
-                                          <option value="this-week">This Week</option>
-                                          <option value="this-month">This Month</option>
-                                      </select>
-                                  </span>
-      
-                                  <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                  <span className="flex items-center py-3 w-[180px]">
-                                      <select
-                                          className="bg-transparent outline-none cursor-pointer w-full text-[#041827] appearance-none"
-                                          defaultValue=""
-                                      >
-                                          <option value="" disabled>
-                                              Transaction Status
-                                          </option>
-                                          <option value="success">Successful</option>
-                                          <option value="pending">Pending</option>
-                                          <option value="failed">Failed</option>
-                                      </select>
-                                  </span>
-      
-                                  <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                  <span className="flex cursor-pointer items-center gap-2 py-3 px-2 text-[#EA0234]">
-                                      <svg
-                                          width="15"
-                                          height="15"
-                                          viewBox="0 0 50 49"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                          <path
-                                              d="M24.6619 10.3563V2.23438L14.5094 12.3868L24.6619 22.5393V14.4173C31.3828 14.4173 36.8448 19.8793 36.8448 26.6002C36.8448 33.3211 31.3828 38.7832 24.6619 38.7832C17.941 38.7832 12.4789 33.3211 12.4789 26.6002H8.41797C8.41797 35.575 15.6871 42.8441 24.6619 42.8441C33.6366 42.8441 40.9058 35.575 40.9058 26.6002C40.9058 17.6255 33.6366 10.3563 24.6619 10.3563Z"
-                                              fill="#EA0234"
-                                          />
-                                      </svg>
-                                      <p>Reset filter</p>
-                                  </span>
-                              </div>
-      
-                              {showAPT && (
-                                  <div className="text-black my-2 p-2 sm:p-0 whitespace-nowrap border bg-[#F9F9FB] text-xs font-medium justify-around border-[#D5D5D5] sm:hidden flex sm:flex-row flex-col items-center rounded-md">
-                                      <span className="flex gap-2 pl-0 sm:pl-1 w-full sm:w-1/3 cursor-pointer">
-                                          <svg
-                                              width="16"
-                                              height="16"
-                                              viewBox="0 0 91 91"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                              <path
-                                                  fillRule="evenodd"
-                                                  clipRule="evenodd"
-                                                  d="M62.1609 56.8028L82.3762 77.0181C83.0867 77.7292 83.4857 78.6933 83.4853 79.6985C83.485 80.7038 83.0853 81.6676 82.3743 82.3782C81.6633 83.0887 80.6991 83.4877 79.6939 83.4874C78.6887 83.487 77.7248 83.0873 77.0142 82.3763L56.7989 62.161C50.7558 66.8416 43.1565 69.0443 35.547 68.3209C27.9376 67.5974 20.8895 64.0023 15.8366 58.2668C10.7837 52.5313 8.10559 45.0863 8.34705 37.4463C8.58851 29.8063 11.7314 22.5453 17.1364 17.1403C22.5414 11.7353 29.8024 8.59242 37.4424 8.35095C45.0824 8.10949 52.5274 10.7876 58.2629 15.8405C63.9984 20.8934 67.5935 27.9415 68.317 35.551C69.0404 43.1604 66.8377 50.7597 62.1571 56.8028M38.3947 60.9398C44.374 60.9398 50.1084 58.5646 54.3364 54.3366C58.5644 50.1086 60.9397 44.3742 60.9397 38.3949C60.9397 32.4156 58.5644 26.6812 54.3364 22.4532C50.1084 18.2252 44.374 15.85 38.3947 15.85C32.4155 15.85 26.6811 18.2252 22.4531 22.4532C18.2251 26.6812 15.8498 32.4156 15.8498 38.3949C15.8498 44.3742 18.2251 50.1086 22.4531 54.3366C26.6811 58.5646 32.4155 60.9398 38.3947 60.9398Z"
-                                                  fill="#041827"
-                                              />
-                                          </svg>
-                                      </span>
-      
-                                      <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                      <span className="flex items-center sm:w-auto w-full py-3 ">
-                                          <select
-                                              className="bg-transparent outline-none cursor-pointer w-full text-[#041827] "
-                                              defaultValue=""
-                                          >
-                                              <option value="" disabled>
-                                                  Date
-                                              </option>
-                                              <option value="today">Today</option>
-                                              <option value="this-week">This Week</option>
-                                              <option value="this-month">This Month</option>
-                                          </select>
-                                      </span>
-      
-                                      <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                      <span className="flex items-center py-3 w-full sm:w-[180px]">
-                                          <select
-                                              className="bg-transparent outline-none cursor-pointer w-full text-[#041827] "
-                                              defaultValue=""
-                                          >
-                                              <option value="" disabled>
-                                                  Transaction Status
-                                              </option>
-                                              <option value="success">Successful</option>
-                                              <option value="pending">Pending</option>
-                                              <option value="failed">Failed</option>
-                                          </select>
-                                      </span>
-      
-                                      <div className="self-stretch w-px bg-[#D5D5D5]" />
-      
-                                      <span className="flex cursor-pointer items-center gap-2 py-3 px-2 text-[#EA0234]">
-                                          <svg
-                                              width="15"
-                                              height="15"
-                                              viewBox="0 0 50 49"
-                                              fill="none"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                              <path
-                                                  d="M24.6619 10.3563V2.23438L14.5094 12.3868L24.6619 22.5393V14.4173C31.3828 14.4173 36.8448 19.8793 36.8448 26.6002C36.8448 33.3211 31.3828 38.7832 24.6619 38.7832C17.941 38.7832 12.4789 33.3211 12.4789 26.6002H8.41797C8.41797 35.575 15.6871 42.8441 24.6619 42.8441C33.6366 42.8441 40.9058 35.575 40.9058 26.6002C40.9058 17.6255 33.6366 10.3563 24.6619 10.3563Z"
-                                                  fill="#EA0234"
-                                              />
-                                          </svg>
-                                          <p>Reset filter</p>
-                                      </span>
-                                  </div>
-                              )} */}
-            <div className=" bg-[#f1f5f9] my-4 border-gray-200 rounded-md">
-              <div className="flex items-center justify-between gap-2 py-3 px-3">
-                <div className="flex gap-2">
-                  <div className="rounded-full p-3 bg-[#dbefe5] text-[#23c45f] flex shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width={26} height={26} viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M18.005 7h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h15zm-14 2v10h16V9zm0-4v2h12V5zm11 8h3v2h-3z" strokeWidth={0.5} stroke="currentColor"></path>
-                    </svg>
-                  </div>
-                  <div className="flex items-start md:items-center flex-col">
-                    <p className="font-bold">Total Transaction Amount</p>
-
-                    <h1 className="text-[#072032] font-bold text-xl font-dm-sans mb-2 md:hidden">
-                      £141.00 <span className="">GBP</span>
-                    </h1>
-                    {/* <p className="text-sm">johnisrael@gmail.com</p> */}
-                  </div>
-                </div>
-                <h1 className="text-[#072032] font-bold text-xl font-dm-sans mb-2 hidden md:block">
-                  £141.00 <span className="hidden md:inline">GBP</span>
-                </h1>
-              </div>
-            </div> 
           </div>
           <hr className="rotate-180" />
           <div className="py-3.5 bg-white my-4 w-4/10 space-y-3 border-l ps-3">
@@ -369,7 +227,7 @@ const AminTrx = () => {
                   </div>
                   <div className="flex items-center justify-between gap-2">
                     <h1 className="text-gray-600 font-bold text-xl font-dm-sans">
-                      141.00 GBP
+                      {data?.totals?.totalAmountGBP || 0} GBP
                     </h1>
                     <select
                       className="text-gray-600 font-bold text-xl font-dm-sans"
@@ -384,34 +242,68 @@ const AminTrx = () => {
               </div>
             </div>
 
-            <div className="border rounded space-y-3 p-3">
+            <div className="border rounded space-y-1.5 p-3">
               <div className="flex justify-between items-start">
-                <span className="text-gray-600 text-sm text-medium">Transactions</span>
-                <span className="text-black font-semibold text-sm text-right">500</span>
+                <span className="text-gray-600 text-sm text-medium">
+                  Transactions
+                </span>
+                <span className="text-black font-semibold text-sm text-right">
+                  {data?.kips?.totalTransactions || 0}
+                </span>
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-gray-600 text-sm text-medium">Sine</span>
-                <span className="text-black font-semibold text-sm">03 Nov 2025</span>
+                <span className="text-gray-600 text-sm text-medium">Since</span>
+                <span className="text-black font-semibold text-sm">
+                  03 Nov 2025
+                </span>
               </div>
               <div className="flex justify-between items-start">
-                <span className="text-gray-600 text-sm text-medium">Completed</span>
-                <span className="p-1 rounded-xs flex bg-[#e8f7eb] text-xs">400</span>
-                {/* <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full font-medium text-sm">
-                                          Completed
-                                      </span> */}
+                <span className="text-gray-600 text-sm text-medium">
+                  Completed
+                </span>
+                <span className="p-1 rounded-xs flex bg-[#e8f7eb] text-xs">
+                  {data?.kips?.totalCompleted || 0}
+                </span>
               </div>
               <div className="flex justify-between items-start">
                 <span className="text-gray-600 text-sm text-medium">
                   Abandoned
                 </span>
-                <span className="text-black font-semibold text-sm">100</span>
+                <span className="text-black font-semibold text-sm">
+                  {" "}
+                  {data?.kips?.totalAbandoned || 0}
+                </span>
+              </div>
+              <div className="flex justify-between items-start">
+                <span className="text-gray-600 text-sm text-medium">
+                  Pending
+                </span>
+                <span className="text-black font-semibold text-sm">
+                  {" "}
+                  {data?.kips?.totalPending || 0}
+                </span>
+              </div>
+              <div className="flex justify-between items-start">
+                <span className="text-gray-600 text-sm text-medium">
+                  Failed
+                </span>
+                <span className="text-black font-semibold text-sm">
+                  {" "}
+                  {data?.kips?.totalFailed || 0}
+                </span>
               </div>
             </div>
           </div>
         </div>
 
         <div className="py-3.5 bg-white rounded-md my-4 overflow-hidden">
-          <DataTable />
+          <AdminDataTable
+            Trxs={Trxs}
+            isLoading={isLoading}
+            page={page}
+            setPage={setPage}
+            data={data}
+          />
         </div>
       </div>
     </SideNav>
