@@ -107,17 +107,17 @@ const BankDetails = () => {
 
   return (
     <SideNav>
-      <div className="my-7 relative bg-white rounded-lg mx-auto ">
+      <div className="my-3 md:my-7 relative bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
 
         <div className="relative">
-          <div className="my-10 ">
-            <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+          <div className="my-5 md:my-10 ">
+            <h1 className="text-2xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
               Enter their account details
             </h1>
           </div>
 
-          <div className="max-w-2xl mx-auto relative">
+          <div className="max-w-2xl mx-auto relative px-3.5 md:px-0">
             <p className="text-base font-dm-sans pb-2 text-gray-500 font-medium">
               Recipient's bank details
             </p>
