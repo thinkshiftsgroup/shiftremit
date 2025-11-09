@@ -78,13 +78,13 @@ const AminTrx = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-white flex gap-0">
-          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 w-6/10">
+        <div className="bg-white flex gap-0 flex-col md:flex-row">
+          <div className="py-3.5 px-6 pe-3 bg-white rounded-md my-4 md:w-6/10">
             <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
             <p>{data?.kpis.totalTransactions || 0} Transaction</p>
-            <div className="flex lg:hidden items-center gap-3 mb-5 lg:mb-15 lg:mt-5">
+            <div className="flex lg:hidden items-center gap-3 mb-2 md:mb-5 lg:mb-15 lg:mt-5">
               <div className="relative ">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -115,7 +115,7 @@ const AminTrx = () => {
                 Filter
               </button>
             </div>
-            <div className="relative">
+            {/* <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
@@ -124,8 +124,8 @@ const AminTrx = () => {
                 onChange={(e) => setSearchId(e.target.value)}
                 className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-            </div>
-            <div className="flex items-center gap-3 mb-15 mt-5">
+            </div> */}
+            <div className="flex items-center gap-3 mb-15 mt-5 flex-col md:flex-row">
               {/* Search Input */}
 
               {/* Start Date */}
@@ -178,7 +178,7 @@ const AminTrx = () => {
             </div>
           </div>
           <hr className="rotate-180" />
-          <div className="py-3.5 bg-white my-4 w-4/10 space-y-3 border-l ps-3">
+          <div className="py-3.5 bg-white my-4 md:w-4/10 space-y-3 border-l ps-3">
             <div className="flex gap-2">
               <div className="rounded-full p-3 w-14 flex justify-center items-center h-14 bg-[#dbefe5] text-[#23c45f]">
                 <svg
@@ -198,7 +198,7 @@ const AminTrx = () => {
               <div className="">
                 <div className="flex flex-col">
                   <p className="">Total Transaction Amount</p>
-                  <div className="flex items-center my-2 gap-1">
+                  <div className="flex items-center my-2 gap-1 flex-col lg:flex-row">
                     <div className="relative">
                       {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
                       <input
