@@ -4,6 +4,7 @@ import { Calendar, Check, Filter, Search } from "lucide-react";
 import React, { useState } from "react";
 import { useTrx } from "../../user/transactions/useTrx";
 import AdminDataTable from "@/components/admin/dataTable";
+import FilterComponent from "@/components/admin/filterBar";
 
 const AminTrx = () => {
   const partnerCode = "SR7X2AI";
@@ -31,6 +32,7 @@ const AminTrx = () => {
   return (
     <SideNav>
       <div className="py-5 font-poppins">
+        <FilterComponent />
         <div className="flex items-center justify-between gap-2 mb-3 flex-col lg:flex-row">
           <div>
             <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
