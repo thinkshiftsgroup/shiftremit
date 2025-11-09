@@ -13,8 +13,8 @@ const Recipients = () => {
     <SideNav>
       <div className="my-4 md:my-7 bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
-        <div className="my-10 ">
-          <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+        <div className="my-5 md:my-10 ">
+          <h1 className="text-2xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Recipient
           </h1>
           <p className="font-poppins text-base text-[#454745] mb-3 text-center">
@@ -22,7 +22,7 @@ const Recipients = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl px-2 md:px-0 mx-auto">
+        <div className="max-w-2xl px-3.5 md:px-0 mx-auto">
           <div
             onClick={() => router.push("/send-money/recipients/bank-details")}
             className="flex cursor-pointer items-center justify-between py-3"
