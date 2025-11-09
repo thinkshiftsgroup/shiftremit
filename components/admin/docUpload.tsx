@@ -126,9 +126,9 @@ const DocUpload = () => {
           <label
             htmlFor="fileUpload"
             className="
-      w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80]
+      w-full mt-1 py-1 px-3 pe-1 rounded-sm border border-dashed border-[#d1d5db80]
       text-[#666] text-sm font-poppins cursor-pointer
-      flex items-center justify-between
+      flex items-center justify-center
       hover:border-main transition-colors
     "
           >
