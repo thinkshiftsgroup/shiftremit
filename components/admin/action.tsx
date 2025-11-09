@@ -39,6 +39,33 @@ const ActionDropDown = () => {
         setOpenDrop((prev) => !prev);
     };
 
+    const handleActionClick = (action: string) => {
+        setConfirmModal({ open: true, action });
+        setOpenDrop(false);
+    };
+
+    const handleConfirm = () => {
+        console.log(`${confirmModal.action} confirmed`);
+        setConfirmModal({ open: false, action: "" });
+    };
+
+    const handleCancel = () => {
+        setConfirmModal({ open: false, action: "" });
+    };
+
+    const getActionMessage = () => {
+        switch (confirmModal.action) {
+            case "delete":
+                return "Are you sure you want to delete this item?";
+            case "remove":
+                return "Are you sure you want to remove this item?";
+            case "view":
+                return "View this item?";
+            default:
+                return "Confirm this action?";
+        }
+    };
+
     const dropdownContent = openDrop && buttonRect && ReactDOM.createPortal(
         <div
             ref={dropdownRef}
