@@ -167,6 +167,7 @@ const ActionDropDown = () => {
                 <span className="ml-1">Action</span>
             </button>
             {dropdownContent}
+            {confirmModalContent}
         </div>
     );
 };
