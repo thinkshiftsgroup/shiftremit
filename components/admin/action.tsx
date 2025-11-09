@@ -8,6 +8,10 @@ import ReactDOM from "react-dom";
 const ActionDropDown = () => {
     const [openDrop, setOpenDrop] = useState(false);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+    const [confirmModal, setConfirmModal] = useState<{ open: boolean; action: string }>({
+        open: false,
+        action: "",
+    });
     const dropdownRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
