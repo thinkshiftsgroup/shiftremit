@@ -178,7 +178,7 @@ const AminTrx = () => {
             </div>
           </div>
           <hr className="rotate-180" />
-          <div className="py-3.5 bg-white my-4 md:w-4/10 space-y-3 border-l ps-3">
+          <div className="py-3.5 bg-white my-4 md:w-4/10 space-y-3 md:border-l ps-3">
             <div className="flex gap-2">
               <div className="rounded-full p-3 w-14 flex justify-center items-center h-14 bg-[#dbefe5] text-[#23c45f]">
                 <svg
@@ -198,7 +198,7 @@ const AminTrx = () => {
               <div className="">
                 <div className="flex flex-col">
                   <p className="">Total Transaction Amount</p>
-                  <div className="flex items-center my-2 gap-1 flex-col lg:flex-row">
+                  <div className="flex items-center lg:items-center my-2 gap-1 flex-col lg:flex-row">
                     <div className="relative">
                       {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
                       <input
@@ -206,7 +206,7 @@ const AminTrx = () => {
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
                         placeholder="dd/mm/yyyy"
-                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="pl-4 lg:pl-0 pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
 
@@ -221,7 +221,7 @@ const AminTrx = () => {
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         placeholder="dd/mm/yyyy"
-                        className=" pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="pl-4 lg:pl-0 pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       />
                     </div>
                   </div>
