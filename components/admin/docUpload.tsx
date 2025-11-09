@@ -132,7 +132,10 @@ const DocUpload = () => {
       hover:border-main transition-colors
     "
           >
-            <span className="opacity-80">Choose file to upload (optional)</span>
+            <span className="opacity-80 flex justify-between items-center w-full">Choose file to upload (optional)
+
+              <ActionDropDown />
+            </span>
             {/* <span className="text-main text-xs">Browse</span> */}
           </label>
 
