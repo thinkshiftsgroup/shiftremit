@@ -115,7 +115,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M6.5 15.402H22v15.5m0-15.5l-17.5 17.5m37-.304H26v-15.5m0 15.5l17.5-17.5"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </svg>
       ),
@@ -269,7 +269,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <path
             fill="#454745"
             d="m28.6 30l1.4-1.4l-7.6-7.6H29v-2H19v10h2v-6.6zM2 28.6L3.4 30l7.6-7.6V29h2V19H3v2h6.6zM17 2h-2v10.2l-4.6-4.6L9 9l7 7l7-7l-1.4-1.4l-4.6 4.6z"
-            stroke-width="1"
+            strokeWidth="1"
             stroke="#454745"
           />
         </svg>
@@ -289,7 +289,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           <path
             fill="#454745"
             d="m28.6 30l1.4-1.4l-7.6-7.6H29v-2H19v10h2v-6.6zM2 28.6L3.4 30l7.6-7.6V29h2V19H3v2h6.6zM17 2h-2v10.2l-4.6-4.6L9 9l7 7l7-7l-1.4-1.4l-4.6 4.6z"
-            stroke-width="1"
+            strokeWidth="1"
             stroke="#454745"
           />
         </svg>
