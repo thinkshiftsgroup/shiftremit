@@ -324,7 +324,34 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Account",
       link: "/account",
-      showFor: ["user", "admin"],
+      showFor: ["user"],
+    },
+    {
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+        >
+          {" "}
+          <path
+            fill="currentColor"
+            d="M10 3.5C8.563 3.5 7.42 4.631 7.42 6S8.564 8.5 10 8.5s2.579-1.131 2.579-2.5s-1.143-2.5-2.58-2.5M6.42 6c0-1.945 1.615-3.5 3.58-3.5c1.964 0 3.579 1.555 3.579 3.5s-1.615 3.5-3.58 3.5C8.036 9.5 6.422 7.945 6.422 6m1.186 5.756c-.218-.14-.43-.18-.585-.138q-.22.06-.439.13l-.984.316a2.52 2.52 0 0 0-1.629 1.56c-.03.09-.05.194-.064.327l-.39 3.695l-.001.009c-.09.636.252 1.175.824 1.308c1.097.254 2.93.537 5.662.537a.5.5 0 0 1 0 1c-2.8 0-4.71-.29-5.888-.563c-1.147-.266-1.737-1.345-1.59-2.414l.389-3.677c.017-.164.046-.355.113-.549a3.52 3.52 0 0 1 2.269-2.185l.984-.316q.238-.076.478-.142c.52-.143 1.028.026 1.394.263c.394.254 1.045.569 1.85.569s1.457-.315 1.851-.57c.367-.236.874-.405 1.394-.262q.24.067.478.142l.985.316a.5.5 0 1 1-.305.952l-.985-.315q-.217-.07-.438-.13c-.156-.043-.367-.004-.586.137c-.489.317-1.329.73-2.393.73c-1.065 0-1.905-.413-2.394-.73"
+            strokeWidth="0.5"
+            stroke="currentColor"
+          />{" "}
+          <path
+            fill="currentColor"
+            d="M15.64 13.16a.73.73 0 0 1 .731-.66h1.257a.73.73 0 0 1 .732.66c.018.207.177.428.463.574q.084.043.167.09c.314.18.621.213.843.114a.74.74 0 0 1 .934.286l.628 1.032a.715.715 0 0 1-.221.971c-.18.118-.303.378-.299.725v.096c-.005.347.12.607.299.725a.715.715 0 0 1 .221.971l-.628 1.032a.74.74 0 0 1-.934.286c-.222-.099-.529-.066-.843.114q-.082.046-.167.09c-.286.146-.445.367-.463.574a.73.73 0 0 1-.732.66H16.37a.73.73 0 0 1-.731-.66c-.019-.207-.178-.428-.464-.574a4 4 0 0 1-.166-.09c-.315-.18-.622-.213-.844-.114a.74.74 0 0 1-.934-.286l-.628-1.032a.715.715 0 0 1 .222-.971c.18-.118.303-.378.298-.725v-.096c.005-.347-.119-.607-.298-.725a.715.715 0 0 1-.222-.971l.628-1.032a.74.74 0 0 1 .934-.286c.222.099.53.066.844-.114q.082-.046.166-.09c.286-.146.445-.367.464-.574m.952.34c-.138.526-.541.911-.962 1.125l-.124.067c-.424.243-.984.395-1.532.237l-.385.632c.401.382.541.934.535 1.404v.07c.006.47-.134 1.022-.535 1.404l.385.632c.548-.158 1.108-.006 1.532.237q.06.034.124.067c.42.214.824.6.962 1.125h.815c.138-.526.542-.911.962-1.125l.124-.067c.424-.243.985-.395 1.533-.237l.384-.632c-.401-.382-.541-.934-.535-1.404v-.07c-.006-.47.134-1.022.535-1.404l-.384-.632c-.549.158-1.109.006-1.533-.237l-.124-.067c-.42-.214-.824-.6-.962-1.125zm1.199 3.093c-.244-.4-.806-.555-1.255-.31c-.434.239-.56.74-.328 1.124c.244.4.806.555 1.255.31c.434-.239.56-.74.328-1.124m-1.735-1.186c.897-.491 2.055-.21 2.589.666c.544.893.209 2.022-.702 2.52c-.897.491-2.055.21-2.589-.666c-.543-.893-.209-2.022.702-2.52"
+            strokeWidth="0.5"
+            stroke="currentColor"
+          />{" "}
+        </svg>
+      ),
+      title: "Account",
+      link: "/admin/account",
+      showFor: ["admin"],
     },
     {
       icon: (
@@ -490,11 +517,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 {nav.subLinks ? (
                   <button
                     onClick={() => toggleDropdown(nav.title)}
-                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${
-                      isActive
+                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
@@ -509,11 +535,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <Link
                     href={nav.link || "#"}
-                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${
-                      isActive
+                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
@@ -536,11 +561,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       <Link
                         key={j}
                         href={sub.link}
-                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${
-                          pathname === sub.link
+                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${pathname === sub.link
                             ? "bg-[#f1f1f1] text-[#301342]"
                             : "text-[#6b6b6b] hover:text-[#301342]"
-                        }`}
+                          }`}
                       >
                         - {sub.title}
                       </Link>
@@ -569,9 +593,8 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen w-64  bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed top-0 left-0 h-screen w-64  bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <SideContent />
       </aside>
