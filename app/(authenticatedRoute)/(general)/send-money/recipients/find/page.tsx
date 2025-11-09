@@ -11,25 +11,25 @@ const Find = () => {
   const router = useRouter();
   return (
     <SideNav>
-      <div className="my-7 relative bg-white rounded-lg mx-auto ">
+      <div className="my-3 md:my-7 relative bg-white rounded-lg mx-auto ">
         <SendSteps step={2} />
 
         <div className="relative ">
           <div
-            className="flex items-center my-5 ml-10 font-poppins gap-2 text-base cursor-pointer"
+            className="flex items-center my-3 mx-3 md:my-5 md:ml-10 font-poppins gap-2 text-base cursor-pointer"
             onClick={() => router.back()}
           >
             <FaArrowLeft size={16} />
             Back
           </div>
 
-          <div className="max-w-2xl mx-auto relative my-10">
-            <div>
+          <div className="max-w-2xl mx-auto relative my-3 md:my-10">
+            <div className="px-3.5 md:px-0">
               <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center">
                 <img src="/images/shiftremit-logo.png" alt="" />
               </div>
-              <div className="text-center my-5">
-                <h1 className=" text-3xl text-[#072032] font-dm-sans text-center font-semibold">
+              <div className="text-center my-3 md:my-5">
+                <h1 className="text-2xl md:text-3xl text-[#072032] font-dm-sans text-center font-semibold">
                   Find People and businesses on ShiftRemit
                 </h1>
                 <p className="font-poppins text-base text-[#454745] text-center">
