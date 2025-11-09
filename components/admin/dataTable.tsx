@@ -134,7 +134,6 @@ export default function AdminDataTable({
                       ) : (
                         <span className="text-gray-400 italic"></span>
                       )}
-
                       {row.status !== "PENDING" && (
                         <a target="_blank" href={row.pdfFile}>
                           <svg

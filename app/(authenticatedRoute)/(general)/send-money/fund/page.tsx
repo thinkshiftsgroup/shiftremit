@@ -22,10 +22,10 @@ const Fund = () => {
 
   return (
     <SideNav>
-      <div className="my-7 bg-white rounded-lg mx-auto ">
+      <div className="my-3 md:my-7 bg-white rounded-lg mx-auto px-3 ">
         <SendSteps step={3} />
         <div className="my-10 ">
-          <h1 className=" text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
+          <h1 className="text-2xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Funding
           </h1>
           <p className="font-poppins text-lg text-[#454745] mb-3 text-center">

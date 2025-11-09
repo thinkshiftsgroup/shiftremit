@@ -14,7 +14,7 @@ export const WalletSection = ({
   return (
     <div className="">
       <p className="my-1">
-        Get up to <span className="text-green-600">{rateDifference}</span> more
+        Get up to <span className="text-green-600">₦{rateDifference}</span> more
         with ShiftRemit
       </p>
       <div className="flex items-center justify-between gap-2 mb-3">
@@ -23,7 +23,10 @@ export const WalletSection = ({
         </h1>
       </div>
 
-      <div ref={containerRef} className="grid md:grid-cols-3 lg:grid-cols-5 gap-5">
+      <div
+        ref={containerRef}
+        className="grid md:grid-cols-3 lg:grid-cols-5 gap-5"
+      >
         {cards.map((card: any, index: any) => (
           <div
             key={index}
