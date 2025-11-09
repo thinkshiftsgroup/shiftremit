@@ -83,15 +83,16 @@ const ActionDropDown = () => {
                     <path fill="currentColor" d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0" strokeWidth={0.5} stroke="currentColor"></path>
                 </svg> View New
             </div>
-            <a href="mailto:support@shiftremit.com">
-                <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} viewBox="0 0 1024 1024">
-                        <path fill="currentColor" d="M352 480h320a32 32 0 1 1 0 64H352a32 32 0 0 1 0-64" strokeWidth={25.5} stroke="currentColor"></path>
-                        <path fill="currentColor" d="M512 896a384 384 0 1 0 0-768a384 384 0 0 0 0 768m0 64a448 448 0 1 1 0-896a448 448 0 0 1 0 896" strokeWidth={25.5} stroke="currentColor"></path>
-                    </svg>
-                    Remove
-                </div>
-            </a>
+            <div
+                onClick={() => handleActionClick("remove")}
+                className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} viewBox="0 0 1024 1024">
+                    <path fill="currentColor" d="M352 480h320a32 32 0 1 1 0 64H352a32 32 0 0 1 0-64" strokeWidth={25.5} stroke="currentColor"></path>
+                    <path fill="currentColor" d="M512 896a384 384 0 1 0 0-768a384 384 0 0 0 0 768m0 64a448 448 0 1 1 0-896a448 448 0 0 1 0 896" strokeWidth={25.5} stroke="currentColor"></path>
+                </svg>
+                Remove
+            </div>
             <hr />
             <div className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width={14} height={14} viewBox="0 0 24 24">
