@@ -16,6 +16,7 @@ import { useRatesStore } from "@/stores/useRatesStore";
 import { useTrx } from "../../user/transactions/useTrx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { LuArrowUpRight } from "react-icons/lu";
+import FilterComponent from "@/components/admin/filterBar";
 
 interface RateCard {
   country: string;
@@ -349,6 +350,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
+        <FilterComponent />
         <div className="py-3.5  bg-white rounded-md my-4">
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
             Latest Transaction Log
