@@ -108,7 +108,7 @@ export default function AdminDataTable({
                   </td>
                   <td className="px-4 py-1 gap-1 flex flex-col text-sm text-gray-700">
                     <span
-                      className={`p-1 rounded-sm border capitalize ${
+                      className={`p-1 text-center rounded-sm border uppercase ${
                         row.status === "COMPLETED"
                           ? "bg-green-500/20 text-green-500 border-green-500"
                           : row.status === "PENDING"
@@ -116,7 +116,11 @@ export default function AdminDataTable({
                           : "bg-red-500/20 text-red-500 border-red-500"
                       }`}
                     >
-                      {row.status}
+                      {row.status === "COMPLETED"
+                        ? "DELIVERED"
+                        : row.status === "PENDING"
+                        ? "IN REVIEW"
+                        : row.status}
                     </span>
                     <span className="flex items-center gap-1">
                       {row.status !== "PENDING" ? (
@@ -130,26 +134,27 @@ export default function AdminDataTable({
                       ) : (
                         <span className="text-gray-400 italic"></span>
                       )}
-
-                      <a target="_blank" href={row.pdfFile}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          className="text-black"
-                        >
-                          <g fill="">
-                            <path d="M6.5 12a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1z" />
-                            <path
-                              fillRule="evenodd"
-                              d="M11.185 1H4.5A1.5 1.5 0 0 0 3 2.5v15A1.5 1.5 0 0 0 4.5 19h11a1.5 1.5 0 0 0 1.5-1.5V7.202a1.5 1.5 0 0 0-.395-1.014l-4.314-4.702A1.5 1.5 0 0 0 11.185 1M4 2.5a.5.5 0 0 1 .5-.5h6.685a.5.5 0 0 1 .369.162l4.314 4.702a.5.5 0 0 1 .132.338V17.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"
-                              clip-rule="evenodd"
-                            />
-                            <path d="M11 7h5.5a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0z" />
-                          </g>
-                        </svg>
-                      </a>
+                      {row.status !== "PENDING" && (
+                        <a target="_blank" href={row.pdfFile}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            className="text-black"
+                          >
+                            <g fill="">
+                              <path d="M6.5 12a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1z" />
+                              <path
+                                fill-rule="evenodd"
+                                d="M11.185 1H4.5A1.5 1.5 0 0 0 3 2.5v15A1.5 1.5 0 0 0 4.5 19h11a1.5 1.5 0 0 0 1.5-1.5V7.202a1.5 1.5 0 0 0-.395-1.014l-4.314-4.702A1.5 1.5 0 0 0 11.185 1M4 2.5a.5.5 0 0 1 .5-.5h6.685a.5.5 0 0 1 .369.162l4.314 4.702a.5.5 0 0 1 .132.338V17.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"
+                                clip-rule="evenodd"
+                              />
+                              <path d="M11 7h5.5a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0z" />
+                            </g>
+                          </svg>
+                        </a>
+                      )}
                     </span>
                   </td>
                   <td className="px-4 py-1 text-sm text-gray-700">
@@ -165,7 +170,7 @@ export default function AdminDataTable({
                         ) : (
                           <BsCheckLg size={14} />
                         )}
-                        Approve
+                        Successful
                       </button>
                       <button
                         onClick={() => handleStatusUpdate("REJECTED", row.id)}
@@ -178,7 +183,7 @@ export default function AdminDataTable({
                         ) : (
                           <IoCloseSharp size={14} />
                         )}{" "}
-                        Reject
+                        Failed
                       </button>{" "}
                     </div>
                   </td>

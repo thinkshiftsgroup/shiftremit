@@ -76,6 +76,16 @@ const Fund = () => {
                           The account expires after{" "}
                           <span className="font-semibold">a fixed period.</span>
                         </p>
+                      </div>{" "}
+                      <div className="flex items-start  gap-1 font-poppins text-base">
+                        <FaCircleCheck
+                          className="text-black flex-none mt-1"
+                          size={16}
+                        />
+                        <p>
+                          Ensure the account used to fund this transfer matches
+                          your legal name verified on Shiftremit
+                        </p>
                       </div>
                       <div className="flex mt-5 items-center gap-1">
                         <input

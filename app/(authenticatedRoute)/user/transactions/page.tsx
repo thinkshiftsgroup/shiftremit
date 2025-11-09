@@ -220,7 +220,7 @@ const CustomerTrxn = () => {
 
                       <td className="px-4 text-sm py-1 font-poppins">
                         <span
-                          className={`p-1 rounded-sm border capitalize ${
+                          className={`p-1 text-center uppercase rounded-sm border ${
                             trx.status === "COMPLETED"
                               ? "bg-green-500/40 text-green-500 border-green-500"
                               : trx.status === "PENDING"
@@ -228,7 +228,11 @@ const CustomerTrxn = () => {
                               : "bg-red-500/40 text-red-500 border-red-500"
                           }`}
                         >
-                          {trx.status}
+                          {trx.status === "COMPLETED"
+                            ? "DELIVERED"
+                            : trx.status === "PENDING"
+                            ? "IN REVIEW"
+                            : trx.status}
                         </span>
                       </td>
                     </tr>

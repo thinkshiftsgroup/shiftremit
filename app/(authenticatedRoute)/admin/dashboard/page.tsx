@@ -422,7 +422,7 @@ const Dashboard = () => {
                         </td>
                         <td className="px-4 py-1 gap-1 flex flex-col text-sm text-gray-700">
                           <span
-                            className={`p-1 rounded-sm border capitalize ${
+                            className={`p-1 text-center rounded-sm border capitalize ${
                               row.status === "COMPLETED"
                                 ? "bg-green-500/20 text-green-500 border-green-500"
                                 : row.status === "PENDING"
@@ -430,7 +430,11 @@ const Dashboard = () => {
                                 : "bg-red-500/20 text-red-500 border-red-500"
                             }`}
                           >
-                            {row.status}
+                            {row.status === "COMPLETED"
+                              ? "DELIVERED"
+                              : row.status === "PENDING"
+                              ? "IN REVIEW"
+                              : row.status}
                           </span>
                           <span className="flex items-center gap-1">
                             {row.status !== "PENDING" ? (
