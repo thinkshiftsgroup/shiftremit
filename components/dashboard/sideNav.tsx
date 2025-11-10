@@ -47,7 +47,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     user?.userType === "admin" || user?.userType === "partner"
       ? "/admin/dashboard"
       : "/send-money";
-
   const navItems = [
     {
       icon: <TbSmartHome size={18} />,
@@ -162,7 +161,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: ["user", "admin"],
+      showFor: [ "admin"],
     },
     {
       icon: (

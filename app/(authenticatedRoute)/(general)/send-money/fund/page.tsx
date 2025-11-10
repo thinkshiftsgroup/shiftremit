@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { useSendMoney } from "../useSendMoney";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaCircleCheck } from "react-icons/fa6";
+
+import { formatNumber } from "@/helper/utils";
+
 import { useRatesStore } from "@/stores/useRatesStore";
 const Fund = () => {
   const router = useRouter();
@@ -85,7 +88,7 @@ const Fund = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl  mx-auto">
+        <div className=" mx-auto">
           <div className="rounded-[10px] border border-[#e3e3e3]">
             <div>
               <div className="flex items-center p-3 gap-2 ">
@@ -110,7 +113,7 @@ const Fund = () => {
                         <p className="font-normal">
                           Transfer{" "}
                           <span className="font-semibold">
-                            £{transfer?.amount}{" "}
+                            £{formatNumber(transfer?.amount!)}{" "}
                           </span>{" "}
                           to be credited to your recipient
                         </p>
@@ -131,7 +134,7 @@ const Fund = () => {
                       </div>{" "}
                       <div className="flex items-start  gap-1 font-poppins text-base">
                         <FaCircleCheck
-                          className="text-black flex-none mt-1"
+                          className="text-black mr-1 flex-none mt-1"
                           size={16}
                         />
                         <p>
@@ -190,7 +193,7 @@ const Fund = () => {
                         <p>
                           Transfer{" "}
                           <span className="text-base font-medium">
-                            £{transfer?.amount}
+                            £{formatNumber(transfer?.amount!)}
                           </span>{" "}
                           to account below using the reference.
                         </p>
@@ -233,7 +236,7 @@ const Fund = () => {
                           {transfer?.recipientFullName}
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
-                          NGN {transfer?.convertedNGNAmount}
+                          NGN {formatNumber(transfer?.convertedNGNAmount!)}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
                           {transfer?.recipientBankName}

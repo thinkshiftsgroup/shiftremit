@@ -179,7 +179,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
             id="sendMoneyBox"
           >
             <input
-              type="number"
+              type="text"
               name="sending_amount"
               value={formatNumber(sending_amount)}
               onChange={handleSendingAmountChange}
