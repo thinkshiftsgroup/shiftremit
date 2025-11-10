@@ -1,7 +1,447 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaCircleQuestion } from "react-icons/fa6";
 
 const ShareHolderForm = () => {
+  const [activeTab, setActiveTab] = useState("individual");
+
+  const renderIndividualForm = () => {
+    return (
+      <div className="grid md:grid-cols-3 gap-5">
+        <div className="">
+          <label
+            htmlFor="firstname"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            First Name*
+          </label>
+          <input
+            id="firstname"
+            name="firstname"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="lastname"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            Last Name*
+          </label>
+
+          <input
+            id="lastname"
+            name="lastname"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="dob"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            Date of Birth*
+          </label>
+
+          <input
+            id="dob"
+            type="date"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Nationality*
+          </label>
+          <div className="relative w-full">
+            <select
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            >
+              <option value="">Select Country</option>
+            </select>
+
+            <svg
+              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
+              width="25"
+              height="25"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Identification Document*
+          </label>
+          <div className="relative w-full">
+            <select
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            >
+              <option value="">Select Document</option>
+            </select>
+
+            <svg
+              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
+              width="25"
+              height="25"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            ID/Passport Number*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Issued Country*
+          </label>
+          <div className="relative w-full">
+            <select
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            >
+              <option value="">Select Country</option>
+            </select>
+
+            <svg
+              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
+              width="25"
+              height="25"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Residential Address*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Percentage of Shares Owned*
+          </label>
+
+          <input
+            placeholder="%"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="fileUpload1"
+            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745]"
+          >
+            Valid ID For Shareholder*
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+
+          <label
+            htmlFor="fileUpload1"
+            className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">Choose file to upload (required)</span>
+          </label>
+
+          <input
+            id="fileUpload1"
+            name="fileUpload1"
+            type="file"
+            className="hidden"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="fileUpload2"
+            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745]"
+          >
+            Proof of Address*
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+
+          <label
+            htmlFor="fileUpload2"
+            className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">Choose file to upload (required)</span>
+          </label>
+
+          <input
+            id="fileUpload2"
+            name="fileUpload2"
+            type="file"
+            className="hidden"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Tax Number*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const renderEntityForm = () => {
+    return (
+      <div className="grid md:grid-cols-3 gap-5">
+        <div className="">
+          <label
+            htmlFor="firstname"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            Name*
+          </label>
+          <input
+            id="firstname"
+            name="firstname"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Country Of Registration/Incorpration*
+          </label>
+          <div className="relative w-full">
+            <select
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            >
+              <option value="">Select Country</option>
+            </select>
+
+            <svg
+              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
+              width="25"
+              height="25"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Registration/Incorpration Number*
+          </label>
+          <input
+            id="lastname"
+            name="lastname"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+
+        {/* <div className="">
+          <label
+            htmlFor="lastname"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            Last Name*
+          </label>
+
+          <input
+            id="lastname"
+            name="lastname"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="dob"
+            className="font-poppins font-semibold text-sm text-[#454745]"
+          >
+            Date of Birth*
+          </label>
+
+          <input
+            id="dob"
+            type="date"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div> */}
+
+        {/* <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Identification Document*
+          </label>
+          <div className="relative w-full">
+            <select
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            >
+              <option value="">Select Document</option>
+            </select>
+
+            <svg
+              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
+              width="25"
+              height="25"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 10l5 5 5-5" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            ID/Passport Number*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div> 
+
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Residential Address*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>*/}
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Percentage of Shares Owned*
+          </label>
+
+          <input
+            placeholder="%"
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div>
+
+        {/* <div className="">
+          <label
+            htmlFor="fileUpload1"
+            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745]"
+          >
+            Valid ID For Shareholder*
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+
+          <label
+            htmlFor="fileUpload1"
+            className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">Choose file to upload (required)</span>
+          </label>
+
+          <input
+            id="fileUpload1"
+            name="fileUpload1"
+            type="file"
+            className="hidden"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label
+            htmlFor="fileUpload2"
+            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745]"
+          >
+            Proof of Address*
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+
+          <label
+            htmlFor="fileUpload2"
+            className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">Choose file to upload (required)</span>
+          </label>
+
+          <input
+            id="fileUpload2"
+            name="fileUpload2"
+            type="file"
+            className="hidden"
+            required
+          />
+        </div>
+
+        <div className="">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Tax Number*
+          </label>
+
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            required
+          />
+        </div> */}
+      </div >
+    );
+  };
+
   return (
     <div className="w-full bg-white shadow-md mb-5 rounded-md p-3">
       <div className="my-2 border-b pb-3">
@@ -15,315 +455,87 @@ const ShareHolderForm = () => {
       </div>
 
       <div>
-        <p className="font-poppins text-sm">
+        <p className="font-poppins text-sm mb-4">
           Is this shareholder an individual or a legal entity (Company, NGO,
           etc)
         </p>
-        <div className="flex items-center my-6 gap-2 flex-col md:flex-row">
-          <div className="text-[#454745] flex items-center md:items-start gap-3 md:gap-1 w-full md:w-auto">
+
+        <div className="flex items-center gap-2 flex-col md:flex-row mb-6">
+          {/* Individual Tab */}
+          <div
+            onClick={() => setActiveTab("individual")}
+            className={`flex items-center gap-3 md:gap-1 w-full md:w-auto cursor-pointer p-3 rounded-md transition-colors ${activeTab === "individual"
+              ? "bg-main/10 border border-main"
+              : "border border-[#d1d5db80]"
+              }`}
+          >
             <input
               type="checkbox"
-              className="w-4 h-4 mt-1 rounded-sm accent-main"
+              checked={activeTab === "individual"}
+              onChange={() => setActiveTab("individual")}
+              className="w-4 h-4 rounded-sm accent-main cursor-pointer"
             />
             <div>
-              <h1 className="font-semibold font-poppins">
+              <h1 className="font-semibold font-poppins text-[#454745]">
                 Natural Person/UBOs
               </h1>
-              <p className="text-sm font-dm-sans">
+              <p className="text-sm font-dm-sans text-[#454745]">
                 This shareholder is an individual
               </p>
             </div>
           </div>
-          <div className="text-[#454745] flex items-center md:items-start gap-3 md:gap-1 w-full md:w-auto">
+
+          {/* Legal Entity Tab */}
+          <div
+            onClick={() => setActiveTab("entity")}
+            className={`flex items-center gap-3 md:gap-1 w-full md:w-auto cursor-pointer p-3 rounded-md transition-colors ${activeTab === "entity"
+              ? "bg-main/10 border border-main"
+              : "border border-[#d1d5db80]"
+              }`}
+          >
             <input
               type="checkbox"
-              className="w-4 h-4 mt-1 rounded-sm accent-main"
+              checked={activeTab === "entity"}
+              onChange={() => setActiveTab("entity")}
+              className="w-4 h-4 rounded-sm accent-main cursor-pointer"
             />
             <div>
-              <h1 className="font-semibold font-poppins">Legal Entity</h1>
-              <p className="text-sm font-dm-sans">
-                This shareholder is an legal entity
+              <h1 className="font-semibold font-poppins text-[#454745]">
+                Legal Entity
+              </h1>
+              <p className="text-sm font-dm-sans text-[#454745]">
+                This shareholder is a legal entity
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-5">
-        <div className="">
-          <label
-            htmlFor="firstname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            First Name*
-          </label>
-          <input
-            id="firstname"
-            name="firstname"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
+      {/* Form Content */}
+      {activeTab === "individual" && (
+        <div className="space-y-4">
+          <p className="font-poppins text-sm font-semibold text-[#454745] mb-4">
+            Natural Person/UBOs Form
+          </p>
+          {renderIndividualForm()}
         </div>
+      )}
 
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Last Name*
-          </label>
-
-          <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
+      {activeTab === "entity" && (
+        <div className="space-y-4">
+          <p className="font-poppins text-sm font-semibold text-[#454745] mb-4">
+            Legal Entity Form
+          </p>
+          {renderEntityForm()}
         </div>
-        {/* <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Position*
-          </label>
+      )}
 
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div> */}
-        <div className="">
-          <label
-            htmlFor="dob"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Date of Birth*
-          </label>
-
-          <input
-            type="date"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Nationality*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male">Select Country</option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Identification Document*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male"></option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins flex items-center gap-1 font-semibold text-sm text-[#454745] "
-          >
-            ID/Passport Number*
-          </label>
-
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Issued Country*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male">Select Country</option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Residential Address*
-          </label>
-
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Percentage of Shares Owned*
-          </label>
-
-          <input
-            placeholder="%"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="fileUpload"
-            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745] "
-          >
-            Valid ID For Shareholder*{" "}
-            <FaCircleQuestion size={16} className="text-[#454745]" />
-          </label>
-
-          <label
-            htmlFor="fileUpload"
-            className="
-      w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80]
-      text-[#666] text-sm font-poppins cursor-pointer
-      flex items-center justify-between
-      hover:border-main transition-colors
-    "
-          >
-            <span className="opacity-80">Choose file to upload (required)</span>
-          </label>
-
-          <input
-            id="fileUpload"
-            name="fileUpload"
-            type="file"
-            className="hidden"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="fileUpload"
-            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745] "
-          >
-            Proof of Address*{" "}
-            <FaCircleQuestion size={16} className="text-[#454745]" />
-          </label>
-
-          <label
-            htmlFor="fileUpload"
-            className="
-      w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80]
-      text-[#666] text-sm font-poppins cursor-pointer
-      flex items-center justify-between
-      hover:border-main transition-colors
-    "
-          >
-            <span className="opacity-80">Choose file to upload (required)</span>
-          </label>
-
-          <input
-            id="fileUpload"
-            name="fileUpload"
-            type="file"
-            className="hidden"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Tax Number*
-          </label>
-
-          <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-      </div>
-
-      <button className="font-poppins mt-3 text-sm border border-[#d1d5db80] text-[#454745] p-2 rounded-sm bg-[#e6e5e5]">
-        Save and Add Another Shareholder +{" "}
+      <button className="font-poppins mt-6 text-sm border border-[#d1d5db80] text-[#454745] p-2 rounded-sm bg-[#e6e5e5]">
+        Save and Add Another Shareholder +
       </button>
       <hr className="my-4" />
       <div>
-        <button className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30">
+        <button className="font-poppins text-sm border border-main text-main p-2 rounded-sm bg-main/30">
           I'm Done Adding Shareholder
         </button>
       </div>
