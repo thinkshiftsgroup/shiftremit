@@ -108,7 +108,7 @@ const ActionDropDown = () => {
 
     const confirmModalContent = confirmModal.open && ReactDOM.createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-96 text-center">
+            <div className="bg-white rounded shadow-lg p-6 w-96 text-center">
                 <div className="mb-6">
                     <svg
                         className="w-16 h-16 mx-auto text-blue-400"
@@ -128,13 +128,13 @@ const ActionDropDown = () => {
                 <div className="flex gap-3 justify-center">
                     <button
                         onClick={handleConfirm}
-                        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded transition-colors"
                     >
                         Yes, {confirmModal.action} it!
                     </button>
                     <button
                         onClick={handleCancel}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded transition-colors"
                     >
                         Cancel
                     </button>

@@ -357,12 +357,12 @@ focus:border-main focus:outline-none transition-colors"
 
         <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
           <button className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm">
-            Submit KYC for approval
+            Approve Account
           </button>
-          <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
+          {/* <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
             <FaCircleCheck size={20} className="text-main" />
             Saved
-          </div>
+          </div> */}
         </div>
       </div>
     </SideNav>
