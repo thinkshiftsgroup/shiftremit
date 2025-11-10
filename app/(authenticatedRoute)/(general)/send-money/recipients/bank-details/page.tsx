@@ -7,9 +7,7 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useRecipient } from "../../../recipients/useRecipient";
 import { useTransferStore } from "@/stores/useTransaferStore";
-import { useSendMoney } from "../../useSendMoney";
 import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
 
 interface BankI {
   id: number;
@@ -38,16 +36,14 @@ const BankDetails = () => {
   const [purpose, setPurpose] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
 
-  const [error, setError] = useState(false);
-
   const { getBanks, getBankDetails } = useRecipient();
   const { setTransfer } = useTransferStore();
-  const { sendTfDetails } = useSendMoney();
-  const transfer = useTransferStore((state) => state.transfer);
+
   const {
     mutate: resolveAccount,
     data: bankDetails,
     isPending: resolvingAccount,
+    isSuccess: resolveSuccess,
   } = getBankDetails({ accountNumber, bankCode });
 
   useEffect(() => {
@@ -61,11 +57,14 @@ const BankDetails = () => {
   useEffect(() => {
     if (accountNumber.length === 10 && bankCode) {
       resolveAccount();
-      setError(false);
-    } else {
-      setError(true);
     }
   }, [accountNumber, bankCode, resolveAccount]);
+
+  const shouldShowInvalidError =
+    accountNumber.length === 10 &&
+    !resolvingAccount &&
+    resolveSuccess &&
+    !bankDetails?.data?.account_name;
 
   const handleBankDetails = () => {
     setTransfer({
@@ -77,32 +76,7 @@ const BankDetails = () => {
       isRecipientBusinessAccount: isBusiness,
     });
 
-    sendTfDetails.mutate(
-      {
-        amount: transfer?.amount,
-        fromCurrency: "GBP",
-        toCurrency: "NGN",
-        recipientBankName: bankName,
-        recipientEmail: email,
-        recipientAccountNumber: accountNumber,
-        recipientFullName: bankDetails?.data?.account_name,
-        purpose: purpose,
-        isRecipientBusinessAccount: isBusiness,
-        convertedNGNAmount: transfer?.convertedNGNAmount,
-      },
-      {
-        onSuccess: (data) => {
-          router.push("/send-money/fund");
-          toast.success(data?.message, data?.nextStep);
-
-          setTransfer({
-            transferReference: data?.transferReference,
-            GBPAccountNumber: data?.GBP_Payment_Details?.GBPAccountNumber,
-            GBPAccountName: data?.GBP_Payment_Details?.GBPAccountName,
-          });
-        },
-      }
-    );
+    router.push("/send-money/fund");
   };
 
   return (
@@ -201,7 +175,7 @@ focus:border-main focus:outline-none transition-colors"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 />
-                {error && (
+                {shouldShowInvalidError && (
                   <p className="text-xs text-red-500 font-dm-sans mt-1">
                     Invalid account details
                   </p>
@@ -266,11 +240,7 @@ focus:border-main focus:outline-none transition-colors"
     hover:border-transparent my-5 text-center 
   "
             >
-              {sendTfDetails.isPending ? (
-                <Loader2 className="animate-spin" size={20} />
-              ) : (
-                "Continue"
-              )}
+              Continue
             </button>
           </div>
           <div className="flex justify-between p-5">

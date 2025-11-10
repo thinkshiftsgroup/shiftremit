@@ -6,7 +6,8 @@ import { Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CgArrowRight } from "react-icons/cg";
-
+import { toast } from "sonner";
+import { useSendMoney } from "../useSendMoney";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaCircleCheck } from "react-icons/fa6";
 
@@ -17,8 +18,51 @@ const Fund = () => {
   );
   const [understand, setUnderstand] = useState(false);
   const [bankStep, setBankStep] = useState<1 | 2 | 3>(1);
+  const [userReference, setUserReference] = useState("");
+
   const transfer = useTransferStore((state) => state.transfer);
-  const clearTransfer = useTransferStore((state) => state.clearTransfer);
+  const { setTransfer, clearTransfer } = useTransferStore();
+  const { sendTfDetails } = useSendMoney();
+
+  const handleSendTransfer = () => {
+    setTransfer({ userReference: userReference });
+
+    sendTfDetails.mutate(
+      {
+        amount: transfer?.amount,
+        fromCurrency: "GBP",
+        toCurrency: "NGN",
+        recipientBankName: transfer?.recipientBankName,
+        recipientEmail: transfer?.recipientEmail,
+        recipientAccountNumber: transfer?.recipientAccountNumber,
+        recipientFullName: transfer?.recipientFullName,
+        purpose: transfer?.purpose,
+        isRecipientBusinessAccount: transfer?.isRecipientBusinessAccount,
+        convertedNGNAmount: transfer?.convertedNGNAmount,
+        userReference: userReference,
+      },
+      {
+        onSuccess: (data) => {
+          setTransfer({
+            transferReference: data?.transferReference,
+            GBPAccountNumber: data?.GBP_Payment_Details?.GBPAccountNumber,
+            GBPAccountName: data?.GBP_Payment_Details?.GBPAccountName,
+          });
+
+          toast.success(data?.message, {
+            description: "Your transfer has been initiated successfully.",
+          });
+
+          setBankStep(2);
+        },
+        onError: (error) => {
+          toast.error("Transfer initiation failed", {
+            description: error.message || "Please try again later.",
+          });
+        },
+      }
+    );
+  };
 
   return (
     <SideNav>
@@ -33,7 +77,7 @@ const Fund = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl  mx-auto">
+        <div className="max-w-2xl  mx-auto">
           <div className="rounded-[10px] border border-[#e3e3e3]">
             <div>
               <div className="flex items-center p-3 gap-2 ">
@@ -77,7 +121,7 @@ const Fund = () => {
                           <span className="font-semibold">a fixed period.</span>
                         </p>
                       </div>{" "}
-                      <div className="flex items-start  gap-1 font-poppins text-base">
+                      <div className="flex items-start  gap-1 font-poppins text-base">
                         <FaCircleCheck
                           className="text-black flex-none mt-1"
                           size={16}
@@ -106,13 +150,15 @@ const Fund = () => {
                           Your Reference (optional)
                         </label>
                         <input
+                          value={userReference}
+                          onChange={(e) => setUserReference(e.target.value)}
                           type="text"
                           className="rounded-md border-[#e3e3e3] p-2 border w-full mt-1 text-base font-poppins active:border-[#e3e3e3]"
                         />
                       </div>
                       <button
-                        disabled={!understand}
-                        onClick={() => setBankStep(2)}
+                        disabled={!understand || sendTfDetails.isPending}
+                        onClick={handleSendTransfer}
                         className="
     text-white font-poppins border disabled:cursor-not-allowed border-[#813FD6] mt-4 text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342] disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
@@ -120,7 +166,13 @@ const Fund = () => {
     hover:border-transparent flex items-center gap-2
   "
                       >
-                        Send <CgArrowRight />
+                        {sendTfDetails.isPending ? (
+                          <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                          <>
+                            Send <CgArrowRight />
+                          </>
+                        )}
                       </button>
                     </div>
                   )}
@@ -195,7 +247,7 @@ const Fund = () => {
                           £{transfer?.amount}
                         </p>
                       </div>
-                      <div className="w-[25%]  space-y-1 text-center">
+                      <div className="w-[25%]  space-y-1 text-center">
                         <p className="font-poppins text-sm text-black font-semibold">
                           Need Help?
                         </p>
