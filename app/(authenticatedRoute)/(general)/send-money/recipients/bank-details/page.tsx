@@ -35,6 +35,7 @@ const BankDetails = () => {
   const [email, setEmail] = useState("");
   const [purpose, setPurpose] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
+  const [hasResolvedOnce, setHasResolvedOnce] = useState(false);
 
   const { getBanks, getBankDetails } = useRecipient();
   const { setTransfer } = useTransferStore();
@@ -57,14 +58,16 @@ const BankDetails = () => {
   useEffect(() => {
     if (accountNumber.length === 10 && bankCode) {
       resolveAccount();
+      setHasResolvedOnce(true);
     }
   }, [accountNumber, bankCode, resolveAccount]);
 
   const shouldShowInvalidError =
-    accountNumber.length === 10 &&
-    !resolvingAccount &&
-    resolveSuccess &&
-    !bankDetails?.data?.account_name;
+    (hasResolvedOnce && accountNumber.length < 10) ||
+    (accountNumber.length === 10 &&
+      !resolvingAccount &&
+      resolveSuccess &&
+      !bankDetails?.data?.account_name);
 
   const handleBankDetails = () => {
     setTransfer({
@@ -166,7 +169,9 @@ focus:border-main focus:outline-none transition-colors"
                 </label>
                 <input
                   value={
-                    resolvingAccount
+                    accountNumber.length < 10
+                      ? ""
+                      : resolvingAccount
                       ? "Please wait..."
                       : bankDetails?.data?.account_name || ""
                   }
