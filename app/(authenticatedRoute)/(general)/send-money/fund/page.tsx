@@ -200,13 +200,19 @@ const Fund = () => {
                         <p>
                           Account Number:{" "}
                           <span className="text-base font-medium">
-                            {transfer?.GBPAccountNumber}
+                            87812060
                           </span>
                         </p>
                         <p>
                           Account Name:{" "}
                           <span className="text-base font-medium">
                             {transfer?.GBPAccountName}
+                          </span>
+                        </p>
+                        <p>
+                          Sort Code:{" "}
+                          <span className="text-base font-medium">
+                            04-00-05
                           </span>
                         </p>
                         <p>
@@ -255,7 +261,7 @@ const Fund = () => {
                           Confirming Your Bank Transfer
                         </p>
                         <p className="font-poppins text-xl font-bold ">
-                          £{transfer?.amount}
+                          £{formatNumber(transfer?.amount!)}
                         </p>
                       </div>
                       <div className="w-[25%]  space-y-1 text-center">
