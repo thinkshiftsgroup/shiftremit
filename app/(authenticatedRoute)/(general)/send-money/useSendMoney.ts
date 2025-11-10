@@ -16,7 +16,7 @@ export const useSendMoney = () => {
       recipientFullName,
       purpose,
       isRecipientBusinessAccount,
-      convertedNGNAmount
+      conversionRate,
     }: TransferData) => {
       const res = await apiInstance.post("/api/bank-transfer/request", {
         amount,
@@ -28,6 +28,7 @@ export const useSendMoney = () => {
         recipientFullName,
         purpose,
         isRecipientBusinessAccount,
+        conversionRate,
       });
       return res.data;
     },
