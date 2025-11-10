@@ -5,6 +5,7 @@ import DropdownComponent from "./dropDown";
 import { useState } from "react";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
+import { formatNumber } from "@/helper/utils";
 
 interface TransferProps {
   onRateUpdate: (
@@ -54,7 +55,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     if (fromCurrency === "GBP" && toCurrency === "NGN") {
       rate = moniepointRate + benchmarkGBP;
       ready = rate > benchmarkGBP && !isLoading;
-      label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : label;
+      label = ready ? `1 GBP = ${formatNumber(rate.toFixed(2))} NGN` : label;
     } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
       rate = 1 / rateNGN;
       ready = rateNGN > 0 && !isLoading;
@@ -203,7 +204,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               name="sending_amount"
               id="sending_amount"
               aria-label="Sending Money"
-              value={sending_amount}
+              value={formatNumber(sending_amount)}
               placeholder={
                 isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
               }
@@ -273,7 +274,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               type="text"
               name="receive_amount"
               id="receive_amount"
-              value={receive_amount}
+              value={formatNumber(receive_amount)}
               placeholder={initialReceiveAmount}
               onChange={handleReceiveAmountChange}
               disabled={!isRateReady}

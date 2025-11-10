@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { toast } from "sonner";
 import { useTransferStore } from "@/stores/useTransaferStore";
+import { formatNumber } from "@/helper/utils";
 
 const SendMoneyUI = () => {
   const [isBank, setIsBank] = useState(true);
@@ -38,7 +39,7 @@ const SendMoneyUI = () => {
   const totalAmountDisplay =
     sendingAmount === ""
       ? `0 ${fromCurrency}`
-      : `${sendingAmount} ${fromCurrency}`;
+      : `${formatNumber(sendingAmount)} ${fromCurrency}`;
 
   const { setTransfer } = useTransferStore();
 
