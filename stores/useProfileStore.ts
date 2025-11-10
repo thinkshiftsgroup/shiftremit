@@ -10,8 +10,12 @@ export interface UserProfileData {
   username: string | null;
   firstname: string | null;
   lastname: string | null;
+  middlename: string | null;
   fullName: string;
   profilePhotoUrl: string | null;
+  phoneNumber: string | null;
+  politicalExposure: string | null;
+  country: string | null;
   userType: "user" | "admin" | "partner";
   gender: string | null;
   dob: Date | null;

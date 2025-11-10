@@ -14,9 +14,13 @@ import { toast } from "sonner";
 interface FormDataState {
   firstname: string;
   lastname: string;
+  middlename: string;
   gender: string;
   dob: string;
   meansOfIdentification: string;
+  phoneNumber: string;
+  country: string;
+  politicalExposure: string;
   validIDNumber: string;
   idDate: string;
   fullAddress: string;
@@ -35,8 +39,12 @@ const IndiAcc = () => {
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
     lastname: "",
+    middlename: "",
     gender: "male",
     dob: "",
+    country: "",
+    politicalExposure: "",
+    phoneNumber: "",
     meansOfIdentification: "ID",
     validIDNumber: "",
     idDate: "",
@@ -56,7 +64,10 @@ const IndiAcc = () => {
         firstname: user.firstname || "",
         lastname: user.lastname || "",
         gender: user.gender || "male",
-
+        middlename: user.middlename || "",
+        politicalExposure: user.politicalExposure || "",
+        phoneNumber: user.phoneNumber || "",
+        country: user.country || "",
         dob: user.dob ? new Date(user.dob).toISOString().split("T")[0] : "",
         idDate: user.idDate
           ? new Date(user.idDate).toISOString().split("T")[0]
@@ -247,15 +258,17 @@ focus:border-main focus:outline-none transition-colors"
             </div>
             <div className="space-y-3">
               <label
-                htmlFor="middleName"
+                htmlFor="middlename"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Middle Name
               </label>
               <input
-                id="middleName"
-                name="middleName"
+                id="middlename"
+                name="middlename"
                 type="text"
+                value={formData.middlename}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               />
@@ -315,15 +328,17 @@ focus:border-main focus:outline-none transition-colors"
             </div>
             <div className="space-y-3">
               <label
-                htmlFor="number"
+                htmlFor="phoneNumber"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Mobile Number*
               </label>
               <input
-                id="number"
-                name="number"
+                id="phoneNumber"
+                name="phoneNumber"
                 type="text"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
@@ -338,6 +353,10 @@ focus:border-main focus:outline-none transition-colors"
               Political Exposed Person?*
             </label>
             <textarea
+              id="politicalExposure"
+              name="politicalExposure"
+              value={formData.politicalExposure}
+              onChange={handleInputChange}
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
@@ -453,6 +472,8 @@ focus:border-main focus:outline-none transition-colors"
                 id="country"
                 name="country"
                 type="text"
+                value={formData.country}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required

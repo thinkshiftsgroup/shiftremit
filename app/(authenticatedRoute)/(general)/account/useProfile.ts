@@ -7,9 +7,13 @@ interface ProfileUpdatePayload {
   fullName?: string;
   firstname?: string;
   lastname?: string;
+  middlename?: string;
   gender?: string;
   dob?: string;
   meansOfIdentification?: string;
+  phoneNumber?: string;
+  politicalExposure?: string;
+  country?: string;
   validIDNumber?: string;
   idDate?: string;
   fullAddress?: string;
@@ -26,8 +30,7 @@ export const useProfile = () => {
     queryKey: PROFILE_QUERY_KEY,
     queryFn: async () => {
       const res = await apiInstance.get("/api/profile");
-
-      const data = res.data;
+      const data = res.data.data as UserProfileData;
       if (data.dob) data.dob = new Date(data.dob);
       if (data.idDate) data.idDate = new Date(data.idDate);
 
@@ -40,7 +43,7 @@ export const useProfile = () => {
     mutationKey: ["update-profile"],
     mutationFn: async (data: ProfileUpdatePayload) => {
       const res = await apiInstance.patch("/api/profile", data);
-      return res.data;
+      return res.data.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
@@ -57,7 +60,7 @@ export const useProfile = () => {
       const res = await apiInstance.patch("/api/profile/photo", {
         profilePhotoUrl,
       });
-      return res.data;
+      return res.data.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PROFILE_QUERY_KEY });
