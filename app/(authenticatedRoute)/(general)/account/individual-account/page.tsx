@@ -1,50 +1,171 @@
 "use client";
-import DocUpload from "@/components/account/docUpload";
 import SideNav from "@/components/dashboard/sideNav";
 import { Camera, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
-import { FaCircleCheck } from "react-icons/fa6";
+import React, { useRef, useState, useEffect } from "react";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
+import { useProfile } from "../useProfile";
+import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
+import { ImageUpload } from "@/components/ui/image-upload";
+import { toast } from "sonner";
+
+interface FormDataState {
+  firstname: string;
+  lastname: string;
+  gender: string;
+  dob: string;
+  meansOfIdentification: string;
+  validIDNumber: string;
+  idDate: string;
+  fullAddress: string;
+  taxNumber: string;
+  purposeOfShiftremit: string;
+}
 
 const IndiAcc = () => {
-  const [image, setImage] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
-
-  const handleImageSelect = (e: any) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const openFilePicker = () => fileRef.current?.click();
   const router = useRouter();
   const dateRef = useRef<HTMLInputElement>(null);
+  const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
+
+  const { fetchProfile, updateProfile, updateProfilePhoto } = useProfile();
+  const { user: localUser, setUser } = useProfileStore();
+
+  const [formData, setFormData] = useState<FormDataState>({
+    firstname: "",
+    lastname: "",
+    gender: "male",
+    dob: "",
+    meansOfIdentification: "ID",
+    validIDNumber: "",
+    idDate: "",
+    fullAddress: "",
+    taxNumber: "",
+    purposeOfShiftremit: "",
+  });
+
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+  const user = fetchProfile.data || localUser;
+  const isLoading = fetchProfile.isLoading || fetchProfile.isFetching;
+
+  useEffect(() => {
+    if (user && user.id) {
+      setFormData({
+        firstname: user.firstname || "",
+        lastname: user.lastname || "",
+        gender: user.gender || "male",
+
+        dob: user.dob ? new Date(user.dob).toISOString().split("T")[0] : "",
+        idDate: user.idDate
+          ? new Date(user.idDate).toISOString().split("T")[0]
+          : "",
+
+        meansOfIdentification: user.meansOfIdentification || "ID",
+        validIDNumber: user.validIDNumber || "",
+        fullAddress: user.fullAddress || "",
+        taxNumber: user.taxNumber || "",
+        purposeOfShiftremit: user.purposeOfShiftremit || "",
+      });
+      if (
+        fetchProfile.isFetched &&
+        fetchProfile.data &&
+        fetchProfile.data.id !== localUser?.id
+      ) {
+        setUser(fetchProfile.data);
+      }
+    }
+  }, [user, fetchProfile.isFetched]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleProfilePhotoChange = async (urls: string[]) => {
+    if (urls.length > 0) {
+      const newUrl = urls[0];
+      try {
+        await updateProfilePhoto.mutateAsync(newUrl);
+        setUser({ profilePhotoUrl: newUrl });
+      } catch (error) {}
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsFormSubmitting(true);
+
+    const payload = {
+      ...formData,
+      dob: formData.dob ? new Date(formData.dob).toISOString() : undefined,
+      idDate: formData.idDate
+        ? new Date(formData.idDate).toISOString()
+        : undefined,
+    };
+
+    try {
+      const updatedUser = await updateProfile.mutateAsync(payload);
+      toast.success("Profile updated successfully!");
+      setUser(updatedUser);
+    } catch (error) {
+    } finally {
+      setIsFormSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <SideNav>
+        <div className="flex items-center justify-center h-64 text-lg">
+          Loading profile data...
+        </div>
+      </SideNav>
+    );
+  }
+
+  if (!user) {
+    return (
+      <SideNav>
+        <div className="flex items-center justify-center h-64 text-lg text-red-500">
+          Failed to load user profile.
+        </div>
+      </SideNav>
+    );
+  }
+
+  const getInitials = (user: UserProfileData) => {
+    const fn = user.firstname?.[0] || "";
+    const ln = user.lastname?.[0] || "";
+    return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
+  };
+
+  const isUpdating =
+    isFormSubmitting || updateProfile.isPending || updateProfilePhoto.isPending;
+
   return (
     <SideNav>
-      <div className="mb-16 relative">
+      <form className="mb-16 relative" onSubmit={handleFormSubmit}>
         <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
           <div className="flex pb-5 items-center justify-between">
             <div className="flex items-center gap-4">
               <div
-                onClick={openFilePicker}
+                onClick={() => photoUploadRef.current?.openFileDialog()}
                 className="inline-block relative group cursor-pointer w-24 h-24"
               >
-                {image ? (
+                {user.profilePhotoUrl ? (
                   <img
-                    src={image}
+                    src={user.profilePhotoUrl}
                     alt="profile"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
-                    JI
+                    {getInitials(user)}
                   </div>
                 )}
 
@@ -54,18 +175,19 @@ const IndiAcc = () => {
 
                 <div className="w-5 h-5 bg-main absolute bottom-1 right-1 border-2 border-white rounded-full" />
 
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
+                <ImageUpload
+                  ref={photoUploadRef}
+                  onChange={handleProfilePhotoChange}
+                  multiple={false}
                   className="hidden"
-                  onChange={handleImageSelect}
+                  maxFiles={1}
                 />
               </div>
               <div>
                 <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                   <h1 className="font-poppins md:text-2xl font-semibold">
-                    Joshua Israel
+                    {user.fullName ||
+                      `${user.firstname || ""} ${user.lastname || ""}`}
                   </h1>
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>Individual Account</p>
@@ -74,7 +196,7 @@ const IndiAcc = () => {
                 <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
-                    josh****el@gmail.com
+                    {user.email}
                   </p>
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <FiPhone size={16} />
@@ -96,6 +218,8 @@ const IndiAcc = () => {
                 id="firstname"
                 name="firstname"
                 type="text"
+                value={formData.firstname}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
@@ -114,6 +238,8 @@ focus:border-main focus:outline-none transition-colors"
                 id="lastname"
                 name="lastname"
                 type="text"
+                value={formData.lastname}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
@@ -132,7 +258,6 @@ focus:border-main focus:outline-none transition-colors"
                 type="text"
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
-                required
               />
             </div>
             <div className="space-y-3">
@@ -141,12 +266,16 @@ focus:border-main focus:outline-none transition-colors"
               </label>
               <div className="relative w-full">
                 <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
                   className="
       font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
       border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
+      appearance-none pr-8 
     "
+                  required
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -174,7 +303,11 @@ focus:border-main focus:outline-none transition-colors"
               </label>
 
               <input
+                id="dob"
+                name="dob"
                 type="date"
+                value={formData.dob}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
@@ -220,16 +353,20 @@ focus:border-main focus:outline-none transition-colors"
             <div className="flex -space-x-3 flex-col md:flex-row">
               <div className="relative w-full">
                 <select
+                  name="meansOfIdentification"
+                  value={formData.meansOfIdentification}
+                  onChange={handleInputChange}
                   className="
       font-poppins text-sm w-full mt-2 py-3.5 px-2 rounded-sm
       border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
+      appearance-none pr-8 
     "
+                  required
                 >
-                  <option value="male">Select</option>
-                  <option value="female">ID</option>
-                  <option value="others">NIN</option>
+                  <option value="Select">Select</option>
+                  <option value="ID">ID</option>
+                  <option value="NIN">NIN</option>
                 </select>
 
                 <svg
@@ -243,9 +380,11 @@ focus:border-main focus:outline-none transition-colors"
                 </svg>
               </div>
               <input
-                id="id"
-                name="id"
+                id="validIDNumber"
+                name="validIDNumber"
                 type="text"
+                value={formData.validIDNumber}
+                onChange={handleInputChange}
                 className="font-poppins z-3 text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
                 required
                 placeholder="Valid ID Number"
@@ -256,10 +395,12 @@ focus:border-main focus:outline-none transition-colors"
                 </p>
                 <div className="relative w-full">
                   <input
-                    id="id"
+                    id="idDate"
+                    name="idDate"
                     ref={dateRef}
-                    name="id"
                     type="date"
+                    value={formData.idDate}
+                    onChange={handleInputChange}
                     className="font-poppins bg-main-dark text-sm w-full mt-2 py-3.5 px-2 pr-10 rounded-sm border-[#d1d5db80] text-white! border appearance-none hide-native-calendar"
                     required
                     placeholder="Valid ID Number"
@@ -280,26 +421,21 @@ focus:border-main focus:outline-none transition-colors"
                     />
                   </svg>
                 </div>
-
-                <style jsx>{`
-                  /* Hide native calendar icon in Chrome/Safari/Edge */
-                  input.hide-native-calendar::-webkit-calendar-picker-indicator {
-                    opacity: 0;
-                    display: block;
-                    -webkit-appearance: none;
-                  }
-                `}</style>
               </div>
             </div>
           </div>
           <div className="space-y-3 mb-2">
             <label
-              htmlFor="political"
+              htmlFor="fullAddress"
               className="font-poppins font-semibold text-sm text-[#454745] "
             >
               Full Address*
             </label>
             <textarea
+              id="fullAddress"
+              name="fullAddress"
+              value={formData.fullAddress}
+              onChange={handleInputChange}
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
@@ -308,14 +444,14 @@ focus:border-main focus:outline-none transition-colors"
           <div className="flex items-center justify-between mb-3 gap-5 flex-col md:flex-row">
             <div className="space-y-3 w-full">
               <label
-                htmlFor="political"
+                htmlFor="country"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Country of Residency*
               </label>
               <input
-                id="political"
-                name="political"
+                id="country"
+                name="country"
                 type="text"
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -324,29 +460,34 @@ focus:border-main focus:outline-none transition-colors"
             </div>
             <div className="space-y-3 w-full">
               <label
-                htmlFor="political"
+                htmlFor="taxNumber"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 TAX Number (optional)
               </label>
               <input
-                id="political"
-                name="political"
+                id="taxNumber"
+                name="taxNumber"
                 type="text"
+                value={formData.taxNumber}
+                onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
-                required
               />
             </div>
           </div>
           <div className="space-y-3 mb-3">
             <label
-              htmlFor="political"
+              htmlFor="purposeOfShiftremit"
               className="font-poppins font-semibold text-sm text-[#454745] "
             >
               What would you be using ShiftRemit transfers for?*
             </label>
             <textarea
+              id="purposeOfShiftremit"
+              name="purposeOfShiftremit"
+              value={formData.purposeOfShiftremit}
+              onChange={handleInputChange}
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
@@ -358,16 +499,29 @@ focus:border-main focus:outline-none transition-colors"
               <input
                 type="checkbox"
                 className="w-4 h-4 rounded-sm accent-main"
+                required
               />
               I agree to not carry out any form of illegal transactions
             </div>
-            <button className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]">
-              Update
+            <button
+              type="submit"
+              disabled={isUpdating}
+              className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isUpdating ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                  Updating...
+                </>
+              ) : (
+                "Update"
+              )}
             </button>
           </div>
         </div>
+      </form>
 
-        <DocUpload />
+      {/* <DocUpload />
 
         <div
           onClick={() => router.back()}
@@ -386,7 +540,7 @@ focus:border-main focus:outline-none transition-colors"
             Saved
           </div>
         </div>
-      </div>
+      </div> */}
     </SideNav>
   );
 };
