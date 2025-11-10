@@ -14,6 +14,7 @@ export interface TransferData {
   purpose?: string;
   isRecipientBusinessAccount?: boolean;
   userReference?: string;
+  conversionRate?: number;
   GBPAccountNumber?: string;
   GBPAccountName?: string;
   transferReference?: string;
