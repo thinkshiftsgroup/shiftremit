@@ -6,6 +6,7 @@ import { IoIosCheckmark } from "react-icons/io";
 import Transfer from "./transfer";
 import CompareRates from "./compareRates";
 import { useRatesStore } from "@/stores/useRatesStore";
+import { formatNumber } from "@/helper/utils";
 
 const SideHero = () => {
   const [isBank, setIsBank] = useState(true);
@@ -44,7 +45,7 @@ const SideHero = () => {
   const totalAmountDisplay =
     sendingAmount === ""
       ? `0 ${fromCurrency}`
-      : `${sendingAmount} ${fromCurrency}`;
+      : `${formatNumber(sendingAmount)} ${fromCurrency}`;
 
   return (
     <div className="w-full lg:w-1/2 font-poppins flex items-center max-h-auto">
@@ -80,7 +81,7 @@ const SideHero = () => {
                 ? "Loading..."
                 : error
                 ? "Error"
-                : rateLabelFromTransfer || "Checking live rates..."}
+                : rateLabelFromTransfer|| "Checking live rates..."}
             </span>
           </div>
           <div className="flex justify-between">

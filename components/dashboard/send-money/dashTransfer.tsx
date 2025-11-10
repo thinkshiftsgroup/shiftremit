@@ -5,6 +5,7 @@ import DropdownComponent from "./dropDown";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { AdminRateData, FxRateData } from "@/api/rateService";
 import { useTransferStore } from "@/stores/useTransaferStore";
+import { formatNumber } from "@/helper/utils";
 
 interface DashTfProps {
   onRateUpdate: (
@@ -39,7 +40,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
     let rate = baseRate + benchmarkGBP;
     let ready = rate > benchmarkGBP && !isLoading;
     let label = ready
-      ? `1 ${fromCurrency} = ${rate.toFixed(2)} ${toCurrency}`
+      ? `1 ${fromCurrency} = ${formatNumber(rate.toFixed(2))} ${toCurrency}`
       : "Rate Loading...";
     let precision = 2;
 
@@ -180,7 +181,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
             <input
               type="number"
               name="sending_amount"
-              value={sending_amount}
+              value={formatNumber(sending_amount)}
               onChange={handleSendingAmountChange}
               id="sending_amount"
               placeholder={
@@ -256,7 +257,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
             <input
               type="text"
               name="receiving_amount"
-              value={get_amount}
+              value={formatNumber(get_amount)}
               onChange={handleReceiveAmountChange}
               id="receiving_amount"
               placeholder={placeholderReceive}

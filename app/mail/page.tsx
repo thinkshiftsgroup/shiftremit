@@ -1,9 +1,7 @@
 import MailTemplate from "@/components/mail/mailTemplate";
 
 const MailDummy = () => {
-    return(
-        <MailTemplate />
-    );
+  return <MailTemplate />;
 };
 
 export default MailDummy;
