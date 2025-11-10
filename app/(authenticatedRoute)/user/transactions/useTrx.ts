@@ -26,16 +26,32 @@ export const useTrx = () => {
     page,
     limit,
     status,
+    transactionReference,
+    // currency,
+    startDate,
+    endDate,
   }: {
     page: number;
     limit: number;
     status: string;
+    transactionReference: string;
+    // currency: string;
+    startDate: string;
+    endDate: string;
   }) =>
     useQuery({
-      queryKey: ["fetch-bank-tfs-admin", page, limit],
+      queryKey: [
+        "fetch-bank-tfs-admin",
+        page,
+        limit,
+        status,
+        transactionReference,
+        // currency,
+      ],
       queryFn: async () => {
         const res = await apiInstance.get(
-          `/api/admin/transfers/history?page=${page}&limit=${limit}&status=${status}`
+          `/api/admin/transfers/history?page=${page}&limit=${limit}&status=${status}&transactionReference=${transactionReference}&startDate=${startDate}&endDate=${endDate}
+          `
         );
         return res.data;
       },

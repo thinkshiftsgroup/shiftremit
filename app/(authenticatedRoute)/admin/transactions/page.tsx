@@ -7,32 +7,41 @@ import AdminDataTable from "@/components/admin/dataTable";
 import FilterComponent from "@/components/admin/filterBar";
 
 const AminTrx = () => {
-  const partnerCode = "SR7X2AI";
-
-  const [copied, setCopied] = useState(false);
   const [page, setPage] = useState(1);
-  const { getBankTrfsAdmin } = useTrx();
-  const { data, isLoading } = getBankTrfsAdmin({ page, limit: 10, status: "" });
-  const Trxs = data?.transfers || [];
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(partnerCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const [showAPT, setShowAPT] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("");
+  const [selectedPerPage, setSelectedPerPage] = useState("10");
+  const [selectedCurrency, setSelectedCurrency] = useState("NGN");
+  const [searchValue, setSearchValue] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [searchId, setSearchId] = useState("");
+
+  const { getBankTrfsAdmin } = useTrx();
+  const { data, isLoading } = getBankTrfsAdmin({
+    page,
+    limit: parseInt(selectedPerPage) || 10,
+    status: selectedStatus.toUpperCase(),
+    transactionReference: searchValue,
+    startDate: startDate,
+    endDate: endDate,
+  });
+  const Trxs = data?.transfers || [];
 
   const handleFilter = () => {
-    console.log({ searchId, startDate, endDate });
+    console.log({ startDate, endDate });
   };
+
+  const handleReset = () => {
+    setSearchValue("");
+    setSelectedStatus("");
+    setSelectedOrder("");
+    setSelectedPerPage("10");
+    setSelectedCurrency("NGN");
+  };
+
   return (
     <SideNav>
       <div className="py-5 font-poppins">
-        <FilterComponent />
         <div className="flex items-center justify-between gap-2 mb-3 flex-col lg:flex-row">
           <div>
             <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
@@ -85,18 +94,8 @@ const AminTrx = () => {
             <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
               Transactions
             </h1>
-            <p>{data?.kpis.totalTransactions || 0} Transaction</p>
+            <p>{data?.kpis.totalTransactions || 0} Transaction(s)</p>
             <div className="flex lg:hidden items-center gap-3 mb-2 md:mb-5 lg:mb-15 lg:mt-5">
-              <div className="relative ">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="TRX ID..."
-                  value={searchId}
-                  onChange={(e) => setSearchId(e.target.value)}
-                  className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
               <button
                 onClick={handleFilter}
                 className="px-6 py-1.5 bg-[#e1e7ef] font-medium rounded transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
@@ -181,7 +180,7 @@ const AminTrx = () => {
           </div>
           <hr className="rotate-180" />
           <div className="py-3.5 bg-white my-4 md:w-4/10 space-y-3 md:border-l ps-3">
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <div className="rounded-full p-3 w-14 flex justify-center items-center h-14 bg-[#dbefe5] text-[#23c45f]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -200,51 +199,20 @@ const AminTrx = () => {
               <div className="">
                 <div className="flex flex-col">
                   <p className="">Total Transaction Amount</p>
-                  <div className="flex items-center lg:items-center my-2 gap-1 flex-col lg:flex-row">
-                    <div className="relative">
-                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
-                      <input
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        placeholder="dd/mm/yyyy"
-                        className="pl-4 lg:pl-0 pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
 
-                    {/* <span className="text-gray-700 font-medium hidden sm:inline">
-                      to
-                    </span> */}
-                    {/* End Date */}
-                    <div className="relative">
-                      {/* <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" /> */}
-                      <input
-                        type="date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        placeholder="dd/mm/yyyy"
-                        className="pl-4 lg:pl-0 pr-4 py-1.5 border border-[#f1f1f1] text-sm rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
                   <div className="flex items-center justify-between gap-2">
                     <h1 className="text-gray-600 font-bold text-xl font-dm-sans">
-                      {data?.totals?.totalAmountGBP || 0} GBP
+                      {selectedCurrency === "NGN"
+                        ? data?.totals?.totalAmountNGN || 0
+                        : data?.totals?.totalAmountGBP || 0}{" "}
+                      {selectedCurrency === "NGN" ? "NGN" : "GBP"}
                     </h1>
-                    <select
-                      className="text-gray-600 font-bold text-xl font-dm-sans"
-                      name=""
-                      id=""
-                    >
-                      <option value="">NGN</option>
-                      <option value="">GBP</option>
-                    </select>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="border rounded space-y-1.5 p-3">
+            <div className="border mr-2 rounded space-y-1.5 p-3">
               <div className="flex justify-between items-start">
                 <span className="text-gray-600 text-sm text-medium">
                   Transactions
@@ -253,18 +221,18 @@ const AminTrx = () => {
                   {data?.kips?.totalTransactions || 0}
                 </span>
               </div>
-              <div className="flex justify-between items-start">
+              {/* <div className="flex justify-between items-start">
                 <span className="text-gray-600 text-sm text-medium">Since</span>
                 <span className="text-black font-semibold text-sm">
                   03 Nov 2025
                 </span>
-              </div>
+              </div> */}
               <div className="flex justify-between items-start">
                 <span className="text-gray-600 text-sm text-medium">
                   Completed
                 </span>
-                <span className="p-1 rounded-xs flex bg-[#e8f7eb] text-xs">
-                  {data?.kips?.totalCompleted || 0}
+                <span className="p-1 rounded-xs font-poppins font-semibold flex bg-[#e8f7eb] text-xs">
+                  {data?.kpis?.totalCompleted || 0}
                 </span>
               </div>
               <div className="flex justify-between items-start">
@@ -273,7 +241,7 @@ const AminTrx = () => {
                 </span>
                 <span className="text-black font-semibold text-sm">
                   {" "}
-                  {data?.kips?.totalAbandoned || 0}
+                  {data?.kpis?.totalAbandoned || 0}
                 </span>
               </div>
               <div className="flex justify-between items-start">
@@ -282,7 +250,7 @@ const AminTrx = () => {
                 </span>
                 <span className="text-black font-semibold text-sm">
                   {" "}
-                  {data?.kips?.totalPending || 0}
+                  {data?.kpis?.totalPending || 0}
                 </span>
               </div>
               <div className="flex justify-between items-start">
@@ -291,12 +259,25 @@ const AminTrx = () => {
                 </span>
                 <span className="text-black font-semibold text-sm">
                   {" "}
-                  {data?.kips?.totalFailed || 0}
+                  {data?.kpis?.totalFailed || 0}
                 </span>
               </div>
             </div>
           </div>
         </div>
+        <FilterComponent
+          selectedOrder={selectedOrder}
+          setSelectedOrder={setSelectedOrder}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          selectedPerPage={selectedPerPage}
+          setSelectedPerPage={setSelectedPerPage}
+          selectedCurrency={selectedCurrency}
+          setSelectedCurrency={setSelectedCurrency}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
+          handleReset={handleReset}
+        />
 
         <div className="py-3.5 bg-white rounded-md my-4 overflow-hidden">
           <AdminDataTable
