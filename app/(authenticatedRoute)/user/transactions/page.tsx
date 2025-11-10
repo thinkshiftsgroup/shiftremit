@@ -18,35 +18,66 @@ import { useState } from "react";
 import FilterComponent from "@/components/admin/filterBar";
 
 const CustomerTrxn = () => {
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("");
+  const [selectedPerPage, setSelectedPerPage] = useState("10");
+  const [selectedCurrency, setSelectedCurrency] = useState("NGN");
+  const [searchValue, setSearchValue] = useState("");
+  const [senderName, setSenderName] = useState("");
+
+  const [sortBy, setSortBy] = useState("");
+  const [selectedOrderLabel, setSelectedOrderLabel] = useState("Newest");
+
+  const { getBankTrfsUser } = useTrx();
+  const { data, isLoading } = getBankTrfsUser({
+    page,
+    pageSize: parseInt(selectedPerPage),
+    status: selectedStatus.toUpperCase(),
+    transactionReference: searchValue,
+    startDate: "",
+    endDate: "",
+    senderName: senderName,
+    sortOrder: selectedOrder,
+    sortBy,
+  });
+  const Trxs = data?.transfers || [];
+
+  const handleReset = () => {
+    setSearchValue("");
+    setSelectedStatus("");
+    setSelectedOrder("");
+    setSelectedOrderLabel("Newest");
+    setSortBy("");
+    setSelectedPerPage("10");
+    setSelectedCurrency("NGN");
+    setSenderName("");
+  };
+
   const cardData = [
     {
       title: "Total send money",
-      amount: 0.0,
+      amount: data?.kpis?.totalAmountSentGBP || 0,
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total receive money",
-      amount: 0.0,
+      amount: data?.kpis?.totalAmountCompletedGBP || 0,
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total amount in transit",
-      amount: 0.0,
+      amount: data?.kpis?.totalAmountPendingGBP || 0,
       link: "",
       lastTxn: 0,
     },
   ];
-  const router = useRouter();
-  const [page, setPage] = useState(1);
-  const { getBankTrfsUser } = useTrx();
-  const { data, isLoading } = getBankTrfsUser({ page, pageSize: 5 });
-  const Trxs = data?.transfers || [];
   return (
     <SideNav>
       <div className="py-5">
-        <FilterComponent />
         <div className="flex items-center justify-center md:justify-end gap-2">
           <div className="flex items-center gap-2">
             <button
@@ -131,11 +162,30 @@ const CustomerTrxn = () => {
             </Link>
           </div>
         </div>
+        <FilterComponent
+          selectedOrder={selectedOrder}
+          setSelectedOrder={setSelectedOrder}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          selectedPerPage={selectedPerPage}
+          setSelectedPerPage={setSelectedPerPage}
+          selectedCurrency={selectedCurrency}
+          setSelectedCurrency={setSelectedCurrency}
+          setSearchValue={setSearchValue}
+          searchValue={searchValue}
+          handleReset={handleReset}
+          setSenderName={setSenderName}
+          senderName={senderName}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          setSelectedOrderLabel={setSelectedOrderLabel}
+          selectedOrderLabel={selectedOrderLabel}
+        />
         <div className="py-3.5  bg-white rounded-md my-4">
           <h1 className="text-[#072032] px-3 md:px-6 text-xl md:text-2xl font-semibold font-dm-sans mb-2">
             Transactions
           </h1>
-          <div className="w-full overflow-x-auto">
+          <div className="w-full pl-3 overflow-x-auto">
             <table className="w-full min-w-max border-collapse">
               <thead className="bg-[#e2e8f0] w-full">
                 <tr className="w-full text-left">

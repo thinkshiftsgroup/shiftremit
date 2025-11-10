@@ -200,6 +200,10 @@ const Dashboard = () => {
     transactionReference: "",
     startDate: "",
     endDate: "",
+    recipientName: "",
+    senderName: "",
+    sortOrder: "",
+    sortBy: "",
   });
   const Trxs = data?.transfers || [];
 
@@ -353,7 +357,7 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-        <FilterComponent />
+        {/* <FilterComponent /> */}
         <div className="py-3.5  bg-white rounded-md my-4">
           <h1 className="text-[#072032] px-6 text-lg font-semibold font-dm-sans mb-2">
             Latest Transaction Log
