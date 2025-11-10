@@ -8,6 +8,7 @@ import FilterComponent from "@/components/admin/filterBar";
 
 const AminTrx = () => {
   const [page, setPage] = useState(1);
+
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedOrder, setSelectedOrder] = useState("");
   const [selectedPerPage, setSelectedPerPage] = useState("10");
@@ -16,19 +17,24 @@ const AminTrx = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [appliedDates, setAppliedDates] = useState({
+    startDate: "",
+    endDate: "",
+  });
+
   const { getBankTrfsAdmin } = useTrx();
   const { data, isLoading } = getBankTrfsAdmin({
     page,
     limit: parseInt(selectedPerPage) || 10,
     status: selectedStatus.toUpperCase(),
     transactionReference: searchValue,
-    startDate: startDate,
-    endDate: endDate,
+    startDate: appliedDates.startDate || "",
+    endDate: appliedDates.endDate || "",
   });
   const Trxs = data?.transfers || [];
 
   const handleFilter = () => {
-    console.log({ startDate, endDate });
+    setAppliedDates({ startDate, endDate });
   };
 
   const handleReset = () => {

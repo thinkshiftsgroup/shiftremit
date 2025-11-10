@@ -47,6 +47,7 @@ export const useTrx = () => {
         status,
         transactionReference,
         // currency,
+        startDate, endDate
       ],
       queryFn: async () => {
         const res = await apiInstance.get(
