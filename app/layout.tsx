@@ -33,10 +33,10 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${poppins.variable} antialiased bg-background text-foreground`}
       >
-        <AuthProviders>
+        {/* <AuthProviders> */}
           {" "}
           <Providers>{children}</Providers>
-        </AuthProviders>
+        {/* </AuthProviders> */}
         <Toaster />
       </body>
     </html>

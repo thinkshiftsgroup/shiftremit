@@ -14,8 +14,13 @@ const AminTrx = () => {
   const [selectedPerPage, setSelectedPerPage] = useState("10");
   const [selectedCurrency, setSelectedCurrency] = useState("NGN");
   const [searchValue, setSearchValue] = useState("");
+
+  const [recipientName, setRecipientName] = useState("");
+  const [senderName, setSenderName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [selectedOrderLabel, setSelectedOrderLabel] = useState("Newest");
 
   const [appliedDates, setAppliedDates] = useState({
     startDate: "",
@@ -30,6 +35,10 @@ const AminTrx = () => {
     transactionReference: searchValue,
     startDate: appliedDates.startDate || "",
     endDate: appliedDates.endDate || "",
+    recipientName: recipientName,
+    senderName: senderName,
+    sortOrder: selectedOrder,
+    sortBy,
   });
   const Trxs = data?.transfers || [];
 
@@ -41,8 +50,15 @@ const AminTrx = () => {
     setSearchValue("");
     setSelectedStatus("");
     setSelectedOrder("");
+    setSelectedOrderLabel("Newest");
+    setSortBy("");
     setSelectedPerPage("10");
     setSelectedCurrency("NGN");
+    setRecipientName("");
+    setSenderName("");
+    setStartDate("");
+    setEndDate("");
+    setAppliedDates({ startDate: "", endDate: "" });
   };
 
   return (
@@ -283,6 +299,16 @@ const AminTrx = () => {
           setSearchValue={setSearchValue}
           searchValue={searchValue}
           handleReset={handleReset}
+          setSenderName={setSenderName}
+          setRecipientName={setRecipientName}
+          recipientName={recipientName}
+          senderName={senderName}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          setSelectedOrderLabel={setSelectedOrderLabel}
+          selectedOrderLabel={selectedOrderLabel}
+          // sortOrder={sortOrder}
+          // setSortOrder={setSortOrder}
         />
 
         <div className="py-3.5 bg-white rounded-md my-4 overflow-hidden">

@@ -5,16 +5,42 @@ import { toast } from "sonner";
 export const useTrx = () => {
   const getBankTrfsUser = ({
     page,
+
+    status,
+    transactionReference,
+    startDate,
+    endDate,
     pageSize,
+    senderName,
+    sortOrder,
+    sortBy,
   }: {
     page: number;
+    status: string;
+    transactionReference: string;
+    startDate: string;
+    endDate: string;
+    senderName: string;
     pageSize: number;
+    sortOrder: string;
+    sortBy: string;
   }) =>
     useQuery({
-      queryKey: ["fetch-bank-tfs-user", page, pageSize],
+      queryKey: [
+        "fetch-bank-tfs-user",
+        page,
+        pageSize,
+        status,
+        transactionReference,
+        startDate,
+        endDate,
+        senderName,
+        sortOrder,
+        sortBy,
+      ],
       queryFn: async () => {
         const res = await apiInstance.get(
-          `/api/bank-transfer/history?page=${page}&pageSize=${pageSize}`
+          `/api/bank-transfer/history?page=${page}&pageSize=${pageSize}&status=${status}&transactionReference=${transactionReference}&startDate=${startDate}&endDate=${endDate}&senderName=${senderName}&sortOrder=${sortOrder}&sortBy=${sortBy}`
         );
         return res.data;
       },
@@ -29,6 +55,10 @@ export const useTrx = () => {
     transactionReference,
     startDate,
     endDate,
+    recipientName,
+    senderName,
+    sortOrder,
+    sortBy,
   }: {
     page: number;
     limit: number;
@@ -36,6 +66,10 @@ export const useTrx = () => {
     transactionReference: string;
     startDate: string;
     endDate: string;
+    senderName: string;
+    recipientName: string;
+    sortOrder: string;
+    sortBy: string;
   }) =>
     useQuery({
       queryKey: [
@@ -44,11 +78,16 @@ export const useTrx = () => {
         limit,
         status,
         transactionReference,
-        startDate, endDate
+        startDate,
+        endDate,
+        recipientName,
+        senderName,
+        sortOrder,
+        sortBy,
       ],
       queryFn: async () => {
         const res = await apiInstance.get(
-          `/api/admin/transfers/history?page=${page}&limit=${limit}&status=${status}&transactionReference=${transactionReference}&startDate=${startDate}&endDate=${endDate}
+          `/api/admin/transfers/history?page=${page}&limit=${limit}&status=${status}&transactionReference=${transactionReference}&startDate=${startDate}&endDate=${endDate}&senderName=${senderName}&recipientName=${recipientName}&sortOrder=${sortOrder}&sortBy=${sortBy}
           `
         );
         return res.data;
