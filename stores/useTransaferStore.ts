@@ -13,6 +13,7 @@ export interface TransferData {
   recipientEmail?: string;
   purpose?: string;
   isRecipientBusinessAccount?: boolean;
+  userReference?: string;
   GBPAccountNumber?: string;
   GBPAccountName?: string;
   transferReference?: string;
