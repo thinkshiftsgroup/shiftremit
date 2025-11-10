@@ -197,6 +197,9 @@ const Dashboard = () => {
     page,
     limit: 5,
     status: "COMPLETED",
+    transactionReference: "",
+    startDate: "",
+    endDate: "",
   });
   const Trxs = data?.transfers || [];
 
