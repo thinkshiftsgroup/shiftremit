@@ -69,7 +69,7 @@ const CustomerTrxn = () => {
       lastTxn: 0,
     },
     {
-      title: "Total amount in transit",
+      title: "Total amount in review",
       amount: data?.kpis?.totalAmountPendingGBP || 0,
       link: "",
       lastTxn: 0,

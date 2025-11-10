@@ -152,7 +152,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: ["user", "admin"],
+      showFor: [ "admin"],
     },
     {
       icon: (
