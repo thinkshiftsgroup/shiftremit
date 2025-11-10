@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useSendMoney } from "../useSendMoney";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaCircleCheck } from "react-icons/fa6";
-
+import { useRatesStore } from "@/stores/useRatesStore";
 const Fund = () => {
   const router = useRouter();
   const [method, setMethod] = useState<"bank-transfer" | "bank-card">(
@@ -23,10 +23,18 @@ const Fund = () => {
   const transfer = useTransferStore((state) => state.transfer);
   const { setTransfer, clearTransfer } = useTransferStore();
   const { sendTfDetails } = useSendMoney();
-
+  const moniepointRate = useRatesStore(
+    (state) => state.ratesData?.moniepoint?.rate
+  );
+  const benchmarkGBPToNGN = useRatesStore(
+    (state) => state.adminRateData?.benchmarkGBP
+  );
   const handleSendTransfer = () => {
+    const rate1 = moniepointRate ?? 0;
+    const rate2 = benchmarkGBPToNGN ?? 0;
+    const convertedRate = rate1 + rate2;
     setTransfer({ userReference: userReference });
-
+    console.log(convertedRate);
     sendTfDetails.mutate(
       {
         amount: transfer?.amount,
@@ -38,7 +46,7 @@ const Fund = () => {
         recipientFullName: transfer?.recipientFullName,
         purpose: transfer?.purpose,
         isRecipientBusinessAccount: transfer?.isRecipientBusinessAccount,
-        convertedNGNAmount: transfer?.convertedNGNAmount,
+        conversionRate: convertedRate,
         userReference: userReference,
       },
       {

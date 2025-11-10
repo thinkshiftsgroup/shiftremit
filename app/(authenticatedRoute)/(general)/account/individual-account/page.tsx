@@ -10,6 +10,7 @@ import { useProfile } from "../useProfile";
 import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
+import DocUpload from "@/components/account/docUpload";
 
 interface FormDataState {
   firstname: string;
@@ -211,7 +212,7 @@ const IndiAcc = () => {
                   </p>
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <FiPhone size={16} />
-                    +447***9597
+                    {user?.phoneNumber || ""}
                   </p>
                 </div>
               </div>
@@ -542,8 +543,8 @@ focus:border-main focus:outline-none transition-colors"
         </div>
       </form>
 
-      {/* <DocUpload />
-
+      <DocUpload />
+      <div>
         <div
           onClick={() => router.back()}
           className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
@@ -561,7 +562,7 @@ focus:border-main focus:outline-none transition-colors"
             Saved
           </div>
         </div>
-      </div> */}
+      </div>
     </SideNav>
   );
 };
