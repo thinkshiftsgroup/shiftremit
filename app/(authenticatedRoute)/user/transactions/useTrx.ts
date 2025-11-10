@@ -27,7 +27,6 @@ export const useTrx = () => {
     limit,
     status,
     transactionReference,
-    // currency,
     startDate,
     endDate,
   }: {
@@ -35,7 +34,6 @@ export const useTrx = () => {
     limit: number;
     status: string;
     transactionReference: string;
-    // currency: string;
     startDate: string;
     endDate: string;
   }) =>
@@ -46,7 +44,6 @@ export const useTrx = () => {
         limit,
         status,
         transactionReference,
-        // currency,
         startDate, endDate
       ],
       queryFn: async () => {
