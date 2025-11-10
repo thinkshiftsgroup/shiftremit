@@ -76,7 +76,7 @@ export default function AdminDataTable({
             ) : (
               Trxs.map((row: any, index: any) => (
                 <tr
-                  key={row.no}
+                  key={index}
                   className={`${
                     index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                   } border-b border-gray-100`}
