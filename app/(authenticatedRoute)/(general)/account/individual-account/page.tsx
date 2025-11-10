@@ -1,6 +1,6 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
-import { Camera, ChevronLeft } from "lucide-react";
+import { Camera, ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState, useEffect } from "react";
 import { FiPhone } from "react-icons/fi";
@@ -133,8 +133,11 @@ const IndiAcc = () => {
   if (isLoading) {
     return (
       <SideNav>
-        <div className="flex items-center justify-center h-64 text-lg">
-          Loading profile data...
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          <div className="flex items-center gap-1">
+            <Loader2 size={30} className="text-main animate-spin" />
+            Loading profile data...
+          </div>
         </div>
       </SideNav>
     );
@@ -143,7 +146,7 @@ const IndiAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex items-center justify-center h-64 text-lg text-red-500">
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
           Failed to load user profile.
         </div>
       </SideNav>

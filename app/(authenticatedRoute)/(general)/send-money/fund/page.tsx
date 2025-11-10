@@ -255,7 +255,7 @@ const Fund = () => {
                           Confirming Your Bank Transfer
                         </p>
                         <p className="font-poppins text-xl font-bold ">
-                          £{transfer?.amount}
+                          £{formatNumber(transfer?.amount!)}
                         </p>
                       </div>
                       <div className="w-[25%]  space-y-1 text-center">
