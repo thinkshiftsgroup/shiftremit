@@ -586,11 +586,12 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 {nav.subLinks ? (
                   <button
                     onClick={() => toggleDropdown(nav.title)}
-                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${
-                      isActive
+                    className={`w-full flex items-center py-2.5 px-3 rounded-xl text-sm font-poppins transition-all
+                      ${collapsed ? "justify-center w-auto" : "justify-between"}
+                      ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon}
