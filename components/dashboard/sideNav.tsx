@@ -474,7 +474,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Logs",
       link: "/all-logs",
-      showFor: [ "admin"],
+      showFor: ["admin"],
     },
   ];
 
@@ -511,17 +511,17 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           </div>
           )}
 
-          {collapsed && (<div className="flex items-center justify-center w-full">
+          {collapsed && (<div className="flex items-center justify-center w-full gap-2">
             <Image
               onClick={(e) => {
                 e.stopPropagation();
                 setCollapsed(!collapsed);
               }}
               src="/images/shiftremit-logo.png"
-              width={25}
-              height={25}
+              width={20}
+              height={20}
               alt="shiftremit-logo"
-              className="w-8 h-8 object-cover cursor-pointer"
+              className="w-6 h-6 object-cover cursor-pointer"
             />
           </div>
           )}
