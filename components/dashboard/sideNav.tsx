@@ -671,33 +671,39 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
 
-      <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
-        <div>
-          <p className="text-[#454745] text-xs pt-1 font-poppins">Wallet</p>
-          <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
+      {/* --- Wallet Section --- */}
+      {!collapsed && (
+        <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
+          <div>
+            <p className="text-[#454745] text-xs pt-1 font-poppins">Wallet</p>
+            <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
+          </div>
+          <IoWallet className="text-main" size={35} />
         </div>
-        <IoWallet className="text-main" size={35} />
-      </div>
+      )}
     </>
   );
 
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
       {isOpen && <div className="fixed inset-0 z-100" onClick={closeSidebar} />}
-
-      {/* Sidebar */}
+}
       <aside
-        className={`fixed top-0 left-0 h-screen w-64  bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed lg:hidden top-0 left-0 h-screen w-64 bg-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <SideContent />
       </aside>
-      <div className="w-[20%] hidden lg:flex rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex-col justify-between">
+
+      <div
+        className={`hidden lg:flex flex-col justify-between shadow-[0_2px_5px_rgba(0,0,0,0.05)] bg-white transition-all duration-300 ease-in-out ${collapsed ? "w-20 rounded-lg" : "w-[20%] rounded-3xl"
+          }`}
+      >
         <SideContent />
       </div>
 
-      <div className="w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide">
+      <div className={`w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"
+          }`}>
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
           <div onClick={toggleSidebar} className="lg:hidden">
             <svg
