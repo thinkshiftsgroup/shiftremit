@@ -14,10 +14,13 @@ import { useProfile } from "./useProfile";
 const Account = () => {
   const [image, setImage] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
 
-  const { user } = useProfileStore();
-  const { fetchProfile } = useProfile();
+  const { user: localUser } = useProfileStore();
+  const { fetchProfile, updateProfilePhoto, fetchIndividualDocs } =
+    useProfile();
   const isLoading = fetchProfile.isLoading;
+  const user = fetchProfile.data || localUser;
 
   const handleImageSelect = (e: any) => {
     const file = e.target.files?.[0];
@@ -46,7 +49,7 @@ const Account = () => {
 
   return (
     <SideNav>
-      <div className="my-10">
+      <div className="my-5">
         {openPassword && (
           <ChangePassword
             openPassword={openPassword}
@@ -73,9 +76,9 @@ const Account = () => {
                 onClick={openFilePicker}
                 className="inline-block relative group cursor-pointer w-20 h-20 md:w-24 md:h-24"
               >
-                {image ? (
+                {user?.profilePhotoUrl ? (
                   <img
-                    src={image}
+                    src={user?.profilePhotoUrl}
                     alt="profile"
                     className="w-full h-full rounded-full object-cover"
                   />
@@ -102,19 +105,21 @@ const Account = () => {
 
               <div>
                 <h1 className="font-dm-sans text-xl font-semibold text-[#071032]">
-                  {user?.fullName}
+                  {localUser?.fullName}
                 </h1>
 
                 <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
-                    {user?.email}
+                    {localUser?.email}
                   </p>
 
-                  <p className="font-dm-sans text-sm flex items-center gap-1">
-                    <FiPhone size={16} />
-                    {user?.phoneNumber || "-"}
-                  </p>
+                  {localUser?.phoneNumber && (
+                    <p className="font-dm-sans text-sm flex items-center gap-1">
+                      <FiPhone size={16} />
+                      {localUser?.phoneNumber || "-"}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

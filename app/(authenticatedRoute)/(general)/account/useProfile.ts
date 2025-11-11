@@ -73,9 +73,46 @@ export const useProfile = () => {
     },
   });
 
+  const fetchIndividualDocs = useQuery({
+    queryKey: ["individual-docs"],
+    queryFn: async () => {
+      const res = await apiInstance.get("/api/individual-doc");
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(
+        err.response?.data?.message || "Failed to fetch user's documents."
+      );
+    },
+  });
+
+  const updateIndividualDocs = useMutation({
+    mutationKey: ["update-indi-docs"],
+    mutationFn: async (formData: FormData) => {
+      const res = await apiInstance.post(
+        "/api/individual-doc/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(
+        err.response?.data?.message || "Failed to update user's documents."
+      );
+    },
+  });
+
   return {
     fetchProfile,
     updateProfile,
     updateProfilePhoto,
+
+    updateIndividualDocs,
+    fetchIndividualDocs,
   };
 };
