@@ -37,8 +37,15 @@ const BankDetails = () => {
   const [isBusiness, setIsBusiness] = useState(false);
   const [hasResolvedOnce, setHasResolvedOnce] = useState(false);
 
+  const [GBPAccountNumber, setGBPAccountNumber] = useState("");
+  const [GBPBankName, setGBPBankName] = useState("");
+  const [GBPAccountName, setGBPAccountName] = useState("");
+
+  const [sortCode, setSortCode] = useState("");
+
   const { getBanks, getBankDetails } = useRecipient();
   const { setTransfer } = useTransferStore();
+  const transfer = useTransferStore((state) => state.transfer);
 
   const {
     mutate: resolveAccount,
@@ -69,7 +76,7 @@ const BankDetails = () => {
       resolveSuccess &&
       !bankDetails?.data?.account_name);
 
-  const handleBankDetails = () => {
+  const handleBankDetailsNGN = () => {
     setTransfer({
       recipientBankName: bankName,
       recipientAccountNumber: accountNumber,
@@ -79,6 +86,28 @@ const BankDetails = () => {
       isRecipientBusinessAccount: isBusiness,
     });
 
+    router.push("/send-money/fund");
+  };
+  const handleBankDetailsGBP = () => {
+    setTransfer({
+      GBPBankName: GBPBankName,
+      GBPAccountNumber: GBPAccountNumber,
+      recipientEmail: email,
+      purpose: purpose,
+      isRecipientBusinessAccount: isBusiness,
+      sortCode: sortCode,
+      GBPAccountName: GBPAccountName,
+    });
+
+    console.log(
+      GBPBankName,
+      GBPAccountNumber,
+      email,
+      purpose,
+      isBusiness,
+      sortCode,
+      "GBP"
+    );
     router.push("/send-money/fund");
   };
 
@@ -101,152 +130,307 @@ const BankDetails = () => {
 
             <hr className="py-2" />
 
-            <div className="space-y-2">
-              <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
-                  Bank name
-                </label>
-                <select
-                  name="bank name"
-                  id="bank name"
-                  value={JSON.stringify({ name: bankName, code: bankCode })}
-                  onChange={(e) => {
-                    const { name, code } = JSON.parse(e.target.value);
-                    setBankCode(code);
-                    setBankName(name);
-                  }}
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+            {transfer?.toCurrency === "NGN" ? (
+              <div className="space-y-2">
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Bank name
+                  </label>
+                  <select
+                    name="bank name"
+                    id="bank name"
+                    value={JSON.stringify({ name: bankName, code: bankCode })}
+                    onChange={(e) => {
+                      const { name, code } = JSON.parse(e.target.value);
+                      setBankCode(code);
+                      setBankName(name);
+                    }}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
-                >
-                  {getBanks.isLoading ? (
-                    <option value="">Please choose recipient's bank</option>
-                  ) : (
-                    getBanks.data.data.map((bank: BankI) => {
-                      return (
-                        <option
-                          key={bank.id}
-                          value={JSON.stringify({
-                            name: bank.name,
-                            code: bank.code,
-                          })}
-                        >
-                          {bank.name}
-                        </option>
-                      );
-                    })
-                  )}
-                </select>
-              </div>
-              <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
-                  Account number
-                </label>
-                <input
-                  id="account-number"
-                  value={accountNumber}
-                  onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, "").slice(0, 10);
-                    setAccountNumber(val);
-                  }}
-                  type="text"
-                  maxLength={10}
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-                />
-              </div>{" "}
-              <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
-                  Fullname of the account holder
-                </label>
-                <input
-                  value={
-                    accountNumber.length < 10
-                      ? ""
-                      : resolvingAccount
-                      ? "Please wait..."
-                      : bankDetails?.data?.account_name || ""
-                  }
-                  readOnly
-                  type="text"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-                />
-                {shouldShowInvalidError && (
-                  <p className="text-xs text-red-500 font-dm-sans mt-1">
-                    Invalid account details
-                  </p>
-                )}
-              </div>
-              <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
-                  Their email (optional)
-                </label>
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-                />
-              </div>
-              <div>
-                <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
-                  htmlFor=""
-                >
-                  Purpose
-                </label>
-                <textarea
-                  value={purpose}
-                  onChange={(e) => setPurpose(e.target.value)}
-                  placeholder="Purpose"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-                />
-              </div>
-              <div className="flex justify-end">
-                <div className="flex items-center gap-1">
-                  <p className="font-poppins text-xs">
-                    Is this a business bank account
-                  </p>
+                  >
+                    {getBanks.isLoading ? (
+                      <option value="">Please choose recipient's bank</option>
+                    ) : (
+                      getBanks.data.data.map((bank: BankI) => {
+                        return (
+                          <option
+                            key={bank.id}
+                            value={JSON.stringify({
+                              name: bank.name,
+                              code: bank.code,
+                            })}
+                          >
+                            {bank.name}
+                          </option>
+                        );
+                      })
+                    )}
+                  </select>
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Account number
+                  </label>
                   <input
-                    type="checkbox"
-                    checked={isBusiness}
-                    onChange={(e) => setIsBusiness(e.target.checked)}
-                    className="accent-main w-3.5 h-3.5"
+                    id="account-number"
+                    value={accountNumber}
+                    onChange={(e) => {
+                      const val = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
+                      setAccountNumber(val);
+                    }}
+                    type="text"
+                    maxLength={10}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>{" "}
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Fullname of the account holder
+                  </label>
+                  <input
+                    value={
+                      accountNumber.length < 10
+                        ? ""
+                        : resolvingAccount
+                        ? "Please wait..."
+                        : bankDetails?.data?.account_name || ""
+                    }
+                    readOnly
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                  {shouldShowInvalidError && (
+                    <p className="text-xs text-red-500 font-dm-sans mt-1">
+                      Invalid account details
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Their email (optional)
+                  </label>
+                  <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                   />
                 </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Purpose
+                  </label>
+                  <textarea
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    placeholder="Purpose"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <div className="flex items-center gap-1">
+                    <p className="font-poppins text-xs">
+                      Is this a business bank account
+                    </p>
+                    <input
+                      type="checkbox"
+                      checked={isBusiness}
+                      onChange={(e) => setIsBusiness(e.target.checked)}
+                      className="accent-main w-3.5 h-3.5"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-            <button
-              disabled={
-                resolvingAccount ||
-                accountNumber.length < 10 ||
-                !bankName ||
-                !bankDetails?.data?.account_name
-              }
-              onClick={handleBankDetails}
-              className="
+            ) : (
+              <div className="space-y-2">
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Bank name
+                  </label>
+                  <input
+                    id="bank-name"
+                    value={GBPBankName}
+                    onChange={(e) => {
+                      setGBPBankName(e.target.value);
+                    }}
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Account number
+                  </label>
+                  <input
+                    id="account-number"
+                    value={GBPAccountNumber}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 8);
+                      setGBPAccountNumber(val);
+                    }}
+                    type="text"
+                    maxLength={10}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>{" "}
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Fullname of the account holder
+                  </label>
+                  <input
+                    value={GBPAccountName}
+                    onChange={(e) => {
+                      setGBPAccountName(e.target.value);
+                    }}
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                  {/* {shouldShowInvalidError && (
+                    <p className="text-xs text-red-500 font-dm-sans mt-1">
+                      Invalid account details
+                    </p>
+                  )} */}
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Sort Code
+                  </label>
+                  <input
+                    value={sortCode}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                      setSortCode(val);
+                    }}
+                    type="number"
+                    maxLength={6}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                  {/* {shouldShowInvalidError && (
+                    <p className="text-xs text-red-500 font-dm-sans mt-1">
+                      Invalid account details
+                    </p>
+                  )} */}
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Their email (optional)
+                  </label>
+                  <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Purpose
+                  </label>
+                  <textarea
+                    value={purpose}
+                    onChange={(e) => setPurpose(e.target.value)}
+                    placeholder="Purpose"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <div className="flex items-center gap-1">
+                    <p className="font-poppins text-xs">
+                      Is this a business bank account
+                    </p>
+                    <input
+                      type="checkbox"
+                      checked={isBusiness}
+                      onChange={(e) => setIsBusiness(e.target.checked)}
+                      className="accent-main w-3.5 h-3.5"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {transfer?.toCurrency === "NGN" ? (
+              <button
+                disabled={
+                  resolvingAccount ||
+                  accountNumber.length < 10 ||
+                  !bankName ||
+                  !bankDetails?.data?.account_name
+                }
+                onClick={handleBankDetailsNGN}
+                className="
     text-white w-full font-poppins flex justify-center disabled:cursor-not-allowed border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] disabled:from-[#813FD6]/30 to-[#301342] disabled:to-[#301342]/30
     transition-all duration-300 ease-in-out
     hover:border-transparent my-5 text-center 
   "
-            >
-              Continue
-            </button>
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                disabled={
+                  GBPAccountNumber.length < 8 ||
+                  !GBPBankName ||
+                  !sortCode ||
+                  !GBPAccountName
+                }
+                onClick={handleBankDetailsGBP}
+                className="
+    text-white w-full font-poppins flex justify-center disabled:cursor-not-allowed border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    bg-linear-to-l from-[#813FD6] disabled:from-[#813FD6]/30 to-[#301342] disabled:to-[#301342]/30
+    transition-all duration-300 ease-in-out
+    hover:border-transparent my-5 text-center 
+  "
+              >
+                Continue
+              </button>
+            )}
           </div>
           <div className="flex justify-between p-5">
             <button

@@ -172,7 +172,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: ["user", "admin"],
+      showFor: [ "admin"],
     },
     {
       icon: (
@@ -286,7 +286,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         { title: "Partner Space", link: "/customer/partner-space" },
         { title: "Transaction Logs", link: "/partner/transactions" },
       ],
-      showFor: ["user", "admin"],
+      showFor: ["admin"],
     },
     {
       icon: (
@@ -464,7 +464,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Logs",
       link: "/all-logs",
-      showFor: ["user", "admin"],
+      showFor: [ "admin"],
     },
   ];
 
