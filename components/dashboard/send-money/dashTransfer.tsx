@@ -44,8 +44,8 @@ const DashTf = ({
   const rateNGN = adminRateData?.rateNGN || 1973;
 
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
-    let baseRate = ratesData?.moniepoint?.rate || 0;
-    let rate = baseRate + benchmarkGBP;
+    let baseRate = ratesData?.lemfi?.rate || 0;
+    let rate = baseRate + benchmarkGBP + 1;
     let ready = rate > benchmarkGBP && !isLoading;
     let label = ready
       ? `1 ${fromCurrency} = ${formatNumber(rate.toFixed(2))} ${toCurrency}`

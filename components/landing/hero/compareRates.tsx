@@ -15,7 +15,7 @@ interface Rate {
 
 const PROVIDER_MAP: { [key: string]: { name: string; icon: string } } = {
   "Shift Remit": { name: "Shift Remit", icon: "/images/brands/vec-1.svg" },
-  moniepoint: { name: "Moniepoint", icon: "/images/brands/vec-2.svg" },
+  // moniepoint: { name: "Moniepoint", icon: "/images/brands/vec-2.svg" },
   nala: { name: "Nala", icon: "/images/brands/vec-6.svg" },
   lemfi: { name: "LemFi", icon: "/images/brands/vec-4.svg" },
   sendApp: { name: "Send App", icon: "/images/brands/vec-5.svg" },
@@ -75,9 +75,9 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
 
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
-
-    const shiftRemitCurrentRate = moniepointRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
+
+    const shiftRemitCurrentRate = tapTapCurrentRate + benchmarkGBP;
 
     const baseComparisonRate = shiftRemitCurrentRate;
 
@@ -85,7 +85,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       {
         ...PROVIDER_MAP["Shift Remit"],
         currentRate: shiftRemitCurrentRate,
-        discount: moniepointRate,
+        discount: tapTapCurrentRate,
         sortRate: shiftRemitCurrentRate,
       },
       {
@@ -94,12 +94,12 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
         discount: baseComparisonRate - tapTapCurrentRate,
         sortRate: tapTapCurrentRate,
       },
-      {
-        ...PROVIDER_MAP["moniepoint"],
-        currentRate: moniepointRate,
-        discount: baseComparisonRate - moniepointRate,
-        sortRate: moniepointRate,
-      },
+      // {
+      //   ...PROVIDER_MAP["moniepoint"],
+      //   currentRate: moniepointRate,
+      //   discount: baseComparisonRate - moniepointRate,
+      //   sortRate: moniepointRate,
+      // },
       {
         ...PROVIDER_MAP["nala"],
         currentRate: ratesData.nala.rate,

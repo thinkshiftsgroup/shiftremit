@@ -29,11 +29,11 @@ const PROVIDER_MAP: {
     icon: "/images/brands/vec-1.svg",
     lastTxs: 0,
   },
-  MonieWorld: {
-    name: "MonieWorld",
-    icon: "/images/brands/vec-2.svg",
-    lastTxs: 30,
-  },
+  // MonieWorld: {
+  //   name: "MonieWorld",
+  //   icon: "/images/brands/vec-2.svg",
+  //   lastTxs: 30,
+  // },
   Nala: { name: "Nala", icon: "/images/brands/vec-6.svg", lastTxs: 0.0 },
   LemFi: { name: "LemFi", icon: "/images/brands/vec-4.svg", lastTxs: 37 },
   FlutterSend: {
@@ -84,9 +84,14 @@ const SendMoney = () => {
         currentRate: shiftRemitCurrentRate,
         discount: 0,
       },
+      // {
+      //   ...PROVIDER_MAP["MonieWorld"],
+      //   currentRate: moniepointRate,
+      //   discount: 0,
+      // },
       {
-        ...PROVIDER_MAP["MonieWorld"],
-        currentRate: moniepointRate,
+        ...PROVIDER_MAP["LemFi"],
+        currentRate: ratesData.lemfi.rate,
         discount: 0,
       },
       {
@@ -99,11 +104,7 @@ const SendMoney = () => {
         currentRate: ratesData.nala.rate,
         discount: 0,
       },
-      {
-        ...PROVIDER_MAP["LemFi"],
-        currentRate: ratesData.lemfi.rate,
-        discount: 0,
-      },
+
       {
         ...PROVIDER_MAP["FlutterSend"],
         currentRate: ratesData.sendApp.rate,
@@ -129,7 +130,7 @@ const SendMoney = () => {
     const highestRate = shiftRemitRate;
 
     const competitorCards: RateCard[] = allRates
-      .filter((rate) => rate.name !== "Shift Remit")
+      // .filter((rate) => rate.name !== "Shift Remit")
       .map((rate) => {
         const discount = Math.max(0, highestRate - rate.currentRate);
 
