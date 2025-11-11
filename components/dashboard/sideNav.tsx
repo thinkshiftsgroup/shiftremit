@@ -60,9 +60,9 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ? "/admin/dashboard"
       : "/send-money";
 
-  // const userDisplayName = user
-  //   ? user.firstname || user.username || user.email
-  //   : "Guest";
+  const userDisplayName = user
+    ? user.firstname || user.username || user.email
+    : "Guest";
 
 
   const navItems = [
@@ -655,11 +655,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       <Link
                         key={j}
                         href={sub.link}
-                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${
-                          pathname === sub.link
-                            ? "bg-[#f1f1f1] text-[#301342]"
-                            : "text-[#6b6b6b] hover:text-[#301342]"
-                        }`}
+                        className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${pathname === sub.link
+                          ? "bg-[#f1f1f1] text-[#301342]"
+                          : "text-[#6b6b6b] hover:text-[#301342]"
+                          }`}
                       >
                         - {sub.title}
                       </Link>
