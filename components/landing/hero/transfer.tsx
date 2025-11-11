@@ -43,7 +43,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
       };
     }
 
-    const moniepointRate = ratesData?.moniepoint?.rate || 0;
+    const lemfi = ratesData?.lemfi?.rate || 0;
 
     const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
     const rateNGN = adminRateData?.rateNGN || 1973;
@@ -53,7 +53,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     let label = "Rate Loading...";
 
     if (fromCurrency === "GBP" && toCurrency === "NGN") {
-      rate = moniepointRate + benchmarkGBP;
+      rate = lemfi + benchmarkGBP + 1;
       ready = rate > benchmarkGBP && !isLoading;
       label = ready ? `1 GBP = ${formatNumber(rate.toFixed(2))} NGN` : label;
     } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
