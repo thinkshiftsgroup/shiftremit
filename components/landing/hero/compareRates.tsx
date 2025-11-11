@@ -85,7 +85,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       {
         ...PROVIDER_MAP["Shift Remit"],
         currentRate: shiftRemitCurrentRate,
-        discount: moniepointRate,
+        discount: tapTapCurrentRate,
         sortRate: shiftRemitCurrentRate,
       },
       {
