@@ -477,17 +477,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       <div>
         <div
           onClick={() => router.push(logoRedirectPath)}
-          className="flex cursor-pointer items-center gap-1 p-3 z-50"
-        >
-          <Image
-            src="/images/shiftremit-logo.png"
           className={`flex items-center justify-between cursor-pointer gap-1 p-3 z-50 ${collapsed ? "p-2" : "p-3"
             }`}
-            height={40}
-            alt="shiftremit-logo"
-            className="w-10 h-10 object-cover"
-          />
-          <div className="w-full flex justify-between items-center">
+        >
+          {!collapsed && (<div className="flex items-center gap-2">
+            <Image
+              src="/images/shiftremit-logo.png"
+              width={40}
+              height={40}
+              alt="shiftremit-logo"
+              className="w-10 h-10 object-cover"
+            />
+
             <div>
               <h1 className="text-xl font-bold font-poppins text-black">
                 Shift<span className="text-main">Remit</span>
@@ -497,33 +498,77 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               </p>
             </div>
 
-            <div className="p-4 pe-0 flex lg:hidden justify-end">
-              <button
-                onClick={closeSidebar}
-                className="text-gray-500 hover:text-black rounded transition"
-                aria-label="Close menu"
+          </div>
+          )}
+
+          {collapsed && (<div className="flex items-center justify-center w-full">
+            <Image
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}
+              src="/images/shiftremit-logo.png"
+              width={25}
+              height={25}
+              alt="shiftremit-logo"
+              className="w-8 h-8 object-cover cursor-pointer"
+            />
+          </div>
+          )}
+
+          <div className="p-4 pe-0 flex lg:hidden justify-end">
+            <button
+              onClick={closeSidebar}
+              className="text-gray-500 hover:text-black rounded transition"
+              aria-label="Close menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={24}
+                height={24}
+                viewBox="0 0 1024 1024"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64"
-                    strokeWidth={25.5}
-                    stroke="currentColor"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z"
-                    strokeWidth={25.5}
-                    stroke="currentColor"
-                  ></path>
-                </svg>
-              </button>
-            </div>
+                <path
+                  fill="currentColor"
+                  d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64"
+                  strokeWidth={25.5}
+                  stroke="currentColor"
+                ></path>
+                <path
+                  fill="currentColor"
+                  d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z"
+                  strokeWidth={25.5}
+                  stroke="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div className={` pe-0 hidden  justify-end ${collapsed ? "p-0 lg:hidden" : "p-4 lg:flex"}`}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}
+              className="p-2 hover:bg-gray-100 rounded-md transition"
+              aria-label="Collapse sidebar"
+            >
+              {/* <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}
+              >
+                <path
+                  fill="currentColor"
+                  d="m8 5l8 7l-8 7V5z"
+                />
+              </svg> */}
+              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}>
+                <path fill="currentColor" d="M19 9h-2.58l3.29-3.29a1 1 0 1 0-1.42-1.42L15 7.57V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2m-9 4H5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 16.42V19a1 1 0 0 0 1 1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1" strokeWidth={0.5} stroke="currentColor"></path>
+              </svg>
+            </button>
+
           </div>
         </div>
         <div className="bg-gray-200 w-full h-px" />
