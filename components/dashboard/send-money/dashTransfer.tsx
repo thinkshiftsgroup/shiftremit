@@ -13,13 +13,21 @@ interface DashTfProps {
     sendingAmount: string,
     fromCurrency: string
   ) => void;
+  setFromCurrency: any;
+  fromCurrency: string;
+  toCurrency: string;
+  setToCurrency: any;
 }
 
-const DashTf = ({ onRateUpdate }: DashTfProps) => {
+const DashTf = ({
+  onRateUpdate,
+  fromCurrency,
+  setFromCurrency,
+  toCurrency,
+  setToCurrency,
+}: DashTfProps) => {
   const [sending_amount, setSendingAmount] = useState("10");
   const [get_amount, setGetAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("GBP");
-  const [toCurrency, setToCurrency] = useState("NGN");
 
   const MIN_SENDING = 10;
 
@@ -110,20 +118,21 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
       return;
     }
 
-    const numericValue = parseFloat(raw);
-    if (!isNaN(numericValue)) {
-      setSendingAmount(raw);
+    let numericValue = parseFloat(raw);
 
-      if (isRateReady) {
-        const precision =
-          fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
-        setGetAmount((numericValue * conversionRate).toFixed(precision));
-        setTransfer({
-          convertedNGNAmount: parseInt(
-            (numericValue * conversionRate).toFixed(precision)
-          ),
-        });
-      }
+    // ✅ Hard enforce minimum
+    if (numericValue < MIN_SENDING) numericValue = MIN_SENDING;
+
+    setSendingAmount(numericValue.toString());
+
+    if (isRateReady) {
+      const precision = fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
+
+      const calculated = (numericValue * conversionRate).toFixed(precision);
+      setGetAmount(calculated);
+      setTransfer({
+        convertedNGNAmount: parseInt(calculated),
+      });
     }
   };
 
@@ -145,6 +154,7 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
           ? numericValue
           : numericValue / conversionRate;
       sent = Math.max(sent, MIN_SENDING);
+
       setSendingAmount(sent.toFixed(2));
     }
   };
@@ -187,10 +197,6 @@ const DashTf = ({ onRateUpdate }: DashTfProps) => {
               placeholder={
                 isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
               }
-              // onBlur={() => {
-              //   const numeric = parseFloat(sending_amount) || MIN_SENDING;
-              //   setSendingAmount(String(Math.max(numeric, MIN_SENDING)));
-              // }}
               aria-label="Sending Money"
               min={10}
               disabled={!isRateReady}

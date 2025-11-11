@@ -19,6 +19,7 @@ const SendMoneyUI = () => {
   const { ratesData, isLoading, error, fetchRates } = useRatesStore();
   const [sendingAmount, setSendingAmount] = useState("10");
   const [fromCurrency, setFromCurrency] = useState("GBP");
+  const [toCurrency, setToCurrency] = useState("NGN");
 
   useEffect(() => {
     if (!ratesData && !isLoading) {
@@ -45,7 +46,13 @@ const SendMoneyUI = () => {
 
   return (
     <div className="p-5 md:p-10">
-      <DashTf onRateUpdate={handleRateUpdate} />
+      <DashTf
+        fromCurrency={fromCurrency}
+        setFromCurrency={setFromCurrency}
+        onRateUpdate={handleRateUpdate}
+        setToCurrency={setToCurrency}
+        toCurrency={toCurrency}
+      />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
         <div className="flex justify-between">
@@ -92,14 +99,17 @@ const SendMoneyUI = () => {
           <p className="font-semibold text-xl">{totalAmountDisplay}</p>
         </div>
         <button
+          disabled={fromCurrency === toCurrency || parseInt(sendingAmount) < 10}
           onClick={() => {
             if (parseFloat(sendingAmount) < 10) {
               toast.error("Minimum transferable amount is 10 GBP");
               return;
             }
+            console.log(fromCurrency, toCurrency, sendingAmount, "from:to");
             setTransfer({
               amount: parseInt(sendingAmount),
               fromCurrency: fromCurrency,
+              toCurrency: toCurrency,
             });
             router.push("/send-money/recipients");
           }}
@@ -107,7 +117,7 @@ const SendMoneyUI = () => {
     text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    hover:border-transparent flex items-center gap-2
+    hover:border-transparent flex items-center gap-2 disabled:cursor-not-allowed disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
   "
         >
           Send Now <CgArrowTopRight />

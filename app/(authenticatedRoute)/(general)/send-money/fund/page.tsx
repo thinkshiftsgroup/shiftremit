@@ -26,6 +26,7 @@ const Fund = () => {
   const transfer = useTransferStore((state) => state.transfer);
   const { setTransfer, clearTransfer } = useTransferStore();
   const { sendTfDetails } = useSendMoney();
+
   const moniepointRate = useRatesStore(
     (state) => state.ratesData?.moniepoint?.rate
   );
@@ -36,25 +37,36 @@ const Fund = () => {
   const lemfiRate = useRatesStore((state) => state.ratesData?.lemfi?.rate);
   const lemfiCurrentRate = lemfiRate || 0;
   const tapTapCurrentRate = lemfiCurrentRate + 1.0;
+
+
   const handleSendTransfer = () => {
     const rate1 = tapTapCurrentRate ?? 0;
     const rate2 = benchmarkGBPToNGN ?? 0;
     const convertedRate = rate1 + rate2;
     setTransfer({ userReference: userReference });
-    console.log(convertedRate);
     sendTfDetails.mutate(
       {
         amount: transfer?.amount,
-        fromCurrency: "GBP",
-        toCurrency: "NGN",
-        recipientBankName: transfer?.recipientBankName,
+        fromCurrency: transfer?.fromCurrency,
+        toCurrency: transfer?.toCurrency,
+        recipientBankName:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientBankName
+            : transfer?.GBPBankName,
         recipientEmail: transfer?.recipientEmail,
-        recipientAccountNumber: transfer?.recipientAccountNumber,
-        recipientFullName: transfer?.recipientFullName,
+        recipientAccountNumber:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientAccountNumber
+            : transfer?.GBPAccountNumber,
+        recipientFullName:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientFullName
+            : transfer?.GBPAccountName,
         purpose: transfer?.purpose,
         isRecipientBusinessAccount: transfer?.isRecipientBusinessAccount,
         conversionRate: convertedRate,
         userReference: userReference,
+        sortCode: transfer?.toCurrency === "NGN" ? "" : transfer?.sortCode,
       },
       {
         onSuccess: (data) => {
@@ -117,7 +129,8 @@ const Fund = () => {
                         <p className="font-normal">
                           Transfer{" "}
                           <span className="font-semibold">
-                            £{formatNumber(transfer?.amount!)}{" "}
+                            {transfer?.toCurrency === "NGN" ? "£" : "₦"}
+                            {formatNumber(transfer?.amount!)}{" "}
                           </span>{" "}
                           to be credited to your recipient
                         </p>
@@ -197,7 +210,8 @@ const Fund = () => {
                         <p>
                           Transfer{" "}
                           <span className="text-base font-medium">
-                            £{formatNumber(transfer?.amount!)}
+                            {transfer?.toCurrency === "NGN" ? "£" : "₦"}
+                            {formatNumber(transfer?.amount!)}
                           </span>{" "}
                           to account below using the reference.
                         </p>
@@ -243,16 +257,23 @@ const Fund = () => {
                           Your Recipient
                         </h1>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientFullName}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientFullName
+                            : transfer?.GBPAccountName}
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
-                          NGN {formatNumber(transfer?.convertedNGNAmount!)}
+                          {transfer?.toCurrency === "NGN" ? "£" : "₦"}
+                          {/* {formatNumber(convertedRate!)} */}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientBankName}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientBankName
+                            : transfer?.GBPBankName}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientAccountNumber}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientAccountNumber
+                            : transfer?.GBPAccountNumber}
                         </p>
                       </div>
                     </div>

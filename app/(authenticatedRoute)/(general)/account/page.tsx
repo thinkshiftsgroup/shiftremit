@@ -37,11 +37,13 @@ const Account = () => {
   const [individualAcc, setIndividualAcc] = useState("");
   const router = useRouter();
 
-  const getInitials = (user: UserProfileData) => {
-    const fn = user.firstname?.[0] || "";
-    const ln = user.lastname?.[0] || "";
-    return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
+  const getInitials = (name?: string) => {
+    if (!name) return "";
+    const parts = name.trim().split(" ").filter(Boolean);
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
+
   return (
     <SideNav>
       <div className="my-10">
@@ -56,7 +58,6 @@ const Account = () => {
         <div className="flex items-center p-3 w-full border-b justify-between flex-col md:flex-row gap-3 md:gap-0">
           {isLoading ? (
             <div className="flex items-center gap-2 w-full md:w-auto animate-pulse">
-              
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-200" />
               <div className="flex flex-col gap-2">
                 <div className="h-5 w-32 bg-gray-200 rounded" />
@@ -80,7 +81,7 @@ const Account = () => {
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
-                    JI
+                    {getInitials(user?.fullName)}
                   </div>
                 )}
 
