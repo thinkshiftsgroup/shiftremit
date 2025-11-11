@@ -571,18 +571,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
 
           </div>
         </div>
+
         <div className="bg-gray-200 w-full h-px" />
 
-        <div className="h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1">
+        <div className={`h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1 ${collapsed ? "overflow-x-hidden" : ""}`}>
           {filteredNavItems.map((nav, i) => {
             const isActive =
               pathname.startsWith(nav.link) ||
               nav.subLinks?.some((s) => pathname.startsWith(s.link));
-
             const isOpen = openDropdown === nav.title;
 
             return (
-              <div key={i}>
+              <div key={i} className="relative group">
                 {nav.subLinks ? (
                   <button
                     onClick={() => toggleDropdown(nav.title)}
