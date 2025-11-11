@@ -468,16 +468,9 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
-  const [openDrop, setOpenDrop] = useState(false);
-  const router = useRouter();
-
   const filteredNavItems = navItems.filter((item) =>
     item.showFor.includes(user?.userType!)
   );
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => setIsOpen(!isOpen);
-  const closeSidebar = () => setIsOpen(false);
 
   const SideContent = () => (
     <>
@@ -488,7 +481,8 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         >
           <Image
             src="/images/shiftremit-logo.png"
-            width={40}
+          className={`flex items-center justify-between cursor-pointer gap-1 p-3 z-50 ${collapsed ? "p-2" : "p-3"
+            }`}
             height={40}
             alt="shiftremit-logo"
             className="w-10 h-10 object-cover"
