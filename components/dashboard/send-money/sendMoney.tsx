@@ -16,11 +16,13 @@ const SendMoneyUI = () => {
 
   const router = useRouter();
 
-  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
-  const [sending_amount, setSendingAmount] = useState("10");
-  const [get_amount, setGetAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
+  const [fromCurrency, setFromCurrency] = useState("GBP");
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+  const [sending_amount, setSendingAmount] = useState(
+    fromCurrency === "NGN" ? "50000" : "10"
+  );
+  const [get_amount, setGetAmount] = useState("");
 
   useEffect(() => {
     if (!ratesData && !isLoading) {
@@ -105,14 +107,21 @@ const SendMoneyUI = () => {
         </div>
         <button
           disabled={
-            fromCurrency === toCurrency || parseInt(sending_amount) < 10
+            fromCurrency === toCurrency ||
+            (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) ||
+            (fromCurrency === "NGN" && parseInt(sending_amount) < 50000)
           }
           onClick={() => {
-            if (parseFloat(sending_amount) < 10) {
+            if (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) {
               toast.error("Minimum transferable amount is 10 GBP");
               return;
+            } else if (
+              fromCurrency === "NGN" &&
+              parseInt(sending_amount) < 50000
+            ) {
+              toast.error("Minimum transferable amount is 50000 NGN");
+              return;
             }
-            console.log(fromCurrency, toCurrency, sending_amount, "from:to");
             setTransfer({
               amount: parseInt(sending_amount),
               fromCurrency: fromCurrency,

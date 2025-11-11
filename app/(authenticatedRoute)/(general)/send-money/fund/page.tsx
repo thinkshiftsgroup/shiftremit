@@ -218,21 +218,27 @@ const Fund = () => {
                         <p>
                           Account Number:{" "}
                           <span className="text-base font-medium">
-                            87812060
+                            {transfer?.fromCurrency === "NGN"
+                              ? "0111377577"
+                              : transfer?.GBPAccountNumber}
+                            {/* 87812060 */}
                           </span>
                         </p>
                         <p>
                           Account Name:{" "}
                           <span className="text-base font-medium">
-                            {transfer?.GBPAccountName}
+                            {transfer?.fromCurrency === "NGN"
+                              ? "Prospa Capital MFB"
+                              : transfer?.GBPAccountName}
+                            {/* PROSPA TECHNOLOGY LIMITED */}
                           </span>
                         </p>
-                        <p>
+                       { <p>
                           Sort Code:{" "}
                           <span className="text-base font-medium">
                             04-00-05
                           </span>
-                        </p>
+                        </p>}
                         <p>
                           Use Transfer Reference:{" "}
                           <span className="text-base font-medium">

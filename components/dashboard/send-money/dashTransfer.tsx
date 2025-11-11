@@ -17,10 +17,10 @@ interface DashTfProps {
   fromCurrency: string;
   toCurrency: string;
   setToCurrency: any;
-  sending_amount:string;
-  setSendingAmount:any;
-  get_amount:string;
-  setGetAmount
+  sending_amount: string;
+  setSendingAmount: any;
+  get_amount: string;
+  setGetAmount: any;
 }
 
 const DashTf = ({
@@ -32,12 +32,8 @@ const DashTf = ({
   setGetAmount,
   get_amount,
   setSendingAmount,
-  sending_amount
+  sending_amount,
 }: DashTfProps) => {
-  
-
-  const MIN_SENDING = 10;
-
   const ratesData = useRatesStore(
     (state) => state.ratesData as FxRateData | null
   );
@@ -118,53 +114,56 @@ const DashTf = ({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const raw = e.target.value.replace(/[^0-9.]/g, "");
+    const amount = parseFloat(raw);
 
-    if (raw === "") {
-      setSendingAmount("");
-      setGetAmount("");
+    // Always enforce minimum 1
+    if (isNaN(amount) || amount < 1) {
+      setSendingAmount("1");
+
+      if (isRateReady) {
+        const precision =
+          fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
+        setGetAmount((1 * conversionRate).toFixed(precision));
+      }
+
       return;
     }
 
-    let numericValue = parseFloat(raw);
-
-    // ✅ Hard enforce minimum
-    if (numericValue < MIN_SENDING) numericValue = MIN_SENDING;
-
-    setSendingAmount(numericValue.toString());
+    // Valid entry
+    setSendingAmount(raw);
 
     if (isRateReady) {
       const precision = fromCurrency === "NGN" && toCurrency === "GBP" ? 8 : 2;
-
-      const calculated = (numericValue * conversionRate).toFixed(precision);
-      setGetAmount(calculated);
-      setTransfer({
-        convertedNGNAmount: parseInt(calculated),
-      });
+      const result = (amount * conversionRate).toFixed(precision);
+      setGetAmount(result);
     }
   };
 
-  const handleReceiveAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value.replace(/[^0-9.]/g, "");
-    setGetAmount(value);
+    const handleReceiveAmountChange = (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      const value = e.target.value.replace(/[^0-9.]/g, "");
+      setGetAmount(value);
 
-    if (value === "") {
-      setSendingAmount(String(MIN_SENDING));
-      return;
-    }
+      if (value === "") {
+        setSendingAmount("");
+        return;
+      }
 
-    const numericValue = parseFloat(value);
-    if (!isNaN(numericValue) && isRateReady) {
+      const numericValue = parseFloat(value);
+
+      if (!isRateReady || isNaN(numericValue)) {
+        setSendingAmount("");
+        return;
+      }
+
       let sent =
         fromCurrency === toCurrency
           ? numericValue
           : numericValue / conversionRate;
-      sent = Math.max(sent, MIN_SENDING);
 
       setSendingAmount(sent.toFixed(2));
-    }
-  };
+    };
 
   const handleFromCurrencySelect = (currencyCode: string) => {
     setFromCurrency(currencyCode);

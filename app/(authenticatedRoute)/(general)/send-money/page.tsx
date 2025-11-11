@@ -75,8 +75,8 @@ const SendMoney = () => {
     const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
+    const shiftRemitCurrentRate = tapTapCurrentRate + benchmarkGBP;
 
     const allRates: Rate[] = [
       {
