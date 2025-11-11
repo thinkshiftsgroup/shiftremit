@@ -5,23 +5,36 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
-import { ChevronDown, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { FaAngleDown, FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
-import { HiOutlineWallet } from "react-icons/hi2";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { HiOutlineWallet } from "react-icons/hi2";
+
+interface NavItem {
+  title: string;
+  link: string;
+  showFor: string[];
+  icon?: React.ReactNode;
+  subLinks?: { title: string; link: string }[];
+  badge?: number;
+}
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [openDrop, setOpenDrop] = useState(false);
 
   const user = useAuthStore((state) => state.user);
   const logoutUser = useAuthStore((state) => state.logout);
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const router = useRouter();
 
   useEffect(() => {
     initializeAuth();
@@ -39,14 +52,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     toast.info("You have been signed out.");
   };
 
-  const userDisplayName = user
-    ? user.firstname || user.username || user.email
-    : "Guest";
+  const toggleSidebar = () => setIsOpen(!isOpen);
+  const closeSidebar = () => setIsOpen(false);
 
   const logoRedirectPath =
     user?.userType === "admin" || user?.userType === "partner"
       ? "/admin/dashboard"
       : "/send-money";
+
+  const userDisplayName = user
+    ? user.firstname || user.username || user.email
+    : "Guest";
+
+
   const navItems = [
     {
       icon: <TbSmartHome size={18} />,
@@ -145,23 +163,16 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
     {
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={18}
-          height={18}
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill="currentColor"
-            d="M6.147 1.854L7.292 3H5.5c-.667 0-1.275.318-1.728.772C3.318 4.225 3 4.833 3 5.5c-.01.676 1.01.676 1 0c0-.333.182-.725.479-1.021C4.775 4.182 5.167 4 5.5 4h1.793L6.146 5.146c-.49.472.236 1.198.708.708L8.81 3.897a.5.5 0 0 0 .002-.793l-.006-.005l-1.954-1.953c-.453-.468-1.194.236-.707.708m5.862 8.648c0 .333-.182.725-.479 1.021c-.296.297-.688.479-1.021.479H8.715l1.146-1.147c.484-.472-.254-1.17-.707-.707l-1.957 1.957a.5.5 0 0 0 .004.797l1.953 1.954c.472.49 1.198-.236.707-.708l-1.146-1.146h1.793c.667 0 1.275-.318 1.728-.772c.454-.453.772-1.061.772-1.728c0-.665-1-.665-1 0"
-            strokeWidth={0.5}
-            stroke="currentColor"
-          ></path>
+        <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+            <path d="M19.75 6.75h-12a4 4 0 0 0-4 4v2m16-1v2a4 4 0 0 1-4 4h-12"></path>
+            <path d="m16.75 9.75l3-3l-3-3m-10 11l-3 3l3 3"></path>
+          </g>
         </svg>
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: [ "admin"],
+      showFor: ["user", "admin"],
     },
     {
       icon: (
@@ -457,32 +468,27 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
-  const [openDrop, setOpenDrop] = useState(false);
-  const router = useRouter();
-
   const filteredNavItems = navItems.filter((item) =>
     item.showFor.includes(user?.userType!)
   );
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => setIsOpen(!isOpen);
-  const closeSidebar = () => setIsOpen(false);
 
   const SideContent = () => (
     <>
       <div>
         <div
           onClick={() => router.push(logoRedirectPath)}
-          className="flex cursor-pointer items-center gap-1 p-3 z-50"
+          className={`flex items-center justify-between cursor-pointer gap-1 p-3 z-50 ${collapsed ? "p-2" : "p-3"
+            }`}
         >
-          <Image
-            src="/images/shiftremit-logo.png"
-            width={40}
-            height={40}
-            alt="shiftremit-logo"
-            className="w-10 h-10 object-cover"
-          />
-          <div className="w-full flex justify-between items-center">
+          {!collapsed && (<div className="flex items-center gap-2">
+            <Image
+              src="/images/shiftremit-logo.png"
+              width={40}
+              height={40}
+              alt="shiftremit-logo"
+              className="w-10 h-10 object-cover"
+            />
+
             <div>
               <h1 className="text-xl font-bold font-poppins text-black">
                 Shift<span className="text-main">Remit</span>
@@ -492,101 +498,167 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               </p>
             </div>
 
-            <div className="p-4 pe-0 flex lg:hidden justify-end">
-              <button
-                onClick={closeSidebar}
-                className="text-gray-500 hover:text-black rounded transition"
-                aria-label="Close menu"
+          </div>
+          )}
+
+          {collapsed && (<div className="flex items-center justify-center w-full">
+            <Image
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}
+              src="/images/shiftremit-logo.png"
+              width={25}
+              height={25}
+              alt="shiftremit-logo"
+              className="w-8 h-8 object-cover cursor-pointer"
+            />
+          </div>
+          )}
+
+          <div className="p-4 pe-0 flex lg:hidden justify-end">
+            <button
+              onClick={closeSidebar}
+              className="text-gray-500 hover:text-black rounded transition"
+              aria-label="Close menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={24}
+                height={24}
+                viewBox="0 0 1024 1024"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 1024 1024"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64"
-                    strokeWidth={25.5}
-                    stroke="currentColor"
-                  ></path>
-                  <path
-                    fill="currentColor"
-                    d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z"
-                    strokeWidth={25.5}
-                    stroke="currentColor"
-                  ></path>
-                </svg>
-              </button>
-            </div>
+                <path
+                  fill="currentColor"
+                  d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64"
+                  strokeWidth={25.5}
+                  stroke="currentColor"
+                ></path>
+                <path
+                  fill="currentColor"
+                  d="m237.248 512l265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312z"
+                  strokeWidth={25.5}
+                  stroke="currentColor"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div className={` pe-0 hidden  justify-end ${collapsed ? "p-0 lg:hidden" : "p-4 lg:flex"}`}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}
+              className="p-2 hover:bg-gray-100 rounded-md transition"
+              aria-label="Collapse sidebar"
+            >
+              {/* <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}
+              >
+                <path
+                  fill="currentColor"
+                  d="m8 5l8 7l-8 7V5z"
+                />
+              </svg> */}
+              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}>
+                <path fill="currentColor" d="M19 9h-2.58l3.29-3.29a1 1 0 1 0-1.42-1.42L15 7.57V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2m-9 4H5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 16.42V19a1 1 0 0 0 1 1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1" strokeWidth={0.5} stroke="currentColor"></path>
+              </svg>
+            </button>
+
           </div>
         </div>
+
         <div className="bg-gray-200 w-full h-px" />
 
-        <div className="h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1">
+        <div className={`h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1 ${collapsed ? "overflow-x-hidden" : ""}`}>
           {filteredNavItems.map((nav, i) => {
             const isActive =
               pathname.startsWith(nav.link) ||
               nav.subLinks?.some((s) => pathname.startsWith(s.link));
-
             const isOpen = openDropdown === nav.title;
 
             return (
-              <div key={i}>
+              <div key={i} className="relative group">
                 {nav.subLinks ? (
                   <button
                     onClick={() => toggleDropdown(nav.title)}
-                    className={`w-full flex items-center font-medium justify-between py-2.5 px-3 rounded-xl text-sm font-poppins transition-all ${
-                      isActive
+                    className={`w-full flex items-center py-2.5 px-3 rounded-xl text-sm font-poppins transition-all
+                      ${collapsed ? "justify-center w-auto" : "justify-between"}
+                      ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
-                    <div className="flex items-center gap-2">
-                      {nav.icon}
-                      <p>{nav.title}</p>
+                    <div className={`flex items-center gap-2`}>
+                      {nav.icon && (
+                        <span
+                          className={`${isActive ? "text-main" : "text-[#454745]"
+                            }`}
+                        >
+                          {nav.icon}
+                        </span>
+                      )}
+                      {!collapsed && <p>{nav.title}</p>}
                     </div>
-                    {isOpen ? (
-                      <ChevronDown size={14} />
-                    ) : (
-                      <ChevronRight size={14} />
-                    )}
+                    {!collapsed &&
+                      (isOpen ? (
+                        <ChevronDown size={14} />
+                      ) : (
+                        <ChevronRight size={14} />
+                      ))}
                   </button>
                 ) : (
                   <Link
                     href={nav.link || "#"}
-                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${
-                      isActive
+                    className={`flex items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
+                      ${collapsed ? "justify-center w-auto" : "justify-between"}
+                      ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
-                      {nav.icon}
-                      <div className="flex items-center gap-2">
+                      {nav.icon && (
+                        <span
+                          className={`${isActive ? "text-main" : "text-[#454745]"
+                            }`}
+                        >
+                          {nav.icon}
+                        </span>
+                      )}
+                      {!collapsed && (
                         <span>{nav.title}</span>
-
-                        {(nav.badge ?? 0) > 0 && (
-                          <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
-                            {nav.badge}
-                          </span>
-                        )}
-                      </div>
+                      )}
                     </div>
+                    {(nav.badge ?? 0) > 0 && !collapsed && (
+                      <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
+                        {nav.badge}
+                      </span>
+                    )}
                   </Link>
                 )}
 
-                {nav.subLinks && isOpen && (
+                {/* Tooltip on hover when collapsed */}
+                {collapsed && (
+                  <span className="absolute left-full top-1/2 -translate-y-1/2 ml-3 opacity-0 group-hover:opacity-100 transition bg-black text-white text-xs font-poppins rounded-md px-2 py-1 whitespace-nowrap z-50">
+                    {nav.title}
+                  </span>
+                )}
+
+                {nav.subLinks && isOpen && !collapsed && (
                   <div className="ml-8 mt-1 space-y-1 transition-all">
                     {nav.subLinks.map((sub, j) => (
                       <Link
                         key={j}
                         href={sub.link}
-                        className={`block py-1.5 font-poppins px-3 rounded-lg text-sm font-medium ${
-                          pathname === sub.link
-                            ? "bg-[#f1f1f1] text-[#301342]"
-                            : "text-[#6b6b6b] hover:text-[#301342]"
-                        }`}
+                        className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${pathname === sub.link
+                          ? "bg-[#f1f1f1] text-[#301342]"
+                          : "text-[#6b6b6b] hover:text-[#301342]"
+                          }`}
                       >
                         - {sub.title}
                       </Link>
@@ -599,33 +671,39 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
 
-      <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
-        <div>
-          <p className="text-[#454745] text-xs pt-1 font-poppins">Wallet</p>
-          <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
+      {/* --- Wallet Section --- */}
+      {!collapsed && (
+        <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
+          <div>
+            <p className="text-[#454745] text-xs pt-1 font-poppins">Wallet</p>
+            <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
+          </div>
+          <IoWallet className="text-main" size={35} />
         </div>
-        <IoWallet className="text-main" size={35} />
-      </div>
+      )}
     </>
   );
 
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
       {isOpen && <div className="fixed inset-0 z-100" onClick={closeSidebar} />}
-
-      {/* Sidebar */}
+}
       <aside
-        className={`fixed top-0 left-0 h-screen w-64  bg-white text-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`fixed lg:hidden top-0 left-0 h-screen w-64 bg-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <SideContent />
       </aside>
-      <div className="w-[20%] hidden lg:flex rounded-3xl bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] flex-col justify-between">
+
+      <div
+        className={`hidden lg:flex flex-col justify-between shadow-[0_2px_5px_rgba(0,0,0,0.05)] bg-white transition-all duration-300 ease-in-out ${collapsed ? "w-20 rounded-lg" : "w-[20%] rounded-3xl"
+          }`}
+      >
         <SideContent />
       </div>
 
-      <div className="w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide">
+      <div className={`w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"
+          }`}>
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
           <div onClick={toggleSidebar} className="lg:hidden">
             <svg
