@@ -20,6 +20,7 @@ interface DashTfProps {
   sending_amount: string;
   setSendingAmount: any;
   get_amount: string;
+  
   setGetAmount: any;
 }
 
