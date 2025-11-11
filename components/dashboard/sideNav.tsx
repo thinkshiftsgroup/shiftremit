@@ -721,8 +721,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         <SideContent />
       </div>
 
-      <div className={`w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"
-          }`}>
+      <div className={`h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"}`}>
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
           <div onClick={toggleSidebar} className="lg:hidden">
             <svg
