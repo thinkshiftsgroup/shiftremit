@@ -5,15 +5,24 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
-import { ChevronDown, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { FaAngleDown, FaRegCircleUser } from "react-icons/fa6";
 import { MdOutlineSettings } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
-import { HiOutlineWallet } from "react-icons/hi2";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { HiOutlineWallet } from "react-icons/hi2";
+
+interface NavItem {
+  title: string;
+  link: string;
+  showFor: string[];
+  icon?: React.ReactNode;
+  subLinks?: { title: string; link: string }[];
+  badge?: number;
+}
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
