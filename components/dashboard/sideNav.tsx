@@ -593,15 +593,23 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
                       }`}
                   >
-                    <div className="flex items-center gap-2">
-                      {nav.icon}
-                      <p>{nav.title}</p>
+                    <div className={`flex items-center gap-2`}>
+                      {nav.icon && (
+                        <span
+                          className={`${isActive ? "text-main" : "text-[#454745]"
+                            }`}
+                        >
+                          {nav.icon}
+                        </span>
+                      )}
+                      {!collapsed && <p>{nav.title}</p>}
                     </div>
-                    {isOpen ? (
-                      <ChevronDown size={14} />
-                    ) : (
-                      <ChevronRight size={14} />
-                    )}
+                    {!collapsed &&
+                      (isOpen ? (
+                        <ChevronDown size={14} />
+                      ) : (
+                        <ChevronRight size={14} />
+                      ))}
                   </button>
                 ) : (
                   <Link
