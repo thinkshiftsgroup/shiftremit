@@ -687,7 +687,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
       {isOpen && <div className="fixed inset-0 z-100" onClick={closeSidebar} />}
-}
       <aside
         className={`fixed lg:hidden top-0 left-0 h-screen w-64 bg-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
