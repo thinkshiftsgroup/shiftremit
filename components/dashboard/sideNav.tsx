@@ -163,23 +163,16 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
     {
       icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={18}
-          height={18}
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill="currentColor"
-            d="M6.147 1.854L7.292 3H5.5c-.667 0-1.275.318-1.728.772C3.318 4.225 3 4.833 3 5.5c-.01.676 1.01.676 1 0c0-.333.182-.725.479-1.021C4.775 4.182 5.167 4 5.5 4h1.793L6.146 5.146c-.49.472.236 1.198.708.708L8.81 3.897a.5.5 0 0 0 .002-.793l-.006-.005l-1.954-1.953c-.453-.468-1.194.236-.707.708m5.862 8.648c0 .333-.182.725-.479 1.021c-.296.297-.688.479-1.021.479H8.715l1.146-1.147c.484-.472-.254-1.17-.707-.707l-1.957 1.957a.5.5 0 0 0 .004.797l1.953 1.954c.472.49 1.198-.236.707-.708l-1.146-1.146h1.793c.667 0 1.275-.318 1.728-.772c.454-.453.772-1.061.772-1.728c0-.665-1-.665-1 0"
-            strokeWidth={0.5}
-            stroke="currentColor"
-          ></path>
+        <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+            <path d="M19.75 6.75h-12a4 4 0 0 0-4 4v2m16-1v2a4 4 0 0 1-4 4h-12"></path>
+            <path d="m16.75 9.75l3-3l-3-3m-10 11l-3 3l3 3"></path>
+          </g>
         </svg>
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: [ "admin"],
+      showFor: ["user", "admin"],
     },
     {
       icon: (
