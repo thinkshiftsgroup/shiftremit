@@ -20,6 +20,7 @@ export interface TransferData {
   GBPBankName?: string;
   transferReference?: string;
   sortCode?: string;
+  setToAmount?:number
 }
 
 interface TransferStore {

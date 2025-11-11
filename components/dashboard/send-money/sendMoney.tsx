@@ -17,7 +17,8 @@ const SendMoneyUI = () => {
   const router = useRouter();
 
   const { ratesData, isLoading, error, fetchRates } = useRatesStore();
-  const [sendingAmount, setSendingAmount] = useState("10");
+  const [sending_amount, setSendingAmount] = useState("10");
+  const [get_amount, setGetAmount] = useState("");
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
 
@@ -38,9 +39,9 @@ const SendMoneyUI = () => {
   };
 
   const totalAmountDisplay =
-    sendingAmount === ""
+    sending_amount === ""
       ? `0 ${fromCurrency}`
-      : `${formatNumber(sendingAmount)} ${fromCurrency}`;
+      : `${formatNumber(sending_amount)} ${fromCurrency}`;
 
   const { setTransfer } = useTransferStore();
 
@@ -52,6 +53,10 @@ const SendMoneyUI = () => {
         onRateUpdate={handleRateUpdate}
         setToCurrency={setToCurrency}
         toCurrency={toCurrency}
+        sending_amount={sending_amount}
+        setSendingAmount={setSendingAmount}
+        get_amount={get_amount}
+        setGetAmount={setGetAmount}
       />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
@@ -99,17 +104,20 @@ const SendMoneyUI = () => {
           <p className="font-semibold text-xl">{totalAmountDisplay}</p>
         </div>
         <button
-          disabled={fromCurrency === toCurrency || parseInt(sendingAmount) < 10}
+          disabled={
+            fromCurrency === toCurrency || parseInt(sending_amount) < 10
+          }
           onClick={() => {
-            if (parseFloat(sendingAmount) < 10) {
+            if (parseFloat(sending_amount) < 10) {
               toast.error("Minimum transferable amount is 10 GBP");
               return;
             }
-            console.log(fromCurrency, toCurrency, sendingAmount, "from:to");
+            console.log(fromCurrency, toCurrency, sending_amount, "from:to");
             setTransfer({
-              amount: parseInt(sendingAmount),
+              amount: parseInt(sending_amount),
               fromCurrency: fromCurrency,
               toCurrency: toCurrency,
+              setToAmount: parseInt(get_amount),
             });
             router.push("/send-money/recipients");
           }}

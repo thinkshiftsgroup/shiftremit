@@ -17,6 +17,10 @@ interface DashTfProps {
   fromCurrency: string;
   toCurrency: string;
   setToCurrency: any;
+  sending_amount:string;
+  setSendingAmount:any;
+  get_amount:string;
+  setGetAmount
 }
 
 const DashTf = ({
@@ -25,9 +29,12 @@ const DashTf = ({
   setFromCurrency,
   toCurrency,
   setToCurrency,
+  setGetAmount,
+  get_amount,
+  setSendingAmount,
+  sending_amount
 }: DashTfProps) => {
-  const [sending_amount, setSendingAmount] = useState("10");
-  const [get_amount, setGetAmount] = useState("");
+  
 
   const MIN_SENDING = 10;
 

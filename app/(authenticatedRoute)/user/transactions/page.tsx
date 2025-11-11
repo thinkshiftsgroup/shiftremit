@@ -75,6 +75,12 @@ const CustomerTrxn = () => {
       lastTxn: 0,
     },
   ];
+
+  const formatAmount = (val: number | string) =>
+    Number(val)
+      .toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
   return (
     <SideNav>
       <div className="py-5">
@@ -237,11 +243,17 @@ const CustomerTrxn = () => {
                       </td>
 
                       <td className="px-4 text-sm py-1 font-poppins">
-                        £{trx.amount}
+                        {trx.fromCurrency === "NGN" ? "₦" : "£"}
+                        {formatAmount(trx.amount)}
                       </td>
 
                       <td className="px-4 text-sm py-1 font-poppins">
-                        ₦{trx.convertedNGNAmount}
+                        {trx.toCurrency === "NGN" ? "₦" : "£"}
+                        {formatAmount(
+                          trx.toCurrency === "NGN"
+                            ? trx.convertedNGNAmount
+                            : trx.convertedGBPAmount
+                        )}
                       </td>
 
                       <td className="px-4 text-sm py-1 font-poppins">
