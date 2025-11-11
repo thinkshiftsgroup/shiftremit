@@ -96,7 +96,6 @@ const SideHero = () => {
         <div className="flex font-poppins justify-between items-center">
           <div>
             <p className="text-xs opacity-80">Total Amount</p>
-            {/* Display the dynamic total amount */}
             <p className="font-semibold text-lg">{totalAmountDisplay}</p>
           </div>
           <a href="/login">
