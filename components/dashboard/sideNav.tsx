@@ -27,10 +27,14 @@ interface NavItem {
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [openDrop, setOpenDrop] = useState(false);
 
   const user = useAuthStore((state) => state.user);
   const logoutUser = useAuthStore((state) => state.logout);
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
+  const router = useRouter();
 
   useEffect(() => {
     initializeAuth();
@@ -48,14 +52,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     toast.info("You have been signed out.");
   };
 
-  const userDisplayName = user
-    ? user.firstname || user.username || user.email
-    : "Guest";
+  const toggleSidebar = () => setIsOpen(!isOpen);
+  const closeSidebar = () => setIsOpen(false);
 
   const logoRedirectPath =
     user?.userType === "admin" || user?.userType === "partner"
       ? "/admin/dashboard"
       : "/send-money";
+
+  // const userDisplayName = user
+  //   ? user.firstname || user.username || user.email
+  //   : "Guest";
+
+
   const navItems = [
     {
       icon: <TbSmartHome size={18} />,
