@@ -614,15 +614,23 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <Link
                     href={nav.link || "#"}
-                    className={`flex items-center justify-between font-medium py-2.5 px-3 rounded-md text-sm font-poppins transition-all ${
-                      isActive
+                    className={`flex items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
+                      ${collapsed ? "justify-center w-auto" : "justify-between"}
+                      ${isActive
                         ? "bg-[#f1f1f1] text-[#301342]"
                         : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2">
-                      {nav.icon}
-                      <div className="flex items-center gap-2">
+                      {nav.icon && (
+                        <span
+                          className={`${isActive ? "text-main" : "text-[#454745]"
+                            }`}
+                        >
+                          {nav.icon}
+                        </span>
+                      )}
+                      {!collapsed && (
                         <span>{nav.title}</span>
 
                         {(nav.badge ?? 0) > 0 && (
