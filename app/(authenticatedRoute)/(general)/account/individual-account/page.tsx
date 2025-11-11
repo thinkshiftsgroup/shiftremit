@@ -11,6 +11,7 @@ import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import DocUpload from "@/components/account/docUpload";
+import IndividualDoc from "@/components/account/individualAcc/docUpload";
 
 interface FormDataState {
   firstname: string;
@@ -546,7 +547,7 @@ focus:border-main focus:outline-none transition-colors"
         </div>
       </form>
 
-      <DocUpload />
+      <IndividualDoc />
       <div>
         <div
           onClick={() => router.back()}
