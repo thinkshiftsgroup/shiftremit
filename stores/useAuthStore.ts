@@ -17,23 +17,6 @@ interface UserProfileData {
   fullAddress: string | null;
   taxNumber: string | null;
   purposeOfShiftremit: string | null;
-
-  // biodata: {
-  //   dateOfBirth: Date;
-  //   country: string | null;
-  //   pronouns: string | null;
-  //   phone: string | null;
-  //   city: string | null;
-  //   role: string | null;
-  //   industry: string | null;
-  //   tags: string | null;
-  //   headline: string | null;
-  //   languages?: string | null;
-  //   id: string;
-  //   createdAt: Date;
-  //   updatedAt: Date;
-  //   userId: string;
-  // } | null;
 }
 
 export interface User extends UserProfileData {}
