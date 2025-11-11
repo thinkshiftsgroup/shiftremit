@@ -632,18 +632,24 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       )}
                       {!collapsed && (
                         <span>{nav.title}</span>
-
-                        {(nav.badge ?? 0) > 0 && (
-                          <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
-                            {nav.badge}
-                          </span>
-                        )}
-                      </div>
+                      )}
                     </div>
+                    {(nav.badge ?? 0) > 0 && !collapsed && (
+                      <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
+                        {nav.badge}
+                      </span>
+                    )}
                   </Link>
                 )}
 
-                {nav.subLinks && isOpen && (
+                {/* Tooltip on hover when collapsed */}
+                {collapsed && (
+                  <span className="absolute left-full top-1/2 -translate-y-1/2 ml-3 opacity-0 group-hover:opacity-100 transition bg-black text-white text-xs font-poppins rounded-md px-2 py-1 whitespace-nowrap z-50">
+                    {nav.title}
+                  </span>
+                )}
+
+                {nav.subLinks && isOpen && !collapsed && (
                   <div className="ml-8 mt-1 space-y-1 transition-all">
                     {nav.subLinks.map((sub, j) => (
                       <Link
