@@ -38,7 +38,7 @@ const Fund = () => {
   const lemfiCurrentRate = lemfiRate || 0;
   const tapTapCurrentRate = lemfiCurrentRate + 1.0;
 
-  
+
   const handleSendTransfer = () => {
     const rate1 = tapTapCurrentRate ?? 0;
     const rate2 = benchmarkGBPToNGN ?? 0;
@@ -263,7 +263,7 @@ const Fund = () => {
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
                           {transfer?.toCurrency === "NGN" ? "£" : "₦"}
-                          {formatNumber(convertedRate!)}
+                          {/* {formatNumber(convertedRate!)} */}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
                           {transfer?.toCurrency === "NGN"
