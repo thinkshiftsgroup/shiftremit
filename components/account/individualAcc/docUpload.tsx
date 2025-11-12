@@ -6,6 +6,7 @@ import React, { useRef, useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { toast } from "sonner";
 import { VscDeviceCamera } from "react-icons/vsc";
+import { HiTrash } from "react-icons/hi";
 
 const statusColors: Record<string, string> = {
   PENDING_UPLOAD: "text-gray-500",
@@ -124,7 +125,7 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
     });
   };
 
-  const docData = fetchIndividualDocs?.data.data || {};
+  const docData = fetchIndividualDocs?.data?.data || {};
 
   const renderFileField = (
     label: string,
@@ -138,6 +139,15 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
   ) => {
     const prefillName =
       fileName || (docData[fileUrlKey]?.split("/").pop() ?? "");
+    const status = docData[statusKey];
+
+    const handleClear = (e: React.MouseEvent) => {
+      e.stopPropagation(); 
+      setFileName("");
+      if (ref.current) {
+        ref.current.value = "";
+      }
+    };
 
     return (
       <div>
@@ -149,15 +159,25 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
           className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
         >
           <span className="opacity-80">{prefillName || placeholder}</span>
-          {docData[statusKey] && (
-            <span
-              className={`text-xs font-poppins ml-2 ${
-                statusColors[docData[statusKey]] || "text-gray-500"
-              }`}
-            >
-              {docData[statusKey]}
-            </span>
-          )}
+
+          <div className="flex items-center gap-2">
+            {status && (
+              <span
+                className={`text-xs font-poppins ${
+                  statusColors[status] || "text-gray-500"
+                }`}
+              >
+                {status}
+              </span>
+            )}
+            {status !== "APPROVED" && prefillName && (
+              <HiTrash
+                size={16}
+                className="text-red-500 z-10 cursor-pointer hover:text-red-700"
+                onClick={handleClear}
+              />
+            )}
+          </div>
         </label>
         <input
           id={docKey}
@@ -245,7 +265,7 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
               className="max-h-full max-w-full object-contain"
             />
           ) : (
-            <p className="text-base flex items-center gap-1">
+            <p className="text-base flex items-center gap-2">
               <span className="font-semibold">ID</span> card Front{" "}
               <svg
                 width="20"
@@ -332,7 +352,7 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
               className="max-h-full max-w-full object-contain"
             />
           ) : (
-            <p className="text-base flex items-center gap-1">
+            <p className="text-base flex items-center gap-2">
               <span className="font-semibold">ID</span> card Back{" "}
               <svg
                 width="20"
@@ -414,12 +434,21 @@ const IndividualDoc = ({ fetchIndividualDocs, updateIndividualDocs }: any) => {
       </div>
 
       <div>
-        <div
-          onClick={() => router.back()}
-          className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
-        >
-          <ChevronLeft size={25} className="text-main cursor-pointer" />
-          Back
+        <div className="flex items-center justify-between">
+          <div
+            onClick={() => router.back()}
+            className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
+          >
+            <ChevronLeft size={25} className="text-main cursor-pointer" />
+            Back
+          </div>
+          <button
+            type="submit"
+            // disabled={isUpdating}
+            className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Save
+          </button>
         </div>
 
         <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">

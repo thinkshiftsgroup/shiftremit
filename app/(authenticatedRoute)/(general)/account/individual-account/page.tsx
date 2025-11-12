@@ -527,14 +527,14 @@ focus:border-main focus:outline-none transition-colors"
           </div>
 
           <div className="flex items-start md:items-center gap-2 justify-between flex-col md:flex-row">
-            <div className="text-[#979797] flex items-center gap-2 font-poppins">
-              <input
-                type="checkbox"
-                className="w-4 h-4 rounded-sm accent-main"
-                required
-              />
-              I agree to not carry out any form of illegal transactions
-            </div>
+              {/* <div className="text-[#979797] flex items-center gap-2 font-poppins">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 rounded-sm accent-main"
+                  required
+                />
+                I agree to not carry out any form of illegal transactions
+              </div> */}
             <button
               type="submit"
               disabled={isUpdating}
