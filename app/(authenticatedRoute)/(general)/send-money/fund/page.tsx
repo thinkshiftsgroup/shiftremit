@@ -36,10 +36,9 @@ const Fund = () => {
 
   const lemfiRate = useRatesStore((state) => state.ratesData?.lemfi?.rate);
   const lemfiCurrentRate = lemfiRate || 0;
-  const tapTapCurrentRate = lemfiCurrentRate + 1.0;
 
   const handleSendTransfer = () => {
-    const rate1 = tapTapCurrentRate ?? 0;
+    const rate1 = lemfiCurrentRate ?? 0;
     const rate2 = benchmarkGBPToNGN ?? 0;
     const convertedRate = rate1 + rate2;
 
@@ -240,7 +239,7 @@ const Fund = () => {
                           </span>
                         </p>}
                         <p>
-                          Use Transfer Reference:{" "}
+                          Use Transfer Reference or display name as:{" "}
                           <span className="text-base font-medium">
                             {transfer?.transferReference}
                           </span>

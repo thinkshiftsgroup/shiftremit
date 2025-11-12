@@ -72,11 +72,9 @@ const SendMoney = () => {
       return { dynamicFiatData: [], rateDifference: 0 };
     }
 
-    const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const tapTapCurrentRate = lemfiRate + 1.0;
-    const shiftRemitCurrentRate = tapTapCurrentRate + benchmarkGBP;
+    const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
     const allRates: Rate[] = [
       {
@@ -94,11 +92,11 @@ const SendMoney = () => {
         currentRate: ratesData.lemfi.rate,
         discount: 0,
       },
-      {
-        ...PROVIDER_MAP["TapTap Send"],
-        currentRate: tapTapCurrentRate,
-        discount: 0,
-      },
+      // {
+      //   ...PROVIDER_MAP["TapTap Send"],
+      //   currentRate: tapTapCurrentRate,
+      //   discount: 0,
+      // },
       {
         ...PROVIDER_MAP["Nala"],
         currentRate: ratesData.nala.rate,
