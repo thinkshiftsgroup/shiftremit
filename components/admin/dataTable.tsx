@@ -24,6 +24,11 @@ export default function AdminDataTable({
   const { updateTrxStatus } = useTrx();
   const queryClient = useQueryClient();
 
+  const formatAmount = (val: number | string) =>
+    Number(val)
+      .toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
   const handleStatusUpdate = (status: string, id: string) => {
     setLoadingStatus({ id, status });
 
@@ -91,9 +96,10 @@ export default function AdminDataTable({
                   <td className="px-4 py-1 text-sm text-gray-700">
                     {row.transferReference}
                   </td>
-                  <td className="px-4 py-1 text-sm text-gray-700">
-                    <span className="font-bold">£{row.amount}</span>
-                    {/* (ref:{row.id}) */}
+
+                  <td className="px-4 text-sm py-1 font-poppins">
+                    {row.fromCurrency === "NGN" ? "₦" : "£"}
+                    {formatAmount(row.amount)}
                   </td>
                   <td className="px-4 py-1 text-sm text-gray-700">
                     <span className="font-medium mr-3">

@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { useSendMoney } from "../useSendMoney";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaCircleCheck } from "react-icons/fa6";
+
+import { formatNumber } from "@/helper/utils";
+
 import { useRatesStore } from "@/stores/useRatesStore";
 const Fund = () => {
   const router = useRouter();
@@ -23,6 +26,7 @@ const Fund = () => {
   const transfer = useTransferStore((state) => state.transfer);
   const { setTransfer, clearTransfer } = useTransferStore();
   const { sendTfDetails } = useSendMoney();
+
   const moniepointRate = useRatesStore(
     (state) => state.ratesData?.moniepoint?.rate
   );
@@ -37,21 +41,31 @@ const Fund = () => {
     const rate1 = lemfiCurrentRate ?? 0;
     const rate2 = benchmarkGBPToNGN ?? 0;
     const convertedRate = rate1 + rate2;
+
     setTransfer({ userReference: userReference });
-    console.log(convertedRate);
     sendTfDetails.mutate(
       {
         amount: transfer?.amount,
-        fromCurrency: "GBP",
-        toCurrency: "NGN",
-        recipientBankName: transfer?.recipientBankName,
+        fromCurrency: transfer?.fromCurrency,
+        toCurrency: transfer?.toCurrency,
+        recipientBankName:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientBankName
+            : transfer?.GBPBankName,
         recipientEmail: transfer?.recipientEmail,
-        recipientAccountNumber: transfer?.recipientAccountNumber,
-        recipientFullName: transfer?.recipientFullName,
+        recipientAccountNumber:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientAccountNumber
+            : transfer?.GBPAccountNumber,
+        recipientFullName:
+          transfer?.toCurrency === "NGN"
+            ? transfer?.recipientFullName
+            : transfer?.GBPAccountName,
         purpose: transfer?.purpose,
         isRecipientBusinessAccount: transfer?.isRecipientBusinessAccount,
         conversionRate: convertedRate,
         userReference: userReference,
+        sortCode: transfer?.toCurrency === "NGN" ? "" : transfer?.sortCode,
       },
       {
         onSuccess: (data) => {
@@ -89,7 +103,7 @@ const Fund = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl  mx-auto">
+        <div className=" mx-auto">
           <div className="rounded-[10px] border border-[#e3e3e3]">
             <div>
               <div className="flex items-center p-3 gap-2 ">
@@ -114,7 +128,8 @@ const Fund = () => {
                         <p className="font-normal">
                           Transfer{" "}
                           <span className="font-semibold">
-                            £{transfer?.amount}{" "}
+                            {transfer?.toCurrency === "NGN" ? "£" : "₦"}
+                            {formatNumber(transfer?.amount!)}{" "}
                           </span>{" "}
                           to be credited to your recipient
                         </p>
@@ -135,7 +150,7 @@ const Fund = () => {
                       </div>{" "}
                       <div className="flex items-start  gap-1 font-poppins text-base">
                         <FaCircleCheck
-                          className="text-black flex-none mt-1"
+                          className="text-black mr-1 flex-none mt-1"
                           size={16}
                         />
                         <p>
@@ -194,22 +209,35 @@ const Fund = () => {
                         <p>
                           Transfer{" "}
                           <span className="text-base font-medium">
-                            £{transfer?.amount}
+                            {transfer?.toCurrency === "NGN" ? "£" : "₦"}
+                            {formatNumber(transfer?.amount!)}
                           </span>{" "}
                           to account below using the reference.
                         </p>
                         <p>
                           Account Number:{" "}
                           <span className="text-base font-medium">
-                            {transfer?.GBPAccountNumber}
+                            {transfer?.fromCurrency === "NGN"
+                              ? "0111377577"
+                              : transfer?.GBPAccountNumber}
+                            {/* 87812060 */}
                           </span>
                         </p>
                         <p>
                           Account Name:{" "}
                           <span className="text-base font-medium">
-                            {transfer?.GBPAccountName}
+                            {transfer?.fromCurrency === "NGN"
+                              ? "Prospa Capital MFB"
+                              : transfer?.GBPAccountName}
+                            {/* PROSPA TECHNOLOGY LIMITED */}
                           </span>
                         </p>
+                       { <p>
+                          Sort Code:{" "}
+                          <span className="text-base font-medium">
+                            04-00-05
+                          </span>
+                        </p>}
                         <p>
                           Use Transfer Reference or display name as:{" "}
                           <span className="text-base font-medium">
@@ -234,16 +262,23 @@ const Fund = () => {
                           Your Recipient
                         </h1>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientFullName}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientFullName
+                            : transfer?.GBPAccountName}
                         </p>
                         <p className="font-poppins text-sm text-black font-semibold">
-                          NGN {transfer?.convertedNGNAmount}
+                          {transfer?.toCurrency === "NGN" ? "₦" : "£"}
+                          {formatNumber(transfer?.setToAmount!)}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientBankName}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientBankName
+                            : transfer?.GBPBankName}
                         </p>
                         <p className="font-poppins text-sm text-black font-normal">
-                          {transfer?.recipientAccountNumber}
+                          {transfer?.toCurrency === "NGN"
+                            ? transfer?.recipientAccountNumber
+                            : transfer?.GBPAccountNumber}
                         </p>
                       </div>
                     </div>
@@ -256,7 +291,7 @@ const Fund = () => {
                           Confirming Your Bank Transfer
                         </p>
                         <p className="font-poppins text-xl font-bold ">
-                          £{transfer?.amount}
+                          £{formatNumber(transfer?.amount!)}
                         </p>
                       </div>
                       <div className="w-[25%]  space-y-1 text-center">

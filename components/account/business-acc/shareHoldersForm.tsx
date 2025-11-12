@@ -460,11 +460,11 @@ const ShareHolderForm = () => {
           etc)
         </p>
 
-        <div className="flex items-center gap-2 flex-col md:flex-row mb-6">
+        <div className="flex items-center gap-5 flex-col md:flex-row mb-6">
           {/* Individual Tab */}
           <div
             onClick={() => setActiveTab("individual")}
-            className={`flex items-center gap-3 md:gap-1 w-full md:w-auto cursor-pointer p-3 rounded-md transition-colors ${activeTab === "individual"
+            className={`flex items-start gap-3 md:gap-1 w-full cursor-pointer p-3 rounded-md transition-colors ${activeTab === "individual"
               ? "bg-main/10 border border-main"
               : "border border-[#d1d5db80]"
               }`}
@@ -473,7 +473,7 @@ const ShareHolderForm = () => {
               type="checkbox"
               checked={activeTab === "individual"}
               onChange={() => setActiveTab("individual")}
-              className="w-4 h-4 rounded-sm accent-main cursor-pointer"
+              className="w-4 h-4  mt-1 rounded-sm accent-main cursor-pointer"
             />
             <div>
               <h1 className="font-semibold font-poppins text-[#454745]">
@@ -488,7 +488,7 @@ const ShareHolderForm = () => {
           {/* Legal Entity Tab */}
           <div
             onClick={() => setActiveTab("entity")}
-            className={`flex items-center gap-3 md:gap-1 w-full md:w-auto cursor-pointer p-3 rounded-md transition-colors ${activeTab === "entity"
+            className={`flex items-start gap-3 md:gap-1 w-full cursor-pointer p-3 rounded-md transition-colors ${activeTab === "entity"
               ? "bg-main/10 border border-main"
               : "border border-[#d1d5db80]"
               }`}
@@ -497,7 +497,7 @@ const ShareHolderForm = () => {
               type="checkbox"
               checked={activeTab === "entity"}
               onChange={() => setActiveTab("entity")}
-              className="w-4 h-4 rounded-sm accent-main cursor-pointer"
+              className="w-4 h-4 mt-1 rounded-sm accent-main cursor-pointer"
             />
             <div>
               <h1 className="font-semibold font-poppins text-[#454745]">

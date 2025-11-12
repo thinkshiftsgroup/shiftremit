@@ -1,6 +1,6 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
-import { Camera, ChevronLeft } from "lucide-react";
+import { Camera, ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState, useEffect } from "react";
 import { FiPhone } from "react-icons/fi";
@@ -10,7 +10,7 @@ import { useProfile } from "../useProfile";
 import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
-import DocUpload from "@/components/account/docUpload";
+import IndividualDoc from "@/components/account/individualAcc/docUpload";
 
 interface FormDataState {
   firstname: string;
@@ -34,9 +34,14 @@ const IndiAcc = () => {
   const dateRef = useRef<HTMLInputElement>(null);
   const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
 
-  const { fetchProfile, updateProfile, updateProfilePhoto } = useProfile();
+  const {
+    fetchProfile,
+    updateProfile,
+    updateProfilePhoto,
+    fetchIndividualDocs,
+    updateIndividualDocs,
+  } = useProfile();
   const { user: localUser, setUser } = useProfileStore();
-
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
     lastname: "",
@@ -133,8 +138,11 @@ const IndiAcc = () => {
   if (isLoading) {
     return (
       <SideNav>
-        <div className="flex items-center justify-center h-64 text-lg">
-          Loading profile data...
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          <div className="flex items-center gap-1">
+            <Loader2 size={30} className="text-main animate-spin" />
+            Loading profile data...
+          </div>
         </div>
       </SideNav>
     );
@@ -143,7 +151,7 @@ const IndiAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex items-center justify-center h-64 text-lg text-red-500">
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
           Failed to load user profile.
         </div>
       </SideNav>
@@ -161,7 +169,7 @@ const IndiAcc = () => {
 
   return (
     <SideNav>
-      <form className="mb-16 relative" onSubmit={handleFormSubmit}>
+      <form className=" relative" onSubmit={handleFormSubmit}>
         <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
           <div className="flex pb-5 items-center justify-between">
             <div className="flex items-center gap-4">
@@ -210,10 +218,12 @@ const IndiAcc = () => {
                     <MdOutlineEmail size={16} />
                     {user.email}
                   </p>
-                  <p className="font-dm-sans text-sm flex items-center gap-1">
-                    <FiPhone size={16} />
-                    {user?.phoneNumber || ""}
-                  </p>
+                  {user?.phoneNumber && (
+                    <p className="font-dm-sans text-sm flex items-center gap-1">
+                      <FiPhone size={16} />
+                      {user?.phoneNumber || ""}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -543,26 +553,11 @@ focus:border-main focus:outline-none transition-colors"
         </div>
       </form>
 
-      <DocUpload />
-      <div>
-        <div
-          onClick={() => router.back()}
-          className="font-poppins mb-5 py-2 bg-[#e3e3e3] pr-3 rounded-md inline-flex text-sm font-semibold  items-center text-main gap-2 cursor-pointer"
-        >
-          <ChevronLeft size={25} className="text-main cursor-pointer" />
-          Back
-        </div>
-
-        <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
-          <button className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm">
-            Submit KYC for approval
-          </button>
-          <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
-            <FaCircleCheck size={20} className="text-main" />
-            Saved
-          </div>
-        </div>
-      </div>
+      <IndividualDoc
+        fetchIndividualDocs={fetchIndividualDocs}
+        updateIndividualDocs={updateIndividualDocs}
+      />
+      
     </SideNav>
   );
 };

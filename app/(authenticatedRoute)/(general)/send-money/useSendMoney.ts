@@ -17,6 +17,7 @@ export const useSendMoney = () => {
       purpose,
       isRecipientBusinessAccount,
       conversionRate,
+      sortCode,
     }: TransferData) => {
       const res = await apiInstance.post("/api/bank-transfer/request", {
         amount,
@@ -29,6 +30,7 @@ export const useSendMoney = () => {
         purpose,
         isRecipientBusinessAccount,
         conversionRate,
+        sortCode,
       });
       return res.data;
     },

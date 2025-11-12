@@ -209,6 +209,11 @@ const Dashboard = () => {
   });
   const Trxs = data?.transfers || [];
 
+  const formatAmount = (val: number | string) =>
+    Number(val)
+      .toFixed(2)
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
   return (
     <SideNav>
       <div className="py-3 md:py-5">
@@ -409,9 +414,10 @@ const Dashboard = () => {
                         <td className="px-4 py-1 text-sm text-gray-700">
                           {row.transferReference}
                         </td>
-                        <td className="px-4 py-1 text-sm text-gray-700">
-                          <span className="font-bold">£{row.amount}</span>
-                          {/* (ref:{row.id}) */}
+
+                        <td className="px-4 text-sm py-1 font-poppins">
+                          {row.fromCurrency === "NGN" ? "₦" : "£"}
+                          {formatAmount(row.amount)}
                         </td>
                         <td className="px-4 flex flex-col py-1 text-sm text-gray-700">
                           <span className="font-medium">

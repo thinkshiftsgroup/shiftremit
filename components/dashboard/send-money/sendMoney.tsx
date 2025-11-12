@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { toast } from "sonner";
 import { useTransferStore } from "@/stores/useTransaferStore";
+import { formatNumber } from "@/helper/utils";
 
 const SendMoneyUI = () => {
   const [isBank, setIsBank] = useState(true);
@@ -15,9 +16,13 @@ const SendMoneyUI = () => {
 
   const router = useRouter();
 
-  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
-  const [sendingAmount, setSendingAmount] = useState("10");
+  const [toCurrency, setToCurrency] = useState("NGN");
   const [fromCurrency, setFromCurrency] = useState("GBP");
+  const { ratesData, isLoading, error, fetchRates } = useRatesStore();
+  const [sending_amount, setSendingAmount] = useState(
+    fromCurrency === "NGN" ? "50000" : "10"
+  );
+  const [get_amount, setGetAmount] = useState("");
 
   useEffect(() => {
     if (!ratesData && !isLoading) {
@@ -36,15 +41,25 @@ const SendMoneyUI = () => {
   };
 
   const totalAmountDisplay =
-    sendingAmount === ""
+    sending_amount === ""
       ? `0 ${fromCurrency}`
-      : `${sendingAmount} ${fromCurrency}`;
+      : `${formatNumber(sending_amount)} ${fromCurrency}`;
 
   const { setTransfer } = useTransferStore();
 
   return (
     <div className="p-5 md:p-10">
-      <DashTf onRateUpdate={handleRateUpdate} />
+      <DashTf
+        fromCurrency={fromCurrency}
+        setFromCurrency={setFromCurrency}
+        onRateUpdate={handleRateUpdate}
+        setToCurrency={setToCurrency}
+        toCurrency={toCurrency}
+        sending_amount={sending_amount}
+        setSendingAmount={setSendingAmount}
+        get_amount={get_amount}
+        setGetAmount={setGetAmount}
+      />
 
       <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
         <div className="flex justify-between">
@@ -91,14 +106,27 @@ const SendMoneyUI = () => {
           <p className="font-semibold text-xl">{totalAmountDisplay}</p>
         </div>
         <button
+          disabled={
+            fromCurrency === toCurrency ||
+            (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) ||
+            (fromCurrency === "NGN" && parseInt(sending_amount) < 50000)
+          }
           onClick={() => {
-            if (parseFloat(sendingAmount) < 10) {
+            if (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) {
               toast.error("Minimum transferable amount is 10 GBP");
+              return;
+            } else if (
+              fromCurrency === "NGN" &&
+              parseInt(sending_amount) < 50000
+            ) {
+              toast.error("Minimum transferable amount is 50000 NGN");
               return;
             }
             setTransfer({
-              amount: parseInt(sendingAmount),
+              amount: parseInt(sending_amount),
               fromCurrency: fromCurrency,
+              toCurrency: toCurrency,
+              setToAmount: parseInt(get_amount),
             });
             router.push("/send-money/recipients");
           }}
@@ -106,7 +134,7 @@ const SendMoneyUI = () => {
     text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    hover:border-transparent flex items-center gap-2
+    hover:border-transparent flex items-center gap-2 disabled:cursor-not-allowed disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
   "
         >
           Send Now <CgArrowTopRight />

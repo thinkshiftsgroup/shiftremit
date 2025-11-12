@@ -54,183 +54,20 @@ const Notifications = () => {
     );
   };
 
+  const [checked, setChecked] = useState(false);
+  const [amount, setAmount] = useState("");
+
   return (
     <SideNav>
       <div className="py-5 md:py-7 lg:py-10 flex items-start justify-between gap-5 flex-col md:flex-row">
-        <div className="w-full md:w-1/2  rounded-md bg-white py-3.5 px-3 md:px-6 shadow-md">
-          <h1 className="text-[#072032]  text-xl font-semibold font-dm-sans mb-2">
-            Rate History
-          </h1>
-
-          <div className="border-b border-gray-300 flex items-center gap-6">
-            <div
-              onClick={() => setTab("naira")}
-              className={`flex items-center gap-2 py-2 px-4 cursor-pointer ${
-                tab === "naira" ? " border-b-2 border-b-main " : ""
-              } `}
-            >
-              <p className="font-poppins text-sm">Naira (₦)</p>
-            </div>
-
-            <div
-              onClick={() => setTab("pounds")}
-              className={`flex items-center gap-2 py-2 px-4 cursor-pointer ${
-                tab === "pounds" ? " border-b-2 border-b-main " : ""
-              } `}
-            >
-              <p className="font-poppins text-sm">Pounds (£)</p>
-            </div>
-          </div>
-
-          {tab === "naira" && (
-            <div className="">
-              {loadHistory ? (
-                <div className="flex justify-center my-10">
-                  <Loader2 className="animate-spin text-main" size={30} />
-                </div>
-              ) : history.length > 0 ? (
-                history.map((historyItem: AdminRateData) => (
-                  <div
-                    key={historyItem.id}
-                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
-                  >
-                    <div>
-                      <p className="text-main font-poppins font-medium">
-                        ₦{historyItem.rateNGN.toLocaleString()}
-                      </p>
-                      <p className="text-xs font-poppins text-main-dark">
-                        Benchmark: £{historyItem.benchmarkGBP}
-                      </p>
-                    </div>
-
-                    <p className="text-xs font-dm-sans text-main-dark">
-                      {new Date(historyItem.recordedAt!).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <div className="flex flex-col items-center justify-center gap-2 py-10">
-                  <p className="font-poppins text-sm text-[#8094ae]">
-                    No rate history found.
-                  </p>
-                </div>
-              )}
-
-              {loadHistory ? (
-                ""
-              ) : (
-                <div className="flex items-center justify-between mt-4">
-                  <button
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                    className="p-2 disabled:opacity-40"
-                  >
-                    <ChevronLeft />
-                  </button>
-
-                  <p className="text-xs font-poppins text-main-dark">
-                    Page {data?.meta.page} of {data?.meta.totalPages}
-                  </p>
-
-                  <button
-                    disabled={page === data?.meta.totalPages}
-                    onClick={() => setPage((p) => p + 1)}
-                    className="p-2 disabled:opacity-40"
-                  >
-                    <ChevronRight size={20} className="text-main-dark-II" />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-          {tab === "pounds" && (
-            <div className="">
-              {loadHistory ? (
-                <div className="flex justify-center my-10">
-                  <Loader2 className="animate-spin text-main" size={30} />
-                </div>
-              ) : history.length > 0 ? (
-                history.map((historyItem: AdminRateData) => (
-                  <div
-                    key={historyItem.id}
-                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
-                  >
-                    <div>
-                      <p className="text-main font-poppins font-medium">
-                        Benchmark: £{historyItem.benchmarkGBP}
-                      </p>
-                      <p className="text-xs font-poppins text-main-dark">
-                        ₦{historyItem.rateNGN.toLocaleString()}
-                      </p>
-                    </div>
-
-                    <p className="text-xs font-dm-sans text-main-dark">
-                      {new Date(historyItem.recordedAt!).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <div className="flex flex-col items-center justify-center gap-2 py-10">
-                  <p className="font-poppins text-sm text-[#8094ae]">
-                    No rate history found.
-                  </p>
-                </div>
-              )}
-
-              {loadHistory ? (
-                ""
-              ) : (
-                <div className="flex items-center justify-between mt-4">
-                  <button
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                    className="p-2 disabled:opacity-40"
-                  >
-                    <ChevronLeft />
-                  </button>
-
-                  <p className="text-xs font-poppins text-main-dark">
-                    Page {data?.meta.page} of {data?.meta.totalPages}
-                  </p>
-
-                  <button
-                    disabled={page === data?.meta.totalPages}
-                    onClick={() => setPage((p) => p + 1)}
-                    className="p-2 disabled:opacity-40"
-                  >
-                    <ChevronRight size={20} className="text-main-dark-II" />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="w-full md:w-1/2 rounded-md bg-white  shadow-md">
+        <div className="w-full rounded-md bg-white  shadow-md">
           <h1 className="text-[#072032] py-3 px-6 text-lg font-semibold font-dm-sans mb-2">
-            Manage Live Rates
+            My Notifications
           </h1>
           <hr />
           <div className="px-4 md:px-6 py-3">
-            <div className="space-y-2">
-              <div>
+            <div className=" grid grid-cols-3 gap-4">
+              {/* <div>
                 <label className="font-poppins font-semibold text-sm text-[#454745]">
                   NGN (Actual Daily Rates)
                 </label>
@@ -261,6 +98,95 @@ const Notifications = () => {
         rounded-sm border border-[#d1d5db80] text-[#454745]
         focus:border-main focus:outline-none transition-colors"
                 />
+              </div> */}
+              <div className="flex items-center gap-3 p-3 border rounded bg-white shadow-sm">
+                {/* Checkbox */}
+                {/* <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                  className="w-5 h-5 accent-blue-600 cursor-pointer"
+                /> */}
+
+                {/* Label + Input */}
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    GBP to NGN <span className="text-xs">(Alert me when pounds to naira drops below)</span>
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2.5 text-gray-500">₦</span>
+                    <input
+                      type="number"
+                      placeholder="e.g 1950.00"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none"
+                      disabled={!checked}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 border rounded bg-white shadow-sm">
+                {/* Checkbox */}
+                {/* <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                  className="w-5 h-5 accent-blue-600 cursor-pointer"
+                /> */}
+
+                {/* Label + Input */}
+                <div className="flex flex-col w-full">
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    NGN to GBP <span className="text-xs">(Alert me when naira to pounds goes above)</span>
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2.5 text-gray-500">₦</span>
+                    <input
+                      type="number"
+                      placeholder="e.g 2000.00"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none"
+                      disabled={!checked}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 p-3 border rounded bg-white shadow-sm">
+                {/* Checkbox */}
+                {/* <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(e) => setChecked(e.target.checked)}
+                  className="w-5 h-5 accent-blue-600 cursor-pointer"
+                /> */}
+
+                {/* Label + Input */}
+                <div className="flex flex-row gap-3 w-full">
+                  <label className="text-sm font-medium text-gray-700 mb-1">
+                    Send me other notifications from Shiftremit
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                    className="w-5 h-5 accent-blue-600 cursor-pointer"
+                  />
+                  {/* <div className="relative">
+                    <span className="absolute left-3 top-2.5 text-gray-500">₦</span>
+                    <input
+                      type="number"
+                      placeholder="e.g 2000.00"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-blue-400 outline-none"
+                      disabled={!checked}
+                    />
+                  </div> */}
+                </div>
               </div>
             </div>
             <button
@@ -275,7 +201,7 @@ const Notifications = () => {
               {updateAdminRate.isPending ? (
                 <Loader2 className="animate-spin text-main" size={20} />
               ) : (
-                "Go Live"
+                "Update"
               )}
             </button>
           </div>

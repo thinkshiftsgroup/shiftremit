@@ -17,7 +17,10 @@ export interface TransferData {
   conversionRate?: number;
   GBPAccountNumber?: string;
   GBPAccountName?: string;
+  GBPBankName?: string;
   transferReference?: string;
+  sortCode?: string;
+  setToAmount?:number
 }
 
 interface TransferStore {
