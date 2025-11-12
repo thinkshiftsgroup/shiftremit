@@ -97,24 +97,26 @@ const Dashboard = () => {
       lastTxn: 0,
     },
   ];
-  const { ratesData, isLoading, fetchRates } = useRatesStore();
+  const { ratesData, adminRateData, isLoading, fetchAdminRate, fetchRates } =
+    useRatesStore();
 
   useEffect(() => {
-    if (!ratesData && !isLoading) {
+    if (!ratesData && !adminRateData && !isLoading) {
       fetchRates();
+      fetchAdminRate();
     }
   }, [ratesData, isLoading, fetchRates]);
+
+  const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
   const { dynamicFiatData, rateDifference } = useMemo(() => {
     if (!ratesData) {
       return { dynamicFiatData: [], rateDifference: 0 };
     }
 
-    const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
 
-    const shiftRemitCurrentRate = moniepointRate + 8.0;
-    const tapTapCurrentRate = lemfiRate + 1.0;
+    const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
     const allRates: Rate[] = [
       {
@@ -122,16 +124,16 @@ const Dashboard = () => {
         currentRate: shiftRemitCurrentRate,
         discount: 0,
       },
-      {
-        ...PROVIDER_MAP["MonieWorld"],
-        currentRate: moniepointRate,
-        discount: 0,
-      },
-      {
-        ...PROVIDER_MAP["TapTap Send"],
-        currentRate: tapTapCurrentRate,
-        discount: 0,
-      },
+      // {
+      //   ...PROVIDER_MAP["MonieWorld"],
+      //   currentRate: moniepointRate,
+      //   discount: 0,
+      // },
+      // {
+      //   ...PROVIDER_MAP["TapTap Send"],
+      //   currentRate: tapTapCurrentRate,
+      //   discount: 0,
+      // },
       {
         ...PROVIDER_MAP["Nala"],
         currentRate: ratesData.nala.rate,
@@ -167,7 +169,7 @@ const Dashboard = () => {
     const highestRate = shiftRemitRate;
 
     const competitorCards: RateCard[] = allRates
-      .filter((rate) => rate.name !== "Shift Remit")
+      // .filter((rate) => rate.name !== "Shift Remit")
       .map((rate) => {
         const discount = Math.max(0, highestRate - rate.currentRate);
 
