@@ -336,7 +336,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </svg>
       ),
       title: "Customers",
-      link: "/customers",
+      link: "/admin/customers",
       showFor: ["admin"],
     },
     {

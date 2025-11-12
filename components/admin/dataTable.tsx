@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useTrx } from "@/app/(authenticatedRoute)/user/transactions/useTrx";
 import { toast } from "sonner";
-import { FaChevronDown } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function AdminDataTable({
@@ -17,11 +17,11 @@ export default function AdminDataTable({
   data,
 }: any) {
   const [loadingStatus, setLoadingStatus] = useState<{
-    id: string;
-    status: string;
+    id?: string;
+    status?: string;
   } | null>(null);
 
-  const { updateTrxStatus } = useTrx();
+  const { updateTrxStatus, deleteSingleTrx } = useTrx();
   const queryClient = useQueryClient();
 
   const formatAmount = (val: number | string) =>
@@ -37,6 +37,21 @@ export default function AdminDataTable({
       {
         onSuccess: () => {
           toast.success(`Status updated to ${status}`);
+          queryClient.invalidateQueries({ queryKey: ["fetch-bank-tfs-admin"] });
+        },
+        onSettled: () => {
+          setLoadingStatus(null);
+        },
+      }
+    );
+  };
+  const handleDeleteTrx = (id: string) => {
+    setLoadingStatus({ id });
+    deleteSingleTrx.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          toast.success("Transaction deleted successfully!");
           queryClient.invalidateQueries({ queryKey: ["fetch-bank-tfs-admin"] });
         },
         onSettled: () => {
@@ -163,7 +178,7 @@ export default function AdminDataTable({
                       <button
                         onClick={() => handleStatusUpdate("REJECTED", row.id)}
                         disabled={row.status === "REJECTED"}
-                        className="flex disabled:bg-red-500/40 items-center gap-1 rounded-tr-md rounded-br-md bg-red-500 shadow-sm cursor-pointer"
+                        className="flex disabled:bg-red-500/40 items-center gap-1 bg-red-500 shadow-sm cursor-pointer"
                       >
                         {loadingStatus?.id === row.id &&
                         loadingStatus?.status === "REJECTED" ? (
@@ -172,6 +187,17 @@ export default function AdminDataTable({
                           <IoCloseSharp size={14} />
                         )}{" "}
                         Failed
+                      </button>{" "}
+                      <button
+                        onClick={() => handleDeleteTrx(row.id)}
+                        className="flex disabled:bg-red-500/40 items-center gap-1 rounded-tr-md rounded-br-md bg-orange-500 shadow-sm cursor-pointer"
+                      >
+                        {loadingStatus?.id === row.id ? (
+                          <Loader2 size={14} className="animate-spin" />
+                        ) : (
+                          <MdDelete size={14} />
+                        )}{" "}
+                        Delete
                       </button>{" "}
                     </div>
                   </td>

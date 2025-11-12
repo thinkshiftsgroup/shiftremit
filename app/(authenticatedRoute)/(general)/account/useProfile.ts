@@ -107,6 +107,41 @@ export const useProfile = () => {
     },
   });
 
+  const deleteDoc = useMutation({
+    mutationKey: ["delete-doc"],
+    mutationFn: async ({ docType }: { docType: string }) => {
+      const res = await apiInstance.delete(
+        `/api/individual-doc/delete-single/${docType}`
+      );
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to delete document");
+    },
+  });
+
+  const submitKyc = useMutation({
+    mutationKey: ["submit-kyc"],
+    mutationFn: async () => {
+      const res = await apiInstance.post("/api/kyc/submit", {});
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to submit KYC");
+    },
+  });
+
+  const getKYCStatus = useQuery({
+    queryKey: ["get-kyc-status"],
+    queryFn: async () => {
+      const res = await apiInstance.get("/api/kyc/status");
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to get KYC status");
+    },
+  });
+
   return {
     fetchProfile,
     updateProfile,
@@ -114,5 +149,9 @@ export const useProfile = () => {
 
     updateIndividualDocs,
     fetchIndividualDocs,
+    deleteDoc,
+
+    submitKyc,
+    getKYCStatus,
   };
 };

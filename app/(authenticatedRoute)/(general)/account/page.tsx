@@ -47,6 +47,8 @@ const Account = () => {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
+  const { getKYCStatus } = useProfile();
+
   return (
     <SideNav>
       <div className="my-5">
@@ -147,7 +149,9 @@ const Account = () => {
                 your KYC approved.{" "}
               </p>
             </div>
-            {individualAcc === "individual" ? (
+            {getKYCStatus.isLoading ? (
+              " "
+            ) : getKYCStatus?.data?.data?.status === "APPROVED" ? (
               <FaCheckCircle className="w-5 h-5 text-main" />
             ) : (
               <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full shrink-0" />
