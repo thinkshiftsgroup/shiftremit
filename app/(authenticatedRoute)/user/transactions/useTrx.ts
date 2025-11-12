@@ -108,9 +108,33 @@ export const useTrx = () => {
     },
   });
 
+  const deleteSingleTrx = useMutation({
+    mutationKey: ["update-trx-status"],
+    mutationFn: async ({ id }: { id: string }) => {
+      const res = await apiInstance.delete(`/api/admin/transfers/${id}`);
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+    },
+  });
+
+  const getRecentTrx = () =>
+    useQuery({
+      queryKey: ["fetch-recent-recipient"],
+      queryFn: async () => {
+        const res = await apiInstance.get(`/api/recipients/recent`);
+        return res.data;
+      },
+      keepPreviousData: true,
+    });
+
   return {
     getBankTrfsUser,
     getBankTrfsAdmin,
     updateTrxStatus,
+
+    deleteSingleTrx,
+    getRecentTrx
   };
 };

@@ -1,7 +1,9 @@
 "use client";
+import { useTrx } from "@/app/(authenticatedRoute)/user/transactions/useTrx";
 import SendSteps from "@/components/dashboard/send-money/sendSteps";
 import SideNav from "@/components/dashboard/sideNav";
-import { X } from "lucide-react";
+import { useTransferStore } from "@/stores/useTransaferStore";
+import { Loader2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { FaArrowLeft } from "react-icons/fa6";
@@ -9,6 +11,41 @@ import { FaAngleRight } from "react-icons/fa6";
 
 const Recipients = () => {
   const router = useRouter();
+  const { setTransfer, clearTransfer, transfer } = useTransferStore();
+  const { getRecentTrx } = useTrx();
+  const { isLoading, data } = getRecentTrx();
+  const Trx = data?.data || [];
+
+  const filteredTrx = Trx.filter((trx: any) => {
+    const isGBP = !!trx.sortCode;
+    if (transfer?.toCurrency === "NGN") return !isGBP;
+    if (transfer?.toCurrency === "GBP") return isGBP;
+    return true;
+  });
+
+  const handleRecipientClick = (recipient: any) => {
+    if (transfer?.toCurrency === "NGN") {
+      setTransfer({
+        recipientBankName: recipient.recipientBankName,
+        recipientAccountNumber: recipient.recipientAccountNumber,
+        recipientFullName: recipient.recipientFullName,
+        isRecipientBusinessAccount: false,
+        purpose: "",
+        recipientEmail: "",
+      });
+    } else {
+      setTransfer({
+        GBPBankName: recipient.recipientBankName,
+        GBPAccountNumber: recipient.recipientAccountNumber,
+        GBPAccountName: recipient.recipientFullName,
+        isRecipientBusinessAccount: false,
+        purpose: "",
+        recipientEmail: "",
+      });
+    }
+    router.push("/send-money/fund");
+  };
+
   return (
     <SideNav>
       <div className="my-4 md:my-7 bg-white rounded-lg mx-auto ">
@@ -83,116 +120,69 @@ const Recipients = () => {
           </div>
           <div className="py-3">
             <h1 className="font-poppins text-sm font-medium mb-5">Recents</h1>
-            <div className="flex flex-wrap items-center justify-between gap-5">
-              <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
-                <div className="relative ">
-                  <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
-                    JS
-                  </div>
-
-                  <img
-                    src="https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg"
-                    className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1"
-                    alt=""
-                  />
+            <div className="flex flex-wrap items- w-full justify-between gap-5">
+              {isLoading ? (
+                <div className="flex w-full justify-center">
+                  <Loader2 className="animate-spin text-main" size={20} />
                 </div>
-                <div className=" text-center">
-                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
-                    Jason S.
-                  </h1>
-                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
-                    Canbank A...
-                  </p>
+              ) : filteredTrx.length === 0 ? (
+                <p className="text-center py-6 w-full text-sm font-poppins text-gray-500">
+                  No recent recipient
+                </p>
+              ) : (
+                <div className="flex font-poppins flex-wrap justify-between gap-5">
+                  {filteredTrx.slice(0, 6).map((trx: any) => {
+                    return (
+                      <div
+                        key={trx.transactionReference}
+                        onClick={() => handleRecipientClick(trx)}
+                        className="group w-[140px] flex flex-col items-center gap-2 cursor-pointer"
+                      >
+                        <div className="relative">
+                          <div className="w-14 h-14 uppercase bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center">
+                            {trx.recipientFullName
+                              ?.split(" ")
+                              .map((n: string) => n[0])
+                              .join("")
+                              .slice(0, 2)}
+                          </div>
+                          {trx.sortCode !== "" ? (
+                            <img
+                              src="https://flagcdn.com/uk.svg"
+                              alt="gbp"
+                              className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
+                            />
+                          ) : (
+                            <img
+                              alt="ngn"
+                              src="https://flagcdn.com/ng.svg"
+                              className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
+                            />
+                          )}
+                        </div>
+                        <div className="text-center">
+                          <h1 className="text-sm font-semibold text-[#072032] truncate max-w-[120px]">
+                            {trx.recipientFullName}
+                          </h1>
+                          <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[120px]">
+                            {trx.recipientBankName}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
-              <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
-                <div className="relative ">
-                  <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
-                    AI
-                  </div>
-                  <img
-                    src="https://flagcdn.com/ng.svg"
-                    className="w-5 h-5 border-2 object-cover border-white rounded-full absolute -bottom-1 -right-1"
-                    alt=""
-                  />
-                </div>
-                <div className=" text-center">
-                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
-                    Ade I.
-                  </h1>
-                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
-                    Nigbank A...
-                  </p>
-                </div>
-              </div>
-              <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
-                <div className="relative ">
-                  <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
-                    JS
-                  </div>
-
-                  <img
-                    src="https://transfermax.springsoftit.com/demo/files/image/currency/67344a3a6f5ee-1731480122.jpg"
-                    className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1"
-                    alt=""
-                  />
-                </div>
-                <div className=" text-center">
-                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
-                    Jason S.
-                  </h1>
-                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
-                    Canbank A...
-                  </p>
-                </div>
-              </div>
-              <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
-                <div className="relative ">
-                  <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
-                    AI
-                  </div>
-                  <img
-                    src="https://flagcdn.com/ng.svg"
-                    className="w-5 h-5 border-2 object-cover border-white rounded-full absolute -bottom-1 -right-1"
-                    alt=""
-                  />
-                </div>
-                <div className=" text-center">
-                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
-                    Ade I.
-                  </h1>
-                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
-                    Nigbank A...
-                  </p>
-                </div>
-              </div>
-              <div className="inline-flex cursor-pointer flex-col items-center gap-2 ">
-                <div className="relative ">
-                  <div className="w-14 uppercase h-14 bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center ">
-                    AI
-                  </div>
-                  <img
-                    src="https://flagcdn.com/ng.svg"
-                    className="w-5 h-5 border-2 object-cover border-white rounded-full absolute -bottom-1 -right-1"
-                    alt=""
-                  />
-                </div>
-                <div className=" text-center">
-                  <h1 className="text-base font-poppins font-semibold text-[#072032]">
-                    Ade I.
-                  </h1>
-                  <p className="font-dm-sans text-sm font-medium text-[#454745]">
-                    Nigbank A...
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
 
         <div className="flex justify-between p-5">
           <button
-            onClick={() => router.back()}
+            onClick={() => {
+              router.back();
+              clearTransfer();
+            }}
             className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
             <FaArrowLeft size={16} />

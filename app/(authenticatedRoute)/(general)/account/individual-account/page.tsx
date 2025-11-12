@@ -40,7 +40,10 @@ const IndiAcc = () => {
     updateProfilePhoto,
     fetchIndividualDocs,
     updateIndividualDocs,
+    getKYCStatus,
   } = useProfile();
+  const kycStatus = getKYCStatus?.data?.data?.status;
+
   const { user: localUser, setUser } = useProfileStore();
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
@@ -135,7 +138,7 @@ const IndiAcc = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || getKYCStatus.isLoading) {
     return (
       <SideNav>
         <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
@@ -527,7 +530,7 @@ focus:border-main focus:outline-none transition-colors"
           </div>
 
           <div className="flex items-start md:items-center gap-2 justify-between flex-col md:flex-row">
-              {/* <div className="text-[#979797] flex items-center gap-2 font-poppins">
+            {/* <div className="text-[#979797] flex items-center gap-2 font-poppins">
                 <input
                   type="checkbox"
                   className="w-4 h-4 rounded-sm accent-main"
@@ -537,7 +540,11 @@ focus:border-main focus:outline-none transition-colors"
               </div> */}
             <button
               type="submit"
-              disabled={isUpdating}
+              disabled={
+                isUpdating ||
+                kycStatus === "APPROVED" ||
+                kycStatus === "PENDING_REVIEW"
+              }
               className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUpdating ? (
@@ -553,11 +560,7 @@ focus:border-main focus:outline-none transition-colors"
         </div>
       </form>
 
-      <IndividualDoc
-        fetchIndividualDocs={fetchIndividualDocs}
-        updateIndividualDocs={updateIndividualDocs}
-      />
-      
+      <IndividualDoc />
     </SideNav>
   );
 };
