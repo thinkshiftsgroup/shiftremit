@@ -52,7 +52,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     let label = "Rate Loading...";
 
     if (fromCurrency === "GBP" && toCurrency === "NGN") {
-      rate = lemfi + benchmarkGBP + 1;
+      rate = lemfi + benchmarkGBP;
       ready = rate > benchmarkGBP && !isLoading;
       label = ready ? `1 GBP = ${rate.toFixed(2)} NGN` : label;
     } else if (fromCurrency === "NGN" && toCurrency === "GBP") {

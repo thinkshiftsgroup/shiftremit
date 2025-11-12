@@ -72,11 +72,9 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
 
     const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
-    const moniepointRate = ratesData.moniepoint.rate;
     const lemfiRate = ratesData.lemfi.rate;
-    const tapTapCurrentRate = lemfiRate + 1.0;
 
-    const shiftRemitCurrentRate = tapTapCurrentRate + benchmarkGBP;
+    const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
     const baseComparisonRate = shiftRemitCurrentRate;
 
@@ -84,15 +82,15 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       {
         ...PROVIDER_MAP["Shift Remit"],
         currentRate: shiftRemitCurrentRate,
-        discount: tapTapCurrentRate,
+        discount: lemfiRate,
         sortRate: shiftRemitCurrentRate,
       },
-      {
-        ...PROVIDER_MAP["Tap Tap"],
-        currentRate: tapTapCurrentRate,
-        discount: baseComparisonRate - tapTapCurrentRate,
-        sortRate: tapTapCurrentRate,
-      },
+      // {
+      //   ...PROVIDER_MAP["Tap Tap"],
+      //   currentRate: tapTapCurrentRate,
+      //   discount: baseComparisonRate - tapTapCurrentRate,
+      //   sortRate: tapTapCurrentRate,
+      // },
       // {
       //   ...PROVIDER_MAP["moniepoint"],
       //   currentRate: moniepointRate,
