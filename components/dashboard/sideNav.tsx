@@ -172,7 +172,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Conversion",
       link: "/conversion",
-      showFor: [ "admin"],
+      showFor: ["admin"],
     },
     {
       icon: (
@@ -331,6 +331,16 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
     {
       icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 20 20">
+          <path fill="currentColor" d="M4.5 6.75a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0M6.75 3.5a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5m5.687 11.645c.538.22 1.215.355 2.063.355c1.881 0 2.921-.668 3.469-1.434a2.9 2.9 0 0 0 .521-1.36a2 2 0 0 0 .01-.137V12.5A1.5 1.5 0 0 0 17 11h-4.63c.24.29.42.629.525 1H17a.5.5 0 0 1 .5.5v.054l-.005.05a1.9 1.9 0 0 1-.34.88c-.327.459-1.037 1.016-2.655 1.016c-.732 0-1.278-.114-1.687-.281c-.082.28-.201.596-.376.926M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2v.084l-.002.04l-.01.135a3.95 3.95 0 0 1-.67 1.806C10.617 16.08 9.263 17 6.75 17s-3.867-.92-4.568-1.934a3.95 3.95 0 0 1-.67-1.807a3 3 0 0 1-.012-.175zm1 .06v.018l.007.083a2.95 2.95 0 0 0 .498 1.336C3.492 15.201 4.513 16 6.75 16s3.258-.799 3.745-1.503a2.95 2.95 0 0 0 .498-1.336q.006-.057.006-.083l.001-.017V13a1 1 0 0 0-1-1H3.5a1 1 0 0 0-1 1zM13 7.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M14.5 5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5" strokeWidth={0.5} stroke="currentColor"></path>
+        </svg>
+      ),
+      title: "Customers",
+      link: "/customers",
+      showFor: ["user", "admin"],
+    },
+    {
+      icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -464,7 +474,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Logs",
       link: "/all-logs",
-      showFor: [ "admin"],
+      showFor: ["admin"],
     },
   ];
 
@@ -501,18 +511,28 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
           </div>
           )}
 
-          {collapsed && (<div className="flex items-center justify-center w-full">
+          {collapsed && (<div className="flex items-center justify-center w-full gap-2">
             <Image
               onClick={(e) => {
                 e.stopPropagation();
                 setCollapsed(!collapsed);
               }}
               src="/images/shiftremit-logo.png"
-              width={25}
-              height={25}
+              width={20}
+              height={20}
               alt="shiftremit-logo"
-              className="w-8 h-8 object-cover cursor-pointer"
+              className="w-6 h-6 object-cover cursor-pointer"
             />
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setCollapsed(!collapsed);
+              }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20 5a1 1 0 0 0-1-1h-5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L18 7.42V10a1 1 0 0 0 1 1a1 1 0 0 0 1-1Zm-9.29 8.29a1 1 0 0 0-1.42 0L6 16.57V14a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2H7.42l3.29-3.29a1 1 0 0 0 0-1.42" strokeWidth={0.5} stroke="currentColor"></path>
+              </svg>
+
+            </div>
           </div>
           )}
 
@@ -701,8 +721,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         <SideContent />
       </div>
 
-      <div className={`w-full lg:w-[80%] h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"
-          }`}>
+      <div className={`h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"}`}>
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
           <div onClick={toggleSidebar} className="lg:hidden">
             <svg
