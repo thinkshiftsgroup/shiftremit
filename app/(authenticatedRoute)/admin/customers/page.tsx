@@ -12,10 +12,10 @@ import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
 import { IoWallet } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useTrx } from "./../../user/transactions/useTrx";
+import { useTrx } from "../../user/transactions/useTrx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useState } from "react";
-import FilterComponent from "@/components/admin/filterBar";
+import FilterComponent from "@/components/customer/filterBar";
 
 const CustomerTrxn = () => {
     const router = useRouter();
@@ -168,9 +168,9 @@ const CustomerTrxn = () => {
                     selectedOrderLabel={selectedOrderLabel}
                 />
                 <div className="py-3.5  bg-white rounded-md my-4">
-                    <h1 className="text-[#072032] px-3 md:px-6 text-xl md:text-2xl font-semibold font-dm-sans mb-2">
+                    {/* <h1 className="text-[#072032] px-3 md:px-6 text-xl md:text-2xl font-semibold font-dm-sans mb-2">
                         Customer
-                    </h1>
+                    </h1> */}
                     <div className="w-full pl-3 overflow-x-auto">
                         <table className="w-full min-w-max border-collapse">
                             <thead className="bg-[#e2e8f0] w-full">
@@ -179,13 +179,13 @@ const CustomerTrxn = () => {
                                         Name
                                     </th>
                                     <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
-                                        Phone
-                                    </th>
-                                    <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                                         Email
                                     </th>
                                     <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
-                                        Tenure
+                                        Phone
+                                    </th>
+                                    <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
+                                        Date Joined
                                     </th>
                                     <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                                         Country
