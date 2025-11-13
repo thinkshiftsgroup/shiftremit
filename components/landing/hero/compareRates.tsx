@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { FxRateData, AdminRateData } from "@/api/rateService";
-import { swapLemfiAndNala } from "@/helper/utils";
+import { reorderRates } from "@/helper/utils";
 
 interface Rate {
   icon: string;
@@ -73,7 +73,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
 
     const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
-    const lemfiRate = ratesData.lemfi.rate;
+    const lemfiRate = ratesData?.lemfi?.rate;
 
     const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
@@ -122,7 +122,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       .sort((a, b) => b.sortRate - a.sortRate)
       .map(({ sortRate, ...rest }) => rest);
 
-    return swapLemfiAndNala(sortedRates);
+    return reorderRates(sortedRates);
 ;
   }, [ratesData, adminRateData]);
 

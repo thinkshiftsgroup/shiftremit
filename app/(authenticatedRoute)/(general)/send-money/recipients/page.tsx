@@ -13,7 +13,7 @@ const Recipients = () => {
   const router = useRouter();
   const { setTransfer, clearTransfer, transfer } = useTransferStore();
   const { getRecentTrx } = useTrx();
-  const { isLoading, data } = getRecentTrx();
+  const { isLoading, data } = getRecentTrx({ limit: 4, name: "" });
   const Trx = data?.data || [];
 
   const filteredTrx = Trx.filter((trx: any) => {
@@ -120,58 +120,55 @@ const Recipients = () => {
           </div>
           <div className="py-3">
             <h1 className="font-poppins text-sm font-medium mb-5">Recents</h1>
-            <div className="flex flex-wrap items- w-full justify-between gap-5">
+            <div className="grid grid-cols-4 w-full gap-5">
               {isLoading ? (
-                <div className="flex w-full justify-center">
-                  <Loader2 className="animate-spin text-main" size={20} />
+                <div className="col-span-4 flex justify-center items-center py-20">
+                  <Loader2 className="animate-spin text-main" size={24} />
                 </div>
               ) : filteredTrx.length === 0 ? (
-                <p className="text-center py-6 w-full text-sm font-poppins text-gray-500">
-                  No recent recipient
-                </p>
-              ) : (
-                <div className="flex font-poppins flex-wrap justify-between gap-5">
-                  {filteredTrx.slice(0, 6).map((trx: any) => {
-                    return (
-                      <div
-                        key={trx.transactionReference}
-                        onClick={() => handleRecipientClick(trx)}
-                        className="group w-[140px] flex flex-col items-center gap-2 cursor-pointer"
-                      >
-                        <div className="relative">
-                          <div className="w-14 h-14 uppercase bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center">
-                            {trx.recipientFullName
-                              ?.split(" ")
-                              .map((n: string) => n[0])
-                              .join("")
-                              .slice(0, 2)}
-                          </div>
-                          {trx.sortCode !== "" ? (
-                            <img
-                              src="https://flagcdn.com/uk.svg"
-                              alt="gbp"
-                              className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
-                            />
-                          ) : (
-                            <img
-                              alt="ngn"
-                              src="https://flagcdn.com/ng.svg"
-                              className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
-                            />
-                          )}
-                        </div>
-                        <div className="text-center">
-                          <h1 className="text-sm font-semibold text-[#072032] truncate max-w-[120px]">
-                            {trx.recipientFullName}
-                          </h1>
-                          <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[120px]">
-                            {trx.recipientBankName}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="col-span-4 flex justify-center items-center py-20">
+                  <p className="text-center text-sm font-poppins text-gray-500">
+                    No recent recipient
+                  </p>
                 </div>
+              ) : (
+                filteredTrx.slice(0, 4).map((trx: any) => (
+                  <div
+                    key={trx.transactionReference}
+                    onClick={() => handleRecipientClick(trx)}
+                    className="group flex flex-col justify-center items-center gap-2 cursor-pointer"
+                  >
+                    <div className="relative">
+                      <div className="w-14 h-14 uppercase bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center">
+                        {trx.recipientFullName
+                          ?.split(" ")
+                          .map((n: string) => n[0])
+                          .join("")
+                          .slice(0, 2)}
+                      </div>
+                      <img
+                        src={
+                          trx.sortCode
+                            ? "https://flagcdn.com/gb.svg"
+                            : "https://flagcdn.com/ng.svg"
+                        }
+                        alt={trx.sortCode ? "GBP" : "NGN"}
+                        className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <h1 className="text-sm font-semibold text-[#072032] truncate max-w-[150px]">
+                        {trx.recipientFullName}
+                      </h1>
+                      <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[150px]">
+                        {trx.recipientBankName}
+                      </p>
+                      <p className="font-dm-sans text-xs text-[#072032] truncate max-w-[150px]">
+                        {trx.recipientAccountNumber}
+                      </p>
+                    </div>
+                  </div>
+                ))
               )}
             </div>
           </div>

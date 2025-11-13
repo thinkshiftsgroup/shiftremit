@@ -11,20 +11,20 @@ import { useRouter } from "next/navigation";
 
 const Account = () => {
   const [image, setImage] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
+  // const fileRef = useRef<HTMLInputElement | null>(null);
 
-  const handleImageSelect = (e: any) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // const handleImageSelect = (e: any) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setImage(reader.result as string);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
-  const openFilePicker = () => fileRef.current?.click();
+  // const openFilePicker = () => fileRef.current?.click();
 
   const [openPassword, setOpenPassword] = useState(false);
 
@@ -179,7 +179,7 @@ const Account = () => {
         <div className="flex items-center p-3 w-full border-b justify-between flex-col md:flex-row gap-3 md:gap-0">
           <div className="flex items-center   gap-2 w-full md:w-auto">
             <div
-              onClick={openFilePicker}
+              // onClick={openFilePicker}
               className="inline-block relative group cursor-pointer w-20 h-20 md:w-24 md:h-24"
             >
               {image ? (
@@ -194,19 +194,7 @@ const Account = () => {
                 </div>
               )}
 
-              <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Camera className="text-white w-6 h-6" />
-              </div>
 
-              <div className="w-5 h-5 bg-main absolute bottom-1 right-1 border-2 border-white rounded-full" />
-
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageSelect}
-              />
             </div>
             <div>
               <h1 className=" font-dm-sans text-xl font-semibold text-[#071032]">

@@ -78,8 +78,6 @@ const Fund = () => {
           toast.success(data?.message, {
             description: "Your transfer has been initiated successfully.",
           });
-
-          setBankStep(2);
         },
         onError: (error) => {
           toast.error("Transfer initiation failed", {
@@ -185,7 +183,7 @@ const Fund = () => {
                       </div>
                       <button
                         disabled={!understand || sendTfDetails.isPending}
-                        onClick={handleSendTransfer}
+                        onClick={() => setBankStep(2)}
                         className="
     text-white font-poppins border disabled:cursor-not-allowed border-[#813FD6] mt-4 text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342] disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
@@ -232,12 +230,14 @@ const Fund = () => {
                             {/* PROSPA TECHNOLOGY LIMITED */}
                           </span>
                         </p>
-                       { <p>
-                          Sort Code:{" "}
-                          <span className="text-base font-medium">
-                            04-00-05
-                          </span>
-                        </p>}
+                        {
+                          <p>
+                            Sort Code:{" "}
+                            <span className="text-base font-medium">
+                              04-00-05
+                            </span>
+                          </p>
+                        }
                         <p>
                           Use Transfer Reference or display name as:{" "}
                           <span className="text-base font-medium">
@@ -246,7 +246,10 @@ const Fund = () => {
                         </p>
 
                         <button
-                          onClick={() => setBankStep(3)}
+                          onClick={() => {
+                            setBankStep(3);
+                            handleSendTransfer();
+                          }}
                           className="
     text-white text-sm font-poppins border border-[#813FD6] mt-4 py-2 px-3 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]

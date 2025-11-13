@@ -398,8 +398,15 @@ focus:border-main focus:outline-none transition-colors"
                   required
                 >
                   <option value="Select">Select</option>
-                  <option value="ID">ID</option>
-                  <option value="NIN">NIN</option>
+                  <option value="ID">National ID Card</option>
+                  <option value="Driver's License">Driver’s License</option>
+                  <option value="International Passport">
+                    International Passport
+                  </option>
+                  <option value="Voter’s Card">Voter’s Card</option>
+                  <option value="Resident Permit / Work Permit">
+                    Resident Permit / Work Permit
+                  </option>
                 </select>
 
                 <svg
@@ -454,6 +461,14 @@ focus:border-main focus:outline-none transition-colors"
                     />
                   </svg>
                 </div>
+                <style jsx>{`
+                  /* Hide native calendar icon in Chrome/Safari/Edge */
+                  input.hide-native-calendar::-webkit-calendar-picker-indicator {
+                    opacity: 0;
+                    display: block;
+                    -webkit-appearance: none;
+                  }
+                `}</style>
               </div>
             </div>
           </div>

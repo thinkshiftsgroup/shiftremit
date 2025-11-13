@@ -19,7 +19,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Shift Remit",
+  title: "Shiftremit",
   icons: [{ rel: "icon", url: Favicon.src }],
 };
 

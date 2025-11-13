@@ -239,7 +239,7 @@ const IndividualDoc = () => {
             htmlFor={docType}
             className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
-            <span className="opacity-80 truncate max-w-[60%]">
+            <span className="opacity-80">
               {prefillName || placeholder}
             </span>
 

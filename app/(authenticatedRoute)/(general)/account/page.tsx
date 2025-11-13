@@ -75,8 +75,8 @@ const Account = () => {
           ) : (
             <div className="flex items-center gap-2 w-full md:w-auto">
               <div
-                onClick={openFilePicker}
-                className="inline-block relative group cursor-pointer w-20 h-20 md:w-24 md:h-24"
+                // onClick={openFilePicker}
+                className="inline-block relative group w-20 h-20 md:w-24 md:h-24"
               >
                 {user?.profilePhotoUrl ? (
                   <img
@@ -90,19 +90,19 @@ const Account = () => {
                   </div>
                 )}
 
-                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                {/* <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Camera className="text-white w-6 h-6" />
-                </div>
+                </div> */}
 
                 <div className="w-5 h-5 bg-main absolute bottom-1 right-1 border-2 border-white rounded-full" />
 
-                <input
+                {/* <input
                   ref={fileRef}
                   type="file"
                   accept="image/*"
                   className="hidden"
                   onChange={handleImageSelect}
-                />
+                /> */}
               </div>
 
               <div>
@@ -166,7 +166,7 @@ const Account = () => {
                 Business Account
               </h1>
               <p className="text-sm font-poppins">
-                You can send and receive weekly up to £10,000 after you have
+                You can send and receive weekly up to £300,000 after you have
                 your KYC approved.{" "}
               </p>
             </div>
