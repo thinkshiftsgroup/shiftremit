@@ -3,14 +3,11 @@ import { useTrx } from "@/app/(authenticatedRoute)/user/transactions/useTrx";
 import { useTransferStore } from "@/stores/useTransaferStore";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
-const RecentTfs = () => {
+const RecentTfs = ({ Trx, isLoading }: any) => {
   const router = useRouter();
   const { setTransfer, transfer } = useTransferStore();
-  const { getRecentTrx } = useTrx();
-  const { isLoading, data } = getRecentTrx();
-  const Trx = data?.data || [];
 
   const filteredTrx = Trx.filter((trx: any) => {
     const isGBP = !!trx.sortCode;
@@ -44,23 +41,23 @@ const RecentTfs = () => {
 
   return (
     <div className="py-4 font-poppins">
-      
-
-      <div className="flex flex-wrap gap-5 justify-center sm:justify-start">
+      <div className="grid grid-cols-4 gap-5 justify-center">
         {isLoading ? (
-          <div className="flex w-full justify-center py-6">
+          <div className="col-span-4 flex justify-center items-center py-20">
             <Loader2 className="animate-spin text-main" size={24} />
           </div>
         ) : filteredTrx.length === 0 ? (
-          <p className="text-center py-10 w-full text-sm font-poppins text-gray-500">
-            No recent recipients yet
-          </p>
+          <div className="col-span-4 flex justify-center items-center py-20">
+            <p className="text-center text-sm font-poppins text-gray-500">
+              No recent recipients yet
+            </p>
+          </div>
         ) : (
           filteredTrx.map((trx: any) => (
             <div
               key={trx.transactionReference}
               onClick={() => handleRecipientClick(trx)}
-              className="group w-[140px] flex flex-col items-center gap-2 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-md bg-white rounded-lg p-3 border border-gray-100"
+              className="group w-[180px] flex flex-col items-center gap-2 cursor-pointer transition-all duration-200 hover:shadow-md bg-white rounded-lg p-3 border border-gray-100"
             >
               <div className="relative">
                 <div className="w-14 h-14 bg-gray-100 uppercase font-poppins font-semibold text-lg text-main rounded-full flex items-center justify-center border border-gray-200">
@@ -82,15 +79,16 @@ const RecentTfs = () => {
               </div>
 
               <div className="text-center">
-                <h3 className="text-sm font-semibold text-[#072032] truncate max-w-[120px]">
+                <h3 className="text-sm font-semibold text-[#072032] truncate max-w-[150px]">
                   {trx.recipientFullName}
                 </h3>
-                <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[120px]">
+                <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[150px]">
                   {trx.recipientBankName}
                 </p>
+                <p className="font-dm-sans text-xs text-[#072032] truncate max-w-[150px]">
+                  {trx.recipientAccountNumber}
+                </p>
               </div>
-
-              <div className="absolute inset-0 rounded-lg bg-main/5 opacity-0 group-hover:opacity-100 transition"></div>
             </div>
           ))
         )}

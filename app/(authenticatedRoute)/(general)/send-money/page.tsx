@@ -72,7 +72,7 @@ const SendMoney = () => {
       return { dynamicFiatData: [], rateDifference: 0 };
     }
 
-    const lemfiRate = ratesData.lemfi.rate;
+    const lemfiRate = ratesData?.lemfi?.rate || 1903;
 
     const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
@@ -89,7 +89,7 @@ const SendMoney = () => {
       // },
       {
         ...PROVIDER_MAP["LemFi"],
-        currentRate: ratesData.lemfi.rate,
+        currentRate: ratesData?.lemfi?.rate || 1903,
         discount: 0,
       },
       // {
@@ -99,13 +99,13 @@ const SendMoney = () => {
       // },
       {
         ...PROVIDER_MAP["Nala"],
-        currentRate: ratesData.nala.rate,
+        currentRate: ratesData?.nala?.rate || 1895,
         discount: 0,
       },
 
       {
         ...PROVIDER_MAP["FlutterSend"],
-        currentRate: ratesData.sendApp.rate,
+        currentRate: ratesData?.sendApp?.rate || 1885,
         discount: 0,
       },
     ];

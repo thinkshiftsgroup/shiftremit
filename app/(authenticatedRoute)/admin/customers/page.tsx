@@ -1,18 +1,7 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
-import { FaArrowUp } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa6";
-import { FaArrowDown } from "react-icons/fa6";
 import { RiArrowRightUpLine } from "react-icons/ri";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { GoPlus } from "react-icons/go";
-
-import { FaArrowRight, FaUserPlus } from "react-icons/fa";
-import { ChartRadialSimple } from "@/components/dashboard/overviewChart";
-import { IoWallet } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useTrx } from "../../user/transactions/useTrx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useState } from "react";
 import FilterComponent from "@/components/customer/filterBar";
@@ -21,12 +10,13 @@ import { useCustomers } from "./useCustomers";
 const CustomerTrxn = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<boolean | "">("");
   const [selectedOrder, setSelectedOrder] = useState("");
   const [selectedPerPage, setSelectedPerPage] = useState("10");
-  const [selectedCurrency, setSelectedCurrency] = useState("NGN");
   const [searchValue, setSearchValue] = useState("");
-  const [senderName, setSenderName] = useState("");
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const [sortBy, setSortBy] = useState("");
   const [selectedOrderLabel, setSelectedOrderLabel] = useState("Newest");
@@ -35,14 +25,13 @@ const CustomerTrxn = () => {
   const { data, isLoading } = getUsers({
     page,
     pageSize: parseInt(selectedPerPage),
-    // status: selectedStatus.toUpperCase(),
-    // transactionReference: searchValue,
-    // startDate: "",
-    // endDate: "",
-    // senderName: senderName,
-    // sortOrder: selectedOrder,
-    // sortBy,
+    status: selectedStatus,
+    startDate,
+    endDate,
+    name: searchValue,
+    orderLabel: selectedOrderLabel,
   });
+
   const users = data?.data || [];
 
   const handleReset = () => {
@@ -52,14 +41,14 @@ const CustomerTrxn = () => {
     setSelectedOrderLabel("Newest");
     setSortBy("");
     setSelectedPerPage("10");
-    setSelectedCurrency("NGN");
-    setSenderName("");
+    setStartDate("");
+    setEndDate("");
   };
 
   const cardData = [
     {
       title: "Total Number of Customers",
-      number: data?.kpis?.totalNumber || 0,
+      number: data?.meta?.totalCount || 0,
       link: "",
       lastTxn: 0,
     },
@@ -79,23 +68,6 @@ const CustomerTrxn = () => {
   return (
     <SideNav>
       <div className="py-5">
-        {/* <div className="flex items-center justify-center md:justify-end gap-2">
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => router.push("/send-money")}
-                            className="text-[15px] text-white font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
-                        >
-                            Send Money <FaArrowUp />
-                        </button>
-                        <button
-                            onClick={() => router.push("/request-money/send-request")}
-                            className="text-[15px] font-poppins py-1.5 px-2 font-medium rounded-[6px] cursor-pointer flex items-center gap-1 bg-white text-[#072032]"
-                        >
-                            Request Money <FaPlus />
-                        </button>
-                    </div>
-                </div> */}
-
         <div className="px-2.5 py-4 md:py-3.5 md:px-6 bg-white rounded-md my-4">
           <h1 className="text-[#072032] text-xl md:text-2xl font-semibold font-dm-sans mb-2">
             Customers
@@ -147,15 +119,6 @@ const CustomerTrxn = () => {
                       />
                     </div>
                   </div>
-                  {/* <h1 className="text-[#072032] font-medium font-dm-sans text-2xl py-1 ">
-                                        {card.number}
-                                    </h1> */}
-                  {/* <p className="text-sm font-poppins text-[#454745]">
-                    Last transaction{" "}
-                    <span className="text-[#22c55e] font-medium">
-                      {card.lastTxn} GBP
-                    </span>
-                  </p> */}
                 </div>
               );
             })}
@@ -166,28 +129,23 @@ const CustomerTrxn = () => {
           setSelectedOrder={setSelectedOrder}
           selectedStatus={selectedStatus}
           setSelectedStatus={setSelectedStatus}
-          selectedPerPage={selectedPerPage}
-          setSelectedPerPage={setSelectedPerPage}
-          selectedCurrency={selectedCurrency}
-          setSelectedCurrency={setSelectedCurrency}
           setSearchValue={setSearchValue}
           searchValue={searchValue}
           handleReset={handleReset}
-          setSenderName={setSenderName}
-          senderName={senderName}
           sortBy={sortBy}
           setSortBy={setSortBy}
           setSelectedOrderLabel={setSelectedOrderLabel}
           selectedOrderLabel={selectedOrderLabel}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
         <div className="py-3.5  bg-white rounded-md my-4">
-          {/* <h1 className="text-[#072032] px-3 md:px-6 text-xl md:text-2xl font-semibold font-dm-sans mb-2">
-                        Customer
-                    </h1> */}
           <div className="w-full pl-3 overflow-x-auto">
             <table className="w-full min-w-max border-collapse">
               <thead className="bg-[#e2e8f0] w-full">
-                <tr className="w-full text-left">
+                <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
                   <th className="font-poppins py-2 px-4 whitespace-nowrap text-sm font-semibold">
                     Name
                   </th>
@@ -229,8 +187,13 @@ const CustomerTrxn = () => {
                     </td>
                   </tr>
                 ) : (
-                  users.map((user: any) => (
-                    <tr key={user.id}>
+                  users.map((user: any, index: any) => (
+                    <tr
+                      key={index}
+                      className={`${
+                        index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
+                      } border-b border-gray-100`}
+                    >
                       <td className="px-4 font-semibold text-sm py-3 font-poppins">
                         {user.fullName}
                       </td>
@@ -256,7 +219,12 @@ const CustomerTrxn = () => {
                       </td>
 
                       <td className="px-4 text-sm capitalize py-3 font-poppins">
-                        {user.lastTrx || "-"}
+                        {user?.lastTransaction?.fromCurrency === "GBP"
+                          ? "£"
+                          : user?.lastTransaction?.fromCurrency === "NGN"
+                          ? "₦"
+                          : ""}
+                        {user?.lastTransaction?.amount || "-"}
                       </td>
                       <td className="px-4 text-sm py-3 font-poppins">
                         <span

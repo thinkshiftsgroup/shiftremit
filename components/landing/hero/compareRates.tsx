@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { FxRateData, AdminRateData } from "@/api/rateService";
-import { swapLemfiAndNala } from "@/helper/utils";
+import { reorderRates } from "@/helper/utils";
 
 interface Rate {
   icon: string;
@@ -73,7 +73,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
 
     const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
-    const lemfiRate = ratesData.lemfi.rate;
+    const lemfiRate = ratesData?.lemfi?.rate || 1903;
 
     const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
@@ -100,21 +100,21 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       // },
       {
         ...PROVIDER_MAP["nala"],
-        currentRate: ratesData.nala.rate,
-        discount: baseComparisonRate - ratesData.nala.rate,
-        sortRate: ratesData.nala.rate,
+        currentRate: ratesData?.nala?.rate || 1895,
+        discount: baseComparisonRate - ratesData?.nala?.rate||1895,
+        sortRate: ratesData?.nala?.rate||1895,
       },
       {
         ...PROVIDER_MAP["lemfi"],
-        currentRate: ratesData.lemfi.rate,
-        discount: baseComparisonRate - ratesData.lemfi.rate,
-        sortRate: ratesData.lemfi.rate,
+        currentRate: ratesData?.lemfi?.rate||1903,
+        discount: baseComparisonRate - ratesData?.lemfi?.rate||1903,
+        sortRate: ratesData?.lemfi?.rate||1903,
       },
       {
         ...PROVIDER_MAP["sendApp"],
-        currentRate: ratesData.sendApp.rate,
-        discount: baseComparisonRate - ratesData.sendApp.rate,
-        sortRate: ratesData.sendApp.rate,
+        currentRate: ratesData?.sendApp?.rate||1885 ,
+        discount: baseComparisonRate - ratesData?.sendApp?.rate||1885 ,
+        sortRate: ratesData?.sendApp?.rate||1885,
       },
     ];
 
@@ -122,7 +122,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
       .sort((a, b) => b.sortRate - a.sortRate)
       .map(({ sortRate, ...rest }) => rest);
 
-    return swapLemfiAndNala(sortedRates);
+    return reorderRates(sortedRates);
 ;
   }, [ratesData, adminRateData]);
 

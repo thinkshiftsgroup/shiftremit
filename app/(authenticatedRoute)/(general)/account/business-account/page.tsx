@@ -1,6 +1,6 @@
 "use client";
 import SideNav from "@/components/dashboard/sideNav";
-import { Camera, ChevronLeft } from "lucide-react";
+import { Camera, ChevronLeft, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { FiPhone } from "react-icons/fi";
@@ -11,25 +11,64 @@ import DirectorForm from "@/components/account/business-acc/directorForm";
 import KnowBusiness from "@/components/account/business-acc/knowBusiness";
 import PEPForm from "@/components/account/business-acc/PEPForm";
 import ShareHolderForm from "@/components/account/business-acc/shareHoldersForm";
+import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
+import { useProfile } from "../useProfile";
+import { ImageUpload } from "@/components/ui/image-upload";
 
 const BusinessAcc = () => {
   const [image, setImage] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement | null>(null);
-
-  const handleImageSelect = (e: any) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+  const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
+  const {
+    fetchProfile,
+    updateProfile,
+    updateProfilePhoto,
+    fetchIndividualDocs,
+    updateIndividualDocs,
+    getKYCStatus,
+  } = useProfile();
+  const { user: localUser, setUser } = useProfileStore();
+  const user = fetchProfile.data || localUser;
+  const handleProfilePhotoChange = async (urls: string[]) => {
+    if (urls.length > 0) {
+      const newUrl = urls[0];
+      try {
+        await updateProfilePhoto.mutateAsync(newUrl);
+        setUser({ profilePhotoUrl: newUrl });
+      } catch (error) {}
+    }
   };
 
-  const openFilePicker = () => fileRef.current?.click();
   const dateRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const isLoading = fetchProfile.isLoading || fetchProfile.isFetching;
+  if (isLoading || getKYCStatus.isLoading) {
+    return (
+      <SideNav>
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          <div className="flex items-center gap-1">
+            <Loader2 size={30} className="text-main animate-spin" />
+            Loading profile data...
+          </div>
+        </div>
+      </SideNav>
+    );
+  }
+
+  if (!user) {
+    return (
+      <SideNav>
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          Failed to load user profile.
+        </div>
+      </SideNav>
+    );
+  }
+
+  const getInitials = (user: UserProfileData) => {
+    const fn = user.firstname?.[0] || "";
+    const ln = user.lastname?.[0] || "";
+    return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
+  };
   return (
     <SideNav>
       <div className="relative mb-16">
@@ -37,18 +76,18 @@ const BusinessAcc = () => {
           <div className="flex pb-5 items-center justify-between">
             <div className="flex items-center gap-4">
               <div
-                onClick={openFilePicker}
+                onClick={() => photoUploadRef.current?.openFileDialog()}
                 className="inline-block relative group cursor-pointer w-24 h-24"
               >
-                {image ? (
+                {user.profilePhotoUrl ? (
                   <img
-                    src={image}
+                    src={user.profilePhotoUrl}
                     alt="profile"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
-                    JI
+                    {getInitials(user)}
                   </div>
                 )}
 
@@ -58,32 +97,35 @@ const BusinessAcc = () => {
 
                 <div className="w-5 h-5 bg-main absolute bottom-1 right-1 border-2 border-white rounded-full" />
 
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
+                <ImageUpload
+                  ref={photoUploadRef}
+                  onChange={handleProfilePhotoChange}
+                  multiple={false}
                   className="hidden"
-                  onChange={handleImageSelect}
+                  maxFiles={1}
                 />
               </div>
               <div>
                 <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
-                  <h1 className="font-poppins text-2xl font-semibold">
-                    Joshua Israel
+                  <h1 className="font-poppins md:text-2xl font-semibold">
+                    {user.fullName ||
+                      `${user.firstname || ""} ${user.lastname || ""}`}
                   </h1>
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
-                    <p>Business Account</p>
+                    <p>Individual Account</p>
                   </span>
                 </div>
                 <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
-                    josh****el@gmail.com
+                    {user.email}
                   </p>
-                  <p className="font-dm-sans text-sm flex items-center gap-1">
-                    <FiPhone size={16} />
-                    +447***9597
-                  </p>
+                  {user?.phoneNumber && (
+                    <p className="font-dm-sans text-sm flex items-center gap-1">
+                      <FiPhone size={16} />
+                      {user?.phoneNumber || ""}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -343,7 +385,7 @@ focus:border-main focus:outline-none transition-colors"
 
         <KnowBusiness />
         <DirectorForm />
-        <ShareHolderForm/>
+        <ShareHolderForm />
         <PEPForm />
         <DocUpload />
 

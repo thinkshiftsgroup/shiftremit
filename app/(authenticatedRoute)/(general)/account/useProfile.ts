@@ -127,7 +127,10 @@ export const useProfile = () => {
       return res.data;
     },
     onError: (err: any) => {
-      toast.error(err.response?.data?.message || "Failed to submit KYC");
+      toast.error(
+        err.response?.data?.message ||
+          "Failed to submit KYC as all field and documents are required"
+      );
     },
   });
 

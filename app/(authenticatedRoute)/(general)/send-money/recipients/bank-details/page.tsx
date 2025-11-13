@@ -9,6 +9,7 @@ import { useRecipient } from "../../../recipients/useRecipient";
 import { useTransferStore } from "@/stores/useTransaferStore";
 import { Loader2 } from "lucide-react";
 import RecentTfs from "@/components/general/send-money/recents";
+import { useTrx } from "@/app/(authenticatedRoute)/user/transactions/useTrx";
 
 interface BankI {
   id: number;
@@ -37,6 +38,7 @@ const BankDetails = () => {
   const [purpose, setPurpose] = useState("");
   const [isBusiness, setIsBusiness] = useState(false);
   const [hasResolvedOnce, setHasResolvedOnce] = useState(false);
+  const [filterName, setFilterName] = useState("");
 
   const [switchRecents, setSwitchRecents] = useState("");
 
@@ -49,6 +51,11 @@ const BankDetails = () => {
   const { getBanks, getBankDetails } = useRecipient();
   const { setTransfer } = useTransferStore();
   const transfer = useTransferStore((state) => state.transfer);
+
+  const { getRecentTrx } = useTrx();
+  const { isLoading, data } = getRecentTrx({ limit: 10, name: filterName });
+  const Trx = data?.data || [];
+
 
   const {
     mutate: resolveAccount,
@@ -113,25 +120,42 @@ const BankDetails = () => {
         <div className="relative">
           <div className="my-5 md:my-10 ">
             <h1 className="text-2xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
-              Enter their account details
+              {switchRecents
+                ? "Select Recipients"
+                : "Enter their account details"}
             </h1>
           </div>
 
           <div className="max-w-2xl mx-auto relative px-3.5 md:px-0">
             <button
-              onClick={() => setSwitchRecents("recent")}
-              className=" underline cursor-pointer text-[#072032] font-dm-sans text-right w-full mb-3 font-medium"
+              onClick={() =>
+                setSwitchRecents((prev) => (prev === "recent" ? "" : "recent"))
+              }
+              className="underline cursor-pointer text-[#072032] font-dm-sans text-right w-full mb-3 font-medium"
             >
-              Recipient List
+              {switchRecents !== "recent"
+                ? "Recipient List"
+                : "Enter bank details"}
             </button>
             <p className="text-base font-dm-sans pb-2 text-gray-500 font-medium">
-              {switchRecents ? "Recent Recipients" : "Recipient's bank details"}
+              {!switchRecents && "Recipient's bank details"}
             </p>
+
+            {switchRecents && (
+              <input
+                value={filterName}
+                onChange={(e) => setFilterName(e.target.value)}
+                placeholder="Search Recipients"
+                type="text"
+                className="font-poppins text-sm w-1/3 mt-2 py-2 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none mb-2 transition-colors"
+              />
+            )}
 
             <hr className="py-2" />
 
             {switchRecents ? (
-              <RecentTfs />
+              <RecentTfs Trx={Trx} isLoading={isLoading} />
             ) : (
               <>
                 {transfer?.toCurrency === "NGN" ? (

@@ -58,19 +58,31 @@ const CustomerTrxn = () => {
   const cardData = [
     {
       title: "Total send money",
-      amount: data?.kpis?.totalAmountSentGBP || 0,
+      amount: `${data?.kpis?.totalAmountSentGBP} GBP` || "0 GBP",
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total receive money",
-      amount: data?.kpis?.totalAmountCompletedGBP || 0,
+      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} NGN`,
+      link: "",
+      lastTxn: 0,
+    },
+    {
+      title: "Total receive money",
+      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} GBP`,
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total amount in review",
-      amount: data?.kpis?.totalAmountPendingGBP || 0,
+      amount: `${data?.kpis?.totalAmountPendingGBP || 0} GBP`,
+      link: "",
+      lastTxn: 0,
+    },
+    {
+      title: "Total amount in review",
+      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} NGN`,
       link: "",
       lastTxn: 0,
     },
@@ -131,7 +143,7 @@ const CustomerTrxn = () => {
                     </div>
                   </div>
                   <h1 className="text-[#072032] font-medium font-dm-sans text-2xl py-1 ">
-                    {card.amount} GBP
+                    {card.amount}
                   </h1>
                   <p className="text-sm font-poppins text-[#454745]">
                     Last transaction{" "}

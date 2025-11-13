@@ -7,6 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useRecipient } from "./useRecipient";
+import { useTrx } from "../../user/transactions/useTrx";
+import { Loader2 } from "lucide-react";
 
 interface BankI {
   id: number;
@@ -32,6 +34,10 @@ const Recipients = () => {
   const [openPurpose, setOpenPurpose] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
   const [bankCode, setBankCode] = useState("");
+
+  const { getRecentTrx } = useTrx();
+  const { isLoading, data } = getRecentTrx({ limit: 5, name: "" });
+  const Trx = data?.data || [];
 
   const { getBanks, getBankDetails } = useRecipient();
   const {
@@ -93,10 +99,6 @@ const Recipients = () => {
                 <div className="w-5 font-poppins h-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
                   0
                 </div>
-
-                {/* {tab === "my-account" && (
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-main rounded-full"></div>
-                )} */}
               </div>
               {tab === "my-account" && (
                 <div className="absolute -bottom-0.5 left-4/9 -translate-x-1/2 w-[80%] h-[3px] bg-main rounded-full"></div>
@@ -106,99 +108,115 @@ const Recipients = () => {
 
           {tab === "all-account" && (
             <div className="my-3">
-              <div className="rounded-lg flex items-center justify-between w-full cursor-pointer p-1.5 lg:p-3  bg-gray-100 flex-col lg:flex-row gap-2 lg:gap-0">
-                <div className="flex items-center gap-2 w-full lg:w-auto border-b lg:border-0 pb-4 lg:pb-0">
-                  <div className="inline-block relative">
-                    <div className="font-poppins border-gray-400 border w-12 h-12 md:w-16 md:h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
-                      JI
-                    </div>
-                    <div className="w-3 h-3 md:w-4 md:h-4 absolute bottom-0 -right-1 border border-white rounded-full">
-                      <img
-                        src="/images/shiftremit-logo.png"
-                        className="object-cover"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                  <div className="">
-                    <div className="flex items-center gap-1">
-                      <h1 className="font-poppins text-base font-semibold text-black">
-                        Joshua Israel
-                      </h1>
-                      <p className="text-black font-dm-sans text-xs lg:hidden">
-                        @joshisr23
-                      </p>
-                    </div>
-                    <p className="text-base font-dm-sans text-black">
-                      joshisr@gmail.com
-                    </p>
-                    <p className="text-black font-dm-sans text-sm hidden lg:block">
-                      @joshisr23
-                    </p>
-                  </div>
+              {isLoading ? (
+                <div className="w-full flex justify-center items-center my-5">
+                  <Loader2 size={20} className="animate-spin text-main" />
                 </div>
-                <div className="flex lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
-                  <div className="font-medium px-2 lg:px-0">
-                    <p className="text-base font-dm-sans text-black">
-                      Wema Bank
-                    </p>
-                    <p className="text-base font-dm-sans text-black">
-                      0367829034
-                    </p>
-                    <p className="text-base font-dm-sans text-black">
-                      Business Account
-                    </p>
-                  </div>
+              ) : Trx.length > 0 ? (
+                Trx.map((trx: any, index: number) => (
+                  <div
+                    key={index}
+                    className="rounded-lg flex items-center justify-between w-full cursor-pointer p-1.5 lg:p-3 bg-gray-100 flex-col lg:flex-row gap-2 lg:gap-0"
+                  >
+                    <div className="flex items-center gap-2 w-full lg:w-auto border-b lg:border-0 pb-4 lg:pb-0">
+                      <div className="inline-block relative">
+                        <div className="font-poppins border-gray-400 border w-12 h-12 md:w-16 md:h-16 p-2 rounded-full flex justify-center items-center font-bold text-2xl">
+                          {trx.recipientFullName
+                            ?.split(" ")
+                            .map((n: string) => n[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toUpperCase()}
+                        </div>
+                        <div className="w-3 h-3 md:w-4 md:h-4 absolute bottom-0 -right-1 border border-white rounded-full">
+                          <img
+                            src="/images/shiftremit-logo.png"
+                            className="object-cover"
+                            alt="logo"
+                          />
+                        </div>
+                      </div>
 
-                  <div className="flex items-center gap-2">
-                    <svg
-                      className="cursor-pointer"
-                      onClick={() => setOpenPurpose(true)}
-                      width="20"
-                      height="20"
-                      viewBox="0 0 26 26"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M20.5833 14.0861V11.5468C20.5833 10.6606 20.5833 10.2176 20.4187 9.8189C20.254 9.42023 19.9409 9.10715 19.3137 8.48098L14.183 3.34706C13.6424 2.80648 13.3727 2.53673 13.0368 2.3764C12.9673 2.34301 12.8961 2.31335 12.8234 2.28756C12.4735 2.16406 12.0911 2.16406 11.3273 2.16406C7.81192 2.16406 6.05367 2.16406 4.86308 3.1239C4.62262 3.31809 4.40362 3.53745 4.20983 3.77823C3.25 4.9699 3.25 6.72815 3.25 10.2457V15.1695C3.25 19.2569 3.25 21.3011 4.51967 22.5708C5.54125 23.5924 7.06333 23.7917 9.75 23.8307M13 2.70573V3.2474C13 6.31323 13 7.84614 13.9523 8.79839C14.9034 9.75064 16.4363 9.75065 19.5 9.75065H20.0417"
-                        stroke="#4F4F4F"
-                        strokeWidth="1.875"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
-                        stroke="#4F4F4F"
-                        strokeWidth="1.875"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M17.3203 20.5781H17.3311"
-                        stroke="#4F4F4F"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <svg
-                      className="cursor-pointer"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 23 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
-                        stroke="#813FD6"
-                        strokeWidth="1.875"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                      <div>
+                        <h1 className="font-poppins text-sm font-semibold text-black">
+                          {trx.recipientFullName}
+                        </h1>
+                        <p className="text-sm font-dm-sans text-black">
+                          {trx.recipientEmail || "-"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
+                      <div className="font-medium px-2 lg:px-0">
+                        <p className="text-sm font-dm-sans text-black">
+                          {trx.recipientBankName}
+                        </p>
+                        <p className="text-sm font-dm-sans text-black">
+                          {trx.recipientAccountNumber}
+                        </p>
+                        <p className="text-sm font-dm-sans text-black">
+                          {trx.isRecipientBusinessAccount
+                            ? "Business Account"
+                            : "Personal Account"}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <svg
+                          className="cursor-pointer"
+                          onClick={() => setOpenPurpose(true)}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 26 26"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M20.5833 14.0861V11.5468C20.5833 10.6606 20.5833 10.2176 20.4187 9.8189C20.254 9.42023 19.9409 9.10715 19.3137 8.48098L14.183 3.34706C13.6424 2.80648 13.3727 2.53673 13.0368 2.3764C12.9673 2.34301 12.8961 2.31335 12.8234 2.28756C12.4735 2.16406 12.0911 2.16406 11.3273 2.16406C7.81192 2.16406 6.05367 2.16406 4.86308 3.1239C4.62262 3.31809 4.40362 3.53745 4.20983 3.77823C3.25 4.9699 3.25 6.72815 3.25 10.2457V15.1695C3.25 19.2569 3.25 21.3011 4.51967 22.5708C5.54125 23.5924 7.06333 23.7917 9.75 23.8307M13 2.70573V3.2474C13 6.31323 13 7.84614 13.9523 8.79839C14.9034 9.75064 16.4363 9.75065 19.5 9.75065H20.0417"
+                            stroke="#4F4F4F"
+                            strokeWidth="1.875"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M17.3307 23.8281C20.3218 23.8281 22.7474 20.5781 22.7474 20.5781C22.7474 20.5781 20.3218 17.3281 17.3307 17.3281C14.3396 17.3281 11.9141 20.5781 11.9141 20.5781C11.9141 20.5781 14.3396 23.8281 17.3307 23.8281Z"
+                            stroke="#4F4F4F"
+                            strokeWidth="1.875"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M17.3203 20.5781H17.3311"
+                            stroke="#4F4F4F"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <svg
+                          className="cursor-pointer"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 23 23"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14.0625 9.375V16.875M7.5 0.9375H15M0 4.6875H22.5M19.6875 4.6875V21.5625H2.8125V4.6875M8.4375 9.375V16.875"
+                            stroke="#813FD6"
+                            strokeWidth="1.875"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="text-center text-gray-500 font-dm-sans py-4">
+                  No recipient
                 </div>
-              </div>
+              )}
             </div>
           )}
           {tab === "my-account" && (
@@ -366,7 +384,11 @@ focus:border-main focus:outline-none transition-colors"
                     <option value="">Please choose recipient's bank</option>
                   ) : (
                     getBanks.data.data.map((bank: BankI) => {
-                      return <option value={bank.code}>{bank.name}</option>;
+                      return (
+                        <option key={bank.id} value={bank.code}>
+                          {bank.name}
+                        </option>
+                      );
                     })
                   )}
                 </select>
