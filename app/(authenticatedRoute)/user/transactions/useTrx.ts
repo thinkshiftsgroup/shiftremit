@@ -119,17 +119,26 @@ export const useTrx = () => {
     },
   });
 
-  const getRecentTrx = ({ limit, name }: { limit: number; name?: string }) =>
+  const getRecentTrx = ({ limit, name }: { limit?: number; name?: string }) =>
     useQuery({
       queryKey: ["fetch-recent-recipient", limit, name],
       queryFn: async () => {
         const params = new URLSearchParams();
-        params.append("limit", limit.toString());
-        if (name) params.append("name", name);
 
-        const res = await apiInstance.get(
-          `/api/recipients?${params.toString()}`
-        );
+        if (limit !== undefined) {
+          params.append("limit", limit.toString());
+        }
+
+        if (name) {
+          params.append("name", name);
+        }
+
+        const queryString = params.toString();
+        const url = queryString
+          ? `/api/recipients?${queryString}`
+          : `/api/recipients`;
+
+        const res = await apiInstance.get(url);
         return res.data;
       },
       keepPreviousData: true,

@@ -9,6 +9,9 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { useRecipient } from "./useRecipient";
 import { useTrx } from "../../user/transactions/useTrx";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { Switch } from "@/components/ui/switch";
 
 interface BankI {
   id: number;
@@ -32,25 +35,122 @@ const Recipients = () => {
   const router = useRouter();
   const [tab, setTab] = useState("all-account");
   const [openPurpose, setOpenPurpose] = useState(false);
+  const [selectedTrxPurpose, setSelectedTrxPurpose] = useState("");
+  const [selectedTrxId, setSelectedTrxId] = useState<number | null>(null);
+
+  const [currency, setCurrency] = useState<"NGN" | "GBP">("NGN");
+
   const [accountNumber, setAccountNumber] = useState("");
   const [bankCode, setBankCode] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [email, setEmail] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [isBusiness, setIsBusiness] = useState(false);
+  const [sortCode, setSortCode] = useState("");
+  const [hasResolvedOnce, setHasResolvedOnce] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [fullName, setFullName] = useState("");
 
   const { getRecentTrx } = useTrx();
   const { isLoading, data } = getRecentTrx({ limit: 5, name: "" });
   const Trx = data?.data || [];
 
-  const { getBanks, getBankDetails } = useRecipient();
+  const {
+    getBanks,
+    getBankDetails,
+    addRecipient,
+    deleteRecipient,
+    updateRecipient,
+  } = useRecipient();
+  const queryClient = useQueryClient();
+
   const {
     mutate: resolveAccount,
     data: bankDetails,
     isPending: resolvingAccount,
+    isSuccess: resolveSuccess,
   } = getBankDetails({ accountNumber, bankCode });
 
   useEffect(() => {
-    if (accountNumber.length === 10 && bankCode) {
+    if (getBanks.data?.data?.length > 0) {
+      const first = getBanks.data.data[0];
+      setBankCode(first.code);
+      setBankName(first.name);
+    }
+  }, [getBanks.data]);
+
+  useEffect(() => {
+    if (accountNumber.length === 10 && bankCode && currency === "NGN") {
       resolveAccount();
+      setHasResolvedOnce(true);
     }
   }, [accountNumber, bankCode, resolveAccount]);
+
+  const shouldShowInvalidError =
+    (hasResolvedOnce && accountNumber.length < 10) ||
+    (accountNumber.length === 10 &&
+      !resolvingAccount &&
+      resolveSuccess &&
+      !bankDetails?.data?.account_name);
+
+  const handleAddRecipient = () => {
+    addRecipient.mutate(
+      {
+        recipientBankName: bankName,
+        recipientAccountNumber: accountNumber,
+        recipientFullName:
+          currency === "NGN" ? bankDetails?.data?.account_name : fullName,
+        recipientEmail: email,
+
+        recipientMobileNumber: phone,
+        isRecipientBusinessAccount: isBusiness,
+        sortCode: sortCode,
+        purpose: purpose,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Added Recipient Successfully");
+          queryClient.invalidateQueries({
+            queryKey: ["fetch-recent-recipient"],
+          });
+          setBankName("");
+          setAccountNumber("");
+          setEmail("");
+          setPhone("");
+          setIsBusiness(false);
+          setSortCode("");
+          setFullName("");
+        },
+      }
+    );
+  };
+
+  const isDisabled =
+    currency === "NGN"
+      ? getBanks.isLoading ||
+        addRecipient.isPending ||
+        resolvingAccount ||
+        accountNumber.length < 10 ||
+        !bankName ||
+        !bankDetails?.data?.account_name
+      : !bankName || !accountNumber || !fullName || addRecipient.isPending;
+
+  const handleUpdatePurpose = (updatedPurpose: string) => {
+    if (!selectedTrxId) return;
+
+    updateRecipient.mutate(
+      { id: selectedTrxId, payload: { purpose: updatedPurpose } },
+      {
+        onSuccess: () => {
+          toast.success("Purpose updated successfully!");
+          queryClient.invalidateQueries({
+            queryKey: ["fetch-recent-recipient"],
+          });
+          setOpenPurpose(false);
+        },
+      }
+    );
+  };
 
   return (
     <SideNav>
@@ -116,7 +216,7 @@ const Recipients = () => {
                 Trx.map((trx: any, index: number) => (
                   <div
                     key={index}
-                    className="rounded-lg flex items-center justify-between w-full cursor-pointer p-1.5 lg:p-3 bg-gray-100 flex-col lg:flex-row gap-2 lg:gap-0"
+                    className="rounded-lg mb-2 flex items-center justify-between w-full cursor-pointer p-1.5 lg:p-3 bg-gray-100 flex-col lg:flex-row gap-2 lg:gap-0"
                   >
                     <div className="flex items-center gap-2 w-full lg:w-auto border-b lg:border-0 pb-4 lg:pb-0">
                       <div className="inline-block relative">
@@ -147,7 +247,7 @@ const Recipients = () => {
                       </div>
                     </div>
 
-                    <div className="flex lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
+                    <div className="flex text-right lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
                       <div className="font-medium px-2 lg:px-0">
                         <p className="text-sm font-dm-sans text-black">
                           {trx.recipientBankName}
@@ -162,10 +262,14 @@ const Recipients = () => {
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-end">
                         <svg
                           className="cursor-pointer"
-                          onClick={() => setOpenPurpose(true)}
+                          onClick={() => {
+                            setSelectedTrxPurpose(trx.purpose || "");
+                            setSelectedTrxId(trx.id);
+                            setOpenPurpose(true);
+                          }}
                           width="20"
                           height="20"
                           viewBox="0 0 26 26"
@@ -194,6 +298,16 @@ const Recipients = () => {
                           />
                         </svg>
                         <svg
+                          onClick={() =>
+                            deleteRecipient.mutate(trx.id, {
+                              onSuccess: () => {
+                                toast.success("Deleted Successfully!");
+                                queryClient.invalidateQueries({
+                                  queryKey: ["fetch-recent-recipient"],
+                                });
+                              },
+                            })
+                          }
                           className="cursor-pointer"
                           width="20"
                           height="20"
@@ -359,10 +473,34 @@ const Recipients = () => {
             </div>
           )}
         </div>
-        <div className="w-full md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
-          <h1 className="text-[#072032] py-2 px-4 md:py-4 md:px-6 text-lg font-semibold font-dm-sans">
-            Add New Recipients
-          </h1>
+        <div className="w-full max-w-[50vh] overflow-y-scroll scrollbar-hide md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
+          <div className="flex items-center justify-between font-dm-sans py-2 px-4 md:py-4 md:px-6">
+            <h1 className="text-[#072032]  text-lg font-semibold ">
+              Add New Recipients
+            </h1>
+            <div className="flex items-center gap-3">
+              <span
+                className={`text-sm font-medium ${
+                  currency === "NGN" ? "text-main" : "text-gray-500"
+                }`}
+              >
+                NGN
+              </span>
+              <Switch
+                checked={currency === "GBP"}
+                onCheckedChange={(checked) =>
+                  setCurrency(checked ? "GBP" : "NGN")
+                }
+              />
+              <span
+                className={`text-sm font-medium ${
+                  currency === "GBP" ? "text-main" : "text-gray-500"
+                }`}
+              >
+                GBP
+              </span>
+            </div>
+          </div>
           <hr />
           <div className="px-3 md:px-4 lg:px-6 py-3">
             <div className="space-y-1">
@@ -373,25 +511,49 @@ const Recipients = () => {
                 >
                   Bank name
                 </label>
-                <select
-                  name="bank name"
-                  id="bank name"
-                  onChange={(e) => setBankCode(e.target.value)}
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                {currency === "NGN" ? (
+                  <select
+                    name="bank name"
+                    id="bank name"
+                    value={JSON.stringify({
+                      name: bankName,
+                      code: bankCode,
+                    })}
+                    onChange={(e) => {
+                      const { name, code } = JSON.parse(e.target.value);
+                      setBankCode(code);
+                      setBankName(name);
+                    }}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
-                >
-                  {getBanks.isLoading ? (
-                    <option value="">Please choose recipient's bank</option>
-                  ) : (
-                    getBanks.data.data.map((bank: BankI) => {
-                      return (
-                        <option key={bank.id} value={bank.code}>
-                          {bank.name}
-                        </option>
-                      );
-                    })
-                  )}
-                </select>
+                  >
+                    {getBanks.isLoading ? (
+                      <option value="">Please choose recipient's bank</option>
+                    ) : (
+                      getBanks.data.data.map((bank: BankI) => {
+                        return (
+                          <option
+                            key={bank.id}
+                            value={JSON.stringify({
+                              name: bank.name,
+                              code: bank.code,
+                            })}
+                          >
+                            {bank.name}
+                          </option>
+                        );
+                      })
+                    )}
+                  </select>
+                ) : (
+                  <input
+                    value={bankName}
+                    onChange={(e) => setBankName(e.target.value)}
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                )}
               </div>
               <div>
                 <label
@@ -422,17 +584,34 @@ focus:border-main focus:outline-none transition-colors"
                 >
                   Fullname of the account holder
                 </label>
-                <input
-                  value={
-                    resolvingAccount
-                      ? "Please wait..."
-                      : bankDetails?.data?.account_name || ""
-                  }
-                  readOnly
-                  type="text"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                {currency === "NGN" ? (
+                  <input
+                    value={
+                      accountNumber.length < 10
+                        ? ""
+                        : resolvingAccount
+                        ? "Please wait..."
+                        : bankDetails?.data?.account_name || ""
+                    }
+                    readOnly
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
-                />
+                  />
+                ) : (
+                  <input
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    type="text"
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                )}
+                {shouldShowInvalidError && (
+                  <p className="text-xs text-red-500 font-dm-sans mt-1">
+                    Invalid account details
+                  </p>
+                )}
               </div>
               <div>
                 <label
@@ -442,6 +621,8 @@ focus:border-main focus:outline-none transition-colors"
                   Their email (optional)
                 </label>
                 <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -452,12 +633,16 @@ focus:border-main focus:outline-none transition-colors"
                   className="font-poppins font-semibold text-sm text-[#454745] "
                   htmlFor=""
                 >
-                  Their mobile number (optional)
+                  Phone Number (optional)
                 </label>
                 <input
-                  type="email"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+  focus:border-main focus:outline-none transition-colors"
+                  maxLength={15}
+                  placeholder="Enter phone number"
                 />
               </div>
               <div>
@@ -468,6 +653,8 @@ focus:border-main focus:outline-none transition-colors"
                   Purpose
                 </label>
                 <textarea
+                  value={purpose}
+                  onChange={(e) => setPurpose(e.target.value)}
                   placeholder="Purpose"
                   className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -475,24 +662,33 @@ focus:border-main focus:outline-none transition-colors"
               </div>
               <div className="flex justify-end">
                 <div className="flex items-center gap-1">
-                  <p className="font-poppins text-sm">
+                  <p className="font-poppins text-xs">
                     Is this a business bank account
                   </p>
-                  <input type="checkbox" className="accent-main w-3.5 h-3.5" />
+                  <input
+                    type="checkbox"
+                    checked={isBusiness}
+                    onChange={(e) => setIsBusiness(e.target.checked)}
+                    className="accent-main w-3.5 h-3.5"
+                  />
                 </div>
               </div>
             </div>
             <button
-              disabled={getBanks.isLoading}
-              // onClick={() => router.push("/send-money/fund")}
+              disabled={isDisabled}
               className="
     text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l disabled:from-[#8134d6]/70 disabled:to-[#301342]/70 disabled:cursor-not-allowed from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    hover:border-transparent my-5 text-center 
+    hover:border-transparent my-5 text-center flex justify-center
   "
+              onClick={handleAddRecipient}
             >
-              Add
+              {addRecipient.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Add"
+              )}
             </button>
           </div>
         </div>
@@ -501,6 +697,9 @@ focus:border-main focus:outline-none transition-colors"
           <PurposeModal
             openPurpose={openPurpose}
             setOpenPurpose={setOpenPurpose}
+            purpose={selectedTrxPurpose}
+            onUpdatePurpose={handleUpdatePurpose}
+            isUpdating={updateRecipient.isPending}
           />
         )}
       </div>

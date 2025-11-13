@@ -53,7 +53,7 @@ const BankDetails = () => {
   const transfer = useTransferStore((state) => state.transfer);
 
   const { getRecentTrx } = useTrx();
-  const { isLoading, data } = getRecentTrx({ limit: 10, name: filterName });
+  const { isLoading, data } = getRecentTrx({ name: filterName });
   const Trx = data?.data || [];
 
 
@@ -147,7 +147,7 @@ const BankDetails = () => {
                 onChange={(e) => setFilterName(e.target.value)}
                 placeholder="Search Recipients"
                 type="text"
-                className="font-poppins text-sm w-1/3 mt-2 py-2 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-sm w-1/2 mt-2 py-2 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none mb-2 transition-colors"
               />
             )}

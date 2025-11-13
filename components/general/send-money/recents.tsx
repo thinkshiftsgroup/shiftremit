@@ -41,7 +41,7 @@ const RecentTfs = ({ Trx, isLoading }: any) => {
 
   return (
     <div className="py-4 font-poppins">
-      <div className="grid grid-cols-4 gap-5 justify-center">
+      <div className="grid max-w-[50vh] overflow-y-scroll scrollbar-hide grid-cols-4 gap-5 justify-center">
         {isLoading ? (
           <div className="col-span-4 flex justify-center items-center py-20">
             <Loader2 className="animate-spin text-main" size={24} />
@@ -57,7 +57,7 @@ const RecentTfs = ({ Trx, isLoading }: any) => {
             <div
               key={trx.transactionReference}
               onClick={() => handleRecipientClick(trx)}
-              className="group w-[180px] flex flex-col items-center gap-2 cursor-pointer transition-all duration-200 hover:shadow-md bg-white rounded-lg p-3 border border-gray-100"
+              className="group w-[170px] flex flex-col items-center gap-2 cursor-pointer transition-all duration-200 hover:shadow-md bg-white rounded-lg p-3 border border-gray-100"
             >
               <div className="relative">
                 <div className="w-14 h-14 bg-gray-100 uppercase font-poppins font-semibold text-lg text-main rounded-full flex items-center justify-center border border-gray-200">

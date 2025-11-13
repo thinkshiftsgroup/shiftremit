@@ -41,8 +41,44 @@ export const useRecipient = () => {
       },
     });
 
+  const addRecipient = useMutation({
+    mutationKey: ["add-recipient"],
+    mutationFn: async (payload: any) => {
+      const res = await apiInstance.post("/api/recipients", payload);
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+    },
+  });
+
+  const deleteRecipient = useMutation({
+    mutationKey: ["delete-recipient"],
+    mutationFn: async (id: string) => {
+      const res = await apiInstance.delete(`/api/recipients/${id}`);
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+    },
+  });
+  const updateRecipient = useMutation({
+    mutationKey: ["update-recipient"],
+    mutationFn: async ({ id, payload }: any) => {
+      const res = await apiInstance.put(`/api/recipients/${id}`, payload);
+      return res.data;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Something went wrong!");
+    },
+  });
+
   return {
     getBanks,
     getBankDetails,
+
+    addRecipient,
+    deleteRecipient,
+    updateRecipient
   };
 };
