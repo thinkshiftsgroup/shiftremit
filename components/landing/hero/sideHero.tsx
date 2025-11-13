@@ -7,6 +7,7 @@ import Transfer from "./transfer";
 import CompareRates from "./compareRates";
 import { useRatesStore } from "@/stores/useRatesStore";
 import { formatNumber } from "@/helper/utils";
+import LearnMoreModal from "../learnMore";
 
 const SideHero = () => {
   const [isBank, setIsBank] = useState(true);
@@ -113,6 +114,7 @@ const SideHero = () => {
         </div>
 
         <CompareRates isOpen={isOpen} setIsOpen={setIsOpen} />
+        <LearnMoreModal />
       </div>
     </div>
   );
