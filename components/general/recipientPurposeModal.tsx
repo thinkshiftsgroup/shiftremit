@@ -6,8 +6,36 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
+interface PurposeModalProps {
+  openPurpose: boolean;
+  setOpenPurpose: (open: boolean) => void;
+  purpose: string;
+  onUpdatePurpose: (updatedPurpose: string) => void;
+  isUpdating?: boolean; // 👈 added prop to control loader
+}
+
+const PurposeModal = ({
+  openPurpose,
+  setOpenPurpose,
+  purpose,
+  onUpdatePurpose,
+  isUpdating = false,
+}: PurposeModalProps) => {
+  const [localPurpose, setLocalPurpose] = useState(purpose);
+
+  useEffect(() => {
+    setLocalPurpose(purpose);
+  }, [purpose]);
+
+  const handleSave = () => {
+    if (!localPurpose.trim()) return;
+    onUpdatePurpose(localPurpose);
+    
+  };
+
   return (
     <Dialog open={openPurpose} onOpenChange={setOpenPurpose}>
       <DialogContent className="max-w-md rounded-xl p-6 space-y-4">
@@ -16,24 +44,14 @@ const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
             Purpose
           </DialogTitle>
         </DialogHeader>
-        {/* <div className="space-y-3 text-sm font-poppins">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab libero
-            molestiae ea quisquam, voluptate iusto voluptatum recusandae
-            pariatur tenetur esse modi atque possimus porro corrupti asperiores
-            rerum aliquid sequi laborum.
-          </p>
-        </div> */}
 
         <div className="space-y-3 text-sm font-poppins">
-          <p className="text-gray-600">
-            Purpose
-          </p>
-
           <textarea
             className="border rounded-md w-full p-3 outline-none text-sm font-poppins focus:border-main transition"
             placeholder="Write purpose here..."
             rows={4}
+            value={localPurpose}
+            onChange={(e) => setLocalPurpose(e.target.value)}
           />
         </div>
 
@@ -42,11 +60,21 @@ const PurposeModal = ({ openPurpose, setOpenPurpose }: any) => {
             variant="outline"
             onClick={() => setOpenPurpose(false)}
             className="font-poppins"
+            disabled={isUpdating}
           >
             Cancel
           </Button>
 
-          <Button className="bg-main text-white font-poppins">Save</Button>
+          <Button
+            className="bg-main text-white font-poppins flex items-center gap-2"
+            onClick={handleSave}
+            disabled={isUpdating}
+          >
+            {isUpdating && (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            )}
+            {isUpdating ? "Saving..." : "Save"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

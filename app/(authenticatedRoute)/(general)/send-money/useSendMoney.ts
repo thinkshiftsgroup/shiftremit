@@ -39,13 +39,6 @@ export const useSendMoney = () => {
     },
   });
 
-  const addRecipients = useMutation({
-    mutationKey: ["add-recipient"],
-    mutationFn:async () =>{
-      
-    }
-  })
-
   return {
     sendTfDetails,
   };
