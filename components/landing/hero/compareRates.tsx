@@ -73,7 +73,7 @@ export default function CompareRates({ isOpen, setIsOpen }: any) {
 
     const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
-    const lemfiRate = ratesData?.lemfi?.rate;
+    const lemfiRate = ratesData.lemfi.rate;
 
     const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
 
