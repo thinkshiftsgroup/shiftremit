@@ -8,10 +8,11 @@ import { FiSearch } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useRecipient } from "./useRecipient";
 import { useTrx } from "../../user/transactions/useTrx";
-import { Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { Switch } from "@/components/ui/switch";
+import { FaAngleLeft } from "react-icons/fa6";
 
 interface BankI {
   id: number;
@@ -52,7 +53,8 @@ const Recipients = () => {
   const [fullName, setFullName] = useState("");
 
   const { getRecentTrx } = useTrx();
-  const { isLoading, data } = getRecentTrx({ limit: 5, name: "" });
+  const [page, setPage] = useState(1);
+  const { isLoading, data } = getRecentTrx({ limit: 5, name: "", page: page });
   const Trx = data?.data || [];
 
   const {
@@ -104,7 +106,7 @@ const Recipients = () => {
 
         recipientMobileNumber: phone,
         isRecipientBusinessAccount: isBusiness,
-        sortCode: sortCode,
+        sortCode: currency === "NGN" ? "" : sortCode,
         purpose: purpose,
       },
       {
@@ -133,7 +135,11 @@ const Recipients = () => {
         accountNumber.length < 10 ||
         !bankName ||
         !bankDetails?.data?.account_name
-      : !bankName || !accountNumber || !fullName || addRecipient.isPending;
+      : !bankName ||
+        !accountNumber ||
+        !fullName ||
+        addRecipient.isPending ||
+        !sortCode;
 
   const handleUpdatePurpose = (updatedPurpose: string) => {
     if (!selectedTrxId) return;
@@ -154,7 +160,7 @@ const Recipients = () => {
 
   return (
     <SideNav>
-      <div className="py-5 md:py-7 lg:py-10 flex items-start justify-between gap-5 flex-col md:flex-row">
+      <div className="py-5 md:py-7 lg:py-10 flex items-start gap-5 flex-col md:flex-row">
         <div className="w-full md:w-[50%] lg:w-[60%] rounded-md bg-white py-3.5 px-4 lg:px-6 shadow-md">
           <div className="flex items-center justify-between">
             <h1 className="text-[#072032]  text-lg md:text-xl font-semibold font-dm-sans mb-2">
@@ -238,7 +244,7 @@ const Recipients = () => {
                       </div>
 
                       <div>
-                        <h1 className="font-poppins text-sm font-semibold text-black">
+                        <h1 className="font-poppins capitalize text-sm font-semibold text-black">
                           {trx.recipientFullName}
                         </h1>
                         <p className="text-sm font-dm-sans text-black">
@@ -327,46 +333,63 @@ const Recipients = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center text-gray-500 font-dm-sans py-4">
-                  No recipient
+                <div className="flex flex-col items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="80"
+                    height="80"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M10 20h3.627a5.25 5.25 0 1 1 8.369-6.34Q22 12.9 22 12c0-.442 0-1.608-.002-2H2.002C2 10.392 2 11.558 2 12c0 3.771 0 5.657 1.172 6.828S6.229 20 10 20"
+                      opacity=".5"
+                    ></path>
+                    <path
+                      fill="currentColor"
+                      d="M5.25 16a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"
+                    ></path>
+                    <path
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      d="M17.75 14.5a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5M14 16.75a3.75 3.75 0 1 1 6.879 2.068l.901.902a.75.75 0 1 1-1.06 1.06l-.902-.901A3.75 3.75 0 0 1 14 16.75"
+                      clipRule="evenodd"
+                    ></path>
+                    <path
+                      fill="currentColor"
+                      d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
+                    ></path>
+                  </svg>
+                  <p className="font-poppins text-sm text-[#8094ae]">
+                    Don't have any data
+                  </p>
+                </div>
+              )}
+
+              {isLoading ? (
+                ""
+              ) : (
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronLeft />
+                  </button>
+
+                  <button
+                    onClick={() => setPage((p) => p + 1)}
+                    className="p-2 disabled:opacity-40"
+                  >
+                    <ChevronRight size={20} className="text-main-dark-II" />
+                  </button>
                 </div>
               )}
             </div>
           )}
           {tab === "my-account" && (
             <div className=" my-3">
-              {/* <div className="flex flex-col items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="80"
-                height="80"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M10 20h3.627a5.25 5.25 0 1 1 8.369-6.34Q22 12.9 22 12c0-.442 0-1.608-.002-2H2.002C2 10.392 2 11.558 2 12c0 3.771 0 5.657 1.172 6.828S6.229 20 10 20"
-                  opacity=".5"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M5.25 16a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75"
-                ></path>
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  d="M17.75 14.5a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5M14 16.75a3.75 3.75 0 1 1 6.879 2.068l.901.902a.75.75 0 1 1-1.06 1.06l-.902-.901A3.75 3.75 0 0 1 14 16.75"
-                  clipRule="evenodd"
-                ></path>
-                <path
-                  fill="currentColor"
-                  d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
-                ></path>
-              </svg>
-              <p className="font-poppins text-sm text-[#8094ae]">
-                Don't have any data
-              </p>
-            </div> */}
-              {/* if empty; use for both tabs */}
               <div className=" relative my-5 md:my-7 lg:my-10">
                 <div>
                   <div className="w-10 h-10 md:w-12 md:h-12 mx-auto rounded-full flex items-center justify-center">
@@ -473,7 +496,7 @@ const Recipients = () => {
             </div>
           )}
         </div>
-        <div className="w-full max-w-[50vh] overflow-y-scroll scrollbar-hide md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
+        <div className=" overflow-y-scroll scrollbar-hide md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
           <div className="flex items-center justify-between font-dm-sans py-2 px-4 md:py-4 md:px-6">
             <h1 className="text-[#072032]  text-lg font-semibold ">
               Add New Recipients
@@ -613,6 +636,29 @@ focus:border-main focus:outline-none transition-colors"
                   </p>
                 )}
               </div>
+              {currency === "NGN" ? (
+                ""
+              ) : (
+                <div>
+                  <label
+                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    htmlFor=""
+                  >
+                    Sort Code
+                  </label>
+                  <input
+                    value={sortCode}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                      setSortCode(val);
+                    }}
+                    type="number"
+                    maxLength={6}
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                  />
+                </div>
+              )}
               <div>
                 <label
                   className="font-poppins font-semibold text-sm text-[#454745] "

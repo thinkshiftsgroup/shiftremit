@@ -64,7 +64,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     ? user.firstname || user.username || user.email
     : "Guest";
 
-
   const navItems = [
     {
       icon: <TbSmartHome size={18} />,
@@ -163,8 +162,19 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
     {
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 24 24">
-          <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={18}
+          height={18}
+          viewBox="0 0 24 24"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+          >
             <path d="M19.75 6.75h-12a4 4 0 0 0-4 4v2m16-1v2a4 4 0 0 1-4 4h-12"></path>
             <path d="m16.75 9.75l3-3l-3-3m-10 11l-3 3l3 3"></path>
           </g>
@@ -331,8 +341,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     },
     {
       icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18} viewBox="0 0 20 20">
-          <path fill="currentColor" d="M4.5 6.75a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0M6.75 3.5a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5m5.687 11.645c.538.22 1.215.355 2.063.355c1.881 0 2.921-.668 3.469-1.434a2.9 2.9 0 0 0 .521-1.36a2 2 0 0 0 .01-.137V12.5A1.5 1.5 0 0 0 17 11h-4.63c.24.29.42.629.525 1H17a.5.5 0 0 1 .5.5v.054l-.005.05a1.9 1.9 0 0 1-.34.88c-.327.459-1.037 1.016-2.655 1.016c-.732 0-1.278-.114-1.687-.281c-.082.28-.201.596-.376.926M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2v.084l-.002.04l-.01.135a3.95 3.95 0 0 1-.67 1.806C10.617 16.08 9.263 17 6.75 17s-3.867-.92-4.568-1.934a3.95 3.95 0 0 1-.67-1.807a3 3 0 0 1-.012-.175zm1 .06v.018l.007.083a2.95 2.95 0 0 0 .498 1.336C3.492 15.201 4.513 16 6.75 16s3.258-.799 3.745-1.503a2.95 2.95 0 0 0 .498-1.336q.006-.057.006-.083l.001-.017V13a1 1 0 0 0-1-1H3.5a1 1 0 0 0-1 1zM13 7.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M14.5 5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5" strokeWidth={0.5} stroke="currentColor"></path>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={18}
+          height={18}
+          viewBox="0 0 20 20"
+        >
+          <path
+            fill="currentColor"
+            d="M4.5 6.75a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0M6.75 3.5a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5m5.687 11.645c.538.22 1.215.355 2.063.355c1.881 0 2.921-.668 3.469-1.434a2.9 2.9 0 0 0 .521-1.36a2 2 0 0 0 .01-.137V12.5A1.5 1.5 0 0 0 17 11h-4.63c.24.29.42.629.525 1H17a.5.5 0 0 1 .5.5v.054l-.005.05a1.9 1.9 0 0 1-.34.88c-.327.459-1.037 1.016-2.655 1.016c-.732 0-1.278-.114-1.687-.281c-.082.28-.201.596-.376.926M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2v.084l-.002.04l-.01.135a3.95 3.95 0 0 1-.67 1.806C10.617 16.08 9.263 17 6.75 17s-3.867-.92-4.568-1.934a3.95 3.95 0 0 1-.67-1.807a3 3 0 0 1-.012-.175zm1 .06v.018l.007.083a2.95 2.95 0 0 0 .498 1.336C3.492 15.201 4.513 16 6.75 16s3.258-.799 3.745-1.503a2.95 2.95 0 0 0 .498-1.336q.006-.057.006-.083l.001-.017V13a1 1 0 0 0-1-1H3.5a1 1 0 0 0-1 1zM13 7.5a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0M14.5 5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5"
+            strokeWidth={0.5}
+            stroke="currentColor"
+          ></path>
         </svg>
       ),
       title: "Customers",
@@ -364,35 +384,35 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Account",
       link: "/account",
-      showFor: ["user"],
+      showFor: ["user", "admin"],
     },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
-          <path
-            fill="currentColor"
-            d="M10 3.5C8.563 3.5 7.42 4.631 7.42 6S8.564 8.5 10 8.5s2.579-1.131 2.579-2.5s-1.143-2.5-2.58-2.5M6.42 6c0-1.945 1.615-3.5 3.58-3.5c1.964 0 3.579 1.555 3.579 3.5s-1.615 3.5-3.58 3.5C8.036 9.5 6.422 7.945 6.422 6m1.186 5.756c-.218-.14-.43-.18-.585-.138q-.22.06-.439.13l-.984.316a2.52 2.52 0 0 0-1.629 1.56c-.03.09-.05.194-.064.327l-.39 3.695l-.001.009c-.09.636.252 1.175.824 1.308c1.097.254 2.93.537 5.662.537a.5.5 0 0 1 0 1c-2.8 0-4.71-.29-5.888-.563c-1.147-.266-1.737-1.345-1.59-2.414l.389-3.677c.017-.164.046-.355.113-.549a3.52 3.52 0 0 1 2.269-2.185l.984-.316q.238-.076.478-.142c.52-.143 1.028.026 1.394.263c.394.254 1.045.569 1.85.569s1.457-.315 1.851-.57c.367-.236.874-.405 1.394-.262q.24.067.478.142l.985.316a.5.5 0 1 1-.305.952l-.985-.315q-.217-.07-.438-.13c-.156-.043-.367-.004-.586.137c-.489.317-1.329.73-2.393.73c-1.065 0-1.905-.413-2.394-.73"
-            strokeWidth="0.5"
-            stroke="currentColor"
-          />{" "}
-          <path
-            fill="currentColor"
-            d="M15.64 13.16a.73.73 0 0 1 .731-.66h1.257a.73.73 0 0 1 .732.66c.018.207.177.428.463.574q.084.043.167.09c.314.18.621.213.843.114a.74.74 0 0 1 .934.286l.628 1.032a.715.715 0 0 1-.221.971c-.18.118-.303.378-.299.725v.096c-.005.347.12.607.299.725a.715.715 0 0 1 .221.971l-.628 1.032a.74.74 0 0 1-.934.286c-.222-.099-.529-.066-.843.114q-.082.046-.167.09c-.286.146-.445.367-.463.574a.73.73 0 0 1-.732.66H16.37a.73.73 0 0 1-.731-.66c-.019-.207-.178-.428-.464-.574a4 4 0 0 1-.166-.09c-.315-.18-.622-.213-.844-.114a.74.74 0 0 1-.934-.286l-.628-1.032a.715.715 0 0 1 .222-.971c.18-.118.303-.378.298-.725v-.096c.005-.347-.119-.607-.298-.725a.715.715 0 0 1-.222-.971l.628-1.032a.74.74 0 0 1 .934-.286c.222.099.53.066.844-.114q.082-.046.166-.09c.286-.146.445-.367.464-.574m.952.34c-.138.526-.541.911-.962 1.125l-.124.067c-.424.243-.984.395-1.532.237l-.385.632c.401.382.541.934.535 1.404v.07c.006.47-.134 1.022-.535 1.404l.385.632c.548-.158 1.108-.006 1.532.237q.06.034.124.067c.42.214.824.6.962 1.125h.815c.138-.526.542-.911.962-1.125l.124-.067c.424-.243.985-.395 1.533-.237l.384-.632c-.401-.382-.541-.934-.535-1.404v-.07c-.006-.47.134-1.022.535-1.404l-.384-.632c-.549.158-1.109.006-1.533-.237l-.124-.067c-.42-.214-.824-.6-.962-1.125zm1.199 3.093c-.244-.4-.806-.555-1.255-.31c-.434.239-.56.74-.328 1.124c.244.4.806.555 1.255.31c.434-.239.56-.74.328-1.124m-1.735-1.186c.897-.491 2.055-.21 2.589.666c.544.893.209 2.022-.702 2.52c-.897.491-2.055.21-2.589-.666c-.543-.893-.209-2.022.702-2.52"
-            strokeWidth="0.5"
-            stroke="currentColor"
-          />{" "}
-        </svg>
-      ),
-      title: "Account",
-      link: "/admin/account",
-      showFor: ["admin"],
-    },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       {" "}
+    //       <path
+    //         fill="currentColor"
+    //         d="M10 3.5C8.563 3.5 7.42 4.631 7.42 6S8.564 8.5 10 8.5s2.579-1.131 2.579-2.5s-1.143-2.5-2.58-2.5M6.42 6c0-1.945 1.615-3.5 3.58-3.5c1.964 0 3.579 1.555 3.579 3.5s-1.615 3.5-3.58 3.5C8.036 9.5 6.422 7.945 6.422 6m1.186 5.756c-.218-.14-.43-.18-.585-.138q-.22.06-.439.13l-.984.316a2.52 2.52 0 0 0-1.629 1.56c-.03.09-.05.194-.064.327l-.39 3.695l-.001.009c-.09.636.252 1.175.824 1.308c1.097.254 2.93.537 5.662.537a.5.5 0 0 1 0 1c-2.8 0-4.71-.29-5.888-.563c-1.147-.266-1.737-1.345-1.59-2.414l.389-3.677c.017-.164.046-.355.113-.549a3.52 3.52 0 0 1 2.269-2.185l.984-.316q.238-.076.478-.142c.52-.143 1.028.026 1.394.263c.394.254 1.045.569 1.85.569s1.457-.315 1.851-.57c.367-.236.874-.405 1.394-.262q.24.067.478.142l.985.316a.5.5 0 1 1-.305.952l-.985-.315q-.217-.07-.438-.13c-.156-.043-.367-.004-.586.137c-.489.317-1.329.73-2.393.73c-1.065 0-1.905-.413-2.394-.73"
+    //         strokeWidth="0.5"
+    //         stroke="currentColor"
+    //       />{" "}
+    //       <path
+    //         fill="currentColor"
+    //         d="M15.64 13.16a.73.73 0 0 1 .731-.66h1.257a.73.73 0 0 1 .732.66c.018.207.177.428.463.574q.084.043.167.09c.314.18.621.213.843.114a.74.74 0 0 1 .934.286l.628 1.032a.715.715 0 0 1-.221.971c-.18.118-.303.378-.299.725v.096c-.005.347.12.607.299.725a.715.715 0 0 1 .221.971l-.628 1.032a.74.74 0 0 1-.934.286c-.222-.099-.529-.066-.843.114q-.082.046-.167.09c-.286.146-.445.367-.463.574a.73.73 0 0 1-.732.66H16.37a.73.73 0 0 1-.731-.66c-.019-.207-.178-.428-.464-.574a4 4 0 0 1-.166-.09c-.315-.18-.622-.213-.844-.114a.74.74 0 0 1-.934-.286l-.628-1.032a.715.715 0 0 1 .222-.971c.18-.118.303-.378.298-.725v-.096c.005-.347-.119-.607-.298-.725a.715.715 0 0 1-.222-.971l.628-1.032a.74.74 0 0 1 .934-.286c.222.099.53.066.844-.114q.082-.046.166-.09c.286-.146.445-.367.464-.574m.952.34c-.138.526-.541.911-.962 1.125l-.124.067c-.424.243-.984.395-1.532.237l-.385.632c.401.382.541.934.535 1.404v.07c.006.47-.134 1.022-.535 1.404l.385.632c.548-.158 1.108-.006 1.532.237q.06.034.124.067c.42.214.824.6.962 1.125h.815c.138-.526.542-.911.962-1.125l.124-.067c.424-.243.985-.395 1.533-.237l.384-.632c-.401-.382-.541-.934-.535-1.404v-.07c-.006-.47.134-1.022.535-1.404l-.384-.632c-.549.158-1.109.006-1.533-.237l-.124-.067c-.42-.214-.824-.6-.962-1.125zm1.199 3.093c-.244-.4-.806-.555-1.255-.31c-.434.239-.56.74-.328 1.124c.244.4.806.555 1.255.31c.434-.239.56-.74.328-1.124m-1.735-1.186c.897-.491 2.055-.21 2.589.666c.544.893.209 2.022-.702 2.52c-.897.491-2.055.21-2.589-.666c-.543-.893-.209-2.022.702-2.52"
+    //         strokeWidth="0.5"
+    //         stroke="currentColor"
+    //       />{" "}
+    //     </svg>
+    //   ),
+    //   title: "Account",
+    //   link: "/admin/account",
+    //   showFor: ["admin"],
+    // },
     {
       icon: (
         <svg
@@ -487,53 +507,65 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       <div>
         <div
           onClick={() => router.push(logoRedirectPath)}
-          className={`flex items-center justify-between cursor-pointer gap-1 p-3 z-50 ${collapsed ? "p-2" : "p-3"
-            }`}
+          className={`flex items-center justify-between cursor-pointer gap-1 p-3 z-50 ${
+            collapsed ? "p-2" : "p-3"
+          }`}
         >
-          {!collapsed && (<div className="flex items-center gap-2">
-            <Image
-              src="/images/shiftremit-logo.png"
-              width={40}
-              height={40}
-              alt="shiftremit-logo"
-              className="w-10 h-10 object-cover"
-            />
+          {!collapsed && (
+            <div className="flex items-center gap-2">
+              <Image
+                src="/images/shiftremit-logo.png"
+                width={40}
+                height={40}
+                alt="shiftremit-logo"
+                className="w-10 h-10 object-cover"
+              />
 
-            <div>
-              <h1 className="text-xl font-bold font-poppins text-black">
-                Shift<span className="text-main">Remit</span>
-              </h1>
-              <p className="text-[8px] italic text-black font-dm-sans">
-                Unbeatable Transfer Rates
-              </p>
+              <div>
+                <h1 className="text-xl font-bold font-poppins text-black">
+                  Shift<span className="text-main">Remit</span>
+                </h1>
+                <p className="text-[8px] italic text-black font-dm-sans">
+                  Unbeatable Transfer Rates
+                </p>
+              </div>
             </div>
-
-          </div>
           )}
 
-          {collapsed && (<div className="flex items-center justify-center w-full gap-2">
-            <Image
-              onClick={(e) => {
-                e.stopPropagation();
-                setCollapsed(!collapsed);
-              }}
-              src="/images/shiftremit-logo.png"
-              width={20}
-              height={20}
-              alt="shiftremit-logo"
-              className="w-6 h-6 object-cover cursor-pointer"
-            />
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setCollapsed(!collapsed);
-              }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                <path fill="currentColor" d="M20 5a1 1 0 0 0-1-1h-5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L18 7.42V10a1 1 0 0 0 1 1a1 1 0 0 0 1-1Zm-9.29 8.29a1 1 0 0 0-1.42 0L6 16.57V14a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2H7.42l3.29-3.29a1 1 0 0 0 0-1.42" strokeWidth={0.5} stroke="currentColor"></path>
-              </svg>
-
+          {collapsed && (
+            <div className="flex items-center justify-center w-full gap-2">
+              <Image
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCollapsed(!collapsed);
+                }}
+                src="/images/shiftremit-logo.png"
+                width={20}
+                height={20}
+                alt="shiftremit-logo"
+                className="w-6 h-6 object-cover cursor-pointer"
+              />
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCollapsed(!collapsed);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={20}
+                  height={20}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M20 5a1 1 0 0 0-1-1h-5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L18 7.42V10a1 1 0 0 0 1 1a1 1 0 0 0 1-1Zm-9.29 8.29a1 1 0 0 0-1.42 0L6 16.57V14a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2H7.42l3.29-3.29a1 1 0 0 0 0-1.42"
+                    strokeWidth={0.5}
+                    stroke="currentColor"
+                  ></path>
+                </svg>
+              </div>
             </div>
-          </div>
           )}
 
           <div className="p-4 pe-0 flex lg:hidden justify-end">
@@ -563,7 +595,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               </svg>
             </button>
           </div>
-          <div className={` pe-0 hidden  justify-end ${collapsed ? "p-0 lg:hidden" : "p-4 lg:flex"}`}>
+          <div
+            className={` pe-0 hidden  justify-end ${
+              collapsed ? "p-0 lg:hidden" : "p-4 lg:flex"
+            }`}
+          >
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -584,17 +620,33 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   d="m8 5l8 7l-8 7V5z"
                 />
               </svg> */}
-              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}>
-                <path fill="currentColor" d="M19 9h-2.58l3.29-3.29a1 1 0 1 0-1.42-1.42L15 7.57V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2m-9 4H5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 16.42V19a1 1 0 0 0 1 1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1" strokeWidth={0.5} stroke="currentColor"></path>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                className={`transition-transform duration-300 ${
+                  collapsed ? "rotate-180" : ""
+                }`}
+              >
+                <path
+                  fill="currentColor"
+                  d="M19 9h-2.58l3.29-3.29a1 1 0 1 0-1.42-1.42L15 7.57V5a1 1 0 0 0-1-1a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h5a1 1 0 0 0 0-2m-9 4H5a1 1 0 0 0 0 2h2.57l-3.28 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0L9 16.42V19a1 1 0 0 0 1 1a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1"
+                  strokeWidth={0.5}
+                  stroke="currentColor"
+                ></path>
               </svg>
             </button>
-
           </div>
         </div>
 
         <div className="bg-gray-200 w-full h-px" />
 
-        <div className={`h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1 ${collapsed ? "overflow-x-hidden" : ""}`}>
+        <div
+          className={`h-[68vh] overflow-y-auto no-scrollbar mt-2 px-2 space-y-1 ${
+            collapsed ? "overflow-x-hidden" : ""
+          }`}
+        >
           {filteredNavItems.map((nav, i) => {
             const isActive =
               pathname.startsWith(nav.link) ||
@@ -608,16 +660,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                     onClick={() => toggleDropdown(nav.title)}
                     className={`w-full flex items-center py-2.5 px-3 rounded-xl text-sm font-poppins transition-all
                       ${collapsed ? "justify-center w-auto" : "justify-between"}
-                      ${isActive
-                        ? "bg-[#f1f1f1] text-[#301342]"
-                        : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                      ${
+                        isActive
+                          ? "bg-[#f1f1f1] text-[#301342]"
+                          : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
                       }`}
                   >
                     <div className={`flex items-center gap-2`}>
                       {nav.icon && (
                         <span
-                          className={`${isActive ? "text-main" : "text-[#454745]"
-                            }`}
+                          className={`${
+                            isActive ? "text-main" : "text-[#454745]"
+                          }`}
                         >
                           {nav.icon}
                         </span>
@@ -636,23 +690,23 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                     href={nav.link || "#"}
                     className={`flex items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
                       ${collapsed ? "justify-center w-auto" : "justify-between"}
-                      ${isActive
-                        ? "bg-[#f1f1f1] text-[#301342]"
-                        : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
+                      ${
+                        isActive
+                          ? "bg-[#f1f1f1] text-[#301342]"
+                          : "text-[#454745] hover:bg-[#f9f9f9] hover:text-[#301342]"
                       }`}
                   >
                     <div className="flex items-center gap-2">
                       {nav.icon && (
                         <span
-                          className={`${isActive ? "text-main" : "text-[#454745]"
-                            }`}
+                          className={`${
+                            isActive ? "text-main" : "text-[#454745]"
+                          }`}
                         >
                           {nav.icon}
                         </span>
                       )}
-                      {!collapsed && (
-                        <span>{nav.title}</span>
-                      )}
+                      {!collapsed && <span>{nav.title}</span>}
                     </div>
                     {(nav.badge ?? 0) > 0 && !collapsed && (
                       <span className="text-xs bg-main text-white px-2 py-0.5 rounded-sm">
@@ -675,10 +729,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       <Link
                         key={j}
                         href={sub.link}
-                        className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${pathname === sub.link
-                          ? "bg-[#f1f1f1] text-[#301342]"
-                          : "text-[#6b6b6b] hover:text-[#301342]"
-                          }`}
+                        className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${
+                          pathname === sub.link
+                            ? "bg-[#f1f1f1] text-[#301342]"
+                            : "text-[#6b6b6b] hover:text-[#301342]"
+                        }`}
                       >
                         - {sub.title}
                       </Link>
@@ -704,24 +759,37 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     </>
   );
 
+  const getInitials = (name?: string) => {
+    if (!name) return "";
+    const parts = name.trim().split(" ").filter(Boolean);
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   return (
     <div className="flex gap-4 p-3 bg-[#f1f1f1]">
       {isOpen && <div className="fixed inset-0 z-100" onClick={closeSidebar} />}
       <aside
-        className={`fixed lg:hidden top-0 left-0 h-screen w-64 bg-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+        className={`fixed lg:hidden top-0 left-0 h-screen w-64 bg-white z-100 rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
         <SideContent />
       </aside>
 
       <div
-        className={`hidden lg:flex flex-col justify-between shadow-[0_2px_5px_rgba(0,0,0,0.05)] bg-white transition-all duration-300 ease-in-out ${collapsed ? "w-20 rounded-lg" : "w-[20%] rounded-3xl"
-          }`}
+        className={`hidden lg:flex flex-col justify-between shadow-[0_2px_5px_rgba(0,0,0,0.05)] bg-white transition-all duration-300 ease-in-out ${
+          collapsed ? "w-20 rounded-lg" : "w-[20%] rounded-3xl"
+        }`}
       >
         <SideContent />
       </div>
 
-      <div className={`h-screen overflow-y-auto scrollbar-hide ${collapsed ? "w-full" : "lg:w-[80%]"}`}>
+      <div
+        className={`h-screen overflow-y-auto scrollbar-hide ${
+          collapsed ? "w-full" : "lg:w-[80%]"
+        }`}
+      >
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
           <div onClick={toggleSidebar} className="lg:hidden">
             <svg
@@ -786,7 +854,18 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               onClick={() => setOpenDrop((prev) => !prev)}
               className="cursor-pointer relative flex items-center gap-1"
             >
-              <div className="w-10 h-10 bg-gray-200 rounded-full" />
+              {user?.profilePhotoUrl ? (
+                <img
+                  src={user?.profilePhotoUrl}
+                  className="w-10 h-10 bg-gray-200 rounded-full"
+                  alt={userDisplayName!}
+                />
+              ) : (
+                <div className="w-10 h-10 bg-gray-200 rounded-full font-poppins flex items-center justify-center ">
+                  {getInitials(user?.fullName)}
+                </div>
+              )}
+
               <div className="hidden md:block">
                 <h1 className="text-sm font-poppins text-black">Hello </h1>
                 <p className="text-xs font-poppins flex items-center gap-1 text-[#8094ae]">

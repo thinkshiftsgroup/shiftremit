@@ -119,18 +119,29 @@ export const useTrx = () => {
     },
   });
 
-  const getRecentTrx = ({ limit, name }: { limit?: number; name?: string }) =>
+  const getRecentTrx = ({
+    limit,
+    name,
+    page,
+  }: {
+    limit?: number;
+    name?: string;
+    page?: number;
+  }) =>
     useQuery({
-      queryKey: ["fetch-recent-recipient", limit, name],
+      queryKey: ["fetch-recent-recipient", limit, name, page],
       queryFn: async () => {
         const params = new URLSearchParams();
 
         if (limit !== undefined) {
-          params.append("limit", limit.toString());
+          params.append("pageSize", limit.toString());
         }
 
         if (name) {
           params.append("name", name);
+        }
+        if (page) {
+          params.append("page", page.toString());
         }
 
         const queryString = params.toString();
@@ -143,6 +154,8 @@ export const useTrx = () => {
       },
       keepPreviousData: true,
     });
+
+
 
   return {
     getBankTrfsUser,
