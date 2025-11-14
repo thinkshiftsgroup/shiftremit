@@ -1,11 +1,11 @@
 "use client";
 import { useTrx } from "@/app/(authenticatedRoute)/user/transactions/useTrx";
 import { useTransferStore } from "@/stores/useTransaferStore";
-import { Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const RecentTfs = ({ Trx, isLoading }: any) => {
+const RecentTfs = ({ Trx, isLoading, page, setPage }: any) => {
   const router = useRouter();
   const { setTransfer, transfer } = useTransferStore();
 
@@ -93,6 +93,26 @@ const RecentTfs = ({ Trx, isLoading }: any) => {
           ))
         )}
       </div>
+        {isLoading ? (
+          ""
+        ) : (
+          <div className="flex items-center justify-between mt-4">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p:any) => Math.max(p - 1, 1))}
+              className="p-2 disabled:opacity-40"
+            >
+              <ChevronLeft />
+            </button>
+
+            <button
+              onClick={() => setPage((p:any) => p + 1)}
+              className="p-2 disabled:opacity-40"
+            >
+              <ChevronRight size={20} className="text-main-dark-II" />
+            </button>
+          </div>
+        )}
     </div>
   );
 };

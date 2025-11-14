@@ -57,32 +57,44 @@ const CustomerTrxn = () => {
 
   const cardData = [
     {
-      title: "Total send money",
-      amount: `${data?.kpis?.totalAmountSentGBP} GBP` || "0 GBP",
+      title: "Total receive money",
+      amount: `${data?.kpis?.totalCompletedSentGBP} GBP` || "0 GBP",
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total receive money",
-      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} NGN`,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total receive money",
-      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} GBP`,
+      amount: `${data?.kpis?.totalCompletedSentNGN || 0} NGN`,
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total amount in review",
-      amount: `${data?.kpis?.totalAmountPendingGBP || 0} GBP`,
+      amount: `${data?.kpis?.totalPendingSentGBP || 0} GBP`,
       link: "",
       lastTxn: 0,
     },
     {
       title: "Total amount in review",
-      amount: `${data?.kpis?.totalAmountCompletedGBP || 0} NGN`,
+      amount: `${data?.kpis?.totalPendingSentNGN || 0} NGN`,
+      link: "",
+      lastTxn: 0,
+    },
+    {
+      title: "Total transfer (GBP)",
+      amount: `${data?.kpis?.totalSentGBP || 0} GBP`,
+      link: "",
+      lastTxn: 0,
+    },
+    {
+      title: "Total transfer (NGN)",
+      amount: `${data?.kpis?.totalSentNGN || 0} NGN`,
+      link: "",
+      lastTxn: 0,
+    },
+    {
+      title: "Total transfer count",
+      amount: `${data?.kpis?.totalTransfers || 0}`,
       link: "",
       lastTxn: 0,
     },
@@ -145,12 +157,12 @@ const CustomerTrxn = () => {
                   <h1 className="text-[#072032] font-medium font-dm-sans text-2xl py-1 ">
                     {card.amount}
                   </h1>
-                  <p className="text-sm font-poppins text-[#454745]">
+                  {/* <p className="text-sm font-poppins text-[#454745]">
                     Last transaction{" "}
                     <span className="text-[#22c55e] font-medium">
                       {card.lastTxn} GBP
                     </span>
-                  </p>
+                  </p> */}
                 </div>
               );
             })}

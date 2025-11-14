@@ -53,9 +53,13 @@ const BankDetails = () => {
   const transfer = useTransferStore((state) => state.transfer);
 
   const { getRecentTrx } = useTrx();
-  const { isLoading, data } = getRecentTrx({ name: filterName });
+  const [page, setPage] = useState(1);
+  const { isLoading, data } = getRecentTrx({
+    limit: 5,
+    name: filterName,
+    page: page,
+  });
   const Trx = data?.data || [];
-
 
   const {
     mutate: resolveAccount,
@@ -155,7 +159,12 @@ focus:border-main focus:outline-none mb-2 transition-colors"
             <hr className="py-2" />
 
             {switchRecents ? (
-              <RecentTfs Trx={Trx} isLoading={isLoading} />
+              <RecentTfs
+                Trx={Trx}
+                page={page}
+                setPage={setPage}
+                isLoading={isLoading}
+              />
             ) : (
               <>
                 {transfer?.toCurrency === "NGN" ? (

@@ -17,6 +17,8 @@ import { useTrx } from "../../user/transactions/useTrx";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { LuArrowUpRight } from "react-icons/lu";
 import FilterComponent from "@/components/admin/filterBar";
+import { useRouter } from "next/navigation";
+import { useAdminDash } from "./useAdminDash";
 
 interface RateCard {
   country: string;
@@ -59,44 +61,6 @@ const PROVIDER_MAP: {
   },
 };
 const Dashboard = () => {
-  const cardData = [
-    {
-      title: "Total send money",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total receive money",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total Deposit Amount",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total Pending Sending Amount",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total Exchange",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-    {
-      title: "Total Withdraw",
-      amount: 0.0,
-      link: "",
-      lastTxn: 0,
-    },
-  ];
   const { ratesData, adminRateData, isLoading, fetchAdminRate, fetchRates } =
     useRatesStore();
 
@@ -208,12 +172,19 @@ const Dashboard = () => {
     sortBy: "",
   });
   const Trxs = data?.transfers || [];
+  const { getDashSumm } = useAdminDash();
 
   const formatAmount = (val: number | string) =>
     Number(val)
       .toFixed(2)
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+  const router = useRouter();
+  const { getRecentTrx } = useTrx();
+  const { isLoading: loadRecipient, data: recipientData } = getRecentTrx({
+    limit: 6,
+    name: "",
+    page: 1,
+  });
   return (
     <SideNav>
       <div className="py-3 md:py-5">
@@ -284,57 +255,204 @@ const Dashboard = () => {
           <h1 className="text-[#072032] text-lg font-semibold font-dm-sans mb-2">
             Overview
           </h1>
-
-          <div className="grid md:grid-cols-3 gap-3">
-            {cardData.map((card, index) => {
-              return (
-                <div
-                  key={index}
-                  className="py-2 px-3 bg-white border border-gray-200 rounded-md"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-[#072032] font-semibold text-sm font-dm-sans">
-                      {card.title}
-                    </p>
-                    <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
-                      <RiArrowRightUpLine
-                        className="text-[#22c55e]"
-                        size={20}
-                      />
-                    </div>
-                  </div>
-                  <h1 className="text-[#072032] font-medium font-dm-sans text-lg py-1 ">
-                    {card.amount} GBP
-                  </h1>
-                  <p className="text-xs font-poppins text-[#454745]">
-                    Last transaction{" "}
-                    <span className="text-[#22c55e] font-medium">
-                      {card.lastTxn} GBP
-                    </span>
-                  </p>
+          <div className="space-y-2">
+            <div className="grid md:grid-cols-3 gap-3">
+              {getDashSumm?.isLoading ? (
+                <div className="col-span-3 flex justify-center py-10 text-gray-500">
+                  Loading summary...
                 </div>
-              );
-            })}
-          </div>
+              ) : (
+                <>
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Sent
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalSentGBP?.toFixed(2)} GBP
+                    </h1>
+                  </div>
 
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Received
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalReceivedGBP?.toFixed(2)}{" "}
+                      GBP
+                    </h1>
+                  </div>
+
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Pending Sent
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalPendingSentAmountGBP?.toFixed(
+                        2
+                      )}{" "}
+                      GBP
+                    </h1>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="grid font-poppins md:grid-cols-3 gap-3">
+              {getDashSumm?.isLoading ? (
+                <div className="col-span-3 flex justify-center py-10 text-gray-500">
+                  Loading summary...
+                </div>
+              ) : (
+                <>
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Sent
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalSentNGN?.toLocaleString()}{" "}
+                      NGN
+                    </h1>
+                  </div>
+
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Received
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalReceivedNGN?.toLocaleString()}{" "}
+                      NGN
+                    </h1>
+                  </div>
+
+                  <div className="py-2 px-3 bg-white border border-gray-200 rounded-md">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[#072032] font-semibold text-sm font-dm-sans">
+                        Total Pending Sent
+                      </p>
+                      <div className="bg-[#22c55e]/20 flex justify-center items-center w-[30px] h-[30px] rounded-md">
+                        <RiArrowRightUpLine
+                          className="text-[#22c55e]"
+                          size={20}
+                        />
+                      </div>
+                    </div>
+                    <h1 className="text-[#072032] font-semibold font-poppins text-lg py-1">
+                      {getDashSumm?.data?.data?.totalPendingSentAmountNGN?.toLocaleString()}{" "}
+                      NGN
+                    </h1>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
           <div className=" bg-white border my-4 border-gray-200 rounded-md">
             <div className="flex items-center justify-between gap-2 py-2 px-3">
               <h1 className="text-[#072032] font-semibold text-xl font-dm-sans mb-2">
                 Quick Recipients
               </h1>
-              <p className="text-main font-semibold flex items-center gap-1 font-poppins text-sm">
+              <p
+                onClick={() => router.push("/recipients")}
+                className="text-main cursor-pointer font-semibold flex items-center gap-1 font-poppins text-sm"
+              >
                 View All <MdKeyboardArrowRight className="" />{" "}
               </p>
             </div>
             <hr />
 
-            <div className="">
+            <div className="flex gap-4 overflow-x-auto py-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
               <div className="inline-flex flex-col py-2 px-3 gap-2 items-center">
-                <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
+                <div
+                  onClick={() => router.push("/recipients")}
+                  className="w-[50px] h-[50px] cursor-pointer flex items-center justify-center rounded-full bg-main text-white"
+                >
                   <GoPlus size={25} />
                 </div>
-                <p className=" text-sm font-medium  font-dm-sans">Add</p>
+                <p className="text-sm font-medium font-dm-sans">Add</p>
               </div>
+
+              {/* Map recipients */}
+              {loadRecipient ? (
+                <p className="text-gray-500 py-2">Loading recipients...</p>
+              ) : (
+                recipientData?.data?.map((trx: any) => (
+                  <div
+                    key={trx.id}
+                    // onClick={() => handleRecipientClick(trx)}
+                    className="group w-[170px] font-poppins flex flex-col items-center gap-2 shrink-0"
+                  >
+                    <div className="relative">
+                      <div className="w-14 h-14 bg-gray-100 uppercase font-poppins font-semibold text-lg text-main rounded-full flex items-center justify-center border border-gray-200">
+                        {trx.recipientFullName
+                          ?.split(" ")
+                          .map((n: string) => n[0])
+                          .join("")
+                          .slice(0, 2)}
+                      </div>
+                      <img
+                        src={
+                          trx.sortCode
+                            ? "https://flagcdn.com/gb.svg"
+                            : "https://flagcdn.com/ng.svg"
+                        }
+                        alt={trx.sortCode ? "GBP" : "NGN"}
+                        className="w-5 h-5 border-2 border-white rounded-full absolute -bottom-1 -right-1 object-cover"
+                      />
+                    </div>
+
+                    <div className="text-center">
+                      <h3 className="text-sm capitalize font-semibold text-[#072032] truncate max-w-[150px]">
+                        {trx.recipientFullName}
+                      </h3>
+                      <p className="font-dm-sans text-xs text-gray-500 truncate max-w-[150px]">
+                        {trx.recipientBankName}
+                      </p>
+                      <p className="font-dm-sans text-xs text-[#072032] truncate max-w-[150px]">
+                        {trx.recipientAccountNumber}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
