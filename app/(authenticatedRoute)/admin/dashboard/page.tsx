@@ -19,6 +19,7 @@ import { LuArrowUpRight } from "react-icons/lu";
 import FilterComponent from "@/components/admin/filterBar";
 import { useRouter } from "next/navigation";
 import { useAdminDash } from "./useAdminDash";
+import { useProfileStore } from "@/stores/useProfileStore";
 
 interface RateCard {
   country: string;
@@ -173,6 +174,7 @@ const Dashboard = () => {
   });
   const Trxs = data?.transfers || [];
   const { getDashSumm } = useAdminDash();
+  const { user: localUser } = useProfileStore();
 
   const formatAmount = (val: number | string) =>
     Number(val)
@@ -181,7 +183,7 @@ const Dashboard = () => {
   const router = useRouter();
   const { getRecentTrx } = useTrx();
   const { isLoading: loadRecipient, data: recipientData } = getRecentTrx({
-    limit: 6,
+    limit: 5,
     name: "",
     page: 1,
   });
@@ -231,7 +233,7 @@ const Dashboard = () => {
                   d="M10.6 81.3c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.3-1.7 2.1-2 2.6-.4m6-5.5c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.2-1.7 2.1-2 2.6-.4m76.9-41.2c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.7-2.3 1.9-2.7.2m6.5-4.8c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.6-2.2 1.8-2.7.2"
                 ></path>
               </svg>
-              , Hello Remi Tony
+              , {localUser?.fullName || ""}
             </h1>
           </div>
 
