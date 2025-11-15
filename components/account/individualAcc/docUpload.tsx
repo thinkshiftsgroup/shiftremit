@@ -169,7 +169,6 @@ const IndividualDoc = () => {
           toast.success("File deleted successfully");
           queryClient.invalidateQueries({ queryKey: ["individual-docs"] });
 
-          // ✅ Clear relevant local file & ref
           switch (docType) {
             case "proofOfValidID":
               setFrontFile(null);

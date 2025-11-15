@@ -1,289 +1,559 @@
-import React from "react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 import { FaCircleQuestion } from "react-icons/fa6";
+import { toast } from "sonner";
+import {
+  Director,
+  useProfile,
+} from "@/app/(authenticatedRoute)/(general)/account/useProfile";
+import { countriesWithCodes } from "@/data/data";
+import { uploadToCloudinary } from "@/lib/cloudinary";
+import { Eye, Trash } from "lucide-react";
+import { FaPlus } from "react-icons/fa6";
 
-const DirectorForm = () => {
+const DirectorForm = ({ fetchBusinessProfile }: any) => {
+  const { updateBusinessDirectors, deleteDirector } = useProfile();
+  const docData = fetchBusinessProfile?.data?.directors || [];
+  const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [directors, setDirectors] = useState<Director[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const idProofRef = useRef<HTMLInputElement>(null);
+  const resProofRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (docData.length > 0) {
+      setDirectors(
+        docData.map((d: any) => ({
+          ...d,
+          identificationDocumentProofFile: undefined,
+          residentialAddressUrlProofFile: undefined,
+          dateOfBirth: d.dateOfBirth
+            ? new Date(d.dateOfBirth).toISOString().split("T")[0]
+            : "",
+          percentageShareholding: d.percentageShareholding ?? undefined,
+          issuedCountry: d.issuedCountry ?? "",
+        }))
+      );
+    }
+  }, [docData]);
+
+  const currentDirector = directors[currentIndex] ?? {
+    firstname: "",
+    lastname: "",
+    position: "",
+    isShareholder: false,
+    nationality: "",
+    identificationDocument: "",
+    idNumber: "",
+    residentialAddress: "",
+    issuedCountry: "",
+    dateOfBirth: "",
+    percentageShareholding: undefined,
+    identificationDocumentProofUrl: "",
+    residentialAddressUrlProof: "",
+    identificationDocumentProofFile: undefined,
+    residentialAddressUrlProofFile: undefined,
+  };
+
+  const updateCurrentDirector = (key: keyof Director, value: any) => {
+    setDirectors((prev) => {
+      const updated = [...prev];
+      updated[currentIndex] = { ...updated[currentIndex], [key]: value };
+      return updated;
+    });
+  };
+
+  const handleProofUpload = async (
+    file: File,
+    key: "identificationDocumentProofUrl" | "residentialAddressUrlProof"
+  ) => {
+    if (key === "identificationDocumentProofUrl") {
+      updateCurrentDirector("identificationDocumentProofFile", file);
+    } else {
+      updateCurrentDirector("residentialAddressUrlProofFile", file);
+    }
+
+    try {
+      const url = await uploadToCloudinary(file, "raw");
+      updateCurrentDirector(key, url);
+    } catch (err) {
+      toast.error("Failed to upload file");
+    }
+  };
+
+  const handleRemoveTab = (idx: number) => {
+    setDirectors((prev) => {
+      const updated = prev.filter((_, i) => i !== idx);
+      return updated;
+    });
+    if (currentIndex >= directors.length - 1) {
+      setCurrentIndex(directors.length - 2 >= 0 ? directors.length - 2 : 0);
+    }
+  };
+
+  const handleDeleteDirector = async (id: string, idx: number) => {
+    setLoadingDelete(true);
+    deleteDirector.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          toast.success("Director deleted");
+          handleRemoveTab(idx);
+          fetchBusinessProfile.refetch();
+        },
+        onSettled: () => setLoadingDelete(false),
+      }
+    );
+  };
+
+  const handleAddNewDirector = () => {
+    setDirectors((prev) => [
+      ...prev,
+      {
+        firstname: "",
+        lastname: "",
+        position: "",
+        isShareholder: false,
+        nationality: "",
+        identificationDocument: "",
+        idNumber: "",
+        residentialAddress: "",
+        issuedCountry: "",
+        dateOfBirth: "",
+        percentageShareholding: undefined,
+        identificationDocumentProofUrl: "",
+        residentialAddressUrlProof: "",
+        identificationDocumentProofFile: undefined,
+        residentialAddressUrlProofFile: undefined,
+      },
+    ]);
+    setCurrentIndex(directors.length);
+    if (idProofRef.current) idProofRef.current.value = "";
+    if (resProofRef.current) resProofRef.current.value = "";
+  };
+
+  const handleSaveDirector = async () => {
+    const director = directors[currentIndex];
+
+    if (
+      !director.firstname ||
+      !director.lastname ||
+      !director.position ||
+      !director.identificationDocument ||
+      !director.idNumber ||
+      (!director.identificationDocumentProofFile &&
+        !director.identificationDocumentProofUrl) ||
+      (!director.residentialAddressUrlProofFile &&
+        !director.residentialAddressUrlProof)
+    ) {
+      toast.error("Complete all required fields");
+      return;
+    }
+    setLoadingSave(true);
+    try {
+      let idProofUrl = director.identificationDocumentProofUrl;
+      let resProofUrl = director.residentialAddressUrlProof;
+
+      if (director.identificationDocumentProofFile) {
+        idProofUrl = await uploadToCloudinary(
+          director.identificationDocumentProofFile,
+          "raw"
+        );
+      }
+      if (director.residentialAddressUrlProofFile) {
+        resProofUrl = await uploadToCloudinary(
+          director.residentialAddressUrlProofFile,
+          "raw"
+        );
+      }
+
+      const {
+        identificationDocumentProofFile,
+        residentialAddressUrlProofFile,
+        ...cleanDirector
+      } = director;
+
+      const directorToSend = {
+        ...cleanDirector,
+        dateOfBirth: director.dateOfBirth
+          ? new Date(director.dateOfBirth).toISOString()
+          : undefined,
+        identificationDocumentProofUrl: idProofUrl,
+        residentialAddressUrlProof: resProofUrl,
+      };
+
+      const saved = await updateBusinessDirectors.mutateAsync([directorToSend]);
+
+      setDirectors((prev) => {
+        const updated = [...prev];
+        updated[currentIndex] = { ...updated[currentIndex], ...saved[0] };
+        return updated;
+      });
+
+      toast.success("Director saved!");
+      fetchBusinessProfile.refetch();
+    } catch (err) {
+      toast.error("Failed to save director");
+    } finally {
+      setLoadingSave(false);
+    }
+  };
+
+  const handleDoneAdding = async () => {
+    try {
+      await updateBusinessDirectors.mutateAsync(directors);
+      toast.success("All directors saved!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to save directors");
+    }
+  };
+
   return (
     <div className="w-full bg-white shadow-md mb-5 rounded-md p-3">
-      <div className="my-2 border-b pb-3">
-        <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-1">
-          Director
-          <FaCircleQuestion size={16} className="text-[#454745]" />
-        </h1>
-        <p className="text-sm text-[#454745] font-dm-sans">
-          We would like to know a bit about your directors
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-5">
-        <div className="">
-          <label
-            htmlFor="firstname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            First Name*
-          </label>
-          <input
-            id="firstname"
-            name="firstname"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Last Name*
-          </label>
-
-          <input
-            id="lastname"
-            name="lastname"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Position*
-          </label>
-
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="dob"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Date of Birth*
-          </label>
-
-          <input
-            type="date"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Nationality*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male">Select Country</option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Identification Document*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male"></option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins flex items-center gap-1 font-semibold text-sm text-[#454745] "
-          >
-            ID Number* <FaCircleQuestion size={16} className="text-[#454745]" />
-          </label>
-
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label className="font-poppins font-semibold text-sm text-[#454745] ">
-            Issued Country*
-          </label>
-          <div className="relative w-full">
-            <select
-              className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
-      border border-[#d1d5db80] text-[#454745]
-      focus:border-main focus:outline-none transition-colors
-      appearance-none pr-8   /* space for icon */
-    "
-            >
-              <option value="male">Select Country</option>
-            </select>
-
-            <svg
-              className="absolute right-3 top-8 -translate-y-1/2 pointer-events-none text-[#7A7A7A]"
-              width="25"
-              height="25"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M7 10l5 5 5-5" />
-            </svg>
-          </div>
-        </div>
-        <div className="">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
-          >
-            Residential Address*
-          </label>
-
-          <input
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="fileUpload"
-            className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745] "
-          >
-            Identification Document Proof*{" "}
-            <FaCircleQuestion size={16} className="text-[#454745]" />
-          </label>
-
-          <label
-            htmlFor="fileUpload"
-            className="
-      w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80]
-      text-[#666] text-sm font-poppins cursor-pointer
-      flex items-center justify-between
-      hover:border-main transition-colors
-    "
-          >
-            <span className="opacity-80">Choose file to upload (required)</span>
-            {/* <span className="text-main text-xs">Browse</span> */}
-          </label>
-
-          <input
-            id="fileUpload"
-            name="fileUpload"
-            type="file"
-            className="hidden"
-            required
-          />
-        </div>
-        <div className="">
-          <label
-            htmlFor="fileUpload"
-            className="font-poppins flex items-center gap-1 font-semibold text-sm text-[#454745] "
-          >
-            Residential Address Proof*{" "}
-            <FaCircleQuestion size={16} className="text-[#454745]" />
-          </label>
-
-          <label
-            htmlFor="fileUpload"
-            className="
-      w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80]
-      text-[#666] text-sm font-poppins cursor-pointer
-      flex items-center justify-between
-      hover:border-main transition-colors
-    "
-          >
-            <span className="opacity-80">Choose file to upload (required)</span>
-            {/* <span className="text-main text-xs">Browse</span> */}
-          </label>
-
-          <input
-            id="fileUpload"
-            name="fileUpload"
-            type="file"
-            className="hidden"
-            required
-          />
-        </div>
-      </div>
-      <div className="my-3">
-        <div className="flex items-center gap-1 mb-2">
-          <input type="checkbox" className="w-4 h-4 rounded-sm accent-main" />
-          <p className="text-sm font-poppins text-[#454745]">
-            This director is a shareholder
+      <div className="my-2 border-b pb-3 flex justify-between items-center">
+        <div>
+          <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-1">
+            Director <FaCircleQuestion size={16} className="text-[#454745]" />
+          </h1>
+          <p className="text-sm text-[#454745] font-dm-sans">
+            We would like to know a bit about your directors
           </p>
         </div>
 
-        <div className="md:w-1/3">
-          <label
-            htmlFor="lastname"
-            className="font-poppins font-semibold text-sm text-[#454745] "
+        <div>
+          <button
+            onClick={handleAddNewDirector}
+            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
           >
-            Percentage Shareholding*
+            <FaPlus /> Add aonther director
+          </button>
+        </div>
+      </div>
+
+      {directors.length > 0 && (
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex gap-2 flex-wrap overflow-x-auto mt-2">
+            {directors.map((d, idx) => (
+              <button
+                key={idx}
+                className={`px-3 font-poppins text-xs py-1 border rounded ${
+                  idx === currentIndex ? "bg-main text-white" : "bg-gray-100"
+                }`}
+                onClick={() => setCurrentIndex(idx)}
+              >
+                {d.firstname || "New"} {d.lastname || ""}
+              </button>
+            ))}
+          </div>
+
+          <Trash
+            className={`text-red-500 cursor-pointer ${
+              loadingDelete ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            size={16}
+            onClick={() => {
+              if (!loadingDelete) {
+                const director = directors[currentIndex];
+                if (director.id)
+                  handleDeleteDirector(director.id, currentIndex);
+                else handleRemoveTab(currentIndex);
+              }
+            }}
+          />
+        </div>
+      )}
+
+      <div className="grid md:grid-cols-3 gap-5 mt-3">
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            First Name*
+          </label>
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            value={currentDirector.firstname}
+            onChange={(e) => updateCurrentDirector("firstname", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Last Name*
+          </label>
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            value={currentDirector.lastname}
+            onChange={(e) => updateCurrentDirector("lastname", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Position*
+          </label>
+          <input
+            type="text"
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            value={currentDirector.position}
+            onChange={(e) => updateCurrentDirector("position", e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Date of Birth*
+          </label>
+          <input
+            type="date"
+            max={new Date().toISOString().split("T")[0]}
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            value={currentDirector.dateOfBirth || ""}
+            onChange={(e) =>
+              updateCurrentDirector("dateOfBirth", e.target.value)
+            }
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Nationality*
+          </label>
+          <select
+            value={currentDirector.nationality}
+            onChange={(e) =>
+              updateCurrentDirector("nationality", e.target.value)
+            }
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+          >
+            <option value="">Select a Country</option>
+            {countriesWithCodes.map((c) => (
+              <option key={c.code} value={c.name}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Identification Document*
+          </label>
+          <select
+            value={currentDirector.identificationDocument}
+            onChange={(e) =>
+              updateCurrentDirector("identificationDocument", e.target.value)
+            }
+            className="font-poppins text-sm w-full mt-2 py-3.5 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+          >
+            <option value="">Select</option>
+            <option value="ID">National ID Card</option>
+            <option value="Driver's License">Driver’s License</option>
+            <option value="International Passport">
+              International Passport
+            </option>
+            <option value="Voter’s Card">Voter’s Card</option>
+            <option value="Resident Permit / Work Permit">
+              Resident Permit / Work Permit
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            ID Number*
+          </label>
+          <input
+            type="text"
+            value={currentDirector.idNumber}
+            onChange={(e) => updateCurrentDirector("idNumber", e.target.value)}
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Residential Address*
+          </label>
+          <input
+            type="text"
+            value={currentDirector.residentialAddress}
+            onChange={(e) =>
+              updateCurrentDirector("residentialAddress", e.target.value)
+            }
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm flex items-center gap-1 text-[#454745]">
+            Identification Document Proof*{" "}
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+          <label
+            htmlFor="idProof"
+            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">
+              {currentDirector.identificationDocumentProofFile?.name ||
+                currentDirector.identificationDocumentProofUrl
+                  ?.split("/")
+                  .pop() ||
+                "Choose file to upload (required)"}
+            </span>
+            {currentDirector.identificationDocumentProofUrl && (
+              <button
+                type="button"
+                onClick={() =>
+                  window.open(
+                    currentDirector.identificationDocumentProofUrl,
+                    "_blank"
+                  )
+                }
+                className="text-main ml-2"
+              >
+                <Eye className="cursor-pointer text-main" size={14} />
+              </button>
+            )}
           </label>
 
           <input
-            placeholder="%"
-            type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
-            required
+            id="idProof"
+            type="file"
+            className="hidden"
+            ref={idProofRef}
+            onChange={(e) => {
+              if (!e.target.files) return;
+              handleProofUpload(
+                e.target.files[0],
+                "identificationDocumentProofUrl"
+              );
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Issued Country*
+          </label>
+          <select
+            value={currentDirector.issuedCountry}
+            onChange={(e) =>
+              updateCurrentDirector("issuedCountry", e.target.value)
+            }
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+          >
+            <option value="">Select a Country</option>
+            {countriesWithCodes.map((c) => (
+              <option key={c.code} value={c.name}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="font-poppins font-semibold text-sm flex items-center gap-1 text-[#454745]">
+            Residential Address Proof*{" "}
+            <FaCircleQuestion size={16} className="text-[#454745]" />
+          </label>
+          <label
+            htmlFor="resProof"
+            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          >
+            <span className="opacity-80">
+              {currentDirector.residentialAddressUrlProofFile?.name ||
+                currentDirector.residentialAddressUrlProof?.split("/").pop() ||
+                "Choose file to upload (required)"}
+            </span>
+
+            {currentDirector.residentialAddressUrlProof && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(
+                    currentDirector.residentialAddressUrlProof,
+                    "_blank"
+                  );
+                }}
+                className="text-main ml-2"
+                title="Preview file"
+              >
+                <Eye className="cursor-pointer text-main" size={14} />
+              </button>
+            )}
+          </label>
+
+          <input
+            id="resProof"
+            type="file"
+            className="hidden"
+            ref={resProofRef}
+            onChange={(e) => {
+              if (!e.target.files) return;
+              handleProofUpload(
+                e.target.files[0],
+                "residentialAddressUrlProof"
+              );
+            }}
           />
         </div>
       </div>
-      <button className="font-poppins text-sm border border-[#d1d5db80] text-[#454745] p-2 rounded-sm bg-[#e6e5e5]">
-        Save and Add Another Director +{" "}
-      </button>
-      <hr className="my-4" />
-      <div>
-        <button className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30">
-          I'm Done Adding Directors
+
+      <div className="flex items-center gap-1 mt-2">
+        <input
+          type="checkbox"
+          className="w-4 h-4 rounded-sm accent-main"
+          checked={currentDirector.isShareholder}
+          onChange={(e) =>
+            updateCurrentDirector("isShareholder", e.target.checked)
+          }
+        />
+        <p className="text-sm font-poppins text-[#454745]">
+          This director is a shareholder
+        </p>
+      </div>
+
+      {currentDirector.isShareholder && (
+        <div className="md:w-1/3 mt-2">
+          <label className="font-poppins font-semibold text-sm text-[#454745]">
+            Percentage Shareholding*
+          </label>
+          <input
+            type="number"
+            placeholder="%"
+            value={currentDirector.percentageShareholding || ""}
+            onChange={(e) =>
+              updateCurrentDirector(
+                "percentageShareholding",
+                Number(e.target.value)
+              )
+            }
+            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+          />
+        </div>
+      )}
+
+      <div className="flex gap-3 mt-4">
+        <button
+          onClick={handleSaveDirector}
+          disabled={loadingSave}
+          className={`font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm ${
+            loadingSave ? "bg-gray-200 cursor-not-allowed" : "bg-main/30"
+          }`}
+        >
+          {loadingSave ? "Saving..." : "Save Director"}
         </button>
+        {/* <button
+          onClick={handleDoneAdding}
+          className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+        >
+          I'm Done Adding Directors
+        </button> */}
       </div>
     </div>
   );

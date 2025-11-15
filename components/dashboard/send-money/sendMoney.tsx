@@ -9,12 +9,14 @@ import { useRatesStore } from "@/stores/useRatesStore";
 import { toast } from "sonner";
 import { useTransferStore } from "@/stores/useTransaferStore";
 import { formatNumber } from "@/helper/utils";
+import { useProfile } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
 
 const SendMoneyUI = () => {
   const [isBank, setIsBank] = useState(true);
   const [rateLabelFromTransfer, setRateLabelFromTransfer] = useState("");
 
   const router = useRouter();
+  const { getKYCStatus } = useProfile();
 
   const [toCurrency, setToCurrency] = useState("NGN");
   const [fromCurrency, setFromCurrency] = useState("GBP");
@@ -109,7 +111,8 @@ const SendMoneyUI = () => {
           disabled={
             fromCurrency === toCurrency ||
             (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) ||
-            (fromCurrency === "NGN" && parseInt(sending_amount) < 50000)
+            (fromCurrency === "NGN" && parseInt(sending_amount) < 50000) ||
+            getKYCStatus.isLoading
           }
           onClick={() => {
             if (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) {
@@ -122,13 +125,22 @@ const SendMoneyUI = () => {
               toast.error("Minimum transferable amount is 50000 NGN");
               return;
             }
+
+            const status = getKYCStatus?.data?.data?.status;
+
             setTransfer({
               amount: parseInt(sending_amount),
-              fromCurrency: fromCurrency,
-              toCurrency: toCurrency,
+              fromCurrency,
+              toCurrency,
               setToAmount: parseInt(get_amount),
             });
-            router.push("/send-money/recipients");
+
+            if (status === "APPROVED") {
+              router.push("/send-money/recipients");
+            } else {
+              toast.error("Complete Individual KYC to send money");
+              router.push("/account/individual-account");
+            }
           }}
           className="
     text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer

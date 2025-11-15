@@ -354,7 +354,7 @@ const FXRates = () => {
                 </div>
                 <div>
                   <label className="font-poppins font-semibold text-sm text-[#454745]">
-                    GBP (Benchmark Daily Rates - TapTap Send)
+                    GBP (Benchmark Daily Rates - Lemfi)
                   </label>
                   <input
                     type="text"

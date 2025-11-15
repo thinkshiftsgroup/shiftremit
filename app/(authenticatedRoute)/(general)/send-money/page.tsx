@@ -50,6 +50,7 @@ const PROVIDER_MAP: {
 
 const SendMoney = () => {
   const { fetchRates } = useRatesStore();
+  
 
   const ratesData = useRatesStore(
     (state) => state.ratesData as FxRateData | null

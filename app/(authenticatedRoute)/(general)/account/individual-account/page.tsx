@@ -11,6 +11,7 @@ import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import IndividualDoc from "@/components/account/individualAcc/docUpload";
+import { countriesWithCodes } from "@/data/data";
 
 interface FormDataState {
   firstname: string;
@@ -334,9 +335,10 @@ focus:border-main focus:outline-none transition-colors"
                 name="dob"
                 type="date"
                 value={formData.dob}
+                max={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+  focus:border-main focus:outline-none transition-colors"
                 required
               />
             </div>
@@ -348,13 +350,16 @@ focus:border-main focus:outline-none transition-colors"
                 Mobile Number*
               </label>
               <input
-                id="phoneNumber"
-                name="phoneNumber"
-                type="text"
+                id="mobileNumber"
+                name="mobileNumber"
+                type="tel"
+                inputMode="tel"
+                pattern="^\+?[0-9]{7,15}$"
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+  focus:border-main focus:outline-none transition-colors"
+                placeholder="e.g. +2348012345678"
                 required
               />
             </div>
@@ -497,16 +502,23 @@ focus:border-main focus:outline-none transition-colors"
               >
                 Country of Residency*
               </label>
-              <input
+              <select
                 id="country"
                 name="country"
-                type="text"
                 value={formData.country}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
-focus:border-main focus:outline-none transition-colors"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              focus:border-main focus:outline-none transition-colors bg-white"
                 required
-              />
+              >
+                <option value="">Select a Country</option>
+
+                {countriesWithCodes.map((c) => (
+                  <option key={c.code} value={c.name}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="space-y-3 w-full">
               <label
