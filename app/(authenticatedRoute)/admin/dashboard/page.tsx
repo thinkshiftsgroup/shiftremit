@@ -420,7 +420,7 @@ const Dashboard = () => {
                   <div
                     key={trx.id}
                     // onClick={() => handleRecipientClick(trx)}
-                    className="group w-[170px] font-poppins flex flex-col items-center gap-2 shrink-0"
+                    className="group cursor-pointer w-[170px] font-poppins flex flex-col items-center gap-2 shrink-0"
                   >
                     <div className="relative">
                       <div className="w-14 h-14 bg-gray-100 uppercase font-poppins font-semibold text-lg text-main rounded-full flex items-center justify-center border border-gray-200">
@@ -511,7 +511,7 @@ const Dashboard = () => {
                       </td>
                     </tr>
                   ) : Trxs.length === 0 ? (
-                    <tr>
+                    <tr key="no-data">
                       <td
                         colSpan={7}
                         className="text-center py-6 text-sm font-poppins opacity-70"

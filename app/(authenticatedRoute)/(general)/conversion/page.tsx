@@ -30,11 +30,11 @@ const PROVIDER_MAP: {
     icon: "/images/brands/vec-1.svg",
     lastTxs: 0,
   },
-  MonieWorld: {
-    name: "MonieWorld",
-    icon: "/images/brands/vec-2.svg",
-    lastTxs: 30,
-  },
+  // MonieWorld: {
+  //   name: "MonieWorld",
+  //   icon: "/images/brands/vec-2.svg",
+  //   lastTxs: 30,
+  // },
   Nala: { name: "Nala", icon: "/images/brands/vec-6.svg", lastTxs: 0.0 },
   LemFi: { name: "LemFi", icon: "/images/brands/vec-4.svg", lastTxs: 37 },
   FlutterSend: {
@@ -73,10 +73,9 @@ const SendMoney = () => {
       return { dynamicFiatData: [], rateDifference: 0 };
     }
 
-    const moniepointRate = ratesData.moniepoint.rate;
-    const lemfiRate = ratesData.lemfi.rate;
+    const lemfiRate = ratesData?.lemfi?.rate || 1903;
 
-    const shiftRemitCurrentRate = moniepointRate + benchmarkGBP;
+    const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const allRates: Rate[] = [
@@ -86,28 +85,18 @@ const SendMoney = () => {
         discount: 0,
       },
       {
-        ...PROVIDER_MAP["MonieWorld"],
-        currentRate: moniepointRate,
-        discount: 0,
-      },
-      {
-        ...PROVIDER_MAP["TapTap Send"],
-        currentRate: tapTapCurrentRate,
-        discount: 0,
-      },
-      {
         ...PROVIDER_MAP["Nala"],
-        currentRate: ratesData.nala.rate,
+         currentRate: ratesData?.nala?.rate || 1895,
         discount: 0,
       },
       {
         ...PROVIDER_MAP["LemFi"],
-        currentRate: ratesData.lemfi.rate,
+        currentRate: ratesData?.lemfi?.rate || 1903,
         discount: 0,
       },
       {
         ...PROVIDER_MAP["FlutterSend"],
-        currentRate: ratesData.sendApp.rate,
+        currentRate: ratesData?.sendApp?.rate || 1885,
         discount: 0,
       },
     ];
@@ -151,13 +140,12 @@ const SendMoney = () => {
   const difference = isLoading
     ? ""
     : rateDifference > 0
-      ? rateDifference.toFixed(2)
-      : "";
+    ? rateDifference.toFixed(2)
+    : "";
 
   return (
     <SideNav>
       <div className="my-4 md:my-7 bg-white rounded-lg mx-auto ">
-        {/* <SendSteps step={1} /> */}
 
         <div className="pt-10">
           <h1 className="text-3xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
@@ -166,9 +154,6 @@ const SendMoney = () => {
         </div>
         <SendMoneyUI />
       </div>
-      {/* <div className="px-3 py-4 md:py-3.5 md:px-6 bg-white font-poppins font-semibold rounded-md my-4 space-y-3">
-        <WalletSection cards={dynamicFiatData} rateDifference={difference} />
-      </div> */}
     </SideNav>
   );
 };

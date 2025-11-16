@@ -5,6 +5,7 @@ import { HiTrash } from "react-icons/hi";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useProfile } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
+import ConfirmModal from "./modal/deleteModal";
 
 const statusColors: Record<string, string> = {
   PENDING_UPLOAD: "text-gray-500",
@@ -17,6 +18,18 @@ const statusColors: Record<string, string> = {
 const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
   const { deleteDocForBusiness, updateBusinessDoc } = useProfile();
   const docData = fetchBusinessProfile?.data?.businessAccountDocs || [];
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingDeleteKey, setPendingDeleteKey] = useState<string | null>(null);
+
+  const confirmDelete = (docType: string) => {
+    setPendingDeleteKey(docType);
+    setShowConfirm(true);
+  };
+  const handleCancelDelete = () => {
+    setShowConfirm(false);
+    setPendingDeleteKey(null);
+  };
+
   const queryClient = useQueryClient();
 
   const [regName, setRegName] = useState("");
@@ -55,9 +68,11 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
     window.open(url, "_blank");
   };
 
-  const handleDelete = (key: string) => {
+  const handleConfirmedDelete = () => {
+    if (!pendingDeleteKey) return;
+
     deleteDocForBusiness.mutate(
-      { docType: key },
+      { docType: pendingDeleteKey },
       {
         onSuccess: () => {
           toast.success("File deleted successfully");
@@ -65,6 +80,9 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
         },
       }
     );
+
+    setShowConfirm(false);
+    setPendingDeleteKey(null);
   };
 
   const renderFileField = (
@@ -96,13 +114,13 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
           <span className="opacity-80">{displayedName || placeholder}</span>
 
           <div className="flex items-center gap-2">
-            {status && (
+            {status && status !== "PENDING" && (
               <span
                 className={`text-xs font-poppins ${
                   statusColors[status] || "text-gray-500"
                 }`}
               >
-                {status}
+                {status.replace(/_/g, " ")}
               </span>
             )}
 
@@ -125,7 +143,7 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  handleDelete(docType);
+                  confirmDelete(docType);
                 }}
               />
             )}
@@ -266,7 +284,7 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
           "additionalDocument",
           "additionalDocumentStatus",
           "additionalDocument",
-          "Upload any additional docs"
+          "Upload any additional docs (optional)"
         )}
       </div>
 
@@ -289,6 +307,16 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
           {updateBusinessDoc.isPending ? "Saving..." : "Save"}
         </button>
       </div>
+
+      <ConfirmModal
+        open={showConfirm}
+        message="Do you really want to delete this document?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleConfirmedDelete}
+        onCancel={handleCancelDelete}
+        loading={deleteDocForBusiness.isPending}
+      />
     </div>
   );
 };

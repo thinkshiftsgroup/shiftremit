@@ -529,20 +529,22 @@ export default function ShareHolderForm({
       </div>
 
       {activeTab === "individual" && individuals.length > 0 && (
-        <div className="flex gap-2 items-center flex-wrap overflow-x-auto mt-2">
-          {individuals.map((i, idx) => (
-            <button
-              key={idx}
-              className={`px-3 py-1 text-xs rounded font-poppins border ${
-                idx === currentIndividualIndex
-                  ? "bg-main text-white"
-                  : "bg-gray-100"
-              }`}
-              onClick={() => setCurrentIndividualIndex(idx)}
-            >
-              {i.firstname || "New"} {i.lastname || ""}
-            </button>
-          ))}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex gap-2 items-center flex-wrap overflow-x-auto mt-2">
+            {individuals.map((i, idx) => (
+              <button
+                key={idx}
+                className={`px-3 py-1 text-xs rounded font-poppins border ${
+                  idx === currentIndividualIndex
+                    ? "bg-main text-white"
+                    : "bg-gray-100"
+                }`}
+                onClick={() => setCurrentIndividualIndex(idx)}
+              >
+                {i.firstname || "New"} {i.lastname || ""}
+              </button>
+            ))}
+          </div>
           <Trash
             className="text-red-500 cursor-pointer"
             size={16}
@@ -560,20 +562,22 @@ export default function ShareHolderForm({
       )}
 
       {activeTab === "entity" && entities.length > 0 && (
-        <div className="flex gap-2 items-center flex-wrap overflow-x-auto mt-2">
-          {entities.map((e, idx) => (
-            <button
-              key={idx}
-              className={`px-3 py-1 text-xs rounded font-poppins border ${
-                idx === currentEntityIndex
-                  ? "bg-main text-white"
-                  : "bg-gray-100"
-              }`}
-              onClick={() => setCurrentEntityIndex(idx)}
-            >
-              {e.legalEntityName || "New"}
-            </button>
-          ))}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex gap-2 items-center flex-wrap overflow-x-auto mt-2">
+            {entities.map((e, idx) => (
+              <button
+                key={idx}
+                className={`px-3 py-1 text-xs rounded font-poppins border ${
+                  idx === currentEntityIndex
+                    ? "bg-main text-white"
+                    : "bg-gray-100"
+                }`}
+                onClick={() => setCurrentEntityIndex(idx)}
+              >
+                {e.legalEntityName || "New"}
+              </button>
+            ))}
+          </div>
           <Trash
             className="text-red-500 cursor-pointer"
             size={16}
