@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     "/settings",
     "/transactions",
     "track-transfer",
-    "all0-logs",
+    "all-logs",
   ];
   const loginRoute = "/login";
 

@@ -75,9 +75,10 @@ const Fund = () => {
             GBPAccountName: data?.GBP_Payment_Details?.GBPAccountName,
           });
 
-          toast.success(data?.message, {
-            description: "Your transfer has been initiated successfully.",
-          });
+          toast.success("Your transfer has been initiated successfully.")
+          // toast.success(data?.message, {
+          //   description: "Your transfer has been initiated successfully.",
+          // });
         },
         onError: (error) => {
           toast.error("Transfer initiation failed", {
