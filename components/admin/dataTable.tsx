@@ -20,6 +20,7 @@ export default function AdminDataTable({
     id?: string;
     status?: string;
   } | null>(null);
+  const [loadingDelete, setLoadingDelete] = useState<string | null>(null);
 
   const { updateTrxStatus, deleteSingleTrx } = useTrx();
   const queryClient = useQueryClient();
@@ -46,7 +47,7 @@ export default function AdminDataTable({
     );
   };
   const handleDeleteTrx = (id: string) => {
-    setLoadingStatus({ id });
+    setLoadingDelete( id );
     deleteSingleTrx.mutate(
       { id },
       {
@@ -55,7 +56,7 @@ export default function AdminDataTable({
           queryClient.invalidateQueries({ queryKey: ["fetch-bank-tfs-admin"] });
         },
         onSettled: () => {
-          setLoadingStatus(null);
+          setLoadingDelete(null);
         },
       }
     );
@@ -192,11 +193,11 @@ export default function AdminDataTable({
                         onClick={() => handleDeleteTrx(row.id)}
                         className="flex disabled:bg-red-500/40 items-center gap-1 rounded-tr-md rounded-br-md bg-orange-500 shadow-sm cursor-pointer"
                       >
-                        {loadingStatus?.id === row.id ? (
+                        {loadingDelete === row.id ? (
                           <Loader2 size={14} className="animate-spin" />
                         ) : (
                           <MdDelete size={14} />
-                        )}{" "}
+                        )}
                         Delete
                       </button>{" "}
                     </div>

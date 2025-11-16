@@ -64,7 +64,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     ? user.firstname || user.username || user.email
     : "Guest";
 
-  const navItems = [
+   const navItems = [
     {
       icon: <TbSmartHome size={18} />,
       title: "Dashboard",
