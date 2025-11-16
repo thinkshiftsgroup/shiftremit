@@ -368,7 +368,7 @@ focus:border-main focus:outline-none transition-colors"
                   onChange={handleInputChange}
                   className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
-                  placeholder="e.g. +2348012345678"
+                  placeholder="e.g. +448012345678"
                   required
                 />
               </div>

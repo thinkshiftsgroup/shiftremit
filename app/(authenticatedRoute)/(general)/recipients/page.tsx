@@ -426,7 +426,7 @@ const Recipients = () => {
 
                     <hr className="py-2" />
 
-                    <div className="pb-3 md:pb-5">
+                    {/* <div className="pb-3 md:pb-5">
                       <div className="rounded-lg w-full cursor-pointer p-3 flex justify-between items-center gap-2 bg-gray-100">
                         <div className="flex items-center gap-2">
                           <div className="inline-block relative">
@@ -489,7 +489,7 @@ const Recipients = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

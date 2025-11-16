@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { VscDeviceCamera } from "react-icons/vsc";
 import { HiTrash } from "react-icons/hi";
 import { useProfile } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
+import ConfirmModal from "../modal/deleteModal";
 
 const statusColors: Record<string, string> = {
   PENDING_UPLOAD: "text-gray-500",
@@ -161,15 +162,29 @@ const IndividualDoc = () => {
     });
   };
 
-  const handleDelete = (docType: string) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [pendingDeleteKey, setPendingDeleteKey] = useState<string | null>(null);
+
+  const confirmDelete = (docType: string) => {
+    setPendingDeleteKey(docType);
+    setShowConfirm(true);
+  };
+  const handleCancelDelete = () => {
+    setShowConfirm(false);
+    setPendingDeleteKey(null);
+  };
+
+  const handleDelete = () => {
+    if (!pendingDeleteKey) return;
+
     deleteDoc.mutate(
-      { docType },
+      { docType: pendingDeleteKey },
       {
         onSuccess: () => {
           toast.success("File deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["individual-docs"] });
+          queryClient.invalidateQueries({ queryKey: ["profile"] });
 
-          switch (docType) {
+          switch (pendingDeleteKey) {
             case "proofOfValidID":
               setFrontFile(null);
               if (validIDFront.current) validIDFront.current.value = "";
@@ -197,6 +212,10 @@ const IndividualDoc = () => {
                 additionalDocsRef.current.value = "";
               break;
           }
+        },
+        onSettled: () => {
+          setShowConfirm(false);
+          setPendingDeleteKey(null);
         },
       }
     );
@@ -238,18 +257,16 @@ const IndividualDoc = () => {
             htmlFor={docType}
             className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
-            <span className="opacity-80">
-              {prefillName || placeholder}
-            </span>
+            <span className="opacity-80">{prefillName || placeholder}</span>
 
             <div className="flex items-center gap-2">
-              {status && (
+              {status && status !== "PENDING" && (
                 <span
                   className={`text-xs font-poppins ${
                     statusColors[status] || "text-gray-500"
                   }`}
                 >
-                  {status}
+                  {status.replace(/_/g, " ")}
                 </span>
               )}
 
@@ -276,7 +293,7 @@ const IndividualDoc = () => {
                       e.preventDefault();
                       e.stopPropagation();
                       if (fileUrl) {
-                        handleDelete(docType);
+                        confirmDelete(docType);
                       } else {
                         handleClear(e);
                       }
@@ -332,7 +349,8 @@ const IndividualDoc = () => {
                   className="absolute top-2 right-2 z-10 text-red-500 cursor-pointer hover:text-red-700"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete("proofOfValidID");
+                    setPendingDeleteKey("proofOfValidID");
+                    setShowConfirm(true);
                   }}
                 />
               </div>
@@ -404,7 +422,8 @@ const IndividualDoc = () => {
                   className="absolute top-2 right-2 z-10 text-red-500 cursor-pointer hover:text-red-700"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete("proofOfValidIDBackView");
+                    setPendingDeleteKey("proofOfValidIDBackView");
+                    setShowConfirm(true);
                   }}
                 />
               </>
@@ -567,6 +586,16 @@ const IndividualDoc = () => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        open={showConfirm}
+        message="Do you really want to delete this document?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDelete}
+        onCancel={handleCancelDelete}
+        loading={deleteDoc.isPending}
+      />
     </div>
   );
 };

@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { Check } from "lucide-react";
 
 import { useRatesStore } from "@/stores/useRatesStore";
+import { AdminRateData, FxRateData } from "@/api/rateService";
 
 interface RateCard {
   country: string;
@@ -41,11 +42,11 @@ const PROVIDER_MAP: {
     icon: "/images/brands/vec-1.svg",
     lastTxs: 0,
   },
-  MonieWorld: {
-    name: "MonieWorld",
-    icon: "/images/brands/vec-2.svg",
-    lastTxs: 30,
-  },
+  // MonieWorld: {
+  //   name: "MonieWorld",
+  //   icon: "/images/brands/vec-2.svg",
+  //   lastTxs: 30,
+  // },
   Nala: { name: "Nala", icon: "/images/brands/vec-6.svg", lastTxs: 0.0 },
   LemFi: { name: "LemFi", icon: "/images/brands/vec-4.svg", lastTxs: 37 },
   FlutterSend: {
@@ -109,23 +110,33 @@ const Partner = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const { ratesData, isLoading, fetchRates } = useRatesStore();
+  const { fetchRates } = useRatesStore();
+
+  const ratesData = useRatesStore(
+    (state) => state.ratesData as FxRateData | null
+  );
+  const adminRateData = useRatesStore(
+    (state) => state.adminRateData as AdminRateData | null
+  );
+
+  const isLoading = useRatesStore((state) => state.isLoading);
 
   useEffect(() => {
-    if (!ratesData && !isLoading) {
+    if (!ratesData && !adminRateData && !isLoading) {
       fetchRates();
     }
   }, [ratesData, isLoading, fetchRates]);
+
+  const benchmarkGBP = adminRateData?.benchmarkGBP || 8;
 
   const { dynamicFiatData, rateDifference } = useMemo(() => {
     if (!ratesData) {
       return { dynamicFiatData: [], rateDifference: 0 };
     }
 
-    const moniepointRate = ratesData.moniepoint.rate;
-    const lemfiRate = ratesData.lemfi.rate;
+    const lemfiRate = ratesData?.lemfi?.rate || 1903;
 
-    const shiftRemitCurrentRate = moniepointRate + 8.0;
+    const shiftRemitCurrentRate = lemfiRate + benchmarkGBP;
     const tapTapCurrentRate = lemfiRate + 1.0;
 
     const allRates: Rate[] = [
@@ -135,28 +146,18 @@ const Partner = () => {
         discount: 0,
       },
       {
-        ...PROVIDER_MAP["MonieWorld"],
-        currentRate: moniepointRate,
-        discount: 0,
-      },
-      {
-        ...PROVIDER_MAP["TapTap Send"],
-        currentRate: tapTapCurrentRate,
-        discount: 0,
-      },
-      {
         ...PROVIDER_MAP["Nala"],
-        currentRate: ratesData.nala.rate,
+        currentRate: ratesData?.nala?.rate || 1895,
         discount: 0,
       },
       {
         ...PROVIDER_MAP["LemFi"],
-        currentRate: ratesData.lemfi.rate,
+        currentRate: ratesData?.lemfi?.rate || 1903,
         discount: 0,
       },
       {
         ...PROVIDER_MAP["FlutterSend"],
-        currentRate: ratesData.sendApp.rate,
+        currentRate: ratesData?.sendApp?.rate || 1885,
         discount: 0,
       },
     ];
@@ -200,12 +201,12 @@ const Partner = () => {
   const difference = isLoading
     ? ""
     : rateDifference > 0
-      ? rateDifference.toFixed(2)
-      : "";
+    ? rateDifference.toFixed(2)
+    : "";
 
   return (
     <SideNav>
-      <div className="py-3 md:py-5">
+      <div className="py-3 font-poppins md:py-5">
         <div className="flex items-center flex-col md:flex-row justify-between gap-2">
           <div>
             <p className="text-[#072032] text-lg font-poppins mb-2 font-semibold">
@@ -380,8 +381,19 @@ const Partner = () => {
                 />
                 <button className="text-white bg-linear-to-l from-[#813FD6] to-[#301342] rounded px-2.5 py-1.5 flex gap-2">
                   Send Invite
-                  <svg xmlns="http://www.w3.org/2000/svg" width={25} height={25} viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={25}
+                    height={25}
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                    >
                       <path d="M22 12.5c0-.491-.005-1.483-.016-1.976c-.065-3.065-.098-4.598-1.229-5.733c-1.131-1.136-2.705-1.175-5.854-1.254a115 115 0 0 0-5.802 0c-3.149.079-4.723.118-5.854 1.254c-1.131 1.135-1.164 2.668-1.23 5.733a69 69 0 0 0 0 2.952c.066 3.065.099 4.598 1.23 5.733c1.131 1.136 2.705 1.175 5.854 1.254q1.204.03 2.401.036"></path>
                       <path d="m7 8.5l2.942 1.74c1.715 1.014 2.4 1.014 4.116 0L17 8.5m5 9h-8m8 0c0-.7-1.994-2.008-2.5-2.5m2.5 2.5c0 .7-1.994 2.009-2.5 2.5"></path>
                     </g>
@@ -395,15 +407,42 @@ const Partner = () => {
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <button className="border text-sm border-[#f1f1f1] rounded cursor-pointer p-1.5 flex gap-2">
                     Withdraw Funds
-                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 256 256">
-                      <path fill="currentColor" d="M232 198.65V240a8 8 0 0 1-16 0v-41.35A74.84 74.84 0 0 0 192 144v58.35a8 8 0 0 1-14.69 4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12 12 0 0 0-20.89 11.83l22.13 33.79a8 8 0 0 1-13.39 8.76l-22.26-34l-.24-.38A28 28 0 0 1 176 176.4V64h-16a8 8 0 0 1 0-16h16a16 16 0 0 1 16 16v59.62a90.89 90.89 0 0 1 40 75.03M88 56a8 8 0 0 0-8-8H64a16 16 0 0 0-16 16v136a8 8 0 0 0 16 0V64h16a8 8 0 0 0 8-8m69.66 42.34a8 8 0 0 0-11.32 0L128 116.69V16a8 8 0 0 0-16 0v100.69L93.66 98.34a8 8 0 0 0-11.32 11.32l32 32a8 8 0 0 0 11.32 0l32-32a8 8 0 0 0 0-11.32" strokeWidth={4.5} stroke="currentColor"></path>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 256 256"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M232 198.65V240a8 8 0 0 1-16 0v-41.35A74.84 74.84 0 0 0 192 144v58.35a8 8 0 0 1-14.69 4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12 12 0 0 0-20.89 11.83l22.13 33.79a8 8 0 0 1-13.39 8.76l-22.26-34l-.24-.38A28 28 0 0 1 176 176.4V64h-16a8 8 0 0 1 0-16h16a16 16 0 0 1 16 16v59.62a90.89 90.89 0 0 1 40 75.03M88 56a8 8 0 0 0-8-8H64a16 16 0 0 0-16 16v136a8 8 0 0 0 16 0V64h16a8 8 0 0 0 8-8m69.66 42.34a8 8 0 0 0-11.32 0L128 116.69V16a8 8 0 0 0-16 0v100.69L93.66 98.34a8 8 0 0 0-11.32 11.32l32 32a8 8 0 0 0 11.32 0l32-32a8 8 0 0 0 0-11.32"
+                        strokeWidth={4.5}
+                        stroke="currentColor"
+                      ></path>
                     </svg>
                   </button>
                   <button className="border text-sm border-[#f1f1f1] rounded cursor-pointer p-1.5 flex gap-2">
                     Bank Account
-                    <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24">
-                      <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
-                        <rect width={18.5} height={3} x={2.75} y={18.376} rx={1}></rect>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 24 24"
+                    >
+                      <g
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                      >
+                        <rect
+                          width={18.5}
+                          height={3}
+                          x={2.75}
+                          y={18.376}
+                          rx={1}
+                        ></rect>
                         <path d="M11.04 3.15L3.27 7.4a1 1 0 0 0-.52.877v.997a.6.6 0 0 0 .6.6h17.3a.6.6 0 0 0 .6-.6v-.997a1 1 0 0 0-.52-.877l-7.77-4.25a2 2 0 0 0-1.92 0M5.25 9.874v8.51m13.5-8.51v8.51m-4.25-8.51v8.51m-5-8.51v8.51"></path>
                       </g>
                     </svg>

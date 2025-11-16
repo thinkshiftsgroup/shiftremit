@@ -130,8 +130,8 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
       </button>
 
       {peps.map((pep, index) => (
-        <div className="shadow-sm p-3 rounded-md mb-4">
-          <div key={index} className="grid md:grid-cols-3 gap-5 ">
+        <div key={index} className="shadow-sm p-3 rounded-md mb-4">
+          <div  className="grid md:grid-cols-3 gap-5 ">
             <div>
               <label className="font-poppins font-semibold text-sm text-[#454745]">
                 Name
