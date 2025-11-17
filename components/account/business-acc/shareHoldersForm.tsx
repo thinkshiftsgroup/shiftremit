@@ -13,6 +13,7 @@ import {
 } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
 import { countriesWithCodes } from "@/data/data";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import ConfirmModal from "../modal/deleteModal";
 
 interface ShareHolderFormProps {
   fetchBusinessProfile: any;
@@ -27,6 +28,13 @@ export default function ShareHolderForm({
   const [activeTab, setActiveTab] = useState<"individual" | "entity">(
     "individual"
   );
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [pendingDeleteData, setPendingDeleteData] = useState<{
+    id?: string;
+    arrType: "individuals" | "entities";
+    index: number;
+  } | null>(null);
 
   const [individuals, setIndividuals] = useState<NaturalPersonShareholder[]>(
     []
@@ -100,7 +108,6 @@ export default function ShareHolderForm({
     );
   }, [fetchBusinessProfile?.data?.shareholders]);
 
-  // ------------------ Helpers ------------------ //
   const handleChange = (
     arrType: "individuals" | "entities",
     idx: number,
@@ -551,11 +558,12 @@ export default function ShareHolderForm({
             onClick={() => {
               const indiv = individuals[currentIndividualIndex];
 
-              if (indiv?.id) {
-                handleDeleteShareholder(indiv.id, currentIndividualIndex);
-              } else {
-                handleRemove("individuals", currentIndividualIndex);
-              }
+              setPendingDeleteData({
+                id: indiv?.id,
+                arrType: "individuals",
+                index: currentIndividualIndex,
+              });
+              setShowConfirmDelete(true);
             }}
           />
         </div>
@@ -584,11 +592,12 @@ export default function ShareHolderForm({
             onClick={() => {
               const entity = entities[currentEntityIndex];
 
-              if (entity?.id) {
-                handleDeleteShareholder(entity.id, currentEntityIndex);
-              } else {
-                handleRemove("entities", currentEntityIndex);
-              }
+              setPendingDeleteData({
+                id: entity?.id,
+                arrType: "entities",
+                index: currentEntityIndex,
+              });
+              setShowConfirmDelete(true);
             }}
           />
         </div>
@@ -632,6 +641,31 @@ export default function ShareHolderForm({
       >
         {loadingSave ? "Saving..." : "Save Shareholders"}
       </button>
+
+      <ConfirmModal
+        open={showConfirmDelete}
+        message="Are you sure you want to delete this shareholder?"
+        confirmText={loadingDelete ? "Deleting..." : "Yes, Delete"}
+        cancelText="Cancel"
+        onCancel={() => {
+          setShowConfirmDelete(false);
+          setPendingDeleteData(null);
+        }}
+        onConfirm={() => {
+          if (!pendingDeleteData) return;
+
+          const { id, arrType, index } = pendingDeleteData;
+
+          if (id) {
+            handleDeleteShareholder(id, index);
+          } else {
+            handleRemove(arrType, index);
+          }
+
+          setShowConfirmDelete(false);
+          setPendingDeleteData(null);
+        }}
+      />
     </div>
   );
 }

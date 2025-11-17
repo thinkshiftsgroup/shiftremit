@@ -10,12 +10,19 @@ import { countriesWithCodes } from "@/data/data";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Eye, Trash } from "lucide-react";
 import { FaPlus } from "react-icons/fa6";
+import ConfirmModal from "../modal/deleteModal";
 
 const DirectorForm = ({ fetchBusinessProfile }: any) => {
   const { updateBusinessDirectors, deleteDirector } = useProfile();
   const docData = fetchBusinessProfile?.data?.directors || [];
   const [loadingSave, setLoadingSave] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [pendingDeleteData, setPendingDeleteData] = useState<{
+    id?: string;
+    index: number;
+  } | null>(null);
 
   const [directors, setDirectors] = useState<Director[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -255,12 +262,15 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             }`}
             size={16}
             onClick={() => {
-              if (!loadingDelete) {
-                const director = directors[currentIndex];
-                if (director.id)
-                  handleDeleteDirector(director.id, currentIndex);
-                else handleRemoveTab(currentIndex);
-              }
+              if (loadingDelete) return;
+
+              const director = directors[currentIndex];
+
+              setPendingDeleteData({
+                id: director.id,
+                index: currentIndex,
+              });
+              setShowConfirmDelete(true);
             }}
           />
         </div>
@@ -555,6 +565,27 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           I'm Done Adding Directors
         </button> */}
       </div>
+      <ConfirmModal
+        open={showConfirmDelete}
+        message="Are you sure you want to delete this director?"
+        confirmText={loadingDelete ? "Deleting..." : "Yes, Delete"}
+        cancelText="Cancel"
+        onCancel={() => {
+          setShowConfirmDelete(false);
+          setPendingDeleteData(null);
+        }}
+        onConfirm={() => {
+          if (!pendingDeleteData) return;
+          if (pendingDeleteData.id) {
+            handleDeleteDirector(pendingDeleteData.id, pendingDeleteData.index);
+          } else {
+            handleRemoveTab(pendingDeleteData.index);
+          }
+
+          setShowConfirmDelete(false);
+          setPendingDeleteData(null);
+        }}
+      />
     </div>
   );
 };
