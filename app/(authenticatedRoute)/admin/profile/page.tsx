@@ -13,6 +13,7 @@ import IndividualDoc from "@/components/account/individualAcc/docUpload";
 import { countriesWithCodes } from "@/data/data";
 import { useProfile } from "../../(general)/account/useProfile";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { usePassword } from "@/hooks/usePassword";
 
 interface FormDataState {
   firstname: string;
@@ -30,8 +31,21 @@ const AdminAccount = () => {
     oldPassword: false,
   });
 
+  const [form, setForm] = useState({
+    oldPassword: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { updatePassword } = usePassword();
+  
+  const handleChange = (e: any) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const { fetchProfile, updateProfile, updateProfilePhoto, getKYCStatus } =
     useProfile();
+
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus("");
 
   const { user: localUser, setUser } = useProfileStore();
   const [formData, setFormData] = useState<FormDataState>({
@@ -102,7 +116,7 @@ const AdminAccount = () => {
     }
   };
 
-  if (isLoading || getKYCStatus.isLoading) {
+  if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
         <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
@@ -136,7 +150,7 @@ const AdminAccount = () => {
 
   return (
     <SideNav>
-       <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
+      <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
         <form className=" relative" onSubmit={handleFormSubmit}>
           <div className="w-full bg-white mb-5 rounded-md p-3">
             <div className="flex pb-5 items-center justify-between">
@@ -342,20 +356,19 @@ focus:border-main focus:outline-none transition-colors"
           <div className="space-y-3 my-5 text-sm font-poppins">
             <div className="space-y-3">
               <label
-                htmlFor="password"
+                htmlFor="oldPassword"
                 className="font-poppins font-semibold text-sm text-[#454745] "
               >
                 Old Password
               </label>
               <div className="relative">
                 <input
-                  id="password"
-                  name="password"
+                  name="oldPassword"
                   type={show.oldPassword ? "text" : "password"}
-                  // value={form.password}
-                  // onChange={handleChange}
+                  value={form.oldPassword}
+                  onChange={handleChange}
                   placeholder="Enter Old password"
-                   className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -388,10 +401,10 @@ focus:border-main focus:outline-none transition-colors"
                   id="password"
                   name="password"
                   type={show.password ? "text" : "password"}
-                  // value={form.password}
-                  // onChange={handleChange}
+                  value={form.password}
+                  onChange={handleChange}
                   placeholder="Enter Password"
-                   className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -425,10 +438,10 @@ focus:border-main focus:outline-none transition-colors"
                   id="confirmPassword"
                   name="confirmPassword"
                   type={show.confirmPassword ? "text" : "password"}
-                  // value={form.confirmPassword}
-                  // onChange={handleChange}
+                  value={form.confirmPassword}
+                  onChange={handleChange}
                   placeholder="Enter Confirm Password"
-                   className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -452,8 +465,26 @@ focus:border-main focus:outline-none transition-colors"
           </div>
           <div className="flex items-start md:items-center gap-2 justify-between flex-col md:flex-row">
             <button
-              // type="submit"
-              // disabled={isUpdating}
+              onClick={() =>
+                updatePassword.mutate(
+                  {
+                    oldPassword: form.oldPassword,
+                    newPassword: form.password,
+                  },
+                  {
+                    onSuccess: () => {
+                      toast.success("Password updated successfully!");
+                    },
+                  }
+                )
+              }
+              disabled={
+                updatePassword.isPending ||
+                !form.oldPassword ||
+                !form.password ||
+                !form.confirmPassword ||
+                form.password !== form.confirmPassword
+              }
               className=" text-white text-sm font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUpdating ? (

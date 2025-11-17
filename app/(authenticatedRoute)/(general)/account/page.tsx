@@ -22,19 +22,6 @@ const Account = () => {
   const isLoading = fetchProfile.isLoading;
   const user = fetchProfile.data || localUser;
 
-  const handleImageSelect = (e: any) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const openFilePicker = () => fileRef.current?.click();
-
   const [openPassword, setOpenPassword] = useState(false);
 
   const [individualAcc, setIndividualAcc] = useState("");
@@ -48,6 +35,9 @@ const Account = () => {
   };
 
   const { getKYCStatus } = useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
+  const { data: kycStatusBuss, isLoading: kycStatusLoadBuss } =
+    getKYCStatus("BUSINESS");
 
   return (
     <SideNav>
@@ -149,9 +139,9 @@ const Account = () => {
                 your KYC approved.{" "}
               </p>
             </div>
-            {getKYCStatus.isLoading ? (
+            {kycStatusLoad ? (
               " "
-            ) : getKYCStatus?.data?.data?.status === "APPROVED" ? (
+            ) : kycStatus?.data?.status === "APPROVED" ? (
               <FaCheckCircle className="w-5 h-5 text-main" />
             ) : (
               <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full shrink-0" />
@@ -170,7 +160,9 @@ const Account = () => {
                 your KYC approved.{" "}
               </p>
             </div>
-            {individualAcc === "business" ? (
+            {kycStatusLoadBuss ? (
+              " "
+            ) : kycStatusBuss?.data?.status === "APPROVED" ? (
               <FaCheckCircle className="w-5 h-5 text-main" />
             ) : (
               <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full shrink-0" />

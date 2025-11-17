@@ -64,11 +64,24 @@ export const useCustomers = () => {
             break;
         }
 
-        const res = await apiInstance.get(`/api/admin/users?${params.toString()}`);
+        const res = await apiInstance.get(
+          `/api/admin/users?${params.toString()}`
+        );
         return res.data;
       },
       keepPreviousData: true,
     });
 
-  return { getUsers };
+  const useUserByID = (id: string) => {
+    return useQuery({
+      queryKey: ["get-user-by-id", id],
+      queryFn: async () => {
+        const res = await apiInstance.get(`/api/admin/users/${id}`);
+        return res.data;
+      },
+      enabled: !!id,
+    });
+  };
+
+  return { getUsers, useUserByID };
 };

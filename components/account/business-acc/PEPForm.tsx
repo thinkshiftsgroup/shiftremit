@@ -10,14 +10,16 @@ interface PepProps {
   fetchBusinessProfile: UseQueryResult<any>;
 }
 
-interface PepI {
+export interface PepI {
   id?: string;
   name: string;
   position: string;
   pepStatusDescription: string;
 }
 const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
-  const { updatePEP, deletePEP } = useProfile();
+  const { updatePEP, deletePEP, getKYCStatus } = useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } =
+    getKYCStatus("BUSINESS");
   const [peps, setPeps] = useState<PepI[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -194,7 +196,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
         </div>
       ))}
 
-      <hr className="my-4" />
+      {/* <hr className="my-4" /> */}
       {/* <button
         onClick={handleSaveAndAddAnother}
         disabled={isSubmitting}
@@ -207,7 +209,12 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={handleSubmitAll}
-          disabled={isSubmitting}
+          disabled={
+            isSubmitting ||
+            kycStatus.data.status === "APPROVED" ||
+            kycStatus.data.status === "PENDING_REVIEW" ||
+            kycStatusLoad
+          }
           className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
         >
           {isSubmitting ? "Submitting..." : "I'm Done Adding PEP"}

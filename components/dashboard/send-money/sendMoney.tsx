@@ -17,6 +17,7 @@ const SendMoneyUI = () => {
 
   const router = useRouter();
   const { getKYCStatus } = useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
 
   const [toCurrency, setToCurrency] = useState("NGN");
   const [fromCurrency, setFromCurrency] = useState("GBP");
@@ -112,7 +113,7 @@ const SendMoneyUI = () => {
             fromCurrency === toCurrency ||
             (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) ||
             (fromCurrency === "NGN" && parseInt(sending_amount) < 50000) ||
-            getKYCStatus.isLoading
+            kycStatusLoad
           }
           onClick={() => {
             if (fromCurrency === "GBP" && parseFloat(sending_amount) < 10) {
@@ -126,8 +127,8 @@ const SendMoneyUI = () => {
               return;
             }
 
-            const status = getKYCStatus?.data?.data?.status;
-
+            const status = kycStatus?.data?.status;
+            console.log(status);
             setTransfer({
               amount: parseInt(sending_amount),
               fromCurrency,

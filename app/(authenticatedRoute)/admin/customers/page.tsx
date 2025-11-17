@@ -194,8 +194,27 @@ const CustomerTrxn = () => {
                         index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                       } border-b border-gray-100`}
                     >
-                      <td className="px-4 font-semibold text-sm py-3 font-poppins">
-                        {user.fullName}
+                      <td className="px-4 font-semibold text-sm py-3 font-poppins flex items-center gap-0.5 ">
+                        <span>{user.fullName}</span>
+                        <RiArrowRightUpLine
+                          onClick={() =>
+                            router.push(`/admin/customers/${user.id}`)
+                          }
+                          className="cursor-pointer"
+                          size={16}
+                        />
+                        <span className="flex items-center gap-1">
+                          {user.isIndividual && (
+                            <span className="px-1 bg-main text-white rounded-sm font-poppins">
+                              IA
+                            </span>
+                          )}
+                          {user.isBusiness && (
+                            <span className="px-1 bg-main text-white rounded-sm font-poppins">
+                              BA
+                            </span>
+                          )}
+                        </span>
                       </td>
                       <td className="px-4 text-sm py-3 font-poppins">
                         {user.email}

@@ -17,7 +17,7 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import { countriesWithCodes } from "@/data/data";
 
-interface FormDataState {
+export interface FormDataState {
   dob: string;
   idDate: string;
   meansOfIdentification: string;
@@ -36,9 +36,13 @@ const BusinessAcc = () => {
     fetchProfile,
     updateBusinessProfile,
     updateProfilePhoto,
+    submitKyc,
     getKYCStatus,
     fetchBusinessProfile,
   } = useProfile();
+
+  const { data: kycStatus, isLoading: kycStatusLoad } =
+    getKYCStatus("BUSINESS");
 
   const [formData, setFormData] = useState<FormDataState>({
     dob: "",
@@ -52,6 +56,8 @@ const BusinessAcc = () => {
   });
 
   const user = fetchProfile.data || localUser;
+
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -113,7 +119,7 @@ const BusinessAcc = () => {
     updateBusinessProfile.mutate(payload);
   };
 
-  if (isLoading || getKYCStatus.isLoading) {
+  if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
         <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
@@ -141,6 +147,7 @@ const BusinessAcc = () => {
     const ln = user.lastname?.[0] || "";
     return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
   };
+
   return (
     <SideNav>
       <div className="relative mb-16">
@@ -533,7 +540,12 @@ focus:border-main focus:outline-none transition-colors"
             <div className="flex items-start md:items-center gap-2 justify-end flex-col md:flex-row">
               <button
                 type="submit"
-                disabled={updateBusinessProfile.isPending}
+                disabled={
+                  updateBusinessProfile.isPending ||
+                  kycStatus.data.status === "APPROVED" ||
+                  kycStatus.data.status === "PENDING_REVIEW" ||
+                  kycStatusLoad
+                }
                 className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
               >
                 {updateBusinessProfile.isPending ? (
@@ -564,13 +576,30 @@ focus:border-main focus:outline-none transition-colors"
         </div>
 
         <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
-          <button className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm">
-            Submit KYC for approval
+          <button
+            onClick={() =>
+              submitKyc.mutate(
+                { type: "BUSINESS" },
+                {
+                  onSuccess: () => {
+                    toast.success("Submission for KYC successful");
+                    setShowSuccess(true);
+                    setTimeout(() => setShowSuccess(false), 3000);
+                  },
+                }
+              )
+            }
+            disabled={submitKyc.isPending}
+            className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
+          >
+            {submitKyc.isPending ? "Submitting..." : "Submit KYC for Approval"}
           </button>
-          <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
-            <FaCircleCheck size={20} className="text-main" />
-            Saved
-          </div>
+          {showSuccess && (
+            <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
+              <FaCircleCheck size={20} className="text-main" />
+              Saved
+            </div>
+          )}
         </div>
       </div>
     </SideNav>

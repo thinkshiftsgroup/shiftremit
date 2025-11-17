@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import IndividualDoc from "@/components/account/individualAcc/docUpload";
 import { countriesWithCodes } from "@/data/data";
 
-interface FormDataState {
+export interface FormDataState {
   firstname: string;
   lastname: string;
   middlename: string;
@@ -39,11 +39,10 @@ const IndiAcc = () => {
     fetchProfile,
     updateProfile,
     updateProfilePhoto,
-    fetchIndividualDocs,
-    updateIndividualDocs,
     getKYCStatus,
   } = useProfile();
-  const kycStatus = getKYCStatus?.data?.data?.status;
+
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
 
   const { user: localUser, setUser } = useProfileStore();
   const [formData, setFormData] = useState<FormDataState>({
@@ -139,7 +138,7 @@ const IndiAcc = () => {
     }
   };
 
-  if (isLoading || getKYCStatus.isLoading) {
+  if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
         <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
@@ -570,8 +569,8 @@ focus:border-main focus:outline-none transition-colors"
               type="submit"
               disabled={
                 isUpdating ||
-                kycStatus === "APPROVED" ||
-                kycStatus === "PENDING_REVIEW"
+                kycStatus.data.status === "APPROVED" ||
+                kycStatus.data.status === "PENDING_REVIEW"
               }
               className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
             >

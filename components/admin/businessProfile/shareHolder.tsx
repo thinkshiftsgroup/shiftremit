@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 import { FaCircleQuestion, FaPlus } from "react-icons/fa6";
-import { Trash } from "lucide-react";
-import { toast } from "sonner";
-import FileUpload from "./fileUpload";
+
 import {
   useProfile,
   NaturalPersonShareholder,
@@ -13,31 +11,14 @@ import {
 } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
 import { countriesWithCodes } from "@/data/data";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import ConfirmModal from "../modal/deleteModal";
+import FileUpload from "./fileUpload";
 
-interface ShareHolderFormProps {
-  fetchBusinessProfile: any;
-}
+export default function ShareHolderForm({ userDeets }: any) {
+  const docData = userDeets?.shareholders || [];
 
-export default function ShareHolderForm({
-  fetchBusinessProfile,
-}: ShareHolderFormProps) {
-  const { updateBusinessShareholder, deleteShareHolder, getKYCStatus } =
-    useProfile();
-  const { data: kycStatus, isLoading: kycStatusLoad } =
-    getKYCStatus("BUSINESS");
-
-  const [loadingSave, setLoadingSave] = useState(false);
   const [activeTab, setActiveTab] = useState<"individual" | "entity">(
     "individual"
   );
-
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [pendingDeleteData, setPendingDeleteData] = useState<{
-    id?: string;
-    arrType: "individuals" | "entities";
-    index: number;
-  } | null>(null);
 
   const [individuals, setIndividuals] = useState<NaturalPersonShareholder[]>(
     []
@@ -46,27 +27,12 @@ export default function ShareHolderForm({
 
   const [currentIndividualIndex, setCurrentIndividualIndex] = useState(0);
   const [currentEntityIndex, setCurrentEntityIndex] = useState(0);
-  const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const handleDeleteShareholder = async (id: string, idx: number) => {
-    setLoadingDelete(true);
-    deleteShareHolder.mutate(
-      { id },
-      {
-        onSuccess: () => {
-          toast.success("Director deleted");
-          // handleRemoveTab(idx);
-          fetchBusinessProfile.refetch();
-        },
-        onSettled: () => setLoadingDelete(false),
-      }
-    );
-  };
   // Prefill shareholders on fetch
   useEffect(() => {
-    if (!fetchBusinessProfile?.data?.shareholders) return;
+    if (!docData) return;
 
-    const indivs = fetchBusinessProfile.data.shareholders.filter(
+    const indivs = docData.filter(
       (s: Shareholder) => s.entityType !== "LEGAL_ENTITY"
     );
     setIndividuals(
@@ -94,7 +60,7 @@ export default function ShareHolderForm({
           ]
     );
 
-    const ents = fetchBusinessProfile.data.shareholders.filter(
+    const ents = docData.filter(
       (s: Shareholder) => s.entityType === "LEGAL_ENTITY"
     );
     setEntities(
@@ -109,133 +75,7 @@ export default function ShareHolderForm({
             },
           ]
     );
-  }, [fetchBusinessProfile?.data?.shareholders]);
-
-  const handleChange = (
-    arrType: "individuals" | "entities",
-    idx: number,
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    const updater = arrType === "individuals" ? setIndividuals : setEntities;
-    updater((prev: any) => {
-      const copy = [...prev];
-      copy[idx] = {
-        ...copy[idx],
-        [name]: name.includes("percentage") ? parseFloat(value) || 0 : value,
-      };
-      return copy;
-    });
-  };
-
-  const handleFileChange = (
-    arrType: "individuals" | "entities",
-    idx: number,
-    name: string,
-    file: File
-  ) => {
-    const updater = arrType === "individuals" ? setIndividuals : setEntities;
-    updater((prev: any) => {
-      const copy = [...prev];
-      copy[idx] = { ...copy[idx], [name]: file };
-      return copy;
-    });
-  };
-
-  const handleRemove = (arrType: "individuals" | "entities", idx: number) => {
-    const updater = arrType === "individuals" ? setIndividuals : setEntities;
-    updater((prev: any) => prev.filter((_: any, i: any) => i !== idx));
-
-    if (arrType === "individuals" && idx === currentIndividualIndex)
-      setCurrentIndividualIndex(0);
-    if (arrType === "entities" && idx === currentEntityIndex)
-      setCurrentEntityIndex(0);
-  };
-
-  const addIndividual = () => {
-    setIndividuals((prev) => [
-      ...prev,
-      {
-        firstname: "",
-        lastname: "",
-        dateOfBirth: "",
-        nationality: "",
-        identificationDocument: "",
-        idNumber: "",
-        issuedCountry: "",
-        residentialAddress: "",
-        percentageSharesOwned: 0,
-        validIdUrl: "",
-        proofOfAddressUrl: "",
-        taxNumber: "",
-      } as NaturalPersonShareholder,
-    ]);
-    setCurrentIndividualIndex(individuals.length);
-    setActiveTab("individual");
-  };
-
-  const addEntity = () => {
-    setEntities((prev) => [
-      ...prev,
-      {
-        legalEntityName: "",
-        countryOfRegistrationIncorporation: "",
-        registrationIncorporationNumber: "",
-        percentageSharesOwned: 0,
-      } as LegalEntityShareholder,
-    ]);
-    setCurrentEntityIndex(entities.length);
-    setActiveTab("entity");
-  };
-
-  const handleSaveAll = async () => {
-    setLoadingSave(true);
-    try {
-      const activeShareholders =
-        activeTab === "individual" ? individuals : entities;
-
-      const uploadedShareholders = await Promise.all(
-        activeShareholders.map(async (s: any) => {
-          let validIdUrl = s.validIdUrl;
-          let proofOfAddressUrl = s.proofOfAddressUrl;
-
-          if (s.validIdFile)
-            validIdUrl = await uploadToCloudinary(s.validIdFile, "raw");
-          if (s.proofOfAddressFile)
-            proofOfAddressUrl = await uploadToCloudinary(
-              s.proofOfAddressFile,
-              "raw"
-            );
-
-          let dateOfBirth = s.dateOfBirth
-            ? new Date(s.dateOfBirth).toISOString()
-            : null;
-
-          const { validIdFile, proofOfAddressFile, ...clean } = s;
-
-          const entityType =
-            activeTab === "individual" ? "NATURAL_PERSON" : "LEGAL_ENTITY";
-
-          return {
-            ...clean,
-            validIdUrl,
-            proofOfAddressUrl,
-            dateOfBirth,
-            entityType,
-          };
-        })
-      );
-
-      await updateBusinessShareholder.mutateAsync(uploadedShareholders);
-      toast.success("Shareholders saved successfully!");
-
-      fetchBusinessProfile.refetch();
-    } catch (err) {
-      toast.error("Failed to save shareholders");
-    } finally {
-      setLoadingSave(false);
-    }
-  };
+  }, [docData]);
 
   const renderIndividualForm = (
     data: NaturalPersonShareholder,
@@ -249,8 +89,8 @@ export default function ShareHolderForm({
         <input
           name="firstname"
           type="text"
+          readOnly
           value={data?.firstname || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -263,7 +103,7 @@ export default function ShareHolderForm({
           name="lastname"
           type="text"
           value={data?.lastname || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -277,7 +117,7 @@ export default function ShareHolderForm({
           type="date"
           max={new Date().toISOString().split("T")[0]}
           value={data?.dateOfBirth?.split("T")[0] || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -289,7 +129,7 @@ export default function ShareHolderForm({
         <select
           name="nationality"
           value={data?.nationality || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          aria-readonly
           className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
@@ -308,7 +148,7 @@ export default function ShareHolderForm({
         <select
           name="identificationDocument"
           value={data?.identificationDocument || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          aria-readonly
           className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Document</option>
@@ -330,7 +170,7 @@ export default function ShareHolderForm({
           name="idNumber"
           type="text"
           value={data?.idNumber || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -342,7 +182,7 @@ export default function ShareHolderForm({
         <select
           name="issuedCountry"
           value={data?.issuedCountry || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          aria-readonly
           className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
@@ -362,7 +202,7 @@ export default function ShareHolderForm({
           name="residentialAddress"
           type="text"
           value={data?.residentialAddress || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -376,7 +216,7 @@ export default function ShareHolderForm({
           type="number"
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -385,18 +225,12 @@ export default function ShareHolderForm({
         label="Valid ID for Shareholder*"
         fileUrl={data?.validIdUrl}
         fileObj={(data as any)?.validIdFile}
-        onFileChange={(file) =>
-          handleFileChange("individuals", idx, "validIdFile", file)
-        }
       />
 
       <FileUpload
         label="Proof of Address*"
         fileUrl={data?.proofOfAddressUrl}
         fileObj={(data as any)?.proofOfAddressFile}
-        onFileChange={(file) =>
-          handleFileChange("individuals", idx, "proofOfAddressFile", file)
-        }
       />
 
       <div>
@@ -407,7 +241,7 @@ export default function ShareHolderForm({
           name="taxNumber"
           type="text"
           value={data?.taxNumber || ""}
-          onChange={(e) => handleChange("individuals", idx, e)}
+          readOnly
           className="font-poppins mt-2 text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -424,7 +258,7 @@ export default function ShareHolderForm({
           name="legalEntityName"
           type="text"
           value={data?.legalEntityName || ""}
-          onChange={(e) => handleChange("entities", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -436,7 +270,7 @@ export default function ShareHolderForm({
         <select
           name="countryOfRegistrationIncorporation"
           value={data?.countryOfRegistrationIncorporation || ""}
-          onChange={(e) => handleChange("entities", idx, e)}
+          aria-readonly
           className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
@@ -456,7 +290,7 @@ export default function ShareHolderForm({
           name="registrationIncorporationNumber"
           type="text"
           value={data?.registrationIncorporationNumber || ""}
-          onChange={(e) => handleChange("entities", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -470,7 +304,7 @@ export default function ShareHolderForm({
           type="number"
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
-          onChange={(e) => handleChange("entities", idx, e)}
+          readOnly
           className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
@@ -555,20 +389,6 @@ export default function ShareHolderForm({
               </button>
             ))}
           </div>
-          <Trash
-            className="text-red-500 cursor-pointer"
-            size={16}
-            onClick={() => {
-              const indiv = individuals[currentIndividualIndex];
-
-              setPendingDeleteData({
-                id: indiv?.id,
-                arrType: "individuals",
-                index: currentIndividualIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
         </div>
       )}
 
@@ -589,90 +409,23 @@ export default function ShareHolderForm({
               </button>
             ))}
           </div>
-          <Trash
-            className="text-red-500 cursor-pointer"
-            size={16}
-            onClick={() => {
-              const entity = entities[currentEntityIndex];
-
-              setPendingDeleteData({
-                id: entity?.id,
-                arrType: "entities",
-                index: currentEntityIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
         </div>
       )}
 
-      {/* Render active form */}
       {activeTab === "individual" && (
         <>
           {renderIndividualForm(
             individuals[currentIndividualIndex],
             currentIndividualIndex
           )}
-          <button
-            onClick={addIndividual}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add Individual
-          </button>
         </>
       )}
 
       {activeTab === "entity" && (
         <>
           {renderEntityForm(entities[currentEntityIndex], currentEntityIndex)}
-          <button
-            onClick={addEntity}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add Entity
-          </button>
         </>
       )}
-
-      <hr className="my-4" />
-      <button
-        onClick={handleSaveAll}
-        disabled={
-          loadingSave ||
-          kycStatus.data.status === "APPROVED" ||
-          kycStatus.data.status === "PENDING_REVIEW" || kycStatusLoad
-        }
-        className={`font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm ${
-          loadingSave ? "bg-gray-200 cursor-not-allowed" : "bg-main/30"
-        }`}
-      >
-        {loadingSave ? "Saving..." : "Save Shareholders"}
-      </button>
-
-      <ConfirmModal
-        open={showConfirmDelete}
-        message="Are you sure you want to delete this shareholder?"
-        confirmText={loadingDelete ? "Deleting..." : "Yes, Delete"}
-        cancelText="Cancel"
-        onCancel={() => {
-          setShowConfirmDelete(false);
-          setPendingDeleteData(null);
-        }}
-        onConfirm={() => {
-          if (!pendingDeleteData) return;
-
-          const { id, arrType, index } = pendingDeleteData;
-
-          if (id) {
-            handleDeleteShareholder(id, index);
-          } else {
-            handleRemove(arrType, index);
-          }
-
-          setShowConfirmDelete(false);
-          setPendingDeleteData(null);
-        }}
-      />
     </div>
   );
 }

@@ -74,7 +74,7 @@ export interface Director {
 }
 
 export interface BaseShareholder {
-  id?: string; 
+  id?: string;
   entityType: "NATURAL_PERSON" | "LEGAL_ENTITY";
   percentageSharesOwned: number;
   validIdUrl?: string;
@@ -102,7 +102,6 @@ export interface LegalEntityShareholder extends BaseShareholder {
 }
 
 export type Shareholder = NaturalPersonShareholder | LegalEntityShareholder;
-
 
 const PROFILE_QUERY_KEY = ["userProfile"];
 const BUSINESS_PROFILE_QUERY_KEY = ["businessProfile"];
@@ -206,8 +205,12 @@ export const useProfile = () => {
 
   const submitKyc = useMutation({
     mutationKey: ["submit-kyc"],
-    mutationFn: async () => {
-      const res = await apiInstance.post("/api/kyc/submit", {});
+    mutationFn: async (payload?: { type?: string }) => {
+      const type = payload?.type;
+
+      const url = type ? `/api/kyc/submit?type=${type}` : `/api/kyc/submit`;
+
+      const res = await apiInstance.post(url, {});
       return res.data;
     },
     onError: (err: any) => {
@@ -218,16 +221,20 @@ export const useProfile = () => {
     },
   });
 
-  const getKYCStatus = useQuery({
-    queryKey: ["get-kyc-status"],
-    queryFn: async () => {
-      const res = await apiInstance.get("/api/kyc/status");
-      return res.data;
-    },
-    onError: (err: any) => {
-      toast.error(err.response?.data?.message || "Failed to get KYC status");
-    },
-  });
+  const getKYCStatus = (type?: string) =>
+    useQuery({
+      queryKey: ["get-kyc-status", type || null],
+      queryFn: async () => {
+        const url = type ? `/api/kyc/status?type=${type}` : `/api/kyc/status`;
+
+        const res = await apiInstance.get(url);
+        return res.data;
+      },
+      enabled: true,
+      onError: (err: any) => {
+        toast.error(err.response?.data?.message || "Failed to get KYC status");
+      },
+    });
 
   const fetchBusinessProfile = useQuery<BusinessProfileUpdatePayload>({
     queryKey: BUSINESS_PROFILE_QUERY_KEY,

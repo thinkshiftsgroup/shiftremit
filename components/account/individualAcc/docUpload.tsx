@@ -26,8 +26,8 @@ const IndividualDoc = () => {
     submitKyc,
     getKYCStatus,
   } = useProfile();
-  const kycStatus = getKYCStatus?.data?.data?.status;
 
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
   const router = useRouter();
   const queryClient = useQueryClient();
   const validTypes = ["image/png", "image/jpeg", "application/pdf"];
@@ -284,7 +284,7 @@ const IndividualDoc = () => {
 
               {status !== "APPROVED" &&
                 hasFile &&
-                (kycStatus === "REJECTED" || kycStatus === "NOT_STARTED") && (
+                (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
                   <HiTrash
                     size={16}
                     onMouseDown={(e) => e.preventDefault()}
@@ -342,7 +342,7 @@ const IndividualDoc = () => {
 
           {!frontFile &&
             idFrontUrl &&
-            (kycStatus === "REJECTED" || kycStatus === "NOT_STARTED") && (
+            (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
               <div className="flex">
                 <HiTrash
                   size={20}
@@ -415,7 +415,7 @@ const IndividualDoc = () => {
 
           {!backFile &&
             idBackUrl &&
-            (kycStatus === "REJECTED" || kycStatus === "NOT_STARTED") && (
+            (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
               <>
                 <HiTrash
                   size={20}
@@ -547,8 +547,8 @@ const IndividualDoc = () => {
             type="submit"
             disabled={
               updateIndividualDocs.isPending ||
-              kycStatus === "APPROVED" ||
-              kycStatus === "PENDING_REVIEW"
+              kycStatus.data.status === "APPROVED" ||
+              kycStatus.data.status === "PENDING_REVIEW"
             }
             onClick={() => handleSubmit()}
             className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
@@ -557,7 +557,7 @@ const IndividualDoc = () => {
           </button>
         </div>
 
-        {(kycStatus === "NOT_STARTED" || kycStatus === "REJECTED") && (
+        {(kycStatus.data.status === "NOT_STARTED" || kycStatus.data.status === "REJECTED") && (
           <div className="bg-white z-9 fixed bottom-0 left-0 w-full p-3 flex flex-col items-center">
             <button
               onClick={() =>

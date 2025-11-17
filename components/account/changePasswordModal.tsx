@@ -7,16 +7,31 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CiLock } from "react-icons/ci";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import apiInstance from "@/api/apiInstance";
+import { toast } from "sonner";
+import { usePassword } from "@/hooks/usePassword";
 
 const ChangePassword = ({ openPassword, setOpenPassword }: any) => {
+  const [form, setForm] = useState({
+    oldPassword: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [show, setShow] = useState({
     password: false,
     confirmPassword: false,
     oldPassword: false,
   });
+
+  const handleChange = (e: any) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const { updatePassword } = usePassword();
 
   return (
     <Dialog open={openPassword} onOpenChange={setOpenPassword}>
@@ -28,24 +43,23 @@ const ChangePassword = ({ openPassword, setOpenPassword }: any) => {
         </DialogHeader>
 
         <div className="space-y-3 text-sm font-poppins">
+          {/* Old Password */}
           <div className="space-y-3">
-            <label
-              htmlFor="password"
-              className="font-poppins font-semibold text-sm "
-            >
+            <label className="font-poppins font-semibold text-sm text-[#454745] ">
               Old Password
             </label>
             <div className="relative">
               <input
-                id="password"
-                name="password"
+                name="oldPassword"
                 type={show.oldPassword ? "text" : "password"}
-                // value={form.password}
-                // onChange={handleChange}
-                placeholder="Enter Old password"
-                className="font-poppins text-sm bg-[#fafbfe] w-full indent-2 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                value={form.oldPassword}
+                onChange={handleChange}
+                placeholder="Enter old password"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
+
               {show.oldPassword ? (
                 <IoEyeOffOutline
                   onClick={() =>
@@ -63,24 +77,24 @@ const ChangePassword = ({ openPassword, setOpenPassword }: any) => {
               )}
             </div>
           </div>
+
+          {/* New Password */}
           <div className="space-y-3">
-            <label
-              htmlFor="password"
-              className="font-poppins font-semibold text-sm "
-            >
+            <label className="font-poppins font-semibold text-sm text-[#454745] ">
               Password
             </label>
             <div className="relative">
               <input
-                id="password"
                 name="password"
                 type={show.password ? "text" : "password"}
-                // value={form.password}
-                // onChange={handleChange}
-                placeholder="Enter Password"
-                className="font-poppins text-sm bg-[#fafbfe] w-full indent-2 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Enter password"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
+
               {show.password ? (
                 <IoEyeOffOutline
                   onClick={() =>
@@ -99,24 +113,23 @@ const ChangePassword = ({ openPassword, setOpenPassword }: any) => {
             </div>
           </div>
 
+          {/* Confirm Password */}
           <div className="space-y-3">
-            <label
-              htmlFor="confirmPassword"
-              className="font-poppins font-semibold text-sm "
-            >
+            <label className="font-poppins font-semibold text-sm text-[#454745] ">
               Confirm Password
             </label>
             <div className="relative">
               <input
-                id="confirmPassword"
                 name="confirmPassword"
                 type={show.confirmPassword ? "text" : "password"}
-                // value={form.confirmPassword}
-                // onChange={handleChange}
-                placeholder="Enter Confirm Password"
-                className="font-poppins text-sm bg-[#fafbfe] w-full indent-2 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                placeholder="Enter confirm password"
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 required
               />
+
               {show.confirmPassword ? (
                 <IoEyeOffOutline
                   onClick={() =>
@@ -137,15 +150,32 @@ const ChangePassword = ({ openPassword, setOpenPassword }: any) => {
         </div>
 
         <DialogFooter>
-          {/* <Button
-            variant="outline"
-            onClick={() => setOpenPassword(false)}
-            className="font-poppins"
+          <Button
+            className="bg-main text-white font-poppins"
+            onClick={() =>
+              updatePassword.mutate(
+                {
+                  oldPassword: form.oldPassword,
+                  newPassword: form.password,
+                },
+                {
+                  onSuccess: () => {
+                    toast.success("Password updated successfully!");
+                    setOpenPassword(false);
+                  },
+                }
+              )
+            }
+            disabled={
+              updatePassword.isPending ||
+              !form.oldPassword ||
+              !form.password ||
+              !form.confirmPassword ||
+              form.password !== form.confirmPassword
+            }
           >
-            Cancel
-          </Button> */}
-
-          <Button className="bg-main text-white font-poppins">Update Now</Button>
+            {updatePassword.isPending ? "Updating..." : "Update Now"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
