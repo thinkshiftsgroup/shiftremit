@@ -21,6 +21,7 @@ import DirectorForm from "@/components/admin/businessProfile/directorForm";
 import BusinessDocUpload from "@/components/admin/businessProfile/docUoload";
 import ShareHolderForm from "@/components/admin/businessProfile/shareHolder";
 import PEPForm from "@/components/admin/businessProfile/pepForm";
+import { Switch } from "@/components/ui/switch";
 
 const CustomerDetails = () => {
   const params = useParams<{ id: string }>();
@@ -33,6 +34,8 @@ const CustomerDetails = () => {
     updateBussProfile,
     approveKYCBizz,
     disApproveKYCBizz,
+    verifyUser,
+    deleteUser,
   } = useAdmin();
   const { data, isLoading } = useUserByID(params?.id);
   const user = data?.data;
@@ -40,6 +43,12 @@ const CustomerDetails = () => {
 
   const dateRef = useRef<HTMLInputElement>(null);
   const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
+
+  const [isVerified, setIsVerified] = useState<boolean>(
+    user?.isVerified ?? false
+  );
+
+  const [isDeleted, setIsDeleted] = useState<boolean>(user?.isDeleted ?? false);
 
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
@@ -74,13 +83,15 @@ const CustomerDetails = () => {
         idDate: user.idDate
           ? new Date(user.idDate).toISOString().split("T")[0]
           : "",
-
         meansOfIdentification: user.meansOfIdentification || "ID",
         validIDNumber: user.validIDNumber || "",
         fullAddress: user.fullAddress || "",
         taxNumber: user.taxNumber || "",
         purposeOfShiftremit: user.purposeOfShiftremit || "",
       });
+
+      setIsVerified(user?.isVerified ?? false);
+      setIsDeleted(user?.isDeleted ?? false);
     }
   }, [user]);
 
@@ -224,6 +235,50 @@ const CustomerDetails = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="font-poppins flex-col text-main flex text-xs items-center gap-2">
+                <div className="flex items-center gap-1">
+                  <p>Verify</p>
+                  <Switch
+                    checked={isVerified}
+                    onCheckedChange={(value) => {
+                      setIsVerified(value);
+                      verifyUser.mutate({
+                        data: value,
+                        id: params?.id,
+                      });
+                    }}
+                    disabled={verifyUser.isPending}
+                    className="
+    data-[state=checked]:bg-main
+    data-[state=checked]:border-main
+    data-[state=unchecked]:bg-gray-300
+    [&>span]:data-[state=checked]:bg-white
+  "
+                  />
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <p className="text-red-500">Delete</p>
+                  <Switch
+                    checked={isDeleted}
+                    onCheckedChange={(value) => {
+                      setIsDeleted(value);
+                      deleteUser.mutate({
+                        data: value,
+                        id: params?.id,
+                      });
+                    }}
+                    disabled={deleteUser.isPending}
+                    className="
+    data-[state=checked]:bg-main
+    data-[state=checked]:border-main
+    data-[state=unchecked]:bg-gray-300
+    [&>span]:data-[state=checked]:bg-white
+  "
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="w-full border-b flex items-center rounded-sm gap-5 my-3 font-poppins">
@@ -244,8 +299,7 @@ const CustomerDetails = () => {
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>verified</p>
                   </span>
-                ) : user?.kycSubmission?.status ===
-                  "REJECTED" ? (
+                ) : user?.kycSubmission?.status === "REJECTED" ? (
                   <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
                     <p>rejected</p>
                   </span>
