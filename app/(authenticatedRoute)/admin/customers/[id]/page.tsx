@@ -45,6 +45,7 @@ const CustomerDetails = () => {
     firstname: "",
     lastname: "",
     middlename: "",
+    email: "",
     gender: "male",
     dob: "",
     country: "",
@@ -65,6 +66,7 @@ const CustomerDetails = () => {
         lastname: user.lastname || "",
         gender: user.gender || "male",
         middlename: user.middlename || "",
+        email: user.email || "",
         politicalExposure: user.politicalExposure || "",
         phoneNumber: user.phoneNumber || "",
         country: user.country || "",
@@ -224,14 +226,16 @@ const CustomerDetails = () => {
               </div>
             </div>
 
-            <div className="w-full flex items-center rounded-sm gap-5 my-3 font-poppins py-2 bg-[#E6DAF5] px-2">
+            <div className="w-full border-b flex items-center rounded-sm gap-5 my-3 font-poppins">
               <div
                 onClick={() => setIndiProfile(true)}
-                className="cursor-pointer flex items-center gap-1 "
+                className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
+                  indiprofile ? " border-b-2 border-b-main" : ""
+                } `}
               >
                 <p
-                  className={`text-sm font-semibold ${
-                    indiprofile ? "text-main" : "text-white"
+                  className={`text-sm font-medium ${
+                    indiprofile ? "text-main" : "text-gray-400"
                   }`}
                 >
                   Individual Account{" "}
@@ -240,19 +244,26 @@ const CustomerDetails = () => {
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>verified</p>
                   </span>
-                ) : (
+                ) : user?.kycSubmission?.status ===
+                  "REJECTED" ? (
                   <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
-                    <p>in progress</p>
+                    <p>rejected</p>
+                  </span>
+                ) : (
+                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                    <p>in review</p>
                   </span>
                 )}
               </div>
               <div
                 onClick={() => setIndiProfile(false)}
-                className="cursor-pointer flex items-center gap-1 "
+                className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
+                  !indiprofile ? " border-b-2 border-b-main" : ""
+                } `}
               >
                 <p
-                  className={`text-sm font-semibold ${
-                    !indiprofile ? "text-main" : "text-white"
+                  className={`text-sm font-medium ${
+                    !indiprofile ? "text-main" : "text-gray-400"
                   }`}
                 >
                   Business Account{" "}
@@ -261,9 +272,14 @@ const CustomerDetails = () => {
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>verified</p>
                   </span>
-                ) : (
+                ) : user?.businessAccount?.kycSubmission?.status ===
+                  "REJECTED" ? (
                   <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
-                    <p>in progress</p>
+                    <p>rejected</p>
+                  </span>
+                ) : (
+                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                    <p>in review</p>
                   </span>
                 )}
               </div>
@@ -283,6 +299,7 @@ const CustomerDetails = () => {
                       id="firstname"
                       name="firstname"
                       type="text"
+                      readOnly
                       value={formData.firstname}
                       onChange={handleInputChange}
                       className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
@@ -303,6 +320,7 @@ focus:border-main focus:outline-none transition-colors"
                       id="lastname"
                       name="lastname"
                       type="text"
+                      readOnly
                       value={formData.lastname}
                       onChange={handleInputChange}
                       className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
@@ -321,7 +339,25 @@ focus:border-main focus:outline-none transition-colors"
                       id="middlename"
                       name="middlename"
                       type="text"
+                      readOnly
                       value={formData.middlename}
+                      onChange={handleInputChange}
+                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <label
+                      htmlFor="email"
+                      className="font-poppins font-semibold text-sm text-[#454745] "
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="text"
+                      value={formData.email}
                       onChange={handleInputChange}
                       className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -335,7 +371,8 @@ focus:border-main focus:outline-none transition-colors"
                       <select
                         name="gender"
                         value={formData.gender}
-                        onChange={handleInputChange}
+                        aria-readonly
+                        // onChange={handleInputChange}
                         className="
       font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
       border border-[#d1d5db80] text-[#454745]
@@ -373,6 +410,7 @@ focus:border-main focus:outline-none transition-colors"
                       id="dob"
                       name="dob"
                       type="date"
+                      readOnly
                       value={formData.dob}
                       max={new Date().toISOString().split("T")[0]}
                       onChange={handleInputChange}
@@ -394,6 +432,7 @@ focus:border-main focus:outline-none transition-colors"
                       type="tel"
                       inputMode="tel"
                       pattern="^\+?[0-9]{7,15}$"
+                      readOnly
                       value={formData.phoneNumber}
                       onChange={handleInputChange}
                       className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
@@ -415,6 +454,7 @@ focus:border-main focus:outline-none transition-colors"
                     name="politicalExposure"
                     value={formData.politicalExposure}
                     onChange={handleInputChange}
+                    readOnly
                     className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     required
@@ -531,6 +571,7 @@ focus:border-main focus:outline-none transition-colors"
                     name="fullAddress"
                     value={formData.fullAddress}
                     onChange={handleInputChange}
+                    readOnly
                     className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     required
@@ -547,8 +588,9 @@ focus:border-main focus:outline-none transition-colors"
                     <select
                       id="country"
                       name="country"
+                      aria-readonly
                       value={formData.country}
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
                       className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
               focus:border-main focus:outline-none transition-colors bg-white"
                       required
@@ -572,6 +614,7 @@ focus:border-main focus:outline-none transition-colors"
                     <input
                       id="taxNumber"
                       name="taxNumber"
+                      readOnly
                       type="text"
                       value={formData.taxNumber}
                       onChange={handleInputChange}
@@ -589,6 +632,7 @@ focus:border-main focus:outline-none transition-colors"
                   </label>
                   <textarea
                     id="purposeOfShiftremit"
+                    readOnly
                     name="purposeOfShiftremit"
                     value={formData.purposeOfShiftremit}
                     onChange={handleInputChange}

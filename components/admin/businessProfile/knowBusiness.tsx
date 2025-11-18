@@ -112,6 +112,7 @@ const KnowBusiness = ({ userDeets, updateBussProfile }: any) => {
               value={formData.businessName}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -149,6 +150,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.incorporationNumber}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
@@ -162,6 +164,7 @@ focus:border-main focus:outline-none transition-colors"
             <input
               name="dateOfIncorporation"
               type="date"
+              readOnly
               max={new Date().toISOString().split("T")[0]}
               required
               value={formData.dateOfIncorporation}
@@ -178,8 +181,9 @@ focus:border-main focus:outline-none transition-colors"
             <select
               name="countryOfIncorporation"
               value={formData.countryOfIncorporation}
-              onChange={handleInputChange}
+              // onChange={handleInputChange}
               required
+              aria-readonly
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             >
@@ -201,6 +205,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.taxNumber}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -216,6 +221,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.companyAddress}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -231,6 +237,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.zipCodePostcode}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -246,6 +253,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.stateProvince}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -261,6 +269,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.city}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -277,6 +286,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.whatDoesTheBusinessDo}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
@@ -292,6 +302,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.companyWebsite}
               onChange={handleInputChange}
               type="text"
+              readOnly
               required
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"

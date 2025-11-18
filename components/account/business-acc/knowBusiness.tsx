@@ -313,7 +313,7 @@ focus:border-main focus:outline-none transition-colors"
               kycStatus.data.status === "PENDING_REVIEW" ||
               kycStatusLoad
             }
-            className="text-white font-poppins py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
+            className="text-white font-poppins disabled:opacity-50 disabled:cursor-not-allowed py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
           >
             {updateBusinessProfile.isPending ? (
               <Loader2 className="animate-spin" />

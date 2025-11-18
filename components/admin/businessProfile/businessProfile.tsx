@@ -236,6 +236,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 id="dob"
                 name="dob"
                 type="date"
+                readOnly
                 value={formData.dob}
                 max={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
@@ -256,6 +257,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 name="mobileNumber"
                 type="tel"
                 inputMode="tel"
+                readOnly
                 pattern="^\+?[0-9]{7,15}$"
                 value={formData.mobileNumber}
                 onChange={handleInputChange}
@@ -373,6 +375,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
               id="fullAddress"
               name="fullAddress"
               value={formData.fullAddress}
+              readOnly
               onChange={handleInputChange}
               className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
@@ -389,9 +392,10 @@ const BusinessProfile = ({ user, isLoading }: any) => {
               </label>
               <select
                 id="countryOfResidence"
+                aria-readonly
                 name="countryOfResidence"
                 value={formData.countryOfResidence}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors bg-white"
                 required
@@ -413,6 +417,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 What would you be using ShiftRemit transfers for?*
               </label>
               <textarea
+              readOnly
                 id="purposeOfShiftremit"
                 name="purposeOfShiftremit"
                 value={formData.purposeOfShiftremit}

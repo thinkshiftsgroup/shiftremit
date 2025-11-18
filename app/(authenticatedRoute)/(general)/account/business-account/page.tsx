@@ -546,7 +546,7 @@ focus:border-main focus:outline-none transition-colors"
                   kycStatus.data.status === "PENDING_REVIEW" ||
                   kycStatusLoad
                 }
-                className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
+                className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {updateBusinessProfile.isPending ? (
                   <Loader2 className="animate-spin" />
@@ -574,33 +574,37 @@ focus:border-main focus:outline-none transition-colors"
           <ChevronLeft size={25} className="text-main cursor-pointer" />
           Back
         </div>
-
-        <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
-          <button
-            onClick={() =>
-              submitKyc.mutate(
-                { type: "BUSINESS" },
-                {
-                  onSuccess: () => {
-                    toast.success("Submission for KYC successful");
-                    setShowSuccess(true);
-                    setTimeout(() => setShowSuccess(false), 3000);
-                  },
-                }
-              )
-            }
-            disabled={submitKyc.isPending}
-            className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
-          >
-            {submitKyc.isPending ? "Submitting..." : "Submit KYC for Approval"}
-          </button>
-          {showSuccess && (
-            <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
-              <FaCircleCheck size={20} className="text-main" />
-              Saved
-            </div>
-          )}
-        </div>
+        {(kycStatus.data.status === "NOT_STARTED" ||
+          kycStatus.data.status === "REJECTED") && (
+          <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
+            <button
+              onClick={() =>
+                submitKyc.mutate(
+                  { type: "BUSINESS" },
+                  {
+                    onSuccess: () => {
+                      toast.success("Submission for KYC successful");
+                      setShowSuccess(true);
+                      setTimeout(() => setShowSuccess(false), 3000);
+                    },
+                  }
+                )
+              }
+              disabled={submitKyc.isPending}
+              className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
+            >
+              {submitKyc.isPending
+                ? "Submitting..."
+                : "Submit KYC for Approval"}
+            </button>
+            {showSuccess && (
+              <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
+                <FaCircleCheck size={20} className="text-main" />
+                Saved
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </SideNav>
   );

@@ -555,20 +555,23 @@ export default function ShareHolderForm({
               </button>
             ))}
           </div>
-          <Trash
-            className="text-red-500 cursor-pointer"
-            size={16}
-            onClick={() => {
-              const indiv = individuals[currentIndividualIndex];
+          {(kycStatus.data.status === "NOT_STARTED" ||
+            kycStatus.data.status === "REJECTED") && (
+            <Trash
+              className="text-red-500 cursor-pointer"
+              size={16}
+              onClick={() => {
+                const indiv = individuals[currentIndividualIndex];
 
-              setPendingDeleteData({
-                id: indiv?.id,
-                arrType: "individuals",
-                index: currentIndividualIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
+                setPendingDeleteData({
+                  id: indiv?.id,
+                  arrType: "individuals",
+                  index: currentIndividualIndex,
+                });
+                setShowConfirmDelete(true);
+              }}
+            />
+          )}
         </div>
       )}
 
@@ -589,20 +592,23 @@ export default function ShareHolderForm({
               </button>
             ))}
           </div>
-          <Trash
-            className="text-red-500 cursor-pointer"
-            size={16}
-            onClick={() => {
-              const entity = entities[currentEntityIndex];
+          {(kycStatus.data.status === "NOT_STARTED" ||
+            kycStatus.data.status === "REJECTED") && (
+            <Trash
+              className="text-red-500 cursor-pointer"
+              size={16}
+              onClick={() => {
+                const entity = entities[currentEntityIndex];
 
-              setPendingDeleteData({
-                id: entity?.id,
-                arrType: "entities",
-                index: currentEntityIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
+                setPendingDeleteData({
+                  id: entity?.id,
+                  arrType: "entities",
+                  index: currentEntityIndex,
+                });
+                setShowConfirmDelete(true);
+              }}
+            />
+          )}
         </div>
       )}
 
@@ -613,24 +619,30 @@ export default function ShareHolderForm({
             individuals[currentIndividualIndex],
             currentIndividualIndex
           )}
-          <button
-            onClick={addIndividual}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add Individual
-          </button>
+          {(kycStatus.data.status === "NOT_STARTED" ||
+            kycStatus.data.status === "REJECTED") && (
+            <button
+              onClick={addIndividual}
+              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+            >
+              <FaPlus /> Add Individual
+            </button>
+          )}
         </>
       )}
 
       {activeTab === "entity" && (
         <>
           {renderEntityForm(entities[currentEntityIndex], currentEntityIndex)}
-          <button
-            onClick={addEntity}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add Entity
-          </button>
+          {(kycStatus.data.status === "NOT_STARTED" ||
+            kycStatus.data.status === "REJECTED") && (
+            <button
+              onClick={addEntity}
+              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+            >
+              <FaPlus /> Add Entity
+            </button>
+          )}
         </>
       )}
 
@@ -640,11 +652,10 @@ export default function ShareHolderForm({
         disabled={
           loadingSave ||
           kycStatus.data.status === "APPROVED" ||
-          kycStatus.data.status === "PENDING_REVIEW" || kycStatusLoad
+          kycStatus.data.status === "PENDING_REVIEW" ||
+          kycStatusLoad
         }
-        className={`font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm ${
-          loadingSave ? "bg-gray-200 cursor-not-allowed" : "bg-main/30"
-        }`}
+        className={`font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm`}
       >
         {loadingSave ? "Saving..." : "Save Shareholders"}
       </button>

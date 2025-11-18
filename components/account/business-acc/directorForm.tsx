@@ -234,15 +234,17 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             We would like to know a bit about your directors
           </p>
         </div>
-
-        <div>
-          <button
-            onClick={handleAddNewDirector}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add aonther director
-          </button>
-        </div>
+        {(kycStatus.data.status === "NOT_STARTED" ||
+          kycStatus.data.status === "REJECTED") && (
+          <div>
+            <button
+              onClick={handleAddNewDirector}
+              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+            >
+              <FaPlus /> Add aonther director
+            </button>
+          </div>
+        )}
       </div>
 
       {directors.length > 0 && (
@@ -261,23 +263,26 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             ))}
           </div>
 
-          <Trash
-            className={`text-red-500 cursor-pointer ${
-              loadingDelete ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            size={16}
-            onClick={() => {
-              if (loadingDelete) return;
+          {(kycStatus.data.status === "NOT_STARTED" ||
+            kycStatus.data.status === "REJECTED") && (
+            <Trash
+              className={`text-red-500 cursor-pointer ${
+                loadingDelete ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              size={16}
+              onClick={() => {
+                if (loadingDelete) return;
 
-              const director = directors[currentIndex];
+                const director = directors[currentIndex];
 
-              setPendingDeleteData({
-                id: director.id,
-                index: currentIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
+                setPendingDeleteData({
+                  id: director.id,
+                  index: currentIndex,
+                });
+                setShowConfirmDelete(true);
+              }}
+            />
+          )}
         </div>
       )}
 
@@ -559,20 +564,13 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           disabled={
             loadingSave ||
             kycStatus.data.status === "APPROVED" ||
-            kycStatus.data.status === "PENDING_REVIEW" || kycStatusLoad
+            kycStatus.data.status === "PENDING_REVIEW" ||
+            kycStatusLoad
           }
-          className={`font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm ${
-            loadingSave ? "bg-gray-200 cursor-not-allowed" : "bg-main/30"
-          }`}
+          className={`font-poppins  text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm  disabled:opacity-50 disabled:cursor-not-allowed `}
         >
           {loadingSave ? "Saving..." : "Save Director"}
         </button>
-        {/* <button
-          onClick={handleDoneAdding}
-          className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-        >
-          I'm Done Adding Directors
-        </button> */}
       </div>
       <ConfirmModal
         open={showConfirmDelete}
