@@ -127,13 +127,15 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
           We would like to know a bit about your peps
         </p>
       </div>
-
-      <button
-        className="font-poppins my-3 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-        onClick={addNewPep}
-      >
-        Add Another PEP +
-      </button>
+      {(kycStatus.data.status === "NOT_STARTED" ||
+        kycStatus.data.status === "REJECTED") && (
+        <button
+          className="font-poppins my-3 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+          onClick={addNewPep}
+        >
+          Add Another PEP +
+        </button>
+      )}
 
       {peps.map((pep, index) => (
         <div key={index} className="shadow-sm p-3 rounded-md mb-4">
@@ -215,7 +217,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
             kycStatus.data.status === "PENDING_REVIEW" ||
             kycStatusLoad
           }
-          className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+          className="font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
         >
           {isSubmitting ? "Submitting..." : "I'm Done Adding PEP"}
         </button>

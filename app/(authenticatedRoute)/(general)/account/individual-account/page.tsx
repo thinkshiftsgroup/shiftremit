@@ -17,6 +17,7 @@ export interface FormDataState {
   firstname: string;
   lastname: string;
   middlename: string;
+  email?: string;
   gender: string;
   dob: string;
   meansOfIdentification: string;
@@ -49,6 +50,7 @@ const IndiAcc = () => {
     firstname: "",
     lastname: "",
     middlename: "",
+    // email: "",
     gender: "male",
     dob: "",
     country: "",
@@ -74,6 +76,7 @@ const IndiAcc = () => {
         lastname: user.lastname || "",
         gender: user.gender || "male",
         middlename: user.middlename || "",
+        // email: user.email || "",
         politicalExposure: user.politicalExposure || "",
         phoneNumber: user.phoneNumber || "",
         country: user.country || "",
@@ -287,6 +290,23 @@ focus:border-main focus:outline-none transition-colors"
 focus:border-main focus:outline-none transition-colors"
               />
             </div>
+            {/* <div className="space-y-3">
+              <label
+                htmlFor="email"
+                className="font-poppins font-semibold text-sm text-[#454745] "
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
+              />
+            </div> */}
             <div className="space-y-3">
               <label className="font-poppins font-semibold text-sm text-[#454745] ">
                 Gender*

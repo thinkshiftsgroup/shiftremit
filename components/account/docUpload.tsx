@@ -139,17 +139,19 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
               />
             )}
 
-            {fileUrl && (
-              <HiTrash
-                size={16}
-                className="text-red-500 cursor-pointer"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  confirmDelete(docType);
-                }}
-              />
-            )}
+            {fileUrl &&
+              (kycStatus.data.status === "NOT_STARTED" ||
+                kycStatus.data.status === "REJECTED") && (
+                <HiTrash
+                  size={16}
+                  className="text-red-500 cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    confirmDelete(docType);
+                  }}
+                />
+              )}
           </div>
         </label>
 
