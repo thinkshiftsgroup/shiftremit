@@ -640,17 +640,19 @@ focus:border-main focus:outline-none transition-colors"
           {user?.kycSubmission?.status !== "APPROVED" ? (
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
-                onClick={() =>
-                  approveKYC.mutate(
-                    { id: user?.kycSubmission?.id },
-                    {
-                      onSuccess: () => {
-                        setShowSuccess(true);
-                        setTimeout(() => setShowSuccess(false), 3000);
-                      },
-                    }
-                  )
-                }
+                onClick={() => {
+                  user?.kycSubmission?.id
+                    ? approveKYC.mutate(
+                        { id: user?.kycSubmission?.id },
+                        {
+                          onSuccess: () => {
+                            setShowSuccess(true);
+                            setTimeout(() => setShowSuccess(false), 3000);
+                          },
+                        }
+                      )
+                    : toast.error("No individual kyc submission yet");
+                }}
                 disabled={approveKYC.isPending}
                 className="w-full flex justify-center font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
               >
@@ -707,17 +709,19 @@ focus:border-main focus:outline-none transition-colors"
           {user?.businessAccount?.kycSubmission?.status !== "APPROVED" ? (
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
-                onClick={() =>
-                  approveKYCBizz.mutate(
-                    { id: user?.businessAccount?.kycSubmission?.id },
-                    {
-                      onSuccess: () => {
-                        setShowSuccess(true);
-                        setTimeout(() => setShowSuccess(false), 3000);
-                      },
-                    }
-                  )
-                }
+                onClick={() => {
+                  user?.businessAccount?.kycSubmission?.id
+                    ? approveKYCBizz.mutate(
+                        { id: user?.businessAccount?.kycSubmission?.id },
+                        {
+                          onSuccess: () => {
+                            setShowSuccess(true);
+                            setTimeout(() => setShowSuccess(false), 3000);
+                          },
+                        }
+                      )
+                    : toast.error("No business kyc submission yet");
+                }}
                 disabled={approveKYCBizz.isPending}
                 className="w-full flex justify-center font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
               >
@@ -738,17 +742,19 @@ focus:border-main focus:outline-none transition-colors"
           ) : (
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
-                onClick={() =>
-                  disApproveKYCBizz.mutate(
-                    { id: user?.businessAccount?.kycSubmission?.id },
-                    {
-                      onSuccess: () => {
-                        setShowSuccess(true);
-                        setTimeout(() => setShowSuccess(false), 3000);
-                      },
-                    }
-                  )
-                }
+                onClick={() => {
+                  user?.businessAccount?.kycSubmission?.id
+                    ? disApproveKYCBizz.mutate(
+                        { id: user?.businessAccount?.kycSubmission?.id },
+                        {
+                          onSuccess: () => {
+                            setShowSuccess(true);
+                            setTimeout(() => setShowSuccess(false), 3000);
+                          },
+                        }
+                      )
+                    : toast.error("No business kyc submission yet");
+                }}
                 disabled={disApproveKYCBizz.isPending}
                 className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-red-500 text-white p-2 rounded-sm disabled:opacity-50"
               >
