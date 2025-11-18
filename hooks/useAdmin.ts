@@ -166,6 +166,43 @@ export const useAdmin = () => {
     },
   });
 
+  const verifyUser = useMutation({
+    mutationKey: ["verify-user"],
+    mutationFn: async ({ data, id }: any) => {
+      const res = await apiInstance.patch(`/api/admin/users/${id}/verify`, {
+        isVerified: data,
+      });
+      return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-user-by-id"] });
+      toast.success("Verification updated!");
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to verify user.");
+    },
+  });
+  
+  const deleteUser = useMutation({
+    mutationKey: ["delete-user"],
+    mutationFn: async ({ data, id }: any) => {
+      const res = await apiInstance.patch(
+        `/api/admin/users/${id}/soft-delete`,
+        {
+          isDeleted: data,
+        }
+      );
+      return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-user-by-id"] });
+      toast.success("Delete status updated!");
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to delete user.");
+    },
+  });
+
   return {
     changeFileStatus,
     updateProfile,
@@ -174,6 +211,9 @@ export const useAdmin = () => {
     updateBussProfile,
     changeBussFileStatus,
     disApproveKYCBizz,
-    approveKYCBizz
+    approveKYCBizz,
+
+    verifyUser,
+    deleteUser,
   };
 };
