@@ -877,7 +877,13 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               {openDrop && (
                 <div className="rounded-md absolute top-12 right-0 z-10 w-40 bg-white border border-gray-200">
                   <div
-                    onClick={() => router.push("/account")}
+                    onClick={() =>
+                      router.push(
+                        user?.userType === "admin"
+                          ? "/admin/profile"
+                          : "/account"
+                      )
+                    }
                     className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors"
                   >
                     <FaRegCircleUser size={14} /> Profile

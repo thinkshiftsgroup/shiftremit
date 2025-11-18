@@ -16,7 +16,10 @@ const statusColors: Record<string, string> = {
 };
 
 const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
-  const { deleteDocForBusiness, updateBusinessDoc } = useProfile();
+  const { deleteDocForBusiness, updateBusinessDoc, getKYCStatus } =
+    useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } =
+    getKYCStatus("BUSINESS");
   const docData = fetchBusinessProfile?.data?.businessAccountDocs || [];
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingDeleteKey, setPendingDeleteKey] = useState<string | null>(null);
@@ -301,7 +304,12 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
       <div className="flex justify-end">
         <button
           onClick={handleSubmit}
-          disabled={updateBusinessDoc.isPending}
+          disabled={
+            updateBusinessDoc.isPending ||
+            kycStatus.data.status === "APPROVED" ||
+            kycStatus.data.status === "PENDING_REVIEW" ||
+            kycStatusLoad
+          }
           className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {updateBusinessDoc.isPending ? "Saving..." : "Save"}

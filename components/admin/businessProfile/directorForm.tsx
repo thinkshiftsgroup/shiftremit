@@ -7,33 +7,13 @@ import {
   useProfile,
 } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
 import { countriesWithCodes } from "@/data/data";
-import { uploadToCloudinary } from "@/lib/cloudinary";
 import { Eye, Trash } from "lucide-react";
-import { FaPlus } from "react-icons/fa6";
-import ConfirmModal from "../modal/deleteModal";
 
-const DirectorForm = ({ fetchBusinessProfile }: any) => {
-  const { updateBusinessDirectors, deleteDirector, getKYCStatus } =
-    useProfile();
-  const docData = fetchBusinessProfile?.data?.directors || [];
-
-  const { data: kycStatus, isLoading: kycStatusLoad } =
-    getKYCStatus("BUSINESS");
-
-  const [loadingSave, setLoadingSave] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
-
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [pendingDeleteData, setPendingDeleteData] = useState<{
-    id?: string;
-    index: number;
-  } | null>(null);
+const DirectorForm = ({ userDeets }: any) => {
+  const docData = userDeets?.directors || [];
 
   const [directors, setDirectors] = useState<Director[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-  const idProofRef = useRef<HTMLInputElement>(null);
-  const resProofRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (docData.length > 0) {
@@ -78,150 +58,6 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
     });
   };
 
-  const handleProofUpload = async (
-    file: File,
-    key: "identificationDocumentProofUrl" | "residentialAddressUrlProof"
-  ) => {
-    if (key === "identificationDocumentProofUrl") {
-      updateCurrentDirector("identificationDocumentProofFile", file);
-    } else {
-      updateCurrentDirector("residentialAddressUrlProofFile", file);
-    }
-
-    try {
-      const url = await uploadToCloudinary(file, "raw");
-      updateCurrentDirector(key, url);
-    } catch (err) {
-      toast.error("Failed to upload file");
-    }
-  };
-
-  const handleRemoveTab = (idx: number) => {
-    setDirectors((prev) => {
-      const updated = prev.filter((_, i) => i !== idx);
-      return updated;
-    });
-    if (currentIndex >= directors.length - 1) {
-      setCurrentIndex(directors.length - 2 >= 0 ? directors.length - 2 : 0);
-    }
-  };
-
-  const handleDeleteDirector = async (id: string, idx: number) => {
-    setLoadingDelete(true);
-    deleteDirector.mutate(
-      { id },
-      {
-        onSuccess: () => {
-          toast.success("Director deleted");
-          handleRemoveTab(idx);
-          fetchBusinessProfile.refetch();
-        },
-        onSettled: () => setLoadingDelete(false),
-      }
-    );
-  };
-
-  const handleAddNewDirector = () => {
-    setDirectors((prev) => [
-      ...prev,
-      {
-        firstname: "",
-        lastname: "",
-        position: "",
-        isShareholder: false,
-        nationality: "",
-        identificationDocument: "",
-        idNumber: "",
-        residentialAddress: "",
-        issuedCountry: "",
-        dateOfBirth: "",
-        percentageShareholding: undefined,
-        identificationDocumentProofUrl: "",
-        residentialAddressUrlProof: "",
-        identificationDocumentProofFile: undefined,
-        residentialAddressUrlProofFile: undefined,
-      },
-    ]);
-    setCurrentIndex(directors.length);
-    if (idProofRef.current) idProofRef.current.value = "";
-    if (resProofRef.current) resProofRef.current.value = "";
-  };
-
-  const handleSaveDirector = async () => {
-    const director = directors[currentIndex];
-
-    if (
-      !director.firstname ||
-      !director.lastname ||
-      !director.position ||
-      !director.identificationDocument ||
-      !director.idNumber ||
-      (!director.identificationDocumentProofFile &&
-        !director.identificationDocumentProofUrl) ||
-      (!director.residentialAddressUrlProofFile &&
-        !director.residentialAddressUrlProof)
-    ) {
-      toast.error("Complete all required fields");
-      return;
-    }
-    setLoadingSave(true);
-    try {
-      let idProofUrl = director.identificationDocumentProofUrl;
-      let resProofUrl = director.residentialAddressUrlProof;
-
-      if (director.identificationDocumentProofFile) {
-        idProofUrl = await uploadToCloudinary(
-          director.identificationDocumentProofFile,
-          "raw"
-        );
-      }
-      if (director.residentialAddressUrlProofFile) {
-        resProofUrl = await uploadToCloudinary(
-          director.residentialAddressUrlProofFile,
-          "raw"
-        );
-      }
-
-      const {
-        identificationDocumentProofFile,
-        residentialAddressUrlProofFile,
-        ...cleanDirector
-      } = director;
-
-      const directorToSend = {
-        ...cleanDirector,
-        dateOfBirth: director.dateOfBirth
-          ? new Date(director.dateOfBirth).toISOString()
-          : undefined,
-        identificationDocumentProofUrl: idProofUrl,
-        residentialAddressUrlProof: resProofUrl,
-      };
-
-      const saved = await updateBusinessDirectors.mutateAsync([directorToSend]);
-
-      setDirectors((prev) => {
-        const updated = [...prev];
-        updated[currentIndex] = { ...updated[currentIndex], ...saved[0] };
-        return updated;
-      });
-
-      toast.success("Director saved!");
-      fetchBusinessProfile.refetch();
-    } catch (err) {
-      toast.error("Failed to save director");
-    } finally {
-      setLoadingSave(false);
-    }
-  };
-
-  const handleDoneAdding = async () => {
-    try {
-      await updateBusinessDirectors.mutateAsync(directors);
-      toast.success("All directors saved!");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to save directors");
-    }
-  };
 
   return (
     <div className="w-full bg-white shadow-md mb-5 rounded-md p-3">
@@ -233,15 +69,6 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           <p className="text-sm text-[#454745] font-dm-sans">
             We would like to know a bit about your directors
           </p>
-        </div>
-
-        <div>
-          <button
-            onClick={handleAddNewDirector}
-            className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-          >
-            <FaPlus /> Add aonther director
-          </button>
         </div>
       </div>
 
@@ -260,24 +87,6 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
               </button>
             ))}
           </div>
-
-          <Trash
-            className={`text-red-500 cursor-pointer ${
-              loadingDelete ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            size={16}
-            onClick={() => {
-              if (loadingDelete) return;
-
-              const director = directors[currentIndex];
-
-              setPendingDeleteData({
-                id: director.id,
-                index: currentIndex,
-              });
-              setShowConfirmDelete(true);
-            }}
-          />
         </div>
       )}
 
@@ -288,6 +97,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="text"
+            readOnly
             className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.firstname}
             onChange={(e) => updateCurrentDirector("firstname", e.target.value)}
@@ -300,6 +110,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="text"
+            readOnly
             className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.lastname}
             onChange={(e) => updateCurrentDirector("lastname", e.target.value)}
@@ -312,6 +123,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="text"
+            readOnly
             className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.position}
             onChange={(e) => updateCurrentDirector("position", e.target.value)}
@@ -324,6 +136,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="date"
+            readOnly
             max={new Date().toISOString().split("T")[0]}
             className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.dateOfBirth || ""}
@@ -338,6 +151,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             Nationality*
           </label>
           <select
+            aria-readonly
             value={currentDirector.nationality}
             onChange={(e) =>
               updateCurrentDirector("nationality", e.target.value)
@@ -358,6 +172,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             Identification Document*
           </label>
           <select
+            aria-readonly
             value={currentDirector.identificationDocument}
             onChange={(e) =>
               updateCurrentDirector("identificationDocument", e.target.value)
@@ -383,6 +198,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="text"
+            readOnly
             value={currentDirector.idNumber}
             onChange={(e) => updateCurrentDirector("idNumber", e.target.value)}
             className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
@@ -395,6 +211,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           </label>
           <input
             type="text"
+            readOnly
             value={currentDirector.residentialAddress}
             onChange={(e) =>
               updateCurrentDirector("residentialAddress", e.target.value)
@@ -409,6 +226,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             <FaCircleQuestion size={16} className="text-[#454745]" />
           </label>
           <label
+            aria-readonly
             htmlFor="idProof"
             className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
@@ -435,7 +253,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             )}
           </label>
 
-          <input
+          {/* <input
             id="idProof"
             type="file"
             className="hidden"
@@ -447,7 +265,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
                 "identificationDocumentProofUrl"
               );
             }}
-          />
+          /> */}
         </div>
 
         <div>
@@ -455,6 +273,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             Issued Country*
           </label>
           <select
+            aria-readonly
             value={currentDirector.issuedCountry}
             onChange={(e) =>
               updateCurrentDirector("issuedCountry", e.target.value)
@@ -476,6 +295,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             <FaCircleQuestion size={16} className="text-[#454745]" />
           </label>
           <label
+            aria-readonly
             htmlFor="resProof"
             className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
@@ -503,7 +323,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             )}
           </label>
 
-          <input
+          {/* <input
             id="resProof"
             type="file"
             className="hidden"
@@ -515,12 +335,13 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
                 "residentialAddressUrlProof"
               );
             }}
-          />
+          /> */}
         </div>
       </div>
 
       <div className="flex items-center gap-1 mt-2">
         <input
+          readOnly
           type="checkbox"
           className="w-4 h-4 rounded-sm accent-main"
           checked={currentDirector.isShareholder}
@@ -539,6 +360,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             Percentage Shareholding*
           </label>
           <input
+            readOnly
             type="number"
             placeholder="%"
             value={currentDirector.percentageShareholding || ""}
@@ -552,49 +374,6 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           />
         </div>
       )}
-
-      <div className="flex gap-3 mt-4">
-        <button
-          onClick={handleSaveDirector}
-          disabled={
-            loadingSave ||
-            kycStatus.data.status === "APPROVED" ||
-            kycStatus.data.status === "PENDING_REVIEW" || kycStatusLoad
-          }
-          className={`font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm ${
-            loadingSave ? "bg-gray-200 cursor-not-allowed" : "bg-main/30"
-          }`}
-        >
-          {loadingSave ? "Saving..." : "Save Director"}
-        </button>
-        {/* <button
-          onClick={handleDoneAdding}
-          className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
-        >
-          I'm Done Adding Directors
-        </button> */}
-      </div>
-      <ConfirmModal
-        open={showConfirmDelete}
-        message="Are you sure you want to delete this director?"
-        confirmText={loadingDelete ? "Deleting..." : "Yes, Delete"}
-        cancelText="Cancel"
-        onCancel={() => {
-          setShowConfirmDelete(false);
-          setPendingDeleteData(null);
-        }}
-        onConfirm={() => {
-          if (!pendingDeleteData) return;
-          if (pendingDeleteData.id) {
-            handleDeleteDirector(pendingDeleteData.id, pendingDeleteData.index);
-          } else {
-            handleRemoveTab(pendingDeleteData.index);
-          }
-
-          setShowConfirmDelete(false);
-          setPendingDeleteData(null);
-        }}
-      />
     </div>
   );
 };

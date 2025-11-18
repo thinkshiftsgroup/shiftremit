@@ -20,15 +20,7 @@ interface FormDataState {
   companyWebsite: string;
 }
 
-interface KnowBusinessProps {
-  fetchBusinessProfile: UseQueryResult<any>;
-  updateBusinessProfile: any;
-}
-
-const KnowBusiness: React.FC<KnowBusinessProps> = ({
-  fetchBusinessProfile,
-  updateBusinessProfile,
-}) => {
+const KnowBusiness = ({ userDeets, updateBussProfile }: any) => {
   const [formData, setFormData] = useState<FormDataState>({
     businessName: "",
     companyType: "",
@@ -54,9 +46,9 @@ const KnowBusiness: React.FC<KnowBusinessProps> = ({
   };
 
   useEffect(() => {
-    if (!fetchBusinessProfile.data) return;
+    if (!userDeets) return;
 
-    const b = fetchBusinessProfile.data;
+    const b = userDeets;
 
     setFormData({
       businessName: b.businessName || "",
@@ -74,7 +66,7 @@ const KnowBusiness: React.FC<KnowBusinessProps> = ({
       whatDoesTheBusinessDo: b.whatDoesTheBusinessDo || "",
       companyWebsite: b.companyWebsite || "",
     });
-  }, [fetchBusinessProfile.data]);
+  }, [userDeets]);
 
   const { getKYCStatus } = useProfile();
 
@@ -88,7 +80,10 @@ const KnowBusiness: React.FC<KnowBusinessProps> = ({
         : undefined,
     };
 
-    updateBusinessProfile.mutate(payload);
+    updateBussProfile.mutateAsync({
+      data: payload,
+      id: userDeets?.id,
+    });
   };
 
   const { data: kycStatus, isLoading: kycStatusLoad } =
@@ -307,15 +302,10 @@ focus:border-main focus:outline-none transition-colors"
         <div className="flex my-4 justify-end">
           <button
             type="submit"
-            disabled={
-              updateBusinessProfile.isPending ||
-              kycStatus.data.status === "APPROVED" ||
-              kycStatus.data.status === "PENDING_REVIEW" ||
-              kycStatusLoad
-            }
+            disabled={updateBussProfile.isPending}
             className="text-white font-poppins py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
           >
-            {updateBusinessProfile.isPending ? (
+            {updateBussProfile.isPending ? (
               <Loader2 className="animate-spin" />
             ) : (
               "Update"

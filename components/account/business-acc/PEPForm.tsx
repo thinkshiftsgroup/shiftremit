@@ -4,21 +4,27 @@ import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FaCircleQuestion } from "react-icons/fa6";
 import { toast } from "sonner";
+import ConfirmModal from "../modal/deleteModal";
 
 interface PepProps {
   fetchBusinessProfile: UseQueryResult<any>;
 }
 
-interface PepI {
+export interface PepI {
   id?: string;
   name: string;
   position: string;
   pepStatusDescription: string;
 }
 const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
-  const { updatePEP, deletePEP } = useProfile();
+  const { updatePEP, deletePEP, getKYCStatus } = useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } =
+    getKYCStatus("BUSINESS");
   const [peps, setPeps] = useState<PepI[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [pendingIndex, setPendingIndex] = useState<number | null>(null);
 
   const handlePepChange = (index: number, field: string, value: string) => {
     setPeps((prev) =>
@@ -131,7 +137,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
 
       {peps.map((pep, index) => (
         <div key={index} className="shadow-sm p-3 rounded-md mb-4">
-          <div  className="grid md:grid-cols-3 gap-5 ">
+          <div className="grid md:grid-cols-3 gap-5 ">
             <div>
               <label className="font-poppins font-semibold text-sm text-[#454745]">
                 Name
@@ -174,8 +180,11 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
           </div>
           <div className="flex justify-end">
             <button
-              onClick={() => handleDeletePep(index)}
-              className=" text-white mt-2 justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
+              onClick={() => {
+                setPendingIndex(index);
+                setShowDeleteModal(true);
+              }}
+              className="text-white mt-2 justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
             >
               {deletePEP.isPending && pep.id === pepDelId ? (
                 <Loader2 className="animate-spin" />
@@ -187,7 +196,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
         </div>
       ))}
 
-      <hr className="my-4" />
+      {/* <hr className="my-4" /> */}
       {/* <button
         onClick={handleSaveAndAddAnother}
         disabled={isSubmitting}
@@ -200,12 +209,35 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={handleSubmitAll}
-          disabled={isSubmitting}
+          disabled={
+            isSubmitting ||
+            kycStatus.data.status === "APPROVED" ||
+            kycStatus.data.status === "PENDING_REVIEW" ||
+            kycStatusLoad
+          }
           className="font-poppins text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
         >
           {isSubmitting ? "Submitting..." : "I'm Done Adding PEP"}
         </button>
       </div>
+      <ConfirmModal
+        open={showDeleteModal}
+        message="Are you sure you want to delete this PEP?"
+        confirmText={deletePEP.isPending ? "Deleting..." : "Yes, Delete"}
+        cancelText="Cancel"
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setPendingIndex(null);
+        }}
+        onConfirm={async () => {
+          if (pendingIndex === null) return;
+
+          await handleDeletePep(pendingIndex);
+
+          setShowDeleteModal(false);
+          setPendingIndex(null);
+        }}
+      />
     </div>
   );
 };
