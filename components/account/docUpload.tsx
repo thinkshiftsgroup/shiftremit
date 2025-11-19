@@ -308,7 +308,7 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
           onClick={handleSubmit}
           disabled={
             updateBusinessDoc.isPending ||
-            kycStatus.data.status !== "APPROVED" ||
+            kycStatus.data.status === "APPROVED" ||
             kycStatusLoad
           }
           className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
