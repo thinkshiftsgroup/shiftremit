@@ -82,10 +82,14 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
     file: File,
     key: "identificationDocumentProofUrl" | "residentialAddressUrlProof"
   ) => {
+    const sizeKB = file.size / 1024;
+
     if (key === "identificationDocumentProofUrl") {
       updateCurrentDirector("identificationDocumentProofFile", file);
+      updateCurrentDirector("identificationDocumentProofUrlSizeKB", sizeKB);
     } else {
       updateCurrentDirector("residentialAddressUrlProofFile", file);
+      updateCurrentDirector("residentialAddressUrlProofSizeKB", sizeKB);
     }
 
     try {
@@ -185,6 +189,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
       const {
         identificationDocumentProofFile,
         residentialAddressUrlProofFile,
+        businessAccountId,
         ...cleanDirector
       } = director;
 
@@ -194,7 +199,11 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           ? new Date(director.dateOfBirth).toISOString()
           : undefined,
         identificationDocumentProofUrl: idProofUrl,
+        identificationDocumentProofUrlSizeKB:
+          director.identificationDocumentProofUrlSizeKB,
         residentialAddressUrlProof: resProofUrl,
+        residentialAddressUrlProofSizeKB:
+          director.residentialAddressUrlProofSizeKB,
       };
 
       const saved = await updateBusinessDirectors.mutateAsync([directorToSend]);
@@ -423,6 +432,15 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
                   ?.split("/")
                   .pop() ||
                 "Choose file to upload (required)"}
+              {currentDirector.identificationDocumentProofUrlSizeKB && (
+                <span className="ml-1 text-xs text-gray-500">
+                  (
+                  {(
+                    currentDirector.identificationDocumentProofUrlSizeKB / 1024
+                  ).toFixed(2)}{" "}
+                  MB )
+                </span>
+              )}
             </span>
             {currentDirector.identificationDocumentProofUrl && (
               <button
@@ -488,6 +506,15 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
               {currentDirector.residentialAddressUrlProofFile?.name ||
                 currentDirector.residentialAddressUrlProof?.split("/").pop() ||
                 "Choose file to upload (required)"}
+              {currentDirector.residentialAddressUrlProofSizeKB && (
+                <span className="ml-1 text-xs text-gray-500">
+                  (
+                  {(
+                    currentDirector.residentialAddressUrlProofSizeKB / 1024
+                  ).toFixed(2)}{" "}
+                  MB )
+                </span>
+              )}
             </span>
 
             {currentDirector.residentialAddressUrlProof && (

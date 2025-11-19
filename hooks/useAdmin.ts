@@ -182,14 +182,14 @@ export const useAdmin = () => {
       toast.error(err.response?.data?.message || "Failed to verify user.");
     },
   });
-  
+
   const deleteUser = useMutation({
     mutationKey: ["delete-user"],
     mutationFn: async ({ data, id }: any) => {
       const res = await apiInstance.patch(
         `/api/admin/users/${id}/soft-delete`,
         {
-          isBanned: data,
+          isDeleted: data,
         }
       );
       return res.data.data;
@@ -200,6 +200,25 @@ export const useAdmin = () => {
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.message || "Failed to delete user.");
+    },
+  });
+  const banUser = useMutation({
+    mutationKey: ["ban-user"],
+    mutationFn: async ({ data, id }: any) => {
+      const res = await apiInstance.patch(
+        `/api/admin/users/${id}/ban`,
+        {
+          isBanned: data,
+        }
+      );
+      return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["get-user-by-id"] });
+      toast.success("Ban status updated!");
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Failed to ban user.");
     },
   });
 
@@ -215,5 +234,6 @@ export const useAdmin = () => {
 
     verifyUser,
     deleteUser,
+    banUser
   };
 };

@@ -211,7 +211,12 @@ export default function ShareHolderForm({
             ? new Date(s.dateOfBirth).toISOString()
             : null;
 
-          const { validIdFile, proofOfAddressFile, ...clean } = s;
+          const {
+            validIdFile,
+            proofOfAddressFile,
+            businessAccountId,
+            ...clean
+          } = s;
 
           const entityType =
             activeTab === "individual" ? "NATURAL_PERSON" : "LEGAL_ENTITY";
@@ -220,6 +225,12 @@ export default function ShareHolderForm({
             ...clean,
             validIdUrl,
             proofOfAddressUrl,
+            validIdUrSizeKB: s.validIdFile
+              ? +(s.validIdFile.size / 1024).toFixed(2)
+              : s.validIdUrSizeKB || null,
+            proofOfAddressUrlSizeKB: s.proofOfAddressFile
+              ? +(s.proofOfAddressFile.size / 1024).toFixed(2)
+              : s.proofOfAddressUrlSizeKB || null,
             dateOfBirth,
             entityType,
           };
@@ -385,6 +396,7 @@ export default function ShareHolderForm({
         label="Valid ID for Shareholder*"
         fileUrl={data?.validIdUrl}
         fileObj={(data as any)?.validIdFile}
+         fileSizeKB={data?.validIdUrSizeKB}
         onFileChange={(file) =>
           handleFileChange("individuals", idx, "validIdFile", file)
         }
@@ -394,6 +406,7 @@ export default function ShareHolderForm({
         label="Proof of Address*"
         fileUrl={data?.proofOfAddressUrl}
         fileObj={(data as any)?.proofOfAddressFile}
+        fileSizeKB={data?.proofOfAddressUrlSizeKB}
         onFileChange={(file) =>
           handleFileChange("individuals", idx, "proofOfAddressFile", file)
         }

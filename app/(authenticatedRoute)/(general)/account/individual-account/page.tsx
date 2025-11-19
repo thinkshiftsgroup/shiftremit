@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import IndividualDoc from "@/components/account/individualAcc/docUpload";
 import { countriesWithCodes } from "@/data/data";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface FormDataState {
   firstname: string;
@@ -37,17 +38,13 @@ const IndiAcc = () => {
   const dateRef = useRef<HTMLInputElement>(null);
   const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
 
-  const {
-    fetchProfile,
-    updateProfile,
-    updateProfilePhoto,
-    getKYCStatus,
-  } = useProfile();
+  const { fetchProfile, updateProfile, updateProfilePhoto, getKYCStatus } =
+    useProfile();
 
   const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
 
   const { user: localUser, setUser } = useProfileStore();
-  
+
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
     lastname: "",
@@ -121,6 +118,8 @@ const IndiAcc = () => {
     }
   };
 
+  const queryClient = useQueryClient();
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFormSubmitting(true);
@@ -146,8 +145,8 @@ const IndiAcc = () => {
   if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          <div className="flex items-center gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-base md:text-lg">
+          <div className="flex items-center flex-col  sm:flex-row gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -159,7 +158,7 @@ const IndiAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-base md:text-lg">
           Failed to load user profile.
         </div>
       </SideNav>
@@ -180,7 +179,7 @@ const IndiAcc = () => {
       <form className=" relative" onSubmit={handleFormSubmit}>
         <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
           <div className="flex pb-5 items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex w-full sm:flex-row flex-col items-center gap-4">
               <div
                 onClick={() => photoUploadRef.current?.openFileDialog()}
                 className="inline-block relative group cursor-pointer w-24 h-24"
@@ -211,23 +210,22 @@ const IndiAcc = () => {
                   maxFiles={1}
                 />
               </div>
-              <div>
+              <div className="flex flex-col items-center sm:items-start">
                 <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
-                  <h1 className="font-poppins md:text-2xl font-semibold">
-                   
-                      {user.firstname || ""} {user.lastname || ""}
+                  <h1 className="font-poppins text-xl md:text-2xl font-semibold">
+                    {user.firstname || ""} {user.lastname || ""}
                   </h1>
-                  <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                  <span className=" text-[10px] sm:text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>Individual Account</p>
                   </span>
                 </div>
                 <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
-                  <p className="font-dm-sans text-sm flex items-center gap-1">
+                  <p className="font-dm-sans text-xs sm:text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
                     {user.email}
                   </p>
                   {user?.phoneNumber && (
-                    <p className="font-dm-sans text-sm flex items-center gap-1">
+                    <p className="font-dm-sans text-xs sm:text-sm flex items-center gap-1">
                       <FiPhone size={16} />
                       {user?.phoneNumber || ""}
                     </p>
@@ -240,7 +238,7 @@ const IndiAcc = () => {
             <div className="space-y-3">
               <label
                 htmlFor="firstname"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 First Name*
               </label>
@@ -250,7 +248,7 @@ const IndiAcc = () => {
                 type="text"
                 value={formData.firstname}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -259,7 +257,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3">
               <label
                 htmlFor="lastname"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Last Name*
               </label>
@@ -270,7 +268,7 @@ focus:border-main focus:outline-none transition-colors"
                 type="text"
                 value={formData.lastname}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -278,7 +276,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3">
               <label
                 htmlFor="middlename"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Middle Name
               </label>
@@ -288,14 +286,14 @@ focus:border-main focus:outline-none transition-colors"
                 type="text"
                 value={formData.middlename}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               />
             </div>
             {/* <div className="space-y-3">
               <label
                 htmlFor="email"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Email
               </label>
@@ -305,12 +303,12 @@ focus:border-main focus:outline-none transition-colors"
                 type="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               />
             </div> */}
             <div className="space-y-3">
-              <label className="font-poppins font-semibold text-sm text-[#454745] ">
+              <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] ">
                 Gender*
               </label>
               <div className="relative w-full">
@@ -319,7 +317,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={formData.gender}
                   onChange={handleInputChange}
                   className="
-      font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm
+      font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm
       border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors
       appearance-none pr-8 
@@ -346,7 +344,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3">
               <label
                 htmlFor="dob"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 DOB*
               </label>
@@ -358,7 +356,7 @@ focus:border-main focus:outline-none transition-colors"
                 value={formData.dob}
                 max={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -366,7 +364,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3">
               <label
                 htmlFor="phoneNumber"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Mobile Number*
               </label>
@@ -378,7 +376,7 @@ focus:border-main focus:outline-none transition-colors"
                 pattern="^\+?[0-9]{7,15}$"
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                 placeholder="e.g. +448012345678"
                 required
@@ -388,7 +386,7 @@ focus:border-main focus:outline-none transition-colors"
           <div className="space-y-3">
             <label
               htmlFor="political"
-              className="font-poppins font-semibold text-sm text-[#454745] "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Political Exposed Person?*
             </label>
@@ -397,7 +395,7 @@ focus:border-main focus:outline-none transition-colors"
               name="politicalExposure"
               value={formData.politicalExposure}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
               placeholder="Someone who holds, or has held, a prominent public position, or is closely related or associated with such a person. "
@@ -406,7 +404,7 @@ focus:border-main focus:outline-none transition-colors"
           <div className="space-y-3 my-2">
             <label
               htmlFor="political"
-              className="font-poppins font-semibold text-sm text-[#454745] "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Means of Identification*
             </label>
@@ -417,7 +415,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={formData.meansOfIdentification}
                   onChange={handleInputChange}
                   className="
-      font-poppins text-sm w-full mt-2 py-3.5 px-2 rounded-sm
+      font-poppins text-xs sm:text-sm w-full mt-2 py-3.5 px-2 rounded-sm
       border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors
       appearance-none pr-8 
@@ -452,7 +450,7 @@ focus:border-main focus:outline-none transition-colors"
                 type="text"
                 value={formData.validIDNumber}
                 onChange={handleInputChange}
-                className="font-poppins z-3 text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
+                className="font-poppins z-3 text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
                 required
                 placeholder="Valid ID Number"
               />
@@ -468,7 +466,7 @@ focus:border-main focus:outline-none transition-colors"
                     type="date"
                     value={formData.idDate}
                     onChange={handleInputChange}
-                    className="font-poppins bg-main-dark text-sm w-full mt-2 py-3.5 px-2 pr-10 rounded-sm border-[#d1d5db80] text-white! border appearance-none hide-native-calendar"
+                    className="font-poppins bg-main-dark text-xs sm:text-sm w-full mt-2 py-3.5 px-2 pr-10 rounded-sm border-[#d1d5db80] text-white! border appearance-none hide-native-calendar"
                     required
                     placeholder="Valid ID Number"
                   />
@@ -502,7 +500,7 @@ focus:border-main focus:outline-none transition-colors"
           <div className="space-y-3 mb-2">
             <label
               htmlFor="fullAddress"
-              className="font-poppins font-semibold text-sm text-[#454745] "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Full Address*
             </label>
@@ -511,7 +509,7 @@ focus:border-main focus:outline-none transition-colors"
               name="fullAddress"
               value={formData.fullAddress}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
             />
@@ -520,7 +518,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3 w-full">
               <label
                 htmlFor="country"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Country of Residency*
               </label>
@@ -529,7 +527,7 @@ focus:border-main focus:outline-none transition-colors"
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
               focus:border-main focus:outline-none transition-colors bg-white"
                 required
               >
@@ -545,7 +543,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3 w-full">
               <label
                 htmlFor="taxNumber"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 TAX Number (optional)
               </label>
@@ -555,7 +553,7 @@ focus:border-main focus:outline-none transition-colors"
                 type="text"
                 value={formData.taxNumber}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               />
             </div>
@@ -563,7 +561,7 @@ focus:border-main focus:outline-none transition-colors"
           <div className="space-y-3 mb-3">
             <label
               htmlFor="purposeOfShiftremit"
-              className="font-poppins font-semibold text-sm text-[#454745] "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               What would you be using ShiftRemit transfers for?*
             </label>
@@ -572,21 +570,13 @@ focus:border-main focus:outline-none transition-colors"
               name="purposeOfShiftremit"
               value={formData.purposeOfShiftremit}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
               required
             />
           </div>
 
           <div className="flex items-start md:items-center gap-2 justify-between flex-col md:flex-row">
-            {/* <div className="text-[#979797] flex items-center gap-2 font-poppins">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 rounded-sm accent-main"
-                  required
-                />
-                I agree to not carry out any form of illegal transactions
-              </div> */}
             <button
               type="submit"
               disabled={
@@ -594,7 +584,7 @@ focus:border-main focus:outline-none transition-colors"
                 kycStatus.data.status === "APPROVED" ||
                 kycStatus.data.status === "PENDING_REVIEW"
               }
-              className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
+              className=" text-white text-sm sm:text-base font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUpdating ? (
                 <>

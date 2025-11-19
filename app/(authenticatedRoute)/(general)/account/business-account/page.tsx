@@ -16,6 +16,8 @@ import { useProfile } from "../useProfile";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import { countriesWithCodes } from "@/data/data";
+import ConfirmModal from "@/components/admin/modal/confirmModal";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface FormDataState {
   dob: string;
@@ -40,6 +42,7 @@ const BusinessAcc = () => {
     getKYCStatus,
     fetchBusinessProfile,
   } = useProfile();
+    const queryClient = useQueryClient();
 
   const { data: kycStatus, isLoading: kycStatusLoad } =
     getKYCStatus("BUSINESS");
@@ -118,6 +121,8 @@ const BusinessAcc = () => {
 
     updateBusinessProfile.mutate(payload);
   };
+
+  const [showKYCConfirm, setShowKYCConfirm] = useState(false);
 
   if (isLoading || kycStatusLoad) {
     return (
@@ -573,22 +578,12 @@ focus:border-main focus:outline-none transition-colors"
           <ChevronLeft size={25} className="text-main cursor-pointer" />
           Back
         </div>
+
         {(kycStatus.data.status === "NOT_STARTED" ||
           kycStatus.data.status === "REJECTED") && (
           <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
             <button
-              onClick={() =>
-                submitKyc.mutate(
-                  { type: "BUSINESS" },
-                  {
-                    onSuccess: () => {
-                      toast.success("Submission for KYC successful");
-                      setShowSuccess(true);
-                      setTimeout(() => setShowSuccess(false), 3000);
-                    },
-                  }
-                )
-              }
+              onClick={() => setShowKYCConfirm(true)}
               disabled={submitKyc.isPending}
               className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
             >
@@ -596,6 +591,31 @@ focus:border-main focus:outline-none transition-colors"
                 ? "Submitting..."
                 : "Submit KYC for Approval"}
             </button>
+
+            <ConfirmModal
+              open={showKYCConfirm}
+              message="Are you sure you want to submit KYC for approval?"
+              confirmText={
+                submitKyc.isPending ? "Submitting..." : "Yes, Submit"
+              }
+              cancelText="Cancel"
+              onCancel={() => setShowKYCConfirm(false)}
+              onConfirm={() => {
+                submitKyc.mutate(
+                  { type: "BUSINESS" },
+                  {
+                    onSuccess: () => {
+                      toast.success("Submission for KYC successful");
+                      setShowSuccess(true);
+                      setTimeout(() => setShowSuccess(false), 3000);
+                      queryClient.invalidateQueries({ queryKey: ["update-business-profile"] });
+                    },
+                    onSettled: () => setShowKYCConfirm(false),
+                  }
+                );
+              }}
+            />
+
             {showSuccess && (
               <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
                 <FaCircleCheck size={20} className="text-main" />

@@ -83,16 +83,16 @@ const Account = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-2 w-full md:w-auto">
+            <div className="flex md:flex-row flex-col items-center gap-2 w-full md:w-auto">
               <div
                 // onClick={openFilePicker}
-                className="inline-block relative group w-20 h-20 md:w-24 md:h-24"
+                className="inline-block relative group w-20 h-20 flex-none md:w-24 md:h-24"
               >
                 {fetchProfile?.data?.profilePhotoUrl ? (
                   <img
                     src={fetchProfile?.data?.profilePhotoUrl}
                     alt="profile"
-                    className="w-full h-full rounded-full object-cover"
+                    className="w-full h-full  rounded-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
@@ -100,23 +100,11 @@ const Account = () => {
                   </div>
                 )}
 
-                {/* <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Camera className="text-white w-6 h-6" />
-                </div> */}
-
                 <div className="w-5 h-5 bg-main absolute bottom-1 right-1 border-2 border-white rounded-full" />
-
-                {/* <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageSelect}
-                /> */}
               </div>
 
               <div>
-                <h1 className="font-dm-sans text-xl font-semibold text-[#071032]">
+                <h1 className="font-dm-sans md:text-left text-center text-xl font-semibold text-[#071032]">
                   {fetchProfile?.data?.firstname} {fetchProfile?.data?.lastname}
                 </h1>
 
@@ -139,81 +127,83 @@ const Account = () => {
 
           <button
             onClick={() => setOpenPassword(true)}
-            className="p-1 rounded-md border border-gray-400 text-gray-400 font-medium cursor-pointer font-poppins text-sm flex items-center gap-2"
+            className="p-1 rounded-md border border-gray-400 text-gray-400 font-medium cursor-pointer font-poppins text-xs sm:text-sm flex items-center gap-2"
           >
             Change password
-            <RiEditLine className="" size={20} />
+            <RiEditLine className="sm:text-xl text-sm " />
           </button>
         </div>
         <div className="p-3">
           <div
             onClick={() => router.push("/account/individual-account")}
-            className={`w-full px-3 py-4 border-[#f1f1f1] bg-[#f1f1f1] cursor-pointer rounded-md flex justify-between border  my-5 text-[#454745]`}
+            className={`w-full px-1 sm:px-3 py-2 sm:py-4  border-[#f1f1f1] bg-[#f1f1f1] cursor-pointer rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-             <div className="flex items-center gap-1">
-                <h1 className="font-poppins font-semibold text-lg">
+              <div className="flex gap-1 items-center">
+                <h1 className="font-poppins font-semibold text-base md:text-lg">
                   Individual Account
                 </h1>
                 {kycStatus?.data?.status === "APPROVED" ? (
-                  <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                  <span className=" text-[10px] sm:text-xs text-white p-1 rounded-sm bg-main hidden sm:inline-block font-poppins">
                     <p>verified</p>
                   </span>
                 ) : kycStatus?.data?.status === "REJECTED" ? (
-                  <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
+                  <span className=" text-[10px] sm:text-xs text-white p-1 rounded-sm bg-red-500 hidden sm:inline-block font-poppins">
                     <p>rejected</p>
                   </span>
                 ) : (
-                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                  <span className=" text-[10px] sm:text-xs text-white p-1 rounded-sm bg-orange-500 hidden sm:inline-block font-poppins">
                     <p>in review</p>
                   </span>
                 )}
               </div>
-              <p className="text-sm font-poppins flex items-center gap-1 ">
+              <p className="sm:text-sm text-xs font-poppins flex items-center gap-1">
                 You can send and receive weekly up to £10,000 after you have
-                your KYC approved. <FaArrowRight className="text-main" size={14} />
+                your KYC approved.{" "}
+                <FaArrowRight className="text-main flex-none " size={14} />
               </p>
             </div>
             {kycStatusLoad ? (
               " "
             ) : kycStatus?.data?.status === "APPROVED" ? (
-              <FaCheckCircle className="w-5 h-5 text-main" />
+              <FaCheckCircle className="sm:w-5 h-4 sm:h-5 w-4  flex-none text-main" />
             ) : (
-              <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full shrink-0" />
+              <div className="sm:w-5 h-4 sm:h-5 w-4 bg-white border border-[#e3e3e3] rounded-full shrink-0" />
             )}
           </div>
           <div
             onClick={() => router.push("/account/business-account")}
-            className={`w-full px-3 py-4 bg-[#f1f1f1] cursor-pointer border-[#f1f1f1] rounded-md flex justify-between border  my-5 text-[#454745]`}
+            className={`w-full px-1 sm:px-3 py-2 sm:py-4 bg-[#f1f1f1] cursor-pointer border-[#f1f1f1] rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-              <div className="flex items-center gap-1">
-                <h1 className="font-poppins font-semibold text-lg">
+              <div className="flex sm:flex-row flex-col items-center gap-0.5 sm:mb-0 mb-2 sm:gap-1">
+                <h1 className="font-poppins font-semibold text-base md:text-lg">
                   Business Account
                 </h1>
                 {kycStatusBuss?.data?.status === "APPROVED" ? (
-                  <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                  <span className="text-[10px] sm:text-xs text-white p-1 rounded-sm bg-main hidden sm:inline-block font-poppins">
                     <p>verified</p>
                   </span>
                 ) : kycStatusBuss?.data?.status === "REJECTED" ? (
-                  <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
+                  <span className="text-[10px] sm:text-xs text-white p-1 rounded-sm bg-red-500 hidden sm:inline-block font-poppins">
                     <p>rejected</p>
                   </span>
                 ) : (
-                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                  <span className="text-[10px] sm:text-xs text-white p-1 rounded-sm bg-orange-500 hidden sm:inline-block font-poppins">
                     <p>in review</p>
                   </span>
                 )}
               </div>
-              <p className="text-sm font-poppins flex items-center gap-1">
+              <p className="sm:text-sm text-xs font-poppins flex items-center gap-1">
                 You can send and receive weekly up to £300,000 after you have
-                your KYC approved.{" "} <FaArrowRight className="text-main" size={14} />
+                your KYC approved.{" "}
+                <FaArrowRight className="text-main flex-none" size={14} />
               </p>
             </div>
             {kycStatusLoadBuss ? (
               " "
             ) : kycStatusBuss?.data?.status === "APPROVED" ? (
-              <FaCheckCircle className="w-5 h-5 text-main" />
+              <FaCheckCircle className="sm:w-5 h-4 sm:h-5 w-4  flex-none text-main" />
             ) : (
               <div className="w-5 h-5 bg-white border border-[#e3e3e3] rounded-full shrink-0" />
             )}

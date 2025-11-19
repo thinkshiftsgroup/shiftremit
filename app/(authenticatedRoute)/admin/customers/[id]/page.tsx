@@ -37,15 +37,39 @@ const CustomerDetails = () => {
     disApproveKYCBizz,
     verifyUser,
     deleteUser,
+    banUser,
   } = useAdmin();
+
+  const { data, isLoading } = useUserByID(params?.id);
+  const user = data?.data;
+  const userDeets = user?.businessAccount;
+
+  const [kycModalOpen, setKycModalOpen] = useState(false);
+  const [kycPendingAction, setKycPendingAction] = useState<
+    "approve" | "disapprove" | null
+  >(null);
+  const [kycTarget, setKycTarget] = useState<"individual" | "business" | null>(
+    null
+  );
 
   const [modalOpen, setModalOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<
-    "verify" | "delete" | null
+    "verify" | "delete" | "ban" | null
   >(null);
   const [pendingValue, setPendingValue] = useState<boolean>(false);
 
-  const handleSwitchChange = (action: "verify" | "delete", value: boolean) => {
+  const [isVerified, setIsVerified] = useState<boolean>(
+    user?.isVerified ?? false
+  );
+
+  const [isDeleted, setIsDeleted] = useState<boolean>(user?.isDeleted ?? false);
+
+  const [isBanned, setIsBanned] = useState<boolean>(user?.isBanned ?? false);
+
+  const handleSwitchChange = (
+    action: "verify" | "delete" | "ban",
+    value: boolean
+  ) => {
     setPendingAction(action);
     setPendingValue(value);
     setModalOpen(true);
@@ -57,6 +81,9 @@ const CustomerDetails = () => {
     if (pendingAction === "verify") {
       setIsVerified(pendingValue);
       verifyUser.mutate({ data: pendingValue, id: params?.id });
+    } else if (pendingAction === "ban") {
+      setIsBanned(pendingValue);
+      banUser.mutate({ data: pendingValue, id: params?.id });
     } else if (pendingAction === "delete") {
       setIsDeleted(pendingValue);
       deleteUser.mutate({ data: pendingValue, id: params?.id });
@@ -71,18 +98,8 @@ const CustomerDetails = () => {
     setPendingAction(null);
   };
 
-  const { data, isLoading } = useUserByID(params?.id);
-  const user = data?.data;
-  const userDeets = user?.businessAccount;
-
   const dateRef = useRef<HTMLInputElement>(null);
   const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
-
-  const [isVerified, setIsVerified] = useState<boolean>(
-    user?.isVerified ?? false
-  );
-
-  const [isDeleted, setIsDeleted] = useState<boolean>(user?.isDeleted ?? false);
 
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
@@ -126,6 +143,7 @@ const CustomerDetails = () => {
 
       setIsVerified(user?.isVerified ?? false);
       setIsDeleted(user?.isDeleted ?? false);
+      setIsBanned(user?.isBanned ?? false);
     }
   }, [user]);
 
@@ -174,6 +192,40 @@ const CustomerDetails = () => {
     const fn = user.firstname?.[0] || "";
     const ln = user.lastname?.[0] || "";
     return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
+  };
+
+  const handleKycConfirm = () => {
+    if (!kycPendingAction || !kycTarget) return;
+
+    const id =
+      kycTarget === "individual"
+        ? user?.kycSubmission?.id
+        : user?.businessAccount?.kycSubmission?.id;
+
+    if (!id) return toast.error("No KYC submission found");
+
+    const mutation =
+      kycPendingAction === "approve"
+        ? kycTarget === "individual"
+          ? approveKYC
+          : approveKYCBizz
+        : kycTarget === "individual"
+        ? disApproveKYC
+        : disApproveKYCBizz;
+
+    mutation.mutate(
+      { id },
+      {
+        onSuccess: () => {
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 1000);
+        },
+      }
+    );
+
+    setKycModalOpen(false);
+    setKycPendingAction(null);
+    setKycTarget(null);
   };
 
   const isUpdating = isFormSubmitting || updateProfile.isPending;
@@ -298,6 +350,22 @@ const CustomerDetails = () => {
                 </div>
 
                 <div className="flex items-center gap-1">
+                  <p className="text-red-500">Ban</p>
+                  <Switch
+                    checked={isBanned}
+                    onCheckedChange={(value) =>
+                      handleSwitchChange("ban", value)
+                    }
+                    disabled={banUser.isPending}
+                    className="
+      data-[state=checked]:bg-main
+      data-[state=checked]:border-main
+      data-[state=unchecked]:bg-gray-300
+      [&>span]:data-[state=checked]:bg-white
+    "
+                  />
+                </div>
+                {/* <div className="flex items-center gap-1">
                   <p className="text-red-500">Delete</p>
                   <Switch
                     checked={isDeleted}
@@ -312,7 +380,7 @@ const CustomerDetails = () => {
       [&>span]:data-[state=checked]:bg-white
     "
                   />
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -774,65 +842,47 @@ focus:border-main focus:outline-none transition-colors"
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
                 onClick={() => {
-                  user?.kycSubmission?.id
-                    ? approveKYC.mutate(
-                        { id: user?.kycSubmission?.id },
-                        {
-                          onSuccess: () => {
-                            setShowSuccess(true);
-                            setTimeout(() => setShowSuccess(false), 3000);
-                          },
-                        }
-                      )
-                    : toast.error("No individual kyc submission yet");
+                  if (!user?.kycSubmission?.id) {
+                    toast.error("No individual KYC submission yet");
+                    return;
+                  }
+                  setKycModalOpen(true);
+                  setKycPendingAction("approve");
+                  setKycTarget("individual");
                 }}
                 disabled={approveKYC.isPending}
-                className="w-full flex justify-center font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
+                className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
               >
-                {approveKYC.isPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Approve Individual KYC"
-                )}
+                Approve Individual KYC
               </button>
 
-              {showSuccess && (
+              {/* {showSuccess && (
                 <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
-                  <FaCircleCheck size={20} className="text-red-500" />
+                  <FaCircleCheck size={20} className="text-main" />
                   Approved
                 </div>
-              )}
+              )} */}
             </div>
           ) : (
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
-                onClick={() =>
-                  disApproveKYC.mutate(
-                    { id: user?.kycSubmission?.id },
-                    {
-                      onSuccess: () => {
-                        setShowSuccess(true);
-                        setTimeout(() => setShowSuccess(false), 3000);
-                      },
-                    }
-                  )
-                }
-                disabled={disApproveKYC.isPending}
+                onClick={() => {
+                  setKycModalOpen(true);
+                  setKycPendingAction("disapprove");
+                  setKycTarget("individual");
+                }}
                 className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-red-500 text-white p-2 rounded-sm disabled:opacity-50"
+                disabled={disApproveKYC.isPending}
               >
-                {disApproveKYC.isPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Disapprove Individual KYC"
-                )}
+                Disapprove Individual KYC
               </button>
 
-              {showSuccess && (
-                <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
+              {/* {showSuccess && (
+                <div className="font-poppins justify-center text-sm flex items-center gap-2 text-red-500 mt-2">
                   <FaCircleCheck size={20} className="text-red-500" />
                   Disapproved
                 </div>
-              )}
+              )} */}
             </div>
           )}
         </>
@@ -843,67 +893,49 @@ focus:border-main focus:outline-none transition-colors"
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
                 onClick={() => {
-                  user?.businessAccount?.kycSubmission?.id
-                    ? approveKYCBizz.mutate(
-                        { id: user?.businessAccount?.kycSubmission?.id },
-                        {
-                          onSuccess: () => {
-                            setShowSuccess(true);
-                            setTimeout(() => setShowSuccess(false), 3000);
-                          },
-                        }
-                      )
-                    : toast.error("No business kyc submission yet");
+                  if (!user?.businessAccount?.kycSubmission?.id) {
+                    toast.error("No business KYC submission yet");
+                    return;
+                  }
+                  setKycModalOpen(true);
+                  setKycPendingAction("approve");
+                  setKycTarget("business");
                 }}
+                className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
                 disabled={approveKYCBizz.isPending}
-                className="w-full flex justify-center font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm disabled:opacity-50"
               >
-                {approveKYCBizz.isPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Approve Business KYC"
-                )}
+                Approve Business KYC
               </button>
-
-              {showSuccess && (
+              {/* {showSuccess && (
                 <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
                   <FaCircleCheck size={20} className="text-main" />
                   Approved
                 </div>
-              )}
+              )} */}
             </div>
           ) : (
             <div className="bg-white w-full p-3 flex flex-col items-center">
               <button
+                className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-red-500 text-white p-2 rounded-sm disabled:opacity-50"
                 onClick={() => {
-                  user?.businessAccount?.kycSubmission?.id
-                    ? disApproveKYCBizz.mutate(
-                        { id: user?.businessAccount?.kycSubmission?.id },
-                        {
-                          onSuccess: () => {
-                            setShowSuccess(true);
-                            setTimeout(() => setShowSuccess(false), 3000);
-                          },
-                        }
-                      )
-                    : toast.error("No business kyc submission yet");
+                  if (!user?.businessAccount?.kycSubmission?.id) {
+                    toast.error("No business KYC submission yet");
+                    return;
+                  }
+                  setKycModalOpen(true);
+                  setKycPendingAction("disapprove");
+                  setKycTarget("business");
                 }}
                 disabled={disApproveKYCBizz.isPending}
-                className="w-full font-poppins flex justify-center text-sm cursor-pointer bg-red-500 text-white p-2 rounded-sm disabled:opacity-50"
               >
-                {disApproveKYCBizz.isPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : (
-                  "Disapprove Business KYC"
-                )}
+                Disapprove Business KYC
               </button>
-
-              {showSuccess && (
+              {/* {showSuccess && (
                 <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
                   <FaCircleCheck size={20} className="text-main" />
                   Disapproved
                 </div>
-              )}
+              )} */}
             </div>
           )}
         </>
@@ -916,6 +948,10 @@ focus:border-main focus:outline-none transition-colors"
             ? pendingValue
               ? "verify"
               : "unverify"
+            : pendingAction === "ban"
+            ? pendingValue
+              ? "ban"
+              : "unban"
             : pendingValue
             ? "delete"
             : "restore"
@@ -925,6 +961,23 @@ focus:border-main focus:outline-none transition-colors"
         loading={
           (pendingAction === "verify" && verifyUser.isPending) ||
           (pendingAction === "delete" && deleteUser.isPending)
+        }
+      />
+      <ConfirmationModal
+        open={kycModalOpen}
+        title="Are you sure?"
+        message={`Do you really want to ${
+          kycPendingAction === "approve" ? "approve" : "disapprove"
+        } the ${kycTarget === "individual" ? "individual" : "business"} KYC?`}
+        onConfirm={handleKycConfirm}
+        onCancel={() => setKycModalOpen(false)}
+        loading={
+          (kycPendingAction === "approve" &&
+            ((kycTarget === "individual" && approveKYC.isPending) ||
+              (kycTarget === "business" && approveKYCBizz.isPending))) ||
+          (kycPendingAction === "disapprove" &&
+            ((kycTarget === "individual" && disApproveKYC.isPending) ||
+              (kycTarget === "business" && disApproveKYCBizz.isPending)))
         }
       />
     </SideNav>

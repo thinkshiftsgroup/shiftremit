@@ -21,6 +21,10 @@ export interface UserProfileData {
   fullAddress: string | null;
   taxNumber: string | null;
   purposeOfShiftremit: string | null;
+
+  alertWhenGbpToNgnDropsBelow?: number | null;
+  alertWhenNgnToGbpDropsBelow?: number | null;
+  sendMeNotifs?: boolean;
 }
 
 interface ProfileStore {
