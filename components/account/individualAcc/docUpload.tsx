@@ -592,8 +592,7 @@ const IndividualDoc = () => {
             type="submit"
             disabled={
               updateIndividualDocs.isPending ||
-              kycStatus.data.status === "APPROVED" ||
-              kycStatus.data.status === "PENDING_REVIEW"
+              kycStatus.data.status === "APPROVED"
             }
             onClick={() => handleSubmit()}
             className=" text-white sm:text-base text-sm font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
@@ -602,8 +601,7 @@ const IndividualDoc = () => {
           </button>
         </div>
 
-        {(kycStatus.data.status === "NOT_STARTED" ||
-          kycStatus.data.status === "REJECTED") && (
+        {kycStatus.data.status !== "APPROVED" && (
           <div className="bg-white z-999 fixed bottom-0 left-0 w-full p-3 flex flex-col items-center">
             <button
               onClick={() => setShowKYCConfirm(true)}
@@ -628,8 +626,12 @@ const IndividualDoc = () => {
                     toast.success("Submission for KYC successful");
                     setShowSuccess(true);
                     setTimeout(() => setShowSuccess(false), 3000);
-                    queryClient.invalidateQueries({ queryKey: ["individual-docs"] });
-                    queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+                    queryClient.invalidateQueries({
+                      queryKey: ["individual-docs"],
+                    });
+                    queryClient.invalidateQueries({
+                      queryKey: ["userProfile"],
+                    });
                   },
                   onSettled: () => {
                     setShowKYCConfirm(false);
