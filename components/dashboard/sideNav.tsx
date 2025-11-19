@@ -14,6 +14,8 @@ import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { HiOutlineWallet } from "react-icons/hi2";
+import { useProfileStore } from "@/stores/useProfileStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NavItem {
   title: string;
@@ -43,12 +45,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   const toggleDropdown = (title: string) => {
     setOpenDropdown(openDropdown === title ? null : title);
   };
-
+  const queryClient = useQueryClient();
   const handleSignOut = () => {
     Cookies.remove("shiftremit_auth_token");
     localStorage.removeItem("shiftremit_auth_state");
+    useAuthStore.getState().logout();
+    useProfileStore.getState().clearAuth();
     router.replace("/");
     logoutUser();
+    queryClient.clear();
     toast.info("You have been signed out.");
   };
 

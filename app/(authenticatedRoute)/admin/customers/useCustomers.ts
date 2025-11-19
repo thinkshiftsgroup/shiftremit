@@ -9,7 +9,7 @@ export const useCustomers = () => {
     startDate,
     endDate,
     name,
-    orderLabel, // pass "Newest", "Oldest", "Amount High to Low", etc.
+    orderLabel, 
   }: {
     page: number;
     pageSize: number;

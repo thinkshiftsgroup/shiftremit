@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { loginClient } from "@/api/authService";
 import Cookies from "js-cookie";
+import { useQueryClient } from "@tanstack/react-query";
 
 const LoginScrn = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const LoginScrn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ const LoginScrn = () => {
     setError(null);
 
     try {
-      const response = await loginClient(email, password);
+      const response = await loginClient(email, password, queryClient);
 
       const userRole = response.user.userType;
       if (userRole === "admin") {

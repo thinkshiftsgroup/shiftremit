@@ -4,8 +4,9 @@ import { Eye } from "lucide-react";
 
 interface FileUploadProps {
   label: string;
-  fileUrl?: string; // URL from backend
-  fileObj?: File;   // newly selected file
+  fileUrl?: string;
+  fileObj?: File;
+  fileSizeKB?: number; // new prop
   onFileChange: (file: File) => void;
   required?: boolean;
 }
@@ -15,15 +16,20 @@ const FileUpload: React.FC<FileUploadProps> = ({
   fileUrl,
   fileObj,
   onFileChange,
+  fileSizeKB,
   required = false,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [displayFile, setDisplayFile] = useState<string>("");
 
   useEffect(() => {
-    if (fileObj) setDisplayFile(fileObj.name);
-    else if (fileUrl) setDisplayFile(fileUrl.split("/").pop() || "");
-    else setDisplayFile("Choose file to upload (required)");
+    if (fileObj) {
+      setDisplayFile(fileObj.name);
+    } else if (fileUrl) {
+      setDisplayFile(fileUrl.split("/").pop() || "");
+    } else {
+      setDisplayFile("Choose file to upload (required)");
+    }
   }, [fileObj, fileUrl]);
 
   const handleClick = () => inputRef.current?.click();
@@ -42,10 +48,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </label>
 
       <div
-        className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+        className="w-full mt-3 font-poppins py-3 overflow-x-scroll scrollbar-hide px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
         onClick={handleClick}
       >
-        <span className="opacity-80">{displayFile}</span>
+        <span className="opacity-80 flex items-center gap-1">
+          {displayFile}
+          {fileSizeKB && (
+            <p className="text-xs text-gray-500 mt-1">
+            ({(fileSizeKB / 1024).toFixed(2)} MB)
+            </p>
+          )}
+        </span>
         {fileUrl && (
           <button
             type="button"

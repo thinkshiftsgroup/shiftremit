@@ -19,6 +19,10 @@ interface ProfileUpdatePayload {
   fullAddress?: string;
   taxNumber?: string;
   purposeOfShiftremit?: string;
+
+  alertWhenGbpToNgnDropsBelow?: number | null;
+  alertWhenNgnToGbpDropsBelow?: number | null;
+  sendMeNotifs?: boolean;
 }
 
 interface BusinessProfileUpdatePayload {
@@ -71,6 +75,10 @@ export interface Director {
   residentialAddressUrlProof?: string;
   identificationDocumentProofFile?: File;
   residentialAddressUrlProofFile?: File;
+  identificationDocumentProofUrlSizeKB?: number;
+  residentialAddressUrlProofSizeKB?: number;
+
+  businessAccountId?:any;
 }
 
 export interface BaseShareholder {
@@ -92,6 +100,8 @@ export interface NaturalPersonShareholder extends BaseShareholder {
   issuedCountry?: string;
   residentialAddress?: string;
   taxNumber?: string;
+  validIdUrSizeKB?: any;
+  proofOfAddressUrlSizeKB?:any
 }
 
 export interface LegalEntityShareholder extends BaseShareholder {
