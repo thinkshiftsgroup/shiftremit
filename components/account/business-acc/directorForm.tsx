@@ -590,8 +590,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           onClick={handleSaveDirector}
           disabled={
             loadingSave ||
-            kycStatus.data.status === "APPROVED" ||
-            kycStatus.data.status === "PENDING_REVIEW" ||
+           kycStatus.data.status !== "APPROVED" ||
             kycStatusLoad
           }
           className={`font-poppins  text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm  disabled:opacity-50 disabled:cursor-not-allowed `}

@@ -396,7 +396,7 @@ export default function ShareHolderForm({
         label="Valid ID for Shareholder*"
         fileUrl={data?.validIdUrl}
         fileObj={(data as any)?.validIdFile}
-         fileSizeKB={data?.validIdUrSizeKB}
+        fileSizeKB={data?.validIdUrSizeKB}
         onFileChange={(file) =>
           handleFileChange("individuals", idx, "validIdFile", file)
         }
@@ -663,10 +663,7 @@ export default function ShareHolderForm({
       <button
         onClick={handleSaveAll}
         disabled={
-          loadingSave ||
-          kycStatus.data.status === "APPROVED" ||
-          kycStatus.data.status === "PENDING_REVIEW" ||
-          kycStatusLoad
+          loadingSave || kycStatus.data.status !== "APPROVED" || kycStatusLoad
         }
         className={`font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm`}
       >

@@ -213,8 +213,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
           onClick={handleSubmitAll}
           disabled={
             isSubmitting ||
-            kycStatus.data.status === "APPROVED" ||
-            kycStatus.data.status === "PENDING_REVIEW" ||
+            kycStatus.data.status !== "APPROVED" ||
             kycStatusLoad
           }
           className="font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
