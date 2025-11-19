@@ -10,22 +10,47 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
 import { useProfile } from "./useProfile";
+import { FaArrowRight } from "react-icons/fa";
 
 const Account = () => {
   const [image, setImage] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const photoUploadRef = useRef<{ openFileDialog: () => void }>(null);
+  const { fetchProfile } = useProfile();
 
-  const { user: localUser } = useProfileStore();
-  const { fetchProfile, updateProfilePhoto, fetchIndividualDocs } =
-    useProfile();
   const isLoading = fetchProfile.isLoading;
-  const user = fetchProfile.data || localUser;
-
+  const user = fetchProfile.data;
+  console.log(fetchProfile, "user");
   const [openPassword, setOpenPassword] = useState(false);
-
-  const [individualAcc, setIndividualAcc] = useState("");
   const router = useRouter();
+
+  const { getKYCStatus } = useProfile();
+  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
+  const { data: kycStatusBuss, isLoading: kycStatusLoadBuss } =
+    getKYCStatus("BUSINESS");
+
+  if (isLoading) {
+    return (
+      <SideNav>
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          <div className="flex items-center gap-1">
+            <Loader2 size={30} className="text-main animate-spin" />
+            Loading profile data...
+          </div>
+        </div>
+      </SideNav>
+    );
+  }
+
+  if (!user) {
+    return (
+      <SideNav>
+        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
+          Failed to load admin profile.
+        </div>
+      </SideNav>
+    );
+  }
 
   const getInitials = (name?: string) => {
     if (!name) return "";
@@ -33,11 +58,6 @@ const Account = () => {
     if (parts.length === 1) return parts[0][0].toUpperCase();
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
-
-  const { getKYCStatus } = useProfile();
-  const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
-  const { data: kycStatusBuss, isLoading: kycStatusLoadBuss } =
-    getKYCStatus("BUSINESS");
 
   return (
     <SideNav>
@@ -68,15 +88,15 @@ const Account = () => {
                 // onClick={openFilePicker}
                 className="inline-block relative group w-20 h-20 md:w-24 md:h-24"
               >
-                {user?.profilePhotoUrl ? (
+                {fetchProfile?.data?.profilePhotoUrl ? (
                   <img
-                    src={user?.profilePhotoUrl}
+                    src={fetchProfile?.data?.profilePhotoUrl}
                     alt="profile"
                     className="w-full h-full rounded-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
-                    {getInitials(user?.fullName)}
+                    {getInitials(fetchProfile?.data?.fullName)}
                   </div>
                 )}
 
@@ -97,19 +117,19 @@ const Account = () => {
 
               <div>
                 <h1 className="font-dm-sans text-xl font-semibold text-[#071032]">
-                  {localUser?.fullName}
+                  {fetchProfile?.data?.firstname} {fetchProfile?.data?.lastname}
                 </h1>
 
                 <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                   <p className="font-dm-sans text-sm flex items-center gap-1">
                     <MdOutlineEmail size={16} />
-                    {localUser?.email}
+                    {fetchProfile?.data?.email}
                   </p>
 
-                  {localUser?.phoneNumber && (
+                  {fetchProfile?.data?.phoneNumber && (
                     <p className="font-dm-sans text-sm flex items-center gap-1">
                       <FiPhone size={16} />
-                      {localUser?.phoneNumber || "-"}
+                      {fetchProfile?.data?.phoneNumber || "-"}
                     </p>
                   )}
                 </div>
@@ -131,12 +151,27 @@ const Account = () => {
             className={`w-full px-3 py-4 border-[#f1f1f1] bg-[#f1f1f1] cursor-pointer rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-              <h1 className="font-poppins font-semibold text-lg">
-                Individual Account
-              </h1>
-              <p className="text-sm font-poppins">
+             <div className="flex items-center gap-1">
+                <h1 className="font-poppins font-semibold text-lg">
+                  Individual Account
+                </h1>
+                {kycStatus?.data?.status === "APPROVED" ? (
+                  <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                    <p>verified</p>
+                  </span>
+                ) : kycStatus?.data?.status === "REJECTED" ? (
+                  <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
+                    <p>rejected</p>
+                  </span>
+                ) : (
+                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                    <p>in review</p>
+                  </span>
+                )}
+              </div>
+              <p className="text-sm font-poppins flex items-center gap-1 ">
                 You can send and receive weekly up to £10,000 after you have
-                your KYC approved.{" "}
+                your KYC approved. <FaArrowRight className="text-main" size={14} />
               </p>
             </div>
             {kycStatusLoad ? (
@@ -152,12 +187,27 @@ const Account = () => {
             className={`w-full px-3 py-4 bg-[#f1f1f1] cursor-pointer border-[#f1f1f1] rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-              <h1 className="font-poppins font-semibold text-lg">
-                Business Account
-              </h1>
-              <p className="text-sm font-poppins">
+              <div className="flex items-center gap-1">
+                <h1 className="font-poppins font-semibold text-lg">
+                  Business Account
+                </h1>
+                {kycStatusBuss?.data?.status === "APPROVED" ? (
+                  <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                    <p>verified</p>
+                  </span>
+                ) : kycStatusBuss?.data?.status === "REJECTED" ? (
+                  <span className="text-xs text-white p-1 rounded-sm bg-red-500 inline-block font-poppins">
+                    <p>rejected</p>
+                  </span>
+                ) : (
+                  <span className="text-xs text-white p-1 rounded-sm bg-orange-500 inline-block font-poppins">
+                    <p>in review</p>
+                  </span>
+                )}
+              </div>
+              <p className="text-sm font-poppins flex items-center gap-1">
                 You can send and receive weekly up to £300,000 after you have
-                your KYC approved.{" "}
+                your KYC approved.{" "} <FaArrowRight className="text-main" size={14} />
               </p>
             </div>
             {kycStatusLoadBuss ? (

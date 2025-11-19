@@ -7,11 +7,12 @@ import { FiPhone } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useProfile } from "../useProfile";
-import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
+import { useProfileStore } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import IndividualDoc from "@/components/account/individualAcc/docUpload";
 import { countriesWithCodes } from "@/data/data";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export interface FormDataState {
   firstname: string;
@@ -46,6 +47,7 @@ const IndiAcc = () => {
   const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus();
 
   const { user: localUser, setUser } = useProfileStore();
+  
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
     lastname: "",
@@ -164,7 +166,7 @@ const IndiAcc = () => {
     );
   }
 
-  const getInitials = (user: UserProfileData) => {
+  const getInitials = (user: any) => {
     const fn = user.firstname?.[0] || "";
     const ln = user.lastname?.[0] || "";
     return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
@@ -212,8 +214,8 @@ const IndiAcc = () => {
               <div>
                 <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                   <h1 className="font-poppins md:text-2xl font-semibold">
-                    {user.fullName ||
-                      `${user.firstname || ""} ${user.lastname || ""}`}
+                   
+                      {user.firstname || ""} {user.lastname || ""}
                   </h1>
                   <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                     <p>Individual Account</p>

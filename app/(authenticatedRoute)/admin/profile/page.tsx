@@ -6,7 +6,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
-import { useProfileStore, UserProfileData } from "@/stores/useProfileStore";
+import { useProfileStore } from "@/stores/useProfileStore";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { toast } from "sonner";
 import IndividualDoc from "@/components/account/individualAcc/docUpload";
@@ -37,7 +37,7 @@ const AdminAccount = () => {
     confirmPassword: "",
   });
   const { updatePassword } = usePassword();
-  
+
   const handleChange = (e: any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -47,7 +47,7 @@ const AdminAccount = () => {
 
   const { data: kycStatus, isLoading: kycStatusLoad } = getKYCStatus("");
 
-  const { user: localUser, setUser } = useProfileStore();
+  const { setUser } = useProfileStore();
   const [formData, setFormData] = useState<FormDataState>({
     firstname: "",
     lastname: "",
@@ -58,22 +58,22 @@ const AdminAccount = () => {
 
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
-  const user = fetchProfile.data || localUser;
+  const user = fetchProfile.data;
   const isLoading = fetchProfile.isLoading || fetchProfile.isFetching;
-
+  console.log(fetchProfile, "userAdmin");
   useEffect(() => {
     if (user && user.id) {
       setFormData({
-        firstname: user.firstname || "",
-        lastname: user.lastname || "",
-        gender: user.gender || "male",
-        phoneNumber: user.phoneNumber || "",
-        country: user.country || "",
+        firstname: user?.firstname || "",
+        lastname: user?.lastname || "",
+        gender: user?.gender || "male",
+        phoneNumber: user?.phoneNumber || "",
+        country: user?.country || "",
       });
       if (
         fetchProfile.isFetched &&
-        fetchProfile.data &&
-        fetchProfile.data.id !== localUser?.id
+        fetchProfile.data
+        // fetchProfile.data.id !== localUser?.id
       ) {
         setUser(fetchProfile.data);
       }
@@ -139,7 +139,7 @@ const AdminAccount = () => {
     );
   }
 
-  const getInitials = (user: UserProfileData) => {
+  const getInitials = (user: any) => {
     const fn = user.firstname?.[0] || "";
     const ln = user.lastname?.[0] || "";
     return (fn + ln).toUpperCase() || (user.fullName?.[0] || "").toUpperCase();
@@ -159,15 +159,15 @@ const AdminAccount = () => {
                   onClick={() => photoUploadRef.current?.openFileDialog()}
                   className="inline-block relative group cursor-pointer w-24 h-24"
                 >
-                  {user.profilePhotoUrl ? (
+                  {fetchProfile?.data?.profilePhotoUrl ? (
                     <img
-                      src={user.profilePhotoUrl}
+                      src={fetchProfile?.data.profilePhotoUrl}
                       alt="profile"
                       className="w-full h-full rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-xl font-semibold text-gray-700">
-                      {getInitials(user)}
+                      {getInitials(fetchProfile?.data)}
                     </div>
                   )}
 
@@ -188,19 +188,21 @@ const AdminAccount = () => {
                 <div>
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                     <h1 className="font-poppins md:text-2xl font-semibold">
-                      {user.fullName ||
-                        `${user.firstname || ""} ${user.lastname || ""}`}
+                      {fetchProfile?.data?.fullName ||
+                        `${fetchProfile?.data?.firstname || ""} ${
+                          fetchProfile?.data?.lastname || ""
+                        }`}
                     </h1>
                   </div>
                   <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
                     <p className="font-dm-sans text-sm flex items-center gap-1">
                       <MdOutlineEmail size={16} />
-                      {user.email}
+                      {fetchProfile?.data?.email}
                     </p>
-                    {user?.phoneNumber && (
+                    {fetchProfile?.data?.phoneNumber && (
                       <p className="font-dm-sans text-sm flex items-center gap-1">
                         <FiPhone size={16} />
-                        {user?.phoneNumber || ""}
+                        {fetchProfile?.data?.phoneNumber || ""}
                       </p>
                     )}
                   </div>

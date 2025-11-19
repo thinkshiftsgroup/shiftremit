@@ -182,7 +182,7 @@ const IndividualDoc = () => {
       {
         onSuccess: () => {
           toast.success("File deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["profile"] });
+          queryClient.invalidateQueries({ queryKey: ["individual-docs"] });
 
           switch (pendingDeleteKey) {
             case "proofOfValidID":
@@ -247,6 +247,20 @@ const IndividualDoc = () => {
 
     const hasFile = prefillName || fileUrl;
 
+  
+    const formatFileSize = (sizeInBytes: number) => {
+      if (sizeInBytes >= 1024 * 1024) {
+        return `${(sizeInBytes / (1024 * 1024)).toFixed(2)} MB`;
+      } else if (sizeInBytes >= 1024) {
+        return `${(sizeInBytes / 1024).toFixed(1)} KB`;
+      }
+      return `${sizeInBytes} B`;
+    };
+
+    const displayFileName = newFile
+      ? `${newFile.name} (${formatFileSize(newFile.size)})`
+      : prefillName;
+
     return (
       <div>
         <label className="font-poppins font-semibold text-sm text-[#454745]">
@@ -257,7 +271,7 @@ const IndividualDoc = () => {
             htmlFor={docType}
             className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
-            <span className="opacity-80">{prefillName || placeholder}</span>
+            <span className="opacity-80">{displayFileName || placeholder}</span>
 
             <div className="flex items-center gap-2">
               {status && status !== "PENDING" && (
@@ -284,7 +298,8 @@ const IndividualDoc = () => {
 
               {status !== "APPROVED" &&
                 hasFile &&
-                (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
+                (kycStatus.data.status === "REJECTED" ||
+                  kycStatus.data.status === "NOT_STARTED") && (
                   <HiTrash
                     size={16}
                     onMouseDown={(e) => e.preventDefault()}
@@ -342,7 +357,8 @@ const IndividualDoc = () => {
 
           {!frontFile &&
             idFrontUrl &&
-            (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
+            (kycStatus.data.status === "REJECTED" ||
+              kycStatus.data.status === "NOT_STARTED") && (
               <div className="flex">
                 <HiTrash
                   size={20}
@@ -415,7 +431,8 @@ const IndividualDoc = () => {
 
           {!backFile &&
             idBackUrl &&
-            (kycStatus.data.status === "REJECTED" || kycStatus.data.status === "NOT_STARTED") && (
+            (kycStatus.data.status === "REJECTED" ||
+              kycStatus.data.status === "NOT_STARTED") && (
               <>
                 <HiTrash
                   size={20}
@@ -557,7 +574,8 @@ const IndividualDoc = () => {
           </button>
         </div>
 
-        {(kycStatus.data.status === "NOT_STARTED" || kycStatus.data.status === "REJECTED") && (
+        {(kycStatus.data.status === "NOT_STARTED" ||
+          kycStatus.data.status === "REJECTED") && (
           <div className="bg-white z-9 fixed bottom-0 left-0 w-full p-3 flex flex-col items-center">
             <button
               onClick={() =>

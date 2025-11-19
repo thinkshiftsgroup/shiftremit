@@ -2,6 +2,8 @@ import apiInstance from "./apiInstance";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useAuthStore, User } from "@/stores/useAuthStore";
+import { QueryClient } from "@tanstack/react-query";
+
 
 interface SignupResponse {
   message: string;
@@ -133,7 +135,8 @@ export const resendCodeClient = async (
 
 export const loginClient = async (
   email: string,
-  password: string
+  password: string,
+  queryClient: QueryClient
 ): Promise<LoginResponse> => {
   try {
     const response = await apiInstance.post<LoginResponse>("/api/auth/login", {
@@ -147,6 +150,11 @@ export const loginClient = async (
     loginUser(token, user);
 
     clearUnverifiedEmail();
+
+    queryClient.invalidateQueries({
+      queryKey: ["userProfile"],
+      exact: true,
+    });
 
     const rememberMeDays = 30;
     Cookies.set("shiftremit_auth_token", token, {

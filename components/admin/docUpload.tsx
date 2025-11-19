@@ -81,13 +81,15 @@ const DocUpload = ({ user, isLoading }: any) => {
             <span className="opacity-80">{prefillName || placeholder}</span>
 
             <div className="flex items-center gap-2">
-              <span
-                className={`text-xs font-poppins ${
-                  statusColors[status] || "text-gray-500"
-                }`}
-              >
-                {status?.replace(/_/g, " ")}
-              </span>
+              {status && status !== "PENDING" && (
+                <span
+                  className={`text-xs font-poppins ${
+                    statusColors[status] || "text-gray-500"
+                  }`}
+                >
+                  {status.replace(/_/g, " ")}
+                </span>
+              )}
               {hasFile && (
                 <ActionDropDown
                   onPreview={() => handlePreview(newFile || null, fileUrl)}
@@ -128,7 +130,8 @@ const DocUpload = ({ user, isLoading }: any) => {
               <div className="absolute flex items-center gap-1 top-2 right-2 z-10">
                 <span
                   className={`text-xs font-poppins ${
-                    statusColors[docData.proofOfValidIDStatus] || "text-gray-500"
+                    statusColors[docData.proofOfValidIDStatus] ||
+                    "text-gray-500"
                   }`}
                 >
                   {docData.proofOfValidIDStatus.replace(/_/g, " ")}
@@ -195,10 +198,11 @@ const DocUpload = ({ user, isLoading }: any) => {
               <div className="absolute flex items-center gap-1 top-2 right-2 z-10 ">
                 <span
                   className={`text-xs font-poppins ${
-                    statusColors[docData.proofOfValidIDBackViewStatus] || "text-gray-500"
+                    statusColors[docData.proofOfValidIDBackViewStatus] ||
+                    "text-gray-500"
                   }`}
                 >
-                  { docData.proofOfValidIDBackViewStatus.replace(/_/g, " ")}
+                  {docData.proofOfValidIDBackViewStatus.replace(/_/g, " ")}
                 </span>
                 <ActionDropDown
                   onPreview={() => handlePreview(backFile, idBackUrl)}

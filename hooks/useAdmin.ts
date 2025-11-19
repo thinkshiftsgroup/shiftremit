@@ -189,7 +189,7 @@ export const useAdmin = () => {
       const res = await apiInstance.patch(
         `/api/admin/users/${id}/soft-delete`,
         {
-          isDeleted: data,
+          isBanned: data,
         }
       );
       return res.data.data;

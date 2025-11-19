@@ -188,8 +188,7 @@ const BusinessAcc = () => {
                 <div>
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                     <h1 className="font-poppins md:text-2xl font-semibold">
-                      {user.fullName ||
-                        `${user.firstname || ""} ${user.lastname || ""}`}
+                      {user.firstname || ""} {user.lastname || ""}
                     </h1>
                     <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                       <p>Business Account</p>

@@ -6,7 +6,7 @@ import { useCustomers } from "../useCustomers";
 import { Camera, Loader2 } from "lucide-react";
 import { FormDataState } from "@/app/(authenticatedRoute)/(general)/account/individual-account/page";
 import { toast } from "sonner";
-import { useProfile } from "@/app/(authenticatedRoute)/(general)/account/useProfile";
+import { FaCheckCircle } from "react-icons/fa";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { UserProfileData } from "@/stores/useProfileStore";
 import { MdOutlineEmail } from "react-icons/md";
@@ -22,6 +22,7 @@ import BusinessDocUpload from "@/components/admin/businessProfile/docUoload";
 import ShareHolderForm from "@/components/admin/businessProfile/shareHolder";
 import PEPForm from "@/components/admin/businessProfile/pepForm";
 import { Switch } from "@/components/ui/switch";
+import ConfirmationModal from "@/components/admin/modal/confirmModal";
 
 const CustomerDetails = () => {
   const params = useParams<{ id: string }>();
@@ -37,6 +38,39 @@ const CustomerDetails = () => {
     verifyUser,
     deleteUser,
   } = useAdmin();
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<
+    "verify" | "delete" | null
+  >(null);
+  const [pendingValue, setPendingValue] = useState<boolean>(false);
+
+  const handleSwitchChange = (action: "verify" | "delete", value: boolean) => {
+    setPendingAction(action);
+    setPendingValue(value);
+    setModalOpen(true);
+  };
+
+  const handleConfirmModal = () => {
+    if (!pendingAction) return;
+
+    if (pendingAction === "verify") {
+      setIsVerified(pendingValue);
+      verifyUser.mutate({ data: pendingValue, id: params?.id });
+    } else if (pendingAction === "delete") {
+      setIsDeleted(pendingValue);
+      deleteUser.mutate({ data: pendingValue, id: params?.id });
+    }
+
+    setModalOpen(false);
+    setPendingAction(null);
+  };
+
+  const handleCancelModal = () => {
+    setModalOpen(false);
+    setPendingAction(null);
+  };
+
   const { data, isLoading } = useUserByID(params?.id);
   const user = data?.data;
   const userDeets = user?.businessAccount;
@@ -207,10 +241,19 @@ const CustomerDetails = () => {
                 </div>
                 <div>
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
-                    <h1 className="font-poppins md:text-2xl font-semibold">
+                    <h1 className="font-poppins md:text-2xl flex items-center gap-1 font-semibold">
                       {user.fullName ||
                         `${user.firstname || ""} ${user.lastname || ""}`}
+
+                      {(indiprofile &&
+                        user?.kycSubmission?.status === "APPROVED") ||
+                      (!indiprofile &&
+                        user?.businessAccount?.kycSubmission?.status ===
+                          "APPROVED") ? (
+                        <FaCheckCircle size={14} className="text-main" />
+                      ) : null}
                     </h1>
+
                     {indiprofile ? (
                       <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                         <p>Individual Account</p>
@@ -241,20 +284,16 @@ const CustomerDetails = () => {
                   <p>Verify</p>
                   <Switch
                     checked={isVerified}
-                    onCheckedChange={(value) => {
-                      setIsVerified(value);
-                      verifyUser.mutate({
-                        data: value,
-                        id: params?.id,
-                      });
-                    }}
+                    onCheckedChange={(value) =>
+                      handleSwitchChange("verify", value)
+                    }
                     disabled={verifyUser.isPending}
                     className="
-    data-[state=checked]:bg-main
-    data-[state=checked]:border-main
-    data-[state=unchecked]:bg-gray-300
-    [&>span]:data-[state=checked]:bg-white
-  "
+      data-[state=checked]:bg-main
+      data-[state=checked]:border-main
+      data-[state=unchecked]:bg-gray-300
+      [&>span]:data-[state=checked]:bg-white
+    "
                   />
                 </div>
 
@@ -262,20 +301,16 @@ const CustomerDetails = () => {
                   <p className="text-red-500">Delete</p>
                   <Switch
                     checked={isDeleted}
-                    onCheckedChange={(value) => {
-                      setIsDeleted(value);
-                      deleteUser.mutate({
-                        data: value,
-                        id: params?.id,
-                      });
-                    }}
+                    onCheckedChange={(value) =>
+                      handleSwitchChange("delete", value)
+                    }
                     disabled={deleteUser.isPending}
                     className="
-    data-[state=checked]:bg-main
-    data-[state=checked]:border-main
-    data-[state=unchecked]:bg-gray-300
-    [&>span]:data-[state=checked]:bg-white
-  "
+      data-[state=checked]:bg-main
+      data-[state=checked]:border-main
+      data-[state=unchecked]:bg-gray-300
+      [&>span]:data-[state=checked]:bg-white
+    "
                   />
                 </div>
               </div>
@@ -873,6 +908,25 @@ focus:border-main focus:outline-none transition-colors"
           )}
         </>
       )}
+      <ConfirmationModal
+        open={modalOpen}
+        title="Are you sure?"
+        message={`Do you really want to ${
+          pendingAction === "verify"
+            ? pendingValue
+              ? "verify"
+              : "unverify"
+            : pendingValue
+            ? "delete"
+            : "restore"
+        } this user?`}
+        onConfirm={handleConfirmModal}
+        onCancel={handleCancelModal}
+        loading={
+          (pendingAction === "verify" && verifyUser.isPending) ||
+          (pendingAction === "delete" && deleteUser.isPending)
+        }
+      />
     </SideNav>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { IoMailOutline } from "react-icons/io5";
 import { BsFillSendFill } from "react-icons/bs";
@@ -6,8 +7,10 @@ import { FaYoutube } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const router = useRouter();
   return (
     <div className=" container px-3 md:px-5 md:pb-8 md:pt-14 lg:px-20 w-full  mt-10  lg:pt-28 lg:pb-14 mx-auto relative ">
       <div className="w-[350px] h-[350px] bg-main opacity-[0.2] blur-[35px] absolute bottom-0 right-0" />
@@ -137,35 +140,42 @@ const Footer = () => {
           <div>
             <p className="font-semibold font-dm-sans text-sm text-black">
               Send Money Made Simple with ShiftRemit
-
             </p>
             <p className="text-[#454745] font-poppins text-sm py-3">
-              ShiftRemit is built for one purpose: to make sending money from the UK to Nigeria simple, fast, and completely fee free.
-
-              We believe sending money home should be effortless. That’s why our web platform gives you a secure, transparent, and straightforward way to move your funds without the hidden costs or long delays of traditional remittance services.
-
-              With ShiftRemit, every transfer is clear from start to finish. You’ll see exactly how much your recipient will receive, and your payment reaches any Nigerian bank account in record time.
-
-              Our system is designed around speed, reliability, and great value so you can send more and worry less.
-
-              Most importantly, ShiftRemit is built by the people and for the people, powered by a robust technology infrastructure that puts community, transparency, and trust at the heart of every transaction.
-
-              Stay connected to the people and opportunities that matter most.
-              Choose ShiftRemit, the smart, fee free way to send money to Nigeria.
+              ShiftRemit is built for one purpose: to make sending money from
+              the UK to Nigeria simple, fast, and completely fee free. We
+              believe sending money home should be effortless. That’s why our
+              web platform gives you a secure, transparent, and straightforward
+              way to move your funds without the hidden costs or long delays of
+              traditional remittance services. With ShiftRemit, every transfer
+              is clear from start to finish. You’ll see exactly how much your
+              recipient will receive, and your payment reaches any Nigerian bank
+              account in record time. Our system is designed around speed,
+              reliability, and great value so you can send more and worry less.
+              Most importantly, ShiftRemit is built by the people and for the
+              people, powered by a robust technology infrastructure that puts
+              community, transparency, and trust at the heart of every
+              transaction. Stay connected to the people and opportunities that
+              matter most. Choose ShiftRemit, the smart, fee free way to send
+              money to Nigeria.
             </p>
           </div>
         </div>
 
         <div>
-
           <div className="mb-5">
             <h1 className="font-semibold font-dm-sans text-sm text-black">
               Legal
             </h1>
             <ul className="text-[#454745] font-poppins mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
-              <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li>
-              <li className="md:border-r-2 pe-3 me-2">Privacy Policy</li>
-              <li className="">Partner Account</li>
+              {/* <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li> */}
+              <li
+                onClick={() => router.push("/privacy")}
+                className="md:border-r-2 pe-3 me-2"
+              >
+                Privacy Policy
+              </li>
+              {/* <li className="">Partner Account</li> */}
             </ul>
           </div>
         </div>

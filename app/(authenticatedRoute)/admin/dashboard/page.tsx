@@ -20,6 +20,7 @@ import FilterComponent from "@/components/admin/filterBar";
 import { useRouter } from "next/navigation";
 import { useAdminDash } from "./useAdminDash";
 import { useProfileStore } from "@/stores/useProfileStore";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 interface RateCard {
   country: string;
@@ -174,7 +175,8 @@ const Dashboard = () => {
   });
   const Trxs = data?.transfers || [];
   const { getDashSumm } = useAdminDash();
-  const { user: localUser } = useProfileStore();
+  // const { user: localUser } = useProfileStore();
+  const localUser = useAuthStore((state) => state.user);
 
   const formatAmount = (val: number | string) =>
     Number(val)
@@ -187,6 +189,7 @@ const Dashboard = () => {
     name: "",
     page: 1,
   });
+
   return (
     <SideNav>
       <div className="py-3 md:py-5">
@@ -522,7 +525,7 @@ const Dashboard = () => {
                   ) : (
                     Trxs.map((row: any, index: any) => (
                       <tr
-                        key={row.no}
+                        key={index}
                         className={`${
                           index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                         } border-b border-gray-100`}
