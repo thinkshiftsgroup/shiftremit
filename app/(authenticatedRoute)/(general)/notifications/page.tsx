@@ -85,7 +85,7 @@ const Notifications = () => {
                     value={benchmarkGBP}
                     onChange={(e) => setBenchmarkGBP(e.target.value)}
                     className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
-                    disabled={!checked}
+                    // disabled={!checked}
                   />
                 </div>
               </div>
@@ -107,7 +107,7 @@ const Notifications = () => {
                     value={rateNGN}
                     onChange={(e) => setRateNGN(e.target.value)}
                     className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
-                    disabled={!checked}
+                    // disabled={!checked}
                   />
                 </div>
               </div>

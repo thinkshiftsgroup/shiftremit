@@ -42,7 +42,7 @@ const BusinessAcc = () => {
     getKYCStatus,
     fetchBusinessProfile,
   } = useProfile();
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { data: kycStatus, isLoading: kycStatusLoad } =
     getKYCStatus("BUSINESS");
@@ -547,7 +547,6 @@ focus:border-main focus:outline-none transition-colors"
                 disabled={
                   updateBusinessProfile.isPending ||
                   kycStatus.data.status === "APPROVED" ||
-                  kycStatus.data.status === "PENDING_REVIEW" ||
                   kycStatusLoad
                 }
                 className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
@@ -579,8 +578,7 @@ focus:border-main focus:outline-none transition-colors"
           Back
         </div>
 
-        {(kycStatus.data.status === "NOT_STARTED" ||
-          kycStatus.data.status === "REJECTED") && (
+        {kycStatus.data.status !== "APPROVED" && (
           <div className="bg-white z-9 flex flex-col justify-center fixed bottom-0 left-0 w-full p-3">
             <button
               onClick={() => setShowKYCConfirm(true)}
@@ -608,7 +606,9 @@ focus:border-main focus:outline-none transition-colors"
                       toast.success("Submission for KYC successful");
                       setShowSuccess(true);
                       setTimeout(() => setShowSuccess(false), 3000);
-                      queryClient.invalidateQueries({ queryKey: ["update-business-profile"] });
+                      queryClient.invalidateQueries({
+                        queryKey: ["update-business-profile"],
+                      });
                     },
                     onSettled: () => setShowKYCConfirm(false),
                   }

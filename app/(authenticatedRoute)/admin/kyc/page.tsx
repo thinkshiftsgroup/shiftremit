@@ -1,129 +1,303 @@
+"use client";
 import SideNav from "@/components/dashboard/sideNav";
-import React from "react";
+import React, { useState } from "react";
 import { LuArrowUpRight } from "react-icons/lu";
+import { useKyc } from "./usekyc";
+import { countriesWithCodes } from "@/data/data";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { toast } from "sonner";
+
+export const NOTIF_LABELS: Record<string, string> = {
+  KYC_INDIVIDUAL_SUBMITTED: "Individual KYC Submitted",
+  KYC_BUSINESS_SUBMITTED: "Business KYC Submitted",
+  INDIVIDUAL_DOC_UPDATED: "Individual Document Updated",
+  BUSINESS_DOC_UPDATED: "Business Document Updated",
+  BUSINESS_PROFILE_UPDATED: "Business Profile Updated",
+  USER_PROFILE_UPDATED: "User Profile Updated",
+  TRANSFER: "Transfer",
+  NEW_USER_REGISTERED: "New User Registered",
+  USER_BANNED: "User Banned",
+  USER_UNBANNED: "User Unbanned",
+  TRANSFER_FAILED: "Transfer Failed",
+};
 
 const KYC = () => {
-  const sampleData = [
-    {
-      no: 1,
-      customer: "Felix Hohno",
-      email: "felixhorn36748@gmail.com",
-      totalTrx: "sr324564",
-      lastTrx: "£400",
-      status: "Completed",
-      date: "12/04/26 18:00",
-      id: "gdh239",
-    },
-    {
-      no: 2,
-      customer: "Jane Smith",
-      email: "janesmith@example.com",
-      totalTrx: "sr324564",
-      lastTrx: "£400",
-      status: "Pending",
-      date: "",
-      id: "gdh239",
-    },
-    {
-      no: 3,
-      customer: "Michael Johnson",
-      email: "michaeljohnson@example.com",
-      totalTrx: "sr324564",
-      lastTrx: "£400",
-      status: "Abandoned",
-      date: "12/04/26 18:00",
-      id: "gdh239",
-    },
-    {
-      no: 4,
-      customer: "Sarah Williams",
-      email: "sarahwilliams@example.com",
-      totalTrx: "sr324564",
-      lastTrx: "£400",
-      status: "Rejected",
-      date: "12/04/26 18:00",
-      id: "gdh239",
-    },
-  ];
+  const { getVerifications, resolveNotification, markAsRead } = useKyc();
+  const resolveNotif = resolveNotification();
+  const markRead = markAsRead();
+
+  const [filterData, setFilterData] = useState({
+    page: 1,
+    pageSize: 20,
+    usernameFilter: "",
+    isDismissed: undefined as boolean | undefined,
+    countryFilter: "",
+    notificationTypeFilter: "",
+  });
+
+  const handleReset = () => {
+    setFilterData({
+      page: 1,
+      pageSize: 20,
+      usernameFilter: "",
+      isDismissed: undefined,
+      countryFilter: "",
+      notificationTypeFilter: "",
+    });
+  };
+
+  const notifQuery = getVerifications(filterData);
+  const router = useRouter();
+
+  const [confirmModal, setConfirmModal] = useState<{
+    open: boolean;
+    notifId?: string;
+  }>({ open: false });
+
+  const handleOpenModal = (notifId: string) => {
+    setConfirmModal({ open: true, notifId });
+  };
+
+  const handleCloseModal = () => {
+    setConfirmModal({ open: false, notifId: undefined });
+  };
+
+  const handleConfirmResolve = () => {
+    if (!confirmModal.notifId) return;
+    resolveNotif.mutate(confirmModal.notifId, {
+      onSuccess: () => {
+        toast.success("Task Resolved");
+        handleCloseModal();
+      },
+    });
+  };
 
   return (
     <SideNav>
       <div className="p-5 bg-white rounded-md my-4 overflow-hidden">
         <div className=" ">
-          <div className="w-full overflow-x-auto">
+          <div className="w-full font-poppins bg-white p-2 rounded my-3">
+            <div className="flex flex-col gap-2 items-center">
+              <div className="flex gap-2 w-full">
+                <input
+                  type="text"
+                  placeholder="Search by Customer Name"
+                  value={filterData.usernameFilter}
+                  onChange={(e) =>
+                    setFilterData((p) => ({
+                      ...p,
+                      usernameFilter: e.target.value,
+                    }))
+                  }
+                  className="px-4 text-sm w-full py-2 border border-gray-200 rounded text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-400"
+                />
+              </div>
+
+              <div className="flex gap-3 items-center">
+                <select
+                  value={filterData.countryFilter}
+                  onChange={(e) =>
+                    setFilterData((p) => ({
+                      ...p,
+                      countryFilter: e.target.value,
+                    }))
+                  }
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                >
+                  <option value="">Country</option>
+
+                  {countriesWithCodes.map((country, index) => (
+                    <option key={index} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={filterData.notificationTypeFilter}
+                  onChange={(e) =>
+                    setFilterData((p) => ({
+                      ...p,
+                      notificationTypeFilter: e.target.value,
+                    }))
+                  }
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                >
+                  <option value="">Select Notification Type</option>
+                  {Object.entries(NOTIF_LABELS).map(([key, label]) => (
+                    <option key={key} value={key}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={
+                    filterData.isDismissed === undefined
+                      ? ""
+                      : filterData.isDismissed
+                      ? "true"
+                      : "false"
+                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    setFilterData((prev) => ({
+                      ...prev,
+                      isDismissed: value === "" ? undefined : value === "true", // <-- boolean conversion
+                    }));
+                  }}
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                >
+                  <option value="">Status</option>
+                  <option value="true">Resolved</option>
+                  <option value="false">Pending</option>
+                </select>
+
+                <button
+                  onClick={handleReset}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded transition-colors"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="w-full font-poppins scrollbar-hide overflow-x-auto">
             <table className="w-full min-w-max border-collapse">
               <thead>
                 <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
-                  <th className="px-4 py-2 whitespace-nowrap">Customer</th>
+                  <th className="px-4 py-2 whitespace-nowrap">S/N</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Name</th>
                   <th className="px-4 py-2 whitespace-nowrap">Email</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Phone</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Type</th>
-                  <th className="px-4 py-2 whitespace-nowrap">Date</th>
+                  <th className="px-4 py-2 whitespace-nowrap">Country</th>
                   <th className="px-4 py-2 whitespace-nowrap">Status</th>
-                  {/* <th className="px-4 py-2 whitespace-nowrap">Action</th> */}
+                  <th className="px-4 py-2 whitespace-nowrap">Module</th>
+                  <th className="px-4 py-2 whitespace-nowrap">
+                    Date Submitted
+                  </th>
+                  <th className="px-4 py-2 whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
-
-              {/* <tbody>
-                {sampleData.map((row, index) => (
-                  <tr
-                    key={row.no}
-                    className={`${
-                      index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
-                    } border-b border-gray-100`}
-                  >
-                    <td className="px-4 py-1 flex items-center gap-1 cursor-pointer text-sm font-medium text-gray-900">
-                      {row.customer}
-                      <LuArrowUpRight size={14} />
+              <tbody>
+                {notifQuery.isLoading && (
+                  <tr>
+                    <td colSpan={8} className="text-center py-6 text-gray-500">
+                      Loading notifications...
                     </td>
-                    <td className="px-4 py-1 text-sm text-gray-700">
-                      {row.totalTrx}
-                    </td>
-                    <td className="px-4 py-1 text-sm text-gray-700">
-                      <span className="font-bold">{row.lastTrx}</span> (ref:{" "}
-                      {row.id})
-                    </td>{" "}
-                    <td className="px-4 flex flex-col py-1 text-sm text-gray-700">
-                      <span>Account Name</span>
-                      <span>1234532234</span>
-                      <span>Bank Name</span>
-                    </td>
-                    <td className="px-4 py-1 text-sm text-gray-700">
-                      {row.date}
-                    </td>
-                    <td className="px-4 py-1 flex flex-col text-sm text-gray-700">
-                      <span className="p-1 m-1 rounded-xs flex bg-[#e8f7eb]">
-                        {row.status}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        {row.date}
-
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          className="text-black"
-                        >
-                          <g fill="">
-                            <path d="M6.5 12a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zm0 3a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1z" />
-                            <path
-                              fillRule="evenodd"
-                              d="M11.185 1H4.5A1.5 1.5 0 0 0 3 2.5v15A1.5 1.5 0 0 0 4.5 19h11a1.5 1.5 0 0 0 1.5-1.5V7.202a1.5 1.5 0 0 0-.395-1.014l-4.314-4.702A1.5 1.5 0 0 0 11.185 1M4 2.5a.5.5 0 0 1 .5-.5h6.685a.5.5 0 0 1 .369.162l4.314 4.702a.5.5 0 0 1 .132.338V17.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"
-                              clipRule="evenodd"
-                            />
-                            <path d="M11 7h5.5a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0z" />
-                          </g>
-                        </svg>
-                      </span>
-                    </td>
-       
                   </tr>
-                ))}
-              </tbody> */}
+                )}
+                {!notifQuery.isLoading &&
+                  notifQuery.data?.data?.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={8}
+                        className="text-center py-6 text-gray-400"
+                      >
+                        No notifications found.
+                      </td>
+                    </tr>
+                  )}
+                {!notifQuery.isLoading &&
+                  notifQuery.data?.data?.map((notif: any, index: number) => (
+                    <tr
+                      key={notif.id}
+                      className={`text-sm text-gray-700 transition ${
+                        index % 2 === 1
+                          ? "bg-gray-50 hover:bg-gray-100"
+                          : "hover:bg-gray-50"
+                      }`}
+                    >
+                      <td className="px-4 py-4">{index + 1}</td>
+                      <td className="px-4 py-4">{notif.user?.fullName}</td>
+                      <td className="px-4 py-4">{notif.user?.email}</td>
+                      <td className="px-4 py-4">{notif.user?.country}</td>
+
+                      <td className="px-4 py-4">
+                        <span
+                          className={`p-1 text-center rounded-sm border uppercase ${
+                            notif.isDismissed
+                              ? "bg-green-500/20 text-green-500 border-green-500"
+                              : "bg-red-500/20 text-red-500 border-red-500"
+                          }`}
+                        >
+                          {notif.isDismissed ? "DELIVERED" : "PENDING"}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4">
+                        {NOTIF_LABELS[notif.type] ?? notif.type}
+                      </td>
+                      <td className="px-4 py-4">
+                        {new Date(notif.createdAt).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </td>
+                      <td className="px-4 py-4 flex gap-3 items-center">
+                        <button
+                          disabled={markRead.isPending}
+                          onClick={() => {
+                            router.push(notif.linkToResource);
+                            markRead.mutate(notif.id);
+                          }}
+                          className="text-main hover:opacity-70"
+                        >
+                          {!notif.isRead ? (
+                            <Eye size={20} />
+                          ) : (
+                            <EyeOff size={20} className="text-gray-500" />
+                          )}
+                        </button>
+
+                        {!notif.isDismissed && (
+                          <button
+                            disabled={resolveNotif.isPending}
+                            onClick={() => handleOpenModal(notif.id)}
+                            className="text-green-600 hover:opacity-70 text-xs underline"
+                          >
+                            {resolveNotif.isPending ? (
+                              <Loader2 className="animate-spin" />
+                            ) : (
+                              "Resolve"
+                            )}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
             </table>
           </div>
         </div>
+        {confirmModal.open && (
+          <div className="fixed inset-0 bg-black/20 font-poppins bg-opacity-40 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-96">
+              <h2 className="text-lg font-semibold mb-4">Confirm Action</h2>
+              <p className="mb-6">
+                Are you sure you want to resolve this notification?
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={handleCloseModal}
+                  className="px-4 py-2 border rounded hover:bg-gray-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmResolve}
+                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                >
+                  {resolveNotif.isPending ? <Loader2 className="animate-spin" /> :"Confirm"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </SideNav>
   );

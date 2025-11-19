@@ -16,6 +16,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { useProfileStore } from "@/stores/useProfileStore";
 import { useQueryClient } from "@tanstack/react-query";
+import { useKyc } from "@/app/(authenticatedRoute)/admin/kyc/usekyc";
 
 interface NavItem {
   title: string;
@@ -28,6 +29,7 @@ interface NavItem {
 
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
+  const { unreadCount } = useKyc();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -362,7 +364,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       ),
       title: "Verifications",
       link: "/admin/kyc",
-      badge: 5,
+      badge: unreadCount?.data?.count || 0,
       showFor: ["admin"],
     },
 
