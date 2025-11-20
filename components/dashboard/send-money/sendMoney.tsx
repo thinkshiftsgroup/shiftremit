@@ -64,10 +64,10 @@ const SendMoneyUI = () => {
         setGetAmount={setGetAmount}
       />
 
-      <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-4 mb-6 font-poppins text-base space-y-2">
+      <div className="bg-[#f1f5f9] text-[#454745] rounded-lg p-2 sm:p-4 mb-6 font-poppins text-sm sm:text-base space-y-2">
         <div className="flex justify-between">
           <span>Delivery Method</span>
-          <div className="*:text-black font-normal *:cursor-pointer flex items-center gap-1 text-base ">
+          <div className="*:text-black font-normal *:cursor-pointer flex items-center gap-1 text-sm sm:text-base ">
             <p
               onClick={() => setIsBank(true)}
               className={`border relative ${
@@ -105,8 +105,8 @@ const SendMoneyUI = () => {
       <hr />
       <div className="flex font-poppins mt-5 justify-between items-center">
         <div>
-          <p className="text-sm opacity-80">Total Amount</p>
-          <p className="font-semibold text-xl">{totalAmountDisplay}</p>
+          <p className="text-xs sm:text-sm opacity-80">Total Amount</p>
+          <p className="font-semibold text-base sm:text-xl">{totalAmountDisplay}</p>
         </div>
         <button
           disabled={
@@ -128,7 +128,6 @@ const SendMoneyUI = () => {
             }
 
             const status = kycStatus?.data?.status;
-            console.log(status);
             setTransfer({
               amount: parseInt(sending_amount),
               fromCurrency,
@@ -144,7 +143,7 @@ const SendMoneyUI = () => {
             }
           }}
           className="
-    text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-sm sm:text-base text-white font-poppins border border-[#813FD6] py-2 sm:py-3 px-3 sm:px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2 disabled:cursor-not-allowed disabled:from-[#813FD6]/30 disabled:to-[#301342]/30

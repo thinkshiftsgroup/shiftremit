@@ -177,7 +177,7 @@ const IndiAcc = () => {
   return (
     <SideNav>
       <form className=" relative" onSubmit={handleFormSubmit}>
-        <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
+        <div className="w-full bg-white shadow-md my-5 rounded-md p-3">
           <div className="flex pb-5 items-center justify-between">
             <div className="flex w-full sm:flex-row flex-col items-center gap-4">
               <div

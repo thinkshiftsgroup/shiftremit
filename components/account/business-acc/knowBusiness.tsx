@@ -109,7 +109,7 @@ const KnowBusiness: React.FC<KnowBusinessProps> = ({
       <form className="relative" onSubmit={handleBusinessForm}>
         <div className="grid md:grid-cols-3 gap-5">
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Business Name*
             </label>
             <input
@@ -118,20 +118,20 @@ const KnowBusiness: React.FC<KnowBusinessProps> = ({
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Company Type*
             </label>
             <select
               name="companyType"
               value={formData.companyType}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             >
               <option value="">Select Company Type</option>
@@ -146,7 +146,7 @@ focus:border-main focus:outline-none transition-colors"
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Incorporation Number*
             </label>
             <input
@@ -155,13 +155,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 px-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Date of Incorporation*
             </label>
             <input
@@ -171,13 +171,13 @@ focus:border-main focus:outline-none transition-colors"
               required
               value={formData.dateOfIncorporation}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Country of Incorporation*
             </label>
             <select
@@ -185,7 +185,7 @@ focus:border-main focus:outline-none transition-colors"
               value={formData.countryOfIncorporation}
               onChange={handleInputChange}
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             >
               <option value="">Select Country</option>
@@ -198,7 +198,7 @@ focus:border-main focus:outline-none transition-colors"
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Tax Number*
             </label>
             <input
@@ -207,13 +207,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Company Address*
             </label>
             <input
@@ -222,13 +222,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               Zip Code / Postcode*
             </label>
             <input
@@ -237,13 +237,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               State / Province*
             </label>
             <input
@@ -252,13 +252,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745]">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
               City*
             </label>
             <input
@@ -267,13 +267,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745] flex gap-1">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] flex gap-1">
               What does your business do?*
               <FaCircleQuestion size={16} />
             </label>
@@ -283,13 +283,13 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="font-poppins font-semibold text-sm text-[#454745] flex gap-1">
+            <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] flex gap-1">
               Company Website
             </label>
             <input
@@ -298,7 +298,7 @@ focus:border-main focus:outline-none transition-colors"
               onChange={handleInputChange}
               type="text"
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -312,7 +312,7 @@ focus:border-main focus:outline-none transition-colors"
               kycStatus.data.status === "APPROVED" ||
               kycStatusLoad
             }
-            className="text-white font-poppins disabled:opacity-50 disabled:cursor-not-allowed py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
+            className="text-white font-poppins text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
           >
             {updateBusinessProfile.isPending ? (
               <Loader2 className="animate-spin" />

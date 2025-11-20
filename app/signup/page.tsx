@@ -228,7 +228,7 @@ const Register = () => {
   const RegisterForm = useMemo(
     () => (
       <form onSubmit={handleSubmit} className="w-[90%] lg:w-[80%] space-y-3">
-        <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
+        <h1 className="text-[#073032] font-semibold font-dm-sans text-xl sm:text-2xl">
           Create an account
         </h1>
         {error && (
@@ -240,7 +240,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="firstname"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               First Name
             </label>
@@ -265,7 +265,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="lastname"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Last Name
             </label>
@@ -290,7 +290,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="email"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Email
             </label>
@@ -315,7 +315,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="phone"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Mobile
             </label>
@@ -339,7 +339,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="password"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Password
             </label>
@@ -379,7 +379,7 @@ const Register = () => {
           <div className="space-y-3">
             <label
               htmlFor="confirmPassword"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Confirm Password
             </label>
@@ -424,11 +424,11 @@ const Register = () => {
             type="checkbox"
             checked={form.agreedToTerms}
             onChange={handleChange}
-            className="w-4 h-4 accent-main-dark"
+            className="sm:w-4 w-3 sm:h-4 h-3 accent-main-dark"
           />
           <label
             htmlFor="agreedToTerms"
-            className="font-poppins text-sm cursor-pointer"
+            className="font-poppins text-xs sm:text-sm cursor-pointer"
           >
             I agree with
             <span className="text-main cursor-pointer">
@@ -442,7 +442,7 @@ const Register = () => {
           type="submit"
           disabled={isLoading}
           className="
-            text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
+            text-sm sm:text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
             bg-linear-to-l from-[#813FD6] to-[#301342]
             transition-all duration-300 ease-in-out disabled:opacity-50
           "
@@ -450,7 +450,7 @@ const Register = () => {
           {isLoading ? "Signing Up..." : "Sign Up"}
         </button>
 
-        <p className="font-poppins mt-2 text-center">
+        <p className="font-poppins sm:text-base text-sm mt-2 text-center">
           Already have an account?{" "}
           <span
             className="text-main cursor-pointer"
@@ -540,7 +540,6 @@ const Register = () => {
       </div>
 
       <div className="w-full lg:w-[60%] flex flex-col justify-center items-center bg-white py-5 lg:py-0">
-
         <div
           onClick={() => router.replace("/")}
           className="flex lg:hidden items-center justify-start gap-1 cursor-pointer w-[90%] mb-3"
@@ -573,10 +572,11 @@ const Register = () => {
             )}
             {resendMessage && (
               <div
-                className={`p-3 text-sm font-semibold rounded-md w-full text-center ${error
+                className={`p-3 text-sm font-semibold rounded-md w-full text-center ${
+                  error
                     ? "text-red-700 bg-red-100"
                     : "text-green-700 bg-green-100"
-                  }`}
+                }`}
               >
                 {resendMessage}
               </div>
@@ -585,8 +585,9 @@ const Register = () => {
             <p className="font-poppins text-center text-sm pt-4">
               Didn't receive the code?
               <span
-                className={`cursor-pointer font-bold ${isResending ? "text-gray-500" : "text-main"
-                  }`}
+                className={`cursor-pointer font-bold ${
+                  isResending ? "text-gray-500" : "text-main"
+                }`}
                 onClick={isResending ? undefined : handleResendCode}
                 role="button"
                 aria-disabled={isResending}

@@ -617,18 +617,6 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
               className="p-2 hover:bg-gray-100 rounded-md transition"
               aria-label="Collapse sidebar"
             >
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={20}
-                height={20}
-                viewBox="0 0 24 24"
-                className={`transition-transform duration-300 ${collapsed ? "rotate-180" : ""}`}
-              >
-                <path
-                  fill="currentColor"
-                  d="m8 5l8 7l-8 7V5z"
-                />
-              </svg> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}
@@ -914,7 +902,8 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </div>
-        {children}
+
+        <div className="w-full">{children}</div>
       </div>
     </div>
   );

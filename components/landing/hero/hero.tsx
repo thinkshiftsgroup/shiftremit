@@ -22,11 +22,11 @@ const Hero = () => {
           <div className=" flex items-start flex-col lg:flex-row gap-0 md:gap-10 lg:gap-20 justify-between">
             <div className="w-full lg:w-1/2 lg:h-screen mt-10 md:mt-20 lg:mt-0  flex  justify-content items-center">
               <div className="flex lg:block flex-col items-center jusitfy-center">
-                <p className="text-lg text-white font-poppins">Great Value</p>
-                <h1 className="capitalize text-center lg:text-left text-[1.725rem] md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
-                  Send Money. <br className="hidden md:inline" /> No Fees.
+                <p className="sm:text-lg text-sm text-white font-poppins">Great Value</p>
+                <h1 className="capitalize text-center lg:text-left text-5xl md:text-[4rem] font-dm-sans mb-2 text-white font-bold tracking-tighter leading-snug">
+                  Send Money. <br className="" /> No Fees.
                 </h1>
-                <p className="text-white text-[16px] mt-5 mb-4 font-poppins text-center lg:text-left">
+                <p className="text-white text-sm sm:text-[16px] mt-5 mb-4 font-poppins text-center lg:text-left">
                   ✨ ShiftRemit gives you more for your money! Send from the UK
                   to any bank in Nigeria — Unbeatable rates and speed.
                 </p>

@@ -26,28 +26,28 @@ const RateCard = ({ icon, name, currentRate, discount }: Rate) => {
   const isShiftRemit = name === "Shift Remit";
 
   return (
-    <div className="flex items-center gap-3 py-4">
-      <div className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-lg flex items-center justify-center text-2xl">
+    <div className="flex sm:flex-row flex-col items-center gap-3 py-4">
+      <div className="flex items-center gap-2 sm:gap-4">
+        <div className="h-10 sm:w-14 w-10 sm:h-14 md:w-16 md:h-16 rounded-lg flex items-center justify-center text-2xl">
           <img
             src={icon}
             alt={name}
-            className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-cover"
+            className="h-10 sm:w-14 w-10 sm:h-14 md:w-16 md:h-16 rounded-lg object-cover"
           />
         </div>
       </div>
 
       <div className="text-right">
-        <p className="text-lg md:text-xl font-medium text-white">
+        <p className="text-base sm:text-lg md:text-xl font-medium text-white">
           ₦{currentRate.toFixed(2)}
         </p>
 
         {isShiftRemit ? (
-          <p className="text-[16px] md:text-lg text-[#A8ACAB] line-through">
+          <p className="text-xs sm:text-[16px] md:text-lg text-[#A8ACAB] line-through">
             &nbsp;&nbsp;₦{discount.toFixed(2)}&nbsp;&nbsp;
           </p>
         ) : (
-          <p className="text-[16px] md:text-lg text-red-400">
+          <p className="text-xs sm:text-[16px] md:text-lg text-red-400">
             -₦{discount.toFixed(2)}
           </p>
         )}

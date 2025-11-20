@@ -149,7 +149,7 @@ const LoginScrn = () => {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="w-[90%] md:w-[80%] space-y-3">
-          <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
+          <h1 className="text-[#073032] font-semibold font-dm-sans text-xl sm:text-2xl">
             Log in to your account
           </h1>
 
@@ -162,7 +162,7 @@ const LoginScrn = () => {
           <div className="space-y-3">
             <label
               htmlFor="email"
-              className="font-poppins font-semibold text-sm "
+              className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
             >
               Email
             </label>
@@ -175,7 +175,8 @@ const LoginScrn = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                className="font-poppins text-xs sm:text-sm w-full indent-7 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
               />
             </div>
           </div>
@@ -183,8 +184,8 @@ const LoginScrn = () => {
             <div className="space-y-3">
               <label
                 htmlFor="password"
-                className="font-poppins font-semibold text-sm "
-              >
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
+              > 
                 Password
               </label>
               <div className="relative">
@@ -196,7 +197,8 @@ const LoginScrn = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm"
+                  className="font-poppins text-xs sm:text-sm w-full indent-7 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
                 <IoEyeOutline
                   className="absolute top-6 cursor-pointer right-3"
@@ -206,7 +208,7 @@ const LoginScrn = () => {
             </div>
             <p
               onClick={() => router.push("/forgot-password")}
-              className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-sm font-poppins"
+              className="text-main-dark-II font-medium mt-2 cursor-pointer text-right text-xs sm:text-sm font-poppins"
             >
               Forgot Password?
             </p>
@@ -216,7 +218,7 @@ const LoginScrn = () => {
             type="submit"
             disabled={isLoading}
             className={`
-    text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
+    text-sm sm:text-base text-white w-full font-poppins py-2 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     ${isLoading ? "opacity-50 cursor-not-allowed" : ""}
@@ -225,7 +227,7 @@ const LoginScrn = () => {
             {isLoading ? "Logging in..." : "Login"}
           </button>
 
-          <p className="font-poppins mt-2 text-center">
+          <p className="font-poppins  sm:text-base text-sm mt-2 text-center">
             Don't have an account?{" "}
             <span
               className="text-main cursor-pointer"

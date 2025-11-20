@@ -77,14 +77,14 @@ const Notifications = () => {
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-gray-500">
-                    €
+                    £
                   </span>
                   <input
                     type="number"
                     placeholder="e.g 1950.00"
                     value={benchmarkGBP}
                     onChange={(e) => setBenchmarkGBP(e.target.value)}
-                    className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-main"
                     // disabled={!checked}
                   />
                 </div>
@@ -106,7 +106,7 @@ const Notifications = () => {
                     placeholder="e.g 2000.00"
                     value={rateNGN}
                     onChange={(e) => setRateNGN(e.target.value)}
-                    className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full pl-7 pr-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-main"
                     // disabled={!checked}
                   />
                 </div>

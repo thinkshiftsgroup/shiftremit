@@ -176,7 +176,7 @@ const Account = () => {
             className={`w-full px-1 sm:px-3 py-2 sm:py-4 bg-[#f1f1f1] cursor-pointer border-[#f1f1f1] rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-              <div className="flex sm:flex-row flex-col items-center gap-0.5 sm:mb-0 mb-2 sm:gap-1">
+               <div className="flex gap-1 items-center">
                 <h1 className="font-poppins font-semibold text-base md:text-lg">
                   Business Account
                 </h1>

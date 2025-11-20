@@ -37,6 +37,7 @@ const Navbar = () => {
       width={28}
       height={28}
       viewBox="0 0 24 24"
+      className="text-white"
     >
       <path
         fill="currentColor"
@@ -104,10 +105,12 @@ const Navbar = () => {
     };
   }, []);
 
-
   return (
     <>
-      <div ref={sourceRef} className="flex container px-3 md:px-7 lg:px-20 mx-auto items-center py-3 border-0 border-b-[#ffffff1a] w-full justify-between">
+      <div
+        ref={sourceRef}
+        className="flex container px-3 md:px-7 lg:px-20 mx-auto items-center py-5 sm:py-3 border-0 border-b-[#ffffff1a] w-full justify-between"
+      >
         <div className="flex items-center gap-2">
           <Link href="/" onClick={handleNavClick}>
             <Image
@@ -118,11 +121,11 @@ const Navbar = () => {
               className="w-8 h-8 md:w-10 md:h-10 object-cover cursor-pointer"
             />
           </Link>
-          <div>
-            <h1 className="text-lg md:text-2xl font-bold font-poppins text-white leading-4 lg:leading-5">
+          <div className="">
+            <h1 className="text-sm sm:text-lg md:text-2xl font-bold font-poppins text-white leading-4 lg:leading-5">
               Shift<span className="text-main">Remit</span>
             </h1>
-            <p className="text-sm md:text-xs font-normal text-white font-dm-sans leading-4 lg:leading-5">
+            <p className=" text-[8px] sm:text-sm font-normal text-white font-dm-sans leading-4 lg:leading-5">
               Unbeatable Transfer Rates
             </p>
           </div>
@@ -138,19 +141,24 @@ const Navbar = () => {
           {mobileMenuOpen ? <X size={28} /> : <MenuIcon />}
         </button>
       </div>
-      <div style={{top: `${height}px`  }} className="w-full  border-b border-b-[#ffffff1a]">
+      <div style={{ top: `${height}px` }} className="w-full border-b border-b-[#ffffff1a]"></div>
 
-      </div>
-
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-b-[#ffffff1a] bg-main-dark-II">
-          <div className="flex flex-col gap-3 px-4 sm:px-6 py-4">
-            {AuthButtons(true)}
-          </div>
+      <div
+        className={`
+    md:hidden shadow-md
+    overflow-hidden transition-all duration-300 ease-in-out
+    transform
+    ${
+      mobileMenuOpen
+        ? "max-h-40 opacity-100 translate-y-0"
+        : "max-h-0 opacity-0 -translate-y-2"
+    }
+  `}
+      >
+        <div className="flex flex-col gap-3 px-4 sm:px-6 py-4">
+          {AuthButtons(true)}
         </div>
-      )}
-
-
+      </div>
     </>
   );
 };

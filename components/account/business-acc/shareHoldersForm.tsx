@@ -254,7 +254,7 @@ export default function ShareHolderForm({
   ) => (
     <div className="grid md:grid-cols-3 gap-5">
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           First Name*
         </label>
         <input
@@ -262,12 +262,12 @@ export default function ShareHolderForm({
           type="text"
           value={data?.firstname || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Last Name*
         </label>
         <input
@@ -275,12 +275,12 @@ export default function ShareHolderForm({
           type="text"
           value={data?.lastname || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Date of Birth*
         </label>
         <input
@@ -289,19 +289,19 @@ export default function ShareHolderForm({
           max={new Date().toISOString().split("T")[0]}
           value={data?.dateOfBirth?.split("T")[0] || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Nationality*
         </label>
         <select
           name="nationality"
           value={data?.nationality || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
           {countriesWithCodes.map((c) => (
@@ -313,14 +313,14 @@ export default function ShareHolderForm({
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Identification Document*
         </label>
         <select
           name="identificationDocument"
           value={data?.identificationDocument || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Document</option>
           <option value="NIN">National ID</option>
@@ -334,7 +334,7 @@ export default function ShareHolderForm({
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           ID/Passport Number*
         </label>
         <input
@@ -342,19 +342,19 @@ export default function ShareHolderForm({
           type="text"
           value={data?.idNumber || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Issued Country
         </label>
         <select
           name="issuedCountry"
           value={data?.issuedCountry || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
           {countriesWithCodes.map((c) => (
@@ -366,7 +366,7 @@ export default function ShareHolderForm({
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Residential Address*
         </label>
         <input
@@ -374,12 +374,12 @@ export default function ShareHolderForm({
           type="text"
           value={data?.residentialAddress || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Percentage of Shares Owned*
         </label>
         <input
@@ -388,7 +388,7 @@ export default function ShareHolderForm({
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -413,7 +413,7 @@ export default function ShareHolderForm({
       />
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Tax Number*
         </label>
         <input
@@ -421,7 +421,7 @@ export default function ShareHolderForm({
           type="text"
           value={data?.taxNumber || ""}
           onChange={(e) => handleChange("individuals", idx, e)}
-          className="font-poppins mt-2 text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins mt-2 text-xs sm:text-sm w-full py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
     </div>
@@ -430,7 +430,7 @@ export default function ShareHolderForm({
   const renderEntityForm = (data: LegalEntityShareholder, idx: number) => (
     <div className="grid md:grid-cols-3 gap-5">
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Name*
         </label>
         <input
@@ -438,19 +438,19 @@ export default function ShareHolderForm({
           type="text"
           value={data?.legalEntityName || ""}
           onChange={(e) => handleChange("entities", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Country of Registration/Incorporation*
         </label>
         <select
           name="countryOfRegistrationIncorporation"
           value={data?.countryOfRegistrationIncorporation || ""}
           onChange={(e) => handleChange("entities", idx, e)}
-          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         >
           <option value="">Select Country</option>
           {countriesWithCodes.map((c) => (
@@ -462,7 +462,7 @@ export default function ShareHolderForm({
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Registration/Incorporation Number*
         </label>
         <input
@@ -470,12 +470,12 @@ export default function ShareHolderForm({
           type="text"
           value={data?.registrationIncorporationNumber || ""}
           onChange={(e) => handleChange("entities", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           Percentage of Shares Owned*
         </label>
         <input
@@ -484,7 +484,7 @@ export default function ShareHolderForm({
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
           onChange={(e) => handleChange("entities", idx, e)}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
     </div>
@@ -496,7 +496,7 @@ export default function ShareHolderForm({
         <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-1">
           Shareholders <FaCircleQuestion size={16} className="text-[#454745]" />
         </h1>
-        <p className="text-sm text-[#454745] font-dm-sans">
+        <p className="text-xs sm:text-sm text-[#454745] font-dm-sans">
           We would like to know a bit about your shareholders
         </p>
       </div>
@@ -520,7 +520,7 @@ export default function ShareHolderForm({
             <h1 className="font-semibold font-poppins text-[#454745]">
               Natural Person/UBOs
             </h1>
-            <p className="text-sm font-dm-sans text-[#454745]">
+            <p className="text-xs sm:text-sm font-dm-sans text-[#454745]">
               This shareholder is an individual
             </p>
           </div>
@@ -544,7 +544,7 @@ export default function ShareHolderForm({
             <h1 className="font-semibold font-poppins text-[#454745]">
               Legal Entity
             </h1>
-            <p className="text-sm font-dm-sans text-[#454745]">
+            <p className="text-xs sm:text-sm font-dm-sans text-[#454745]">
               This shareholder is a legal entity
             </p>
           </div>
@@ -636,7 +636,7 @@ export default function ShareHolderForm({
             kycStatus.data.status === "REJECTED") && (
             <button
               onClick={addIndividual}
-              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+              className="font-poppins my-3 flex items-center gap-1 text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
             >
               <FaPlus /> Add Individual
             </button>
@@ -651,7 +651,7 @@ export default function ShareHolderForm({
             kycStatus.data.status === "REJECTED") && (
             <button
               onClick={addEntity}
-              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+              className="font-poppins my-3 flex items-center gap-1 text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
             >
               <FaPlus /> Add Entity
             </button>
@@ -665,7 +665,7 @@ export default function ShareHolderForm({
         disabled={
           loadingSave || kycStatus.data.status === "APPROVED" || kycStatusLoad
         }
-        className={`font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm`}
+        className={`font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm`}
       >
         {loadingSave ? "Saving..." : "Save Shareholders"}
       </button>

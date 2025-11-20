@@ -107,7 +107,7 @@ export default function DropdownComponent({
             className="rounded-full object-cover w-6.5 h-6.5"
           />
         )}
-        <span className="font-semibold">
+        <span className="font-semibold sm:text-base text-sm">
           {selectedCurrency ? selectedCurrency.code : ""}
         </span>
         {isOpen ? (

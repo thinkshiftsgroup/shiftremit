@@ -16,15 +16,15 @@ const HowToWork = () => {
         className="space-y-3"
       >
         <div className=" w-full flex justify-center">
-          <span className="rounded-full mx-auto border border-main text-main font-poppins text-sm px-3.5 py-0.5">
-            ShiftRemit 
+          <span className="rounded-full mx-auto border border-main text-main font-poppins text-xs sm:text-sm px-3.5 py-0.5">
+            ShiftRemit
           </span>
         </div>
 
-        <h1 className="font-dm-sans text-center text-[#072032] font-bold text-4xl">
+        <h1 className="font-dm-sans text-center text-[#072032] font-bold text-3xl sm:text-4xl">
           How to Send Money
         </h1>
-        <div className="font-poppins max-w-2xl mx-auto text-center text-[#454745] mb-10">
+        <div className="font-poppins max-w-2xl text-sm sm:text-base mx-auto text-center text-[#454745] mb-10">
           <p>
             Send money effortlessly! Create and verify your account, add a
             recipient, enter the amount, and track your transfer—all in one
@@ -42,10 +42,10 @@ const HowToWork = () => {
           <div className="bg-main w-[75px] text-white h-[75px] flex items-center justify-center rounded-md">
             <BsPersonCheck size={40} />
           </div>
-          <h1 className="font-dm-sans text-lg text-[#0720432] font-semibold">
+          <h1 className="font-dm-sans text-base sm:text-lg text-[#0720432] font-semibold">
             Create and verify your account
           </h1>
-          <p className="text-[#454745] text-center text-base font-poppins">
+          <p className="text-[#454745] text-center text-sm sm:text-base font-poppins">
             Start by creating an account and completing the verification
             process. This ensures secure and seamless money transfers.
           </p>
@@ -59,22 +59,24 @@ const HowToWork = () => {
           <div className="bg-[#3fc3ff] w-[75px] text-white h-[75px] flex items-center justify-center rounded-md">
             <BsReceipt size={40} />
           </div>
-          <h1 className="font-dm-sans text-lg text-[#0720432] font-semibold">
+          <h1 className="font-dm-sans text-base sm:text-lg text-[#0720432] font-semibold">
             Add recipient
           </h1>
-          <p className="text-[#454745] text-center text-base font-poppins">
-            Add your recipient’s details, like their contact information and bank account, to ensure your funds reach the right person.
+          <p className="text-[#454745] text-center text-sm sm:text-base font-poppins">
+            Add your recipient’s details, like their contact information and
+            bank account, to ensure your funds reach the right person.
           </p>
         </div>
         <div className="relative flex flex-col gap-2.5 items-center justify-between transition-all duration-300  hover:-translate-y-1 mx-3">
           <div className="bg-[#ff3fff] w-[75px] text-white h-[75px] flex items-center justify-center rounded-md">
             <BiTransfer size={40} />
           </div>
-          <h1 className="font-dm-sans text-lg text-[#0720432] font-semibold">
+          <h1 className="font-dm-sans text-base sm:text-lg text-[#0720432] font-semibold">
             Enter amount to transfer
           </h1>
-          <p className="text-[#454745] text-center text-base font-poppins">
-            Input the exact amount you wish to send. Confirm our unbeatable exchange rates to see the total amount to your recipients. 
+          <p className="text-[#454745] text-center text-sm sm:text-base font-poppins">
+            Input the exact amount you wish to send. Confirm our unbeatable
+            exchange rates to see the total amount to your recipients.
           </p>
         </div>
       </motion.div>

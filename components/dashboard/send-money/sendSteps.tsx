@@ -9,7 +9,7 @@ const SendSteps = ({ step }: { step: number }) => {
   ];
 
   return (
-    <div className="flex px-2.5 py-4 md:py-3.5 md:px-10 border-b items-center justify-between gap-6">
+    <div className="flex overflow-x-scroll scrollbar-hide px-2.5 py-4 md:py-3.5 md:px-10 border-b items-center justify-between gap-6">
       {steps.map((item) => {
         const isCompleted = step > item.id;
         const isActive = step === item.id;
@@ -32,12 +32,12 @@ const SendSteps = ({ step }: { step: number }) => {
                 />
               </svg>
             ) : (
-              <p className="w-6 h-6 p-1 rounded-full flex items-center justify-center font-semibold font-poppins bg-[#e2e8f0]">
+              <p className="w-6 h-6 p-1 sm:text-base text-sm rounded-full flex items-center justify-center font-semibold font-poppins bg-[#e2e8f0]">
                 {item.id}
               </p>
             )}
             <p
-              className={`font-poppins text-sm font-medium 
+              className={`font-poppins text-xs sm:text-sm font-medium 
               ${isActive ? "text-black" : "text-[#454745]"}`}
             >
               {item.label}

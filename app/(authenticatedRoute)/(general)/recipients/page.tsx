@@ -174,12 +174,12 @@ const Recipients = () => {
             </button>
           </div>
 
-          <div className="border-b border-gray-300 flex items-center gap-6">
+          <div className="border-b border-gray-300 flex items-center gap-3 sm:gap-6">
             <div
               onClick={() => setTab("all-account")}
               className="relative flex items-center gap-2 py-2 px-4 cursor-pointer justify-start"
             >
-              <p className="font-poppins text-sm">Created Recipients</p>
+              <p className="font-poppins text-xs sm:text-sm">Created Recipients</p>
 
               <div className="relative flex items-center justify-center">
                 <div className="w-5 font-poppins h-5 rounded-full bg-main text-white text-xs flex items-center justify-center">
@@ -199,7 +199,7 @@ const Recipients = () => {
               onClick={() => setTab("my-account")}
               className="relative flex items-center gap-2 py-2 px-4 cursor-pointer"
             >
-              <p className="font-poppins text-sm">Discovered Recipients</p>
+              <p className="font-poppins text-xs sm:text-sm">Discovered Recipients</p>
 
               <div className="relative flex items-center justify-center">
                 <div className="w-5 font-poppins h-5 rounded-full bg-black text-white text-xs flex items-center justify-center">
@@ -244,24 +244,24 @@ const Recipients = () => {
                       </div>
 
                       <div>
-                        <h1 className="font-poppins capitalize text-sm font-semibold text-black">
+                        <h1 className="font-poppins capitalize text-xs sm:text-sm font-semibold text-black">
                           {trx.recipientFullName}
                         </h1>
-                        <p className="text-sm font-dm-sans text-black">
+                        <p className="sm:text-sm text-xs font-dm-sans text-black">
                           {trx.recipientEmail || "-"}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex text-right lg:block w-full lg:w-auto justify-between items-start pt-2 lg:pt-0">
+                    <div className="flex text-right lg:block w-full lg:w-auto justify-end sm:justify-between items-start pt-2 lg:pt-0">
                       <div className="font-medium px-2 lg:px-0">
-                        <p className="text-sm font-dm-sans text-black">
+                        <p className="text-xs sm:text-sm font-dm-sans text-black">
                           {trx.recipientBankName}
                         </p>
-                        <p className="text-sm font-dm-sans text-black">
+                        <p className="text-xs sm:text-sm font-dm-sans text-black">
                           {trx.recipientAccountNumber}
                         </p>
-                        <p className="text-sm font-dm-sans text-black">
+                        <p className="sm:text-sm text-xs font-dm-sans text-black">
                           {trx.isRecipientBusinessAccount
                             ? "Business Account"
                             : "Personal Account"}
@@ -360,7 +360,7 @@ const Recipients = () => {
                       d="M9.995 4h4.01c3.781 0 5.672 0 6.846 1.116c.846.803 1.083 1.96 1.149 3.884v1H2V9c.066-1.925.303-3.08 1.149-3.884C4.323 4 6.214 4 9.995 4"
                     ></path>
                   </svg>
-                  <p className="font-poppins text-sm text-[#8094ae]">
+                  <p className="font-poppins text-xs sm:text-sm text-[#8094ae]">
                     Don't have any data
                   </p>
                 </div>
@@ -498,7 +498,7 @@ const Recipients = () => {
         </div>
         <div className=" overflow-y-scroll scrollbar-hide md:w-[50%] lg:w-[40%] rounded-md bg-white  shadow-md">
           <div className="flex items-center justify-between font-dm-sans py-2 px-4 md:py-4 md:px-6">
-            <h1 className="text-[#072032]  text-lg font-semibold ">
+            <h1 className="text-[#072032] text-base sm:text-lg font-semibold ">
               Add New Recipients
             </h1>
             <div className="flex items-center gap-3">
@@ -529,7 +529,7 @@ const Recipients = () => {
             <div className="space-y-1">
               <div>
                 <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Bank name
@@ -547,7 +547,7 @@ const Recipients = () => {
                       setBankCode(code);
                       setBankName(name);
                     }}
-                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   >
                     {getBanks.isLoading ? (
@@ -573,7 +573,7 @@ focus:border-main focus:outline-none transition-colors"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                     type="text"
-                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   />
                 )}
@@ -602,7 +602,7 @@ focus:border-main focus:outline-none transition-colors"
 
               <div>
                 <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Fullname of the account holder
@@ -618,7 +618,7 @@ focus:border-main focus:outline-none transition-colors"
                     }
                     readOnly
                     type="text"
-                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   />
                 ) : (
@@ -626,7 +626,7 @@ focus:border-main focus:outline-none transition-colors"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     type="text"
-                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   />
                 )}
@@ -641,7 +641,7 @@ focus:border-main focus:outline-none transition-colors"
               ) : (
                 <div>
                   <label
-                    className="font-poppins font-semibold text-sm text-[#454745] "
+                    className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                     htmlFor=""
                   >
                     Sort Code
@@ -654,14 +654,14 @@ focus:border-main focus:outline-none transition-colors"
                     }}
                     type="number"
                     maxLength={6}
-                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   />
                 </div>
               )}
               <div>
                 <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Their email (optional)
@@ -670,13 +670,13 @@ focus:border-main focus:outline-none transition-colors"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 />
               </div>
               <div>
                 <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Phone Number (optional)
@@ -693,7 +693,7 @@ focus:border-main focus:outline-none transition-colors"
               </div>
               <div>
                 <label
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                   htmlFor=""
                 >
                   Purpose
@@ -702,7 +702,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={purpose}
                   onChange={(e) => setPurpose(e.target.value)}
                   placeholder="Purpose"
-                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 />
               </div>
@@ -723,10 +723,10 @@ focus:border-main focus:outline-none transition-colors"
             <button
               disabled={isDisabled}
               className="
-    text-white w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-white w-full font-poppins border border-[#813FD6] text-sm sm:text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l disabled:from-[#8134d6]/70 disabled:to-[#301342]/70 disabled:cursor-not-allowed from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
-    hover:border-transparent my-5 text-center flex justify-center
+    hover:border-transparent my-5 text-center flex justify-center 
   "
               onClick={handleAddRecipient}
             >
