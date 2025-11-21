@@ -114,7 +114,7 @@ const KnowBusiness = ({ userDeets, updateBussProfile }: any) => {
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -127,7 +127,7 @@ focus:border-main focus:outline-none transition-colors"
               name="companyType"
               value={formData.companyType}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             >
               <option value="">Select Company Type</option>
@@ -152,7 +152,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             />
           </div>
@@ -169,7 +169,7 @@ focus:border-main focus:outline-none transition-colors"
               required
               value={formData.dateOfIncorporation}
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -184,7 +184,7 @@ focus:border-main focus:outline-none transition-colors"
               // onChange={handleInputChange}
               required
               aria-readonly
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
             >
               <option value="">Select Country</option>
@@ -207,7 +207,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -223,7 +223,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -239,7 +239,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -255,7 +255,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -271,7 +271,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -288,7 +288,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -304,7 +304,7 @@ focus:border-main focus:outline-none transition-colors"
               type="text"
               readOnly
               required
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
             />
           </div>
@@ -314,7 +314,7 @@ focus:border-main focus:outline-none transition-colors"
           <button
             type="submit"
             disabled={updateBussProfile.isPending}
-            className="text-white font-poppins py-1.5 px-4 rounded-[6px] bg-linear-to-l from-[#813FD6] to-[#301342]"
+            className="text-white font-poppins py-1.5 px-4 rounded-[6px] bg-linear-to-l sm:text-base text-sm from-[#813FD6] to-[#301342]"
           >
             {updateBussProfile.isPending ? (
               <Loader2 className="animate-spin" />

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
   const [success, setSuccess] = useState("");
 
   const commonButtonClass = (isDisabled: boolean) => `
-    text-base text-white w-full font-poppins py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-sm sm:text-base text-white w-full font-poppins py-3 px-6 font-medium rounded-[6px] cursor-pointer
     transition-all duration-300 ease-in-out
     ${isDisabled
       ? "bg-gray-400 cursor-not-allowed"
@@ -113,17 +113,17 @@ const ForgotPassword = () => {
         return (
           <form className="w-[90%] lg:w-[60%] space-y-3" onSubmit={handleSendCode}>
             <div>
-              <h1 className="text-[#073032] font-semibold font-dm-sans text-2xl">
+              <h1 className="text-[#073032] font-semibold font-dm-sans text-xl sm:text-2xl">
                 Recover Password
               </h1>
-              <p className="font-poppins max-w-lg py-4 text-gray-600">
+              <p className="font-poppins sm:text-base text-sm max-w-lg py-4 text-gray-600">
                 Reset your password by entering your email address below.
               </p>
             </div>
             <div className="space-y-3">
               <label
                 htmlFor="email"
-                className="font-poppins font-semibold text-sm"
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Email
               </label>
@@ -140,7 +140,8 @@ const ForgotPassword = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
                   required
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm focus:border-main focus:outline-none"
+                 className="font-poppins text-xs sm:text-sm w-full indent-7 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -151,6 +152,7 @@ const ForgotPassword = () => {
               <p className="text-green-500 text-sm font-poppins">{success}</p>
             )}
             <button
+            
               type="submit"
               disabled={loading || !email}
               className={commonButtonClass(loading || !email)}
@@ -214,16 +216,16 @@ const ForgotPassword = () => {
                       if (prevSibling) prevSibling.focus();
                     }
                   }}
-                  className="w-1/6 h-12 text-center text-lg font-bold border border-gray-300 rounded-md focus:border-main focus:ring-main focus:outline-none"
+                  className="w-1/6 h-12 text-center text-base sm:text-lg font-bold border border-gray-300 rounded-md focus:border-main focus:ring-main focus:outline-none"
                 />
               ))}
             </div>
 
             {error && (
-              <p className="text-red-500 text-sm font-poppins">{error}</p>
+              <p className="text-red-500 text-xs sm:text-sm font-poppins">{error}</p>
             )}
             {success && (
-              <p className="text-green-500 text-sm font-poppins">{success}</p>
+              <p className="text-green-500 text-xs sm:text-sm font-poppins">{success}</p>
             )}
 
             <button
@@ -233,10 +235,10 @@ const ForgotPassword = () => {
             >
               {loading ? "Verifying..." : "Continue"}
             </button>
-            <p className="text-center pt-2 text-sm text-gray-500">
+            <p className="text-center pt-2 text-xs sm:text-sm text-gray-500">
               Didn't receive code?{" "}
               <span
-                className="cursor-pointer font-semibold text-main-dark-II hover:underline"
+                className="cursor-pointer text-sm sm:text-base font-semibold text-main-dark-II hover:underline"
                 onClick={handleResendCode}
               >
                 {loading ? "Sending..." : "Resend Code"}
@@ -260,7 +262,7 @@ const ForgotPassword = () => {
             <div className="space-y-3">
               <label
                 htmlFor="newPassword"
-                className="font-poppins font-semibold text-sm"
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 New Password
               </label>
@@ -277,7 +279,8 @@ const ForgotPassword = () => {
                   onChange={(e) => setNewPassword(e.target.value)}
                   disabled={loading}
                   required
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm focus:border-main focus:outline-none"
+                    className="font-poppins text-xs sm:text-sm w-full indent-7 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
                 <IoEyeOutline
                   size={20}
@@ -290,7 +293,7 @@ const ForgotPassword = () => {
             <div className="space-y-3">
               <label
                 htmlFor="confirmPassword"
-                className="font-poppins font-semibold text-sm"
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Confirm Password
               </label>
@@ -307,16 +310,17 @@ const ForgotPassword = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={loading}
                   required
-                  className="font-poppins text-sm bg-[#fafbfe] w-full indent-7 mt-2 py-3 px-2 rounded-sm border shadow-sm focus:border-main focus:outline-none"
+                    className="font-poppins text-xs sm:text-sm w-full indent-7 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+focus:border-main focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             {error && (
-              <p className="text-red-500 text-sm font-poppins">{error}</p>
+              <p className="text-red-500 text-xs sm:text-sm font-poppins">{error}</p>
             )}
             {success && (
-              <p className="text-green-500 text-sm font-poppins">{success}</p>
+              <p className="text-green-500 text-xs sm:text-sm font-poppins">{success}</p>
             )}
 
             <button

@@ -80,7 +80,7 @@ const FXRates = () => {
                 tab === "naira" ? " border-b-2 border-b-main " : ""
               } `}
             >
-              <p className="font-poppins text-sm">Naira (₦)</p>
+              <p className="font-poppins text-xs sm:text-sm">Naira (₦)</p>
             </div>
 
             <div
@@ -89,7 +89,7 @@ const FXRates = () => {
                 tab === "pounds" ? " border-b-2 border-b-main " : ""
               } `}
             >
-              <p className="font-poppins text-sm">Pounds (£)</p>
+              <p className="font-poppins text-xs sm:text-sm">Pounds (£)</p>
             </div>
 
             <div
@@ -98,7 +98,7 @@ const FXRates = () => {
                 tab === "trade" ? " border-b-2 border-b-main " : ""
               } `}
             >
-              <p className="font-poppins text-sm">Trade</p>
+              <p className="font-poppins text-xs sm:text-sm">Trade</p>
             </div>
           </div>
 
@@ -112,7 +112,7 @@ const FXRates = () => {
                 history.map((historyItem: AdminRateData) => (
                   <div
                     key={historyItem.id}
-                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
+                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-xs sm:text-sm"
                   >
                     <div>
                       <p className="text-main font-poppins font-medium">
@@ -139,7 +139,7 @@ const FXRates = () => {
                 ))
               ) : (
                 <div className="flex flex-col items-center justify-center gap-2 py-10">
-                  <p className="font-poppins text-sm text-[#8094ae]">
+                  <p className="font-poppins text-xs sm:text-sm text-[#8094ae]">
                     No rate history found.
                   </p>
                 </div>
@@ -182,7 +182,7 @@ const FXRates = () => {
                 history.map((historyItem: AdminRateData) => (
                   <div
                     key={historyItem.id}
-                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
+                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-xs sm:text-sm"
                   >
                     <div>
                       <p className="text-main font-poppins font-medium">
@@ -209,7 +209,7 @@ const FXRates = () => {
                 ))
               ) : (
                 <div className="flex flex-col items-center justify-center gap-2 py-10">
-                  <p className="font-poppins text-sm text-[#8094ae]">
+                  <p className="font-poppins text-xs sm:text-sm text-[#8094ae]">
                     No rate history found.
                   </p>
                 </div>
@@ -253,7 +253,7 @@ const FXRates = () => {
                 history.map((historyItem: AdminRateData) => (
                   <div
                     key={historyItem.id}
-                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-sm"
+                    className="flex items-center justify-between px-2 border-b border-b-gray-200 py-2 text-xs sm:text-sm"
                   >
                     <div>
                       <p className="text-main font-poppins font-medium">
@@ -288,14 +288,14 @@ const FXRates = () => {
                 ))
               ) : (
                 <div className="flex flex-col items-center justify-center gap-2 py-10">
-                  <p className="font-poppins text-sm text-[#8094ae]">
+                  <p className="font-poppins text-xs sm:text-sm text-[#8094ae]">
                     No rate history found.
                   </p>
                 </div>
               )}
 
               {!loadHistory && (
-                <div className="mt-4 p-2 bg-gray-100 rounded-md text-sm font-semibold text-gray-800">
+                <div className="mt-4 p-2 bg-gray-100 rounded-md text-xs sm:text-sm font-semibold text-gray-800">
                   <></>
                 </div>
               )}
@@ -337,7 +337,7 @@ const FXRates = () => {
             <div className="px-4 md:px-6 py-3">
               <div className="space-y-2">
                 <div>
-                  <label className="font-poppins font-semibold text-sm text-[#454745]">
+                  <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                     NGN (Actual Daily Rates)
                   </label>
                   <input
@@ -347,13 +347,13 @@ const FXRates = () => {
                       const val = e.target.value;
                       if (/^[0-9]*\.?[0-9]*$/.test(val)) setRateNGN(val);
                     }}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                    className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
         rounded-sm border border-[#d1d5db80] text-[#454745]
         focus:border-main focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="font-poppins font-semibold text-sm text-[#454745]">
+                  <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                     GBP (Benchmark Daily Rates - Lemfi)
                   </label>
                   <input
@@ -363,7 +363,7 @@ const FXRates = () => {
                       const val = e.target.value;
                       if (/^[0-9]*\.?[0-9]*$/.test(val)) setBenchmarkGBP(val);
                     }}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                    className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
         rounded-sm border border-[#d1d5db80] text-[#454745]
         focus:border-main focus:outline-none transition-colors"
                   />
@@ -372,7 +372,7 @@ const FXRates = () => {
               <button
                 onClick={handleUpdate}
                 className="
-         text-white flex justify-center w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+         text-white flex justify-center w-full font-poppins border border-[#813FD6] text-s sm:text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
          bg-linear-to-l from-[#813FD6] to-[#301342]
          transition-all duration-300 ease-in-out
          hover:border-transparent my-5 text-center 
@@ -395,7 +395,7 @@ const FXRates = () => {
               <div className="space-y-2">
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       NGN (Bought)
                     </label>
                     <input
@@ -406,14 +406,14 @@ const FXRates = () => {
                         if (/^[0-9]*\.?[0-9]*$/.test(val))
                           setTradeNGNBought(parseFloat(val));
                       }}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       NGN (Selling)
                     </label>
                     <input
@@ -424,20 +424,20 @@ const FXRates = () => {
                         if (/^[0-9]*\.?[0-9]*$/.test(val))
                           setTradeNGNSold(parseFloat(val));
                       }}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       Profit (NGN)
                     </label>
                     <input
                       type="text"
                       readOnly
                       value={(tradeNGNSold - tradeNGNBought).toFixed(2)}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
@@ -445,7 +445,7 @@ const FXRates = () => {
                 </div>
                 <div className="flex gap-4">
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       GBP (Bought)
                     </label>
                     <input
@@ -456,34 +456,34 @@ const FXRates = () => {
                         if (/^[0-9]*\.?[0-9]*$/.test(val))
                           setTradeGBP(parseFloat(val));
                       }}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       GBP (Selling)
                     </label>
                     <input
                       type="text"
                       value={liveRate}
                       readOnly
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="font-poppins font-semibold text-sm text-[#454745]">
+                    <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                       Profit (GBP)
                     </label>
                     <input
                       type="text"
                       readOnly
                       value={liveRate ? (liveRate - tradeGBP).toFixed(2) : ""}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 
+                      className="font-poppins text-xs sm:text-sm w-full indent-2 mt-2 py-3 px-2 
             rounded-sm border border-[#d1d5db80] text-[#454745]
             focus:border-main focus:outline-none transition-colors"
                     />
@@ -493,7 +493,7 @@ const FXRates = () => {
               <button
                 onClick={handleUpdate}
                 className="
-         text-white flex justify-center w-full font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+         text-white flex justify-center w-full font-poppins border border-[#813FD6] text-sm sm:text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
          bg-linear-to-l from-[#813FD6] to-[#301342]
          transition-all duration-300 ease-in-out
          hover:border-transparent my-5 text-center 

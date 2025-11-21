@@ -37,16 +37,16 @@ const Footer = () => {
 
           <div className="flex items-center w-full lg:w-[60%] gap-3 flex-col lg:flex-row">
             <div className="whitespace-nowrap w-full">
-              <p className="font-dm-sans text-xl font-semibold">
+              <p className="font-dm-sans text-base sm:text-xl font-semibold">
                 Subscribe out newsletter
               </p>
-              <p className="font-dm-sans text-sm ">We do not send spam email</p>
+              <p className="font-dm-sans text-xs sm:text-sm ">We do not send spam email</p>
             </div>
             <div className="flex items-center pl-2 pr-1 h-10 py-1 gap-2 w-full rounded-full border border-[#d1d5db80]">
               <IoMailOutline size={20} />
               <input
                 type="text"
-                className="font-poppins w-full text-sm"
+                className="font-poppins w-full text-xs sm:text-sm"
                 placeholder="Enter your email"
               />
               <span className="bg-main py-2 text-white px-5 cursor-pointer rounded-full">
@@ -69,7 +69,7 @@ const Footer = () => {
             </ul>
           </div> */}
             <div className="">
-              <h1 className="text-black text-lg font-semibold font-dm-sans">
+              <h1 className="text-black text-sm sm:text-lg font-semibold font-dm-sans">
                 24/7 Support +44shiftremit | support@shiftremit.com
               </h1>
               {/* <ul className="text-[#454745] font-poppins mt-4 flex flex-col *:cursor-pointer gap-2">
@@ -141,7 +141,7 @@ const Footer = () => {
             <p className="font-semibold font-dm-sans text-sm text-black">
               Send Money Made Simple with ShiftRemit
             </p>
-            <p className="text-[#454745] font-poppins text-sm py-3">
+            <p className="text-[#454745] font-poppins text-xs sm:text-sm py-3">
               ShiftRemit is built for one purpose: to make sending money from
               the UK to Nigeria simple, fast, and completely fee free. We
               believe sending money home should be effortless. That’s why our
@@ -164,10 +164,10 @@ const Footer = () => {
 
         <div>
           <div className="mb-5">
-            <h1 className="font-semibold font-dm-sans text-sm text-black">
+            <h1 className="font-semibold font-dm-sans text-xs sm:text-sm text-black">
               Legal
             </h1>
-            <ul className="text-[#454745] font-poppins mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
+            <ul className="text-[#454745] font-poppins sm:text-base text-sm mt-4 flex flex-wrap flex-row *:cursor-pointer gap-2">
               {/* <li className="md:border-r-2 pe-3 me-2">Terms & conditions</li> */}
               <li
                 onClick={() => router.push("/privacy")}

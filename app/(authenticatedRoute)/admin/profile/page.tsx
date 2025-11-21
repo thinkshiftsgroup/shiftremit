@@ -152,9 +152,9 @@ const AdminAccount = () => {
     <SideNav>
       <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
         <form className=" relative" onSubmit={handleFormSubmit}>
-          <div className="w-full bg-white mb-5 rounded-md p-3">
+          <div className="w-full bg-white mb-5 rounded-md ">
             <div className="flex pb-5 items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex w-full sm:flex-row flex-col items-center gap-4">
                 <div
                   onClick={() => photoUploadRef.current?.openFileDialog()}
                   className="inline-block relative group cursor-pointer w-24 h-24"
@@ -223,7 +223,7 @@ const AdminAccount = () => {
                   type="text"
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -243,7 +243,7 @@ focus:border-main focus:outline-none transition-colors"
                   type="text"
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -298,7 +298,7 @@ focus:border-main focus:outline-none transition-colors"
                   pattern="^\+?[0-9]{7,15}$"
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                   placeholder="e.g. +448012345678"
                   required
@@ -317,7 +317,7 @@ focus:border-main focus:outline-none transition-colors"
                     name="country"
                     value={formData.country}
                     onChange={handleInputChange}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
               focus:border-main focus:outline-none transition-colors bg-white"
                     required
                   >
@@ -351,8 +351,8 @@ focus:border-main focus:outline-none transition-colors"
             </div>
           </div>
         </form>
-        <div className="font-poppins p-3">
-          <h1 className="font-poppins text-lg font-semibold">
+        <div className="font-poppins">
+          <h1 className="font-poppins text-base sm:text-lg font-semibold">
             Update Password
           </h1>
           <div className="space-y-3 my-5 text-sm font-poppins">
@@ -370,7 +370,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={form.oldPassword}
                   onChange={handleChange}
                   placeholder="Enter Old password"
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -406,7 +406,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={form.password}
                   onChange={handleChange}
                   placeholder="Enter Password"
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -443,7 +443,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={form.confirmPassword}
                   onChange={handleChange}
                   placeholder="Enter Confirm Password"
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />

@@ -127,8 +127,8 @@ const BusinessAcc = () => {
   if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          <div className="flex items-center gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center ">
+          <div className="flex flex-col text-sm items-center gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -140,13 +140,12 @@ const BusinessAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          Failed to load user profile.
+        <div className="flex font-poppins w-full h-screen items-center justify-center">
+          Failed to load profile.
         </div>
       </SideNav>
     );
   }
-
   const getInitials = (user: UserProfileData) => {
     const fn = user.firstname?.[0] || "";
     const ln = user.lastname?.[0] || "";
@@ -159,7 +158,7 @@ const BusinessAcc = () => {
         <form className="relative" onSubmit={handleBusinessForm}>
           <div className="w-full bg-white shadow-md my-10 rounded-md p-3">
             <div className="flex pb-5 items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex w-full sm:flex-row flex-col items-center gap-4">
                 <div
                   onClick={() => photoUploadRef.current?.openFileDialog()}
                   className="inline-block relative group cursor-pointer w-24 h-24"
@@ -190,22 +189,22 @@ const BusinessAcc = () => {
                     maxFiles={1}
                   />
                 </div>
-                <div>
+                <div className="flex flex-col items-center sm:items-start">
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                     <h1 className="font-poppins md:text-2xl font-semibold">
                       {user.firstname || ""} {user.lastname || ""}
                     </h1>
-                    <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
+                    <span className=" text-[10px] sm:text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                       <p>Business Account</p>
                     </span>
                   </div>
                   <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
-                    <p className="font-dm-sans text-sm flex items-center gap-1">
+                    <p className="font-dm-sans text-xs sm:text-sm flex items-center gap-1">
                       <MdOutlineEmail size={16} />
                       {user.email}
                     </p>
                     {user?.phoneNumber && (
-                      <p className="font-dm-sans text-sm flex items-center gap-1">
+                      <p className="font-dm-sans text-xs sm:text-sm flex items-center gap-1">
                         <FiPhone size={16} />
                         {user?.phoneNumber || ""}
                       </p>
@@ -218,7 +217,7 @@ const BusinessAcc = () => {
               <div className="space-y-3">
                 <label
                   htmlFor="firstname"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   First Name*
                 </label>
@@ -227,7 +226,7 @@ const BusinessAcc = () => {
                 name="firstname"
                 type="text"
                 value={formData.firstname}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-2.5 sm:py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
                 readOnly
@@ -247,7 +246,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3">
                 <label
                   htmlFor="lastname"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   Last Name*
                 </label>
@@ -257,7 +256,7 @@ focus:border-main focus:outline-none transition-colors"
                 name="lastname"
                 type="text"
                 // value={formData.lastname}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-2.5 sm:py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
                 readOnly
@@ -276,7 +275,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3">
                 <label
                   htmlFor="middleName"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   Middle Name
                 </label>
@@ -285,7 +284,7 @@ focus:border-main focus:outline-none transition-colors"
                 name="middleName"
                 type="text"
                 value={formData.middlename}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-2.5 sm:py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
                 readOnly
@@ -302,7 +301,7 @@ focus:border-main focus:outline-none transition-colors"
                 </div>
               </div>
               <div className="space-y-3">
-                <label className="font-poppins font-semibold text-sm text-[#454745] ">
+                <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] ">
                   Gender*
                 </label>
                 <div
@@ -345,7 +344,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3">
                 <label
                   htmlFor="dob"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   DOB*
                 </label>
@@ -357,7 +356,7 @@ focus:border-main focus:outline-none transition-colors"
                   value={formData.dob}
                   max={new Date().toISOString().split("T")[0]}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -365,7 +364,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3">
                 <label
                   htmlFor="number"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   Mobile Number*
                 </label>
@@ -377,7 +376,7 @@ focus:border-main focus:outline-none transition-colors"
                   pattern="^\+?[0-9]{7,15}$"
                   value={formData.mobileNumber}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                   placeholder="e.g. +448012345678"
                   required
@@ -387,7 +386,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3 my-2">
               <label
                 htmlFor="political"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Means of Identification*
               </label>
@@ -432,7 +431,7 @@ focus:border-main focus:outline-none transition-colors"
                   type="text"
                   value={formData.validIDNumber}
                   onChange={handleInputChange}
-                  className="font-poppins z-3 text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
+                  className="font-poppins z-3 text-sm w-full mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
                   required
                   placeholder="Valid ID Number"
                 />
@@ -483,7 +482,7 @@ focus:border-main focus:outline-none transition-colors"
             <div className="space-y-3 mb-2">
               <label
                 htmlFor="political"
-                className="font-poppins font-semibold text-sm text-[#454745] "
+                className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
               >
                 Full Address*
               </label>
@@ -492,7 +491,7 @@ focus:border-main focus:outline-none transition-colors"
                 name="fullAddress"
                 value={formData.fullAddress}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-2.5 sm:py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -501,7 +500,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3 w-full">
                 <label
                   htmlFor="political"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   Country of Residency*
                 </label>
@@ -510,7 +509,7 @@ focus:border-main focus:outline-none transition-colors"
                   name="countryOfResidence"
                   value={formData.countryOfResidence}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors bg-white"
                   required
                 >
@@ -526,7 +525,7 @@ focus:border-main focus:outline-none transition-colors"
               <div className="space-y-3 w-full mb-3">
                 <label
                   htmlFor="political"
-                  className="font-poppins font-semibold text-sm text-[#454745] "
+                  className="font-poppins font-semibold text-xs sm:text-sm text-[#454745] "
                 >
                   What would you be using ShiftRemit transfers for?*
                 </label>
@@ -535,7 +534,7 @@ focus:border-main focus:outline-none transition-colors"
                   name="purposeOfShiftremit"
                   value={formData.purposeOfShiftremit}
                   onChange={handleInputChange}
-                  className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                  className="font-poppins text-xs sm:text-sm w-full mt-2 py-2.5 sm:py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                   required
                 />
@@ -549,7 +548,7 @@ focus:border-main focus:outline-none transition-colors"
                   kycStatus.data.status === "APPROVED" ||
                   kycStatusLoad
                 }
-                className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
+                className=" text-white text-sm sm:text-base justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {updateBusinessProfile.isPending ? (
                   <Loader2 className="animate-spin" />
@@ -583,7 +582,7 @@ focus:border-main focus:outline-none transition-colors"
             <button
               onClick={() => setShowKYCConfirm(true)}
               disabled={submitKyc.isPending}
-              className="font-poppins text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
+              className="font-poppins text-xs sm:text-sm cursor-pointer bg-main text-white p-2 rounded-sm"
             >
               {submitKyc.isPending
                 ? "Submitting..."

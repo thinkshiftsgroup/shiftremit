@@ -34,15 +34,15 @@ const KeyFeatures = () => {
         className="space-y-3"
       >
         <div className=" w-full flex justify-center">
-          <span className="rounded-full mx-auto border border-main text-main font-poppins text-sm px-3.5 py-0.5">
+          <span className="rounded-full mx-auto border border-main text-main font-poppins text-xs sm:text-sm px-3.5 py-0.5">
             Key Features
           </span>
         </div>
 
-        <h1 className="font-dm-sans text-center text-[#072032] font-bold text-4xl">
+        <h1 className="font-dm-sans text-center text-[#072032] font-bold text-3xl sm:text-4xl">
           Money Transfer at your fingertips
         </h1>
-        <div className="font-poppins max-w-2xl mx-auto text-center text-[#454745] mb-10">
+        <div className="font-poppins max-w-2xl text-sm sm:text-base mx-auto text-center text-[#454745] mb-10">
           <p>
             Experience the convenience of fast, reliable transfers anytime, from any device.
             Send money for business, family, friends, investments, and everything else that matters — with seamless transactions and great daily FX rates right at your fingertips.
@@ -68,10 +68,10 @@ const KeyFeatures = () => {
                   className="w-[50px] h-[50px]"
                 />
               </div>
-              <h1 className="font-dm-sans text-lg text-[#0720432] font-semibold">
+              <h1 className="font-dm-sans text-base sm:text-lg text-[#0720432] font-semibold">
                 {card.title}
               </h1>
-              <p className="text-[#454745] text-center font-dm-sans text-sm">
+              <p className="text-[#454745] text-center font-dm-sans text-xs sm:text-sm">
                 {card.description}
               </p>
             </div>

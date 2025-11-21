@@ -40,9 +40,9 @@ const FilterComponent = ({
           />
         </div>
 
-        <div className="flex gap-3 items-center">
+        <div className="flex sm:flex-row flex-col w-full gap-3 items-center">
           <select
-            className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+            className="flex items-center w-full gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 sm:text-base text-sm transition-colors"
             value={String(selectedStatus)}
             onChange={(e) => {
               const val = e.target.value;
@@ -70,7 +70,7 @@ const FilterComponent = ({
 
           <select
             value={selectedOrderLabel}
-            className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+            className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-full sm:text-base text-sm"
             onChange={(e) => {
               const selected = orderOptions.find(
                 (o) => o.label === e.target.value
@@ -86,7 +86,7 @@ const FilterComponent = ({
               </option>
             ))}
           </select>
-          <div className="flex flex-col items-center gap-2 transition-colors w-40">
+          <div className="flex flex-col items-center gap-2 transition-colors w-full sm:text-base text-sm">
             <input
               type="date"
               value={startDate}
@@ -104,7 +104,7 @@ const FilterComponent = ({
           </div>
           <span>To</span>
 
-          <div className="flex flex-col items-center gap-2 transition-colors w-40">
+          <div className="flex flex-col items-center gap-2 transition-colors w-full sm:text-base text-sm">
             {/* <label className="text-sm font-medium text-gray-700 mb-1">
                             Filter by Date
                         </label> */}
@@ -126,7 +126,7 @@ const FilterComponent = ({
           <button
             onClick={handleReset}
             // className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold rounded transition-colors"
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded transition-colors"
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white sm:text-base text-sm font-semibold rounded transition-colors"
           >
             Reset
           </button>

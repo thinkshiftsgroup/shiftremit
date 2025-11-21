@@ -15,14 +15,6 @@ const Find = () => {
         <SendSteps step={2} />
 
         <div className="relative ">
-          <div
-            className="flex items-center my-3 mx-3 md:my-5 md:ml-10 font-poppins gap-2 text-base cursor-pointer"
-            onClick={() => router.back()}
-          >
-            <FaArrowLeft size={16} />
-            Back
-          </div>
-
           <div className="max-w-2xl mx-auto relative my-3 md:my-10">
             <div className="px-3.5 md:px-0">
               <div className="w-12 h-12 mx-auto rounded-full flex items-center justify-center">
@@ -32,7 +24,7 @@ const Find = () => {
                 <h1 className="text-2xl md:text-3xl text-[#072032] font-dm-sans text-center font-semibold">
                   Find People and businesses on ShiftRemit
                 </h1>
-                <p className="font-poppins text-base text-[#454745] text-center">
+                <p className="font-poppins text-sm sm:text-base text-[#454745] text-center">
                   Enter Shiftremittag, email or mobile number
                 </p>
               </div>
@@ -44,7 +36,7 @@ const Find = () => {
                 />
                 <input
                   type="text"
-                  className="rounded-[10px] indent-5 w-full p-2 border-2 text-base border-main-dark-II"
+                  className="rounded-[10px] indent-5 w-full p-2 border-2 text-sm sm:text-base border-main-dark-II"
                 />
                 <IoIosCloseCircle
                   size={20}
@@ -53,7 +45,7 @@ const Find = () => {
               </div>
 
               <div className="">
-                <p className="text-base mt-10 font-dm-sans pb-2 text-gray-500 font-medium">
+                <p className="text-sm sm:text-base mt-10 font-dm-sans pb-2 text-gray-500 font-medium">
                   Personal account
                 </p>
 
@@ -77,10 +69,10 @@ const Find = () => {
                       </div>
                     </div>
                     <div className="">
-                      <h1 className="font-poppins text-base font-semibold text-black">
+                      <h1 className="font-poppins text-sm sm:text-base font-semibold text-black">
                         Joshua Israel
                       </h1>
-                      <p className="text-base py-0.5 font-dm-sans text-gray-500">
+                      <p className="text-sm sm:text-base py-0.5 font-dm-sans text-gray-500">
                         joshisr@gmail.com
                       </p>
                       <span className="bg-gray-50 inline-block text-gray-500 font-dm-sans rounded-full p-1 text-sm">
@@ -92,6 +84,15 @@ const Find = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="flex justify-between p-5">
+          <button
+            onClick={() => router.back()}
+            className="font-poppins text-sm sm:text-base flex items-center gap-2 sm:py-3 py-2 px-3 sm:px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+          >
+            <FaArrowLeft size={16} />
+            Back
+          </button>
         </div>
       </div>
     </SideNav>

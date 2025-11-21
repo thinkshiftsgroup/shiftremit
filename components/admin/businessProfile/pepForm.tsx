@@ -49,7 +49,7 @@ const PEPForm = ({ userDeets }: any) => {
                 name="name"
                 value={pep.name}
                 readOnly
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
 
@@ -61,7 +61,7 @@ const PEPForm = ({ userDeets }: any) => {
                 name="position"
                 value={pep.position}
                 readOnly
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
 
@@ -73,7 +73,7 @@ const PEPForm = ({ userDeets }: any) => {
                 name="pepStatusDescription"
                 value={pep.pepStatusDescription}
                 readOnly
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
           </div>

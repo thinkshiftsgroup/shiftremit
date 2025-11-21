@@ -239,7 +239,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-1">
             Director <FaCircleQuestion size={16} className="text-[#454745]" />
           </h1>
-          <p className="text-sm text-[#454745] font-dm-sans">
+          <p className="text-xs sm:text-sm text-[#454745] font-dm-sans">
             We would like to know a bit about your directors
           </p>
         </div>
@@ -248,7 +248,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
           <div>
             <button
               onClick={handleAddNewDirector}
-              className="font-poppins my-3 flex items-center gap-1 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+              className="font-poppins my-3 flex items-center gap-1 text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
             >
               <FaPlus /> Add aonther director
             </button>
@@ -297,49 +297,49 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
 
       <div className="grid md:grid-cols-3 gap-5 mt-3">
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             First Name*
           </label>
           <input
             type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.firstname}
             onChange={(e) => updateCurrentDirector("firstname", e.target.value)}
           />
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Last Name*
           </label>
           <input
             type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.lastname}
             onChange={(e) => updateCurrentDirector("lastname", e.target.value)}
           />
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Position*
           </label>
           <input
             type="text"
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.position}
             onChange={(e) => updateCurrentDirector("position", e.target.value)}
           />
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Date of Birth*
           </label>
           <input
             type="date"
             max={new Date().toISOString().split("T")[0]}
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.dateOfBirth || ""}
             onChange={(e) =>
               updateCurrentDirector("dateOfBirth", e.target.value)
@@ -348,7 +348,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Nationality*
           </label>
           <select
@@ -356,7 +356,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             onChange={(e) =>
               updateCurrentDirector("nationality", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
           >
             <option value="">Select a Country</option>
             {countriesWithCodes.map((c) => (
@@ -368,7 +368,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Identification Document*
           </label>
           <select
@@ -376,7 +376,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             onChange={(e) =>
               updateCurrentDirector("identificationDocument", e.target.value)
             }
-            className="font-poppins text-sm w-full mt-2 py-3.5 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3.5 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors appearance-none pr-8"
           >
             <option value="">Select</option>
             <option value="ID">National ID Card</option>
@@ -392,19 +392,19 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             ID Number*
           </label>
           <input
             type="text"
             value={currentDirector.idNumber}
             onChange={(e) => updateCurrentDirector("idNumber", e.target.value)}
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Residential Address*
           </label>
           <input
@@ -413,18 +413,18 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             onChange={(e) =>
               updateCurrentDirector("residentialAddress", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm flex items-center gap-1 text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm flex items-center gap-1 text-[#454745]">
             Identification Document Proof*{" "}
             <FaCircleQuestion size={16} className="text-[#454745]" />
           </label>
           <label
             htmlFor="idProof"
-            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-3 font-poppins py-3 text-xs sm:text-sm overflow-x-scroll scrollbar-hide px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">
               {currentDirector.identificationDocumentProofFile?.name ||
@@ -474,7 +474,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Issued Country*
           </label>
           <select
@@ -482,7 +482,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             onChange={(e) =>
               updateCurrentDirector("issuedCountry", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
           >
             <option value="">Select a Country</option>
             {countriesWithCodes.map((c) => (
@@ -494,13 +494,13 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
         </div>
 
         <div>
-          <label className="font-poppins font-semibold text-sm flex items-center gap-1 text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm overflow-x-scroll scrollbar-hide  flex items-center gap-1 text-[#454745]">
             Residential Address Proof*{" "}
             <FaCircleQuestion size={16} className="text-[#454745]" />
           </label>
           <label
             htmlFor="resProof"
-            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-3 font-poppins py-3 px-3 text-xs sm:text-sm  rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">
               {currentDirector.residentialAddressUrlProofFile?.name ||
@@ -560,14 +560,14 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
             updateCurrentDirector("isShareholder", e.target.checked)
           }
         />
-        <p className="text-sm font-poppins text-[#454745]">
+        <p className="text-xs sm:text-sm font-poppins text-[#454745]">
           This director is a shareholder
         </p>
       </div>
 
       {currentDirector.isShareholder && (
         <div className="md:w-1/3 mt-2">
-          <label className="font-poppins font-semibold text-sm text-[#454745]">
+          <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
             Percentage Shareholding*
           </label>
           <input
@@ -580,7 +580,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
                 Number(e.target.value)
               )
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
       )}
@@ -593,7 +593,7 @@ const DirectorForm = ({ fetchBusinessProfile }: any) => {
            kycStatus.data.status === "APPROVED" ||
             kycStatusLoad
           }
-          className={`font-poppins  text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm  disabled:opacity-50 disabled:cursor-not-allowed `}
+          className={`font-poppins  text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm  disabled:opacity-50 disabled:cursor-not-allowed `}
         >
           {loadingSave ? "Saving..." : "Save Director"}
         </button>

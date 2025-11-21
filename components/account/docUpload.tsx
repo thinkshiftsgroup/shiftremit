@@ -106,17 +106,17 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
 
     return (
       <div>
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
           {label}
         </label>
 
         <label
           htmlFor={docType}
-          className="w-full mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+          className="w-full mt-1 py-3 px-3 rounded-sm gap-1 overflow-x-scroll scrollbar-hide border border-dashed border-[#d1d5db80] text-[#666] text-xs sm:text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
         >
           <span className="opacity-80">{displayedName || placeholder}</span>
 
-          <div className="flex items-center gap-2">
+          <div className="flex whitespace-nowrap items-center gap-2">
             {status && status !== "PENDING" && (
               <span
                 className={`text-xs font-poppins ${
@@ -231,7 +231,7 @@ const BusinessDocUpload = ({ fetchBusinessProfile }: any) => {
         <h1 className="font-poppins text-lg font-medium text-main">
           Business Document Upload
         </h1>
-        <p className="text-sm text-[#454745]">
+        <p className="text-xs sm:text-sm text-[#454745]">
           Provide required business documents
         </p>
       </div>

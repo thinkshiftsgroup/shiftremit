@@ -32,8 +32,8 @@ const Account = () => {
   if (isLoading) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          <div className="flex items-center gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center ">
+          <div className="flex flex-col text-sm items-center gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -45,8 +45,8 @@ const Account = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          Failed to load admin profile.
+        <div className="flex font-poppins w-full h-screen items-center justify-center">
+          Failed to load profile.
         </div>
       </SideNav>
     );
@@ -176,7 +176,7 @@ const Account = () => {
             className={`w-full px-1 sm:px-3 py-2 sm:py-4 bg-[#f1f1f1] cursor-pointer border-[#f1f1f1] rounded-md flex justify-between border  my-5 text-[#454745]`}
           >
             <div>
-              <div className="flex sm:flex-row flex-col items-center gap-0.5 sm:mb-0 mb-2 sm:gap-1">
+               <div className="flex gap-1 items-center">
                 <h1 className="font-poppins font-semibold text-base md:text-lg">
                   Business Account
                 </h1>

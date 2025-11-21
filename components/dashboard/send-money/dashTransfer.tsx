@@ -207,7 +207,7 @@ const DashTf = ({
               aria-label="Sending Money"
               min={10}
               disabled={!isRateReady}
-              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-auto ${
+              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-full sm:w-auto sm:text-base text-sm ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />
@@ -276,7 +276,7 @@ const DashTf = ({
               placeholder={placeholderReceive}
               aria-label="Receiving Money"
               disabled={!isRateReady}
-              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-auto ${
+              className={`focus:ring-0 focus:border-transparent outline-none bg-transparent w-full sm:w-auto sm:text-base text-sm ${
                 !isRateReady ? "opacity-60" : ""
               }`}
             />

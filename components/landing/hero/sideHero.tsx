@@ -102,7 +102,7 @@ const SideHero = () => {
           <a href="/login">
             <button
               className="
-    text-base text-white font-poppins border border-[#813FD6] py-3 px-6 font-medium rounded-[6px] cursor-pointer
+     text-sm sm:text-base text-white font-poppins border border-[#813FD6] sm:py-3 py-2 px-3 sm:px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2

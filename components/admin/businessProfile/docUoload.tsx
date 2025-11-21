@@ -74,14 +74,14 @@ const BusinessDocUpload = ({ userDeets, updateBussProfile }: any) => {
     const hasFile = prefillName || fileUrl;
 
     return (
-      <div>
+      <div className="whitespace-nowrap overflow-x-scroll scrollbar-hide">
         <label className="font-poppins font-semibold text-sm text-[#454745]">
           {label}
         </label>
         <div className="relative">
           <label
             htmlFor={docType}
-            className="w-full mt-1 pl-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-1 gap-2  pl-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">{prefillName || placeholder}</span>
 

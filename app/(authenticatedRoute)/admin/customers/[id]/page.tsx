@@ -234,8 +234,8 @@ const CustomerDetails = () => {
   if (isLoading) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          <div className="flex items-center gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center ">
+          <div className="flex flex-col text-sm items-center gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -247,8 +247,8 @@ const CustomerDetails = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          Failed to load user profile.
+        <div className="flex font-poppins w-full h-screen items-center justify-center">
+          Failed to load profile.
         </div>
       </SideNav>
     );
@@ -260,7 +260,7 @@ const CustomerDetails = () => {
         <form className=" relative" onSubmit={handleFormSubmit}>
           <div className="">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex w-full sm:flex-row flex-col items-center gap-4">
                 <div
                   onClick={() => photoUploadRef.current?.openFileDialog()}
                   className="inline-block relative group cursor-pointer w-24 h-24"
@@ -294,15 +294,16 @@ const CustomerDetails = () => {
                 <div>
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                     <h1 className="font-poppins md:text-2xl flex items-center gap-1 font-semibold">
-                      {user.fullName ||
-                        `${user.firstname || ""} ${user.lastname || ""}`}
-
+                      {user.firstname || ""} {user.lastname || ""}
                       {(indiprofile &&
                         user?.kycSubmission?.status === "APPROVED") ||
                       (!indiprofile &&
                         user?.businessAccount?.kycSubmission?.status ===
                           "APPROVED") ? (
-                        <FaCheckCircle size={14} className="text-main" />
+                        <FaCheckCircle
+                          size={14}
+                          className="text-main flex-none"
+                        />
                       ) : null}
                     </h1>
 
@@ -384,7 +385,7 @@ const CustomerDetails = () => {
               </div>
             </div>
 
-            <div className="w-full border-b flex items-center rounded-sm gap-5 my-3 font-poppins">
+            <div className="w-full whitespace-nowrap overflow-x-scroll scrollbar-hide border-b flex items-center rounded-sm gap-5 my-3 font-poppins">
               <div
                 onClick={() => setIndiProfile(true)}
                 className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
@@ -459,7 +460,7 @@ const CustomerDetails = () => {
                       readOnly
                       value={formData.firstname}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                       required
                     />
@@ -480,7 +481,7 @@ focus:border-main focus:outline-none transition-colors"
                       readOnly
                       value={formData.lastname}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                       required
                     />
@@ -499,7 +500,7 @@ focus:border-main focus:outline-none transition-colors"
                       readOnly
                       value={formData.middlename}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
@@ -516,7 +517,7 @@ focus:border-main focus:outline-none transition-colors"
                       type="text"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
@@ -571,7 +572,7 @@ focus:border-main focus:outline-none transition-colors"
                       value={formData.dob}
                       max={new Date().toISOString().split("T")[0]}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                       required
                     />
@@ -592,7 +593,7 @@ focus:border-main focus:outline-none transition-colors"
                       readOnly
                       value={formData.phoneNumber}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
   focus:border-main focus:outline-none transition-colors"
                       placeholder="e.g. +448012345678"
                       required
@@ -612,7 +613,7 @@ focus:border-main focus:outline-none transition-colors"
                     value={formData.politicalExposure}
                     onChange={handleInputChange}
                     readOnly
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     required
                     placeholder="Someone who holds, or has held, a prominent public position, or is closely related or associated with such a person. "
@@ -669,7 +670,7 @@ focus:border-main focus:outline-none transition-colors"
                       type="text"
                       value={formData.validIDNumber}
                       onChange={handleInputChange}
-                      className="font-poppins z-3 text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
+                      className="font-poppins z-3 text-sm w-full  mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
                       required
                       placeholder="Valid ID Number"
                     />
@@ -729,7 +730,7 @@ focus:border-main focus:outline-none transition-colors"
                     value={formData.fullAddress}
                     onChange={handleInputChange}
                     readOnly
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     required
                   />
@@ -748,7 +749,7 @@ focus:border-main focus:outline-none transition-colors"
                       aria-readonly
                       value={formData.country}
                       // onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
               focus:border-main focus:outline-none transition-colors bg-white"
                       required
                     >
@@ -775,7 +776,7 @@ focus:border-main focus:outline-none transition-colors"
                       type="text"
                       value={formData.taxNumber}
                       onChange={handleInputChange}
-                      className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                      className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     />
                   </div>
@@ -793,7 +794,7 @@ focus:border-main focus:outline-none transition-colors"
                     name="purposeOfShiftremit"
                     value={formData.purposeOfShiftremit}
                     onChange={handleInputChange}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full  mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
 focus:border-main focus:outline-none transition-colors"
                     required
                   />
@@ -802,7 +803,7 @@ focus:border-main focus:outline-none transition-colors"
                   <button
                     type="submit"
                     disabled={isUpdating}
-                    className=" text-white font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className=" text-white sm:text-base text-sm font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isUpdating ? (
                       <>
@@ -835,6 +836,7 @@ focus:border-main focus:outline-none transition-colors"
           updateBussProfile={updateBussProfile}
         />
       )}
+      {/* for individual profile */}
       {indiprofile && <DocUpload user={user} isLoading={isLoading} />}
       {indiprofile && (
         <>

@@ -106,7 +106,7 @@ const PaymentSwiper = () => {
     "Hannah",
   ];
 
-   const amounts = [
+  const amounts = [
     104, 250, 500, 750, 1340, 1250, 1500, 1753, 2000, 2250, 2500, 2750, 3901,
     3530, 4000, 4500, 5300, 6700, 7050, 7500, 8004, 9000, 12000, 12023, 15760,
     11040, 14500, 5800, 30350, 12400, 13800, 7550, 10300,
@@ -161,7 +161,7 @@ const PaymentSwiper = () => {
     tag: string;
     currency: string;
   } | null>(null);
-  
+
   const [isShuffling, setIsShuffling] = useState(false);
 
   const generateRandomPayment = () => {
@@ -202,7 +202,7 @@ const PaymentSwiper = () => {
             className="h-[25px] md:h-[35px]"
             alt=""
           />
-          <p className="text-white flex items-center text-sm font-poppins gap-2">
+          <p className="text-white flex items-center text-xs sm:text-sm font-poppins gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={12}

@@ -43,12 +43,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
   return (
     <div>
-      <label className="font-poppins font-semibold flex items-center gap-1 text-sm text-[#454745]">
+      <label className="font-poppins font-semibold flex items-center gap-1 text-xs sm:text-sm text-[#454745]">
         {label} <FaCircleQuestion size={16} className="text-[#454745]" />
       </label>
 
       <div
-        className="w-full mt-3 font-poppins py-3 overflow-x-scroll scrollbar-hide px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+        className="w-full mt-3 font-poppins py-3 text-xs sm:text-sm overflow-x-scroll scrollbar-hide px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
         onClick={handleClick}
       >
         <span className="opacity-80 flex items-center gap-1">

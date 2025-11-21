@@ -54,7 +54,7 @@ const Recipients = () => {
           <h1 className="text-2xl md:text-4xl text-[#072032] font-dm-sans text-center mb-3 font-semibold">
             Recipient
           </h1>
-          <p className="font-poppins text-base text-[#454745] mb-3 text-center">
+          <p className="font-poppins text-sm sm:text-base text-[#454745] mb-3 text-center">
             Fast and reliable international money transfer app.
           </p>
         </div>
@@ -80,10 +80,10 @@ const Recipients = () => {
                 </svg>
               </div>
               <div>
-                <h1 className="font-poppins text-black font-semibold text-base">
+                <h1 className="font-poppins text-black font-semibold text-sm sm:text-base">
                   Bank Details
                 </h1>
-                <p className="font-dm-sans text-[#454745] font-medium text-sm">
+                <p className="font-dm-sans text-[#454745] font-medium text-xs sm:text-sm">
                   Enter name, bank and account number
                 </p>
               </div>
@@ -102,10 +102,10 @@ const Recipients = () => {
               />
 
               <div>
-                <h1 className="font-poppins text-black font-semibold text-base">
+                <h1 className="font-poppins text-black font-semibold text-sm sm:text-base">
                   Find on ShiftRemit
                 </h1>
-                <p className="font-dm-sans text-[#454745] font-medium text-sm">
+                <p className="font-dm-sans text-[#454745] font-medium text-xs sm:text-sm">
                   Find on Shiftremit / search by Shiftremittag, email or mobile
                   number
                 </p>
@@ -119,15 +119,15 @@ const Recipients = () => {
             <FaAngleRight size={16} className="" />
           </div>
           <div className="py-3">
-            <h1 className="font-poppins text-sm font-medium mb-5">Recents</h1>
-            <div className="grid grid-cols-4 w-full gap-5">
+            <h1 className="font-poppins text-xs sm:text-sm font-medium mb-5">Recents</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full gap-5">
               {isLoading ? (
                 <div className="col-span-4 flex justify-center items-center py-20">
                   <Loader2 className="animate-spin text-main" size={24} />
                 </div>
               ) : filteredTrx.length === 0 ? (
                 <div className="col-span-4 flex justify-center items-center py-20">
-                  <p className="text-center text-sm font-poppins text-gray-500">
+                  <p className="text-center text-xs sm:text-sm font-poppins text-gray-500">
                     No recent recipient
                   </p>
                 </div>
@@ -139,7 +139,7 @@ const Recipients = () => {
                     className="group flex flex-col justify-center items-center gap-2 cursor-pointer"
                   >
                     <div className="relative">
-                      <div className="w-14 h-14 uppercase bg-gray-200 font-poppins font-semibold text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center">
+                      <div className="w-14 h-14 uppercase bg-gray-200 font-poppins font-semibold text-xl sm:text-2xl text-main rounded-full border border-gray-200 flex items-center justify-center">
                         {trx.recipientFullName
                           ?.split(" ")
                           .map((n: string) => n[0])
@@ -180,7 +180,7 @@ const Recipients = () => {
               router.back();
               clearTransfer();
             }}
-            className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+            className="font-poppins text-sm sm:text-base flex items-center gap-2 sm:py-3 py-2 px-3 sm:px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
             <FaArrowLeft size={16} />
             Back

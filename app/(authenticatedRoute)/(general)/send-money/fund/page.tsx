@@ -75,7 +75,7 @@ const Fund = () => {
             GBPAccountName: data?.GBP_Payment_Details?.GBPAccountName,
           });
 
-          toast.success("Your transfer has been initiated successfully.")
+          toast.success("Your transfer has been initiated successfully.");
           // toast.success(data?.message, {
           //   description: "Your transfer has been initiated successfully.",
           // });
@@ -113,7 +113,7 @@ const Fund = () => {
                   onChange={() => setMethod("bank-transfer")}
                   className="w-4.5 h-4.5 accent-main"
                 />
-                <p className="font-poppins text-base font-medium">
+                <p className="font-poppins text-sm sm:text-base font-medium">
                   Send with bank transfer
                 </p>
               </div>
@@ -122,8 +122,11 @@ const Fund = () => {
                 <>
                   {bankStep === 1 && (
                     <div className="p-4 space-y-2 rounded-[10px] border border-[#e3e3e3] m-2">
-                      <div className="flex items-center gap-1 font-poppins text-base">
-                        <FaCircleCheck className="text-black" size={16} />
+                      <div className="flex items-center gap-1 font-poppins text-sm sm:text-base">
+                        <FaCircleCheck
+                          className="text-black flex-none"
+                          size={16}
+                        />
                         <p className="font-normal">
                           Transfer{" "}
                           <span className="font-semibold">
@@ -133,21 +136,27 @@ const Fund = () => {
                           to be credited to your recipient
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 font-poppins text-base">
-                        <FaCircleCheck className="text-black" size={16} />
+                      <div className="flex items-center gap-1 font-poppins text-sm sm:text-base">
+                        <FaCircleCheck
+                          className="text-black flex-none"
+                          size={16}
+                        />
                         <p>
                           Do not save or reuse the account; it can only accept a
                           single transfer
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 font-poppins text-base">
-                        <FaCircleCheck className="text-black" size={16} />
+                      <div className="flex items-center gap-1 font-poppins text-sm sm:text-base">
+                        <FaCircleCheck
+                          className="text-black flex-none"
+                          size={16}
+                        />
                         <p>
                           The account expires after{" "}
                           <span className="font-semibold">a fixed period.</span>
                         </p>
                       </div>{" "}
-                      <div className="flex items-start  gap-1 font-poppins text-base">
+                      <div className="flex items-start  gap-1 font-poppins text-sm sm:text-base">
                         <FaCircleCheck
                           className="text-black mr-1 flex-none mt-1"
                           size={16}
@@ -164,14 +173,14 @@ const Fund = () => {
                           type="checkbox"
                           className="accent-main w-3.5 h-3.5"
                         />{" "}
-                        <p className="font-poppins text-sm text-gray-500">
+                        <p className="font-poppins text-xs sm:text-sm text-gray-500">
                           I understand these instructions
                         </p>
                       </div>
                       <div className="my-5">
                         <label
                           htmlFor=""
-                          className="text-sm font-semibold text-[#072032] font-poppins"
+                          className="text-xs sm:text-sm font-semibold text-[#072032] font-poppins"
                         >
                           Your Reference (optional)
                         </label>
@@ -179,14 +188,14 @@ const Fund = () => {
                           value={userReference}
                           onChange={(e) => setUserReference(e.target.value)}
                           type="text"
-                          className="rounded-md border-[#e3e3e3] p-2 border w-full mt-1 text-base font-poppins active:border-[#e3e3e3]"
+                          className="rounded-md border-[#e3e3e3] p-2 border w-full mt-1 text-sm sm:text-base font-poppins active:border-[#e3e3e3]"
                         />
                       </div>
                       <button
                         disabled={!understand || sendTfDetails.isPending}
                         onClick={() => setBankStep(2)}
                         className="
-    text-white font-poppins border disabled:cursor-not-allowed border-[#813FD6] mt-4 text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
+    text-white font-poppins border disabled:cursor-not-allowed border-[#813FD6] mt-4 text-sm sm:text-base py-2 px-3 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342] disabled:from-[#813FD6]/30 disabled:to-[#301342]/30
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2
@@ -203,11 +212,11 @@ const Fund = () => {
                     </div>
                   )}
                   {bankStep === 2 && (
-                    <div className="flex m-2 items-center gap-2 justify-between">
-                      <div className="bg-[#FAF7FF] p-3 space-y-1 font-poppins text-sm w-[75%] border rounded-[10px] border-[#E1E1E1]">
+                    <div className="flex sm:flex-row flex-col m-2 items-center gap-2 justify-between">
+                      <div className="bg-[#FAF7FF] p-3 space-y-1 font-poppins text-sm w-full sm:w-[75%] border rounded-[10px] border-[#E1E1E1]">
                         <p>
                           Transfer{" "}
-                          <span className="text-base font-medium">
+                          <span className="text-sm sm:text-base font-medium">
                             {transfer?.toCurrency === "NGN" ? "£" : "₦"}
                             {formatNumber(transfer?.amount!)}
                           </span>{" "}
@@ -215,7 +224,7 @@ const Fund = () => {
                         </p>
                         <p>
                           Account Number:{" "}
-                          <span className="text-base font-medium">
+                          <span className="text-sm sm:text-base font-medium">
                             {transfer?.fromCurrency === "NGN"
                               ? "0111377577"
                               : transfer?.GBPAccountNumber}
@@ -224,7 +233,7 @@ const Fund = () => {
                         </p>
                         <p>
                           Account Name:{" "}
-                          <span className="text-base font-medium">
+                          <span className="text-sm sm:text-base font-medium">
                             {transfer?.fromCurrency === "NGN"
                               ? "Prospa Capital MFB"
                               : transfer?.GBPAccountName}
@@ -234,14 +243,14 @@ const Fund = () => {
                         {
                           <p>
                             Sort Code:{" "}
-                            <span className="text-base font-medium">
+                            <span className="text-sm sm:text-base font-medium">
                               04-00-05
                             </span>
                           </p>
                         }
                         <p>
                           Use Transfer Reference or display name as:{" "}
-                          <span className="text-base font-medium">
+                          <span className="text-sm sm:text-base font-medium">
                             {transfer?.transferReference}
                           </span>
                         </p>
@@ -261,25 +270,25 @@ const Fund = () => {
                           I've made the bank transfer
                         </button>
                       </div>
-                      <div className="w-[25%] space-y-1 text-center">
-                        <h1 className="font-semibold font-poppins text-base">
+                      <div className="w-full sm:w-[25%] space-y-1 text-center">
+                        <h1 className="font-semibold font-poppins text-sm sm:text-base">
                           Your Recipient
                         </h1>
-                        <p className="font-poppins text-sm text-black font-normal">
+                        <p className="font-poppins text-xs sm:text-sm text-black font-normal">
                           {transfer?.toCurrency === "NGN"
                             ? transfer?.recipientFullName
                             : transfer?.GBPAccountName}
                         </p>
-                        <p className="font-poppins text-sm text-black font-semibold">
+                        <p className="font-poppins text-xs sm:text-sm text-black font-semibold">
                           {transfer?.toCurrency === "NGN" ? "₦" : "£"}
                           {formatNumber(transfer?.setToAmount!)}
                         </p>
-                        <p className="font-poppins text-sm text-black font-normal">
+                        <p className="font-poppins text-xs sm:text-sm text-black font-normal">
                           {transfer?.toCurrency === "NGN"
                             ? transfer?.recipientBankName
                             : transfer?.GBPBankName}
                         </p>
-                        <p className="font-poppins text-sm text-black font-normal">
+                        <p className="font-poppins text-xs sm:text-sm text-black font-normal">
                           {transfer?.toCurrency === "NGN"
                             ? transfer?.recipientAccountNumber
                             : transfer?.GBPAccountNumber}
@@ -288,17 +297,17 @@ const Fund = () => {
                     </div>
                   )}
                   {bankStep === 3 && (
-                    <div className="flex m-2 items-center gap-2 justify-between">
-                      <div className="bg-[#FAF7FF] p-3 flex flex-col gap-3 justify-between items-center font-poppins text-sm w-[75%] border rounded-[10px] border-[#E1E1E1]">
+                    <div className="flex sm:flex-row flex-col m-2 items-center gap-2 justify-between">
+                      <div className="bg-[#FAF7FF] p-3 flex flex-col gap-3 justify-between items-center font-poppins text-xs sm:text-sm w-full sm:w-[75%] border rounded-[10px] border-[#E1E1E1]">
                         <Loader2 className="animate-spin text-main" size={30} />
-                        <p className="font-poppins text-base">
+                        <p className="font-poppins text-sm sm:text-base">
                           Confirming Your Bank Transfer
                         </p>
                         <p className="font-poppins text-xl font-bold ">
                           £{formatNumber(transfer?.amount!)}
                         </p>
                       </div>
-                      <div className="w-[25%]  space-y-1 text-center">
+                      <div className="sm:w-[25%] w-full  space-y-1 text-center">
                         <p className="font-poppins text-sm text-black font-semibold">
                           Need Help?
                         </p>
@@ -320,17 +329,17 @@ const Fund = () => {
                 onChange={() => setMethod("bank-card")}
                 className="w-4.5 h-4.5 accent-main"
               />
-              <p className="font-poppins text-base font-medium">
+              <p className="font-poppins text-sm sm:text-base font-medium">
                 Send with bank card
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-between p-5">
+        <div className="flex sm:flex-row flex-col gap-2 justify-between p-5">
           <button
             onClick={() => router.back()}
-            className="font-poppins text-base flex items-center gap-2 py-3 px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+            className="font-poppins text-sm sm:text-base flex items-center gap-2 sm:py-3 py-2 px-3 sm:px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
             <FaArrowLeft size={16} />
             Back
@@ -342,7 +351,7 @@ const Fund = () => {
                 clearTransfer();
               }}
               className="
-    text-white font-poppins border border-[#813FD6] text-base py-3 px-6 font-medium rounded-[6px] cursor-pointer
+    text-white font-poppins border border-[#813FD6] text-sm sm:text-base sm:py-3 py-2 px-3 sm:px-6 font-medium rounded-[6px] cursor-pointer
     bg-linear-to-l from-[#813FD6] to-[#301342]
     transition-all duration-300 ease-in-out
     hover:border-transparent flex items-center gap-2

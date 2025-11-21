@@ -123,14 +123,14 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
           Peps
           <FaCircleQuestion size={16} className="text-[#454745]" />
         </h1>
-        <p className="text-sm text-[#454745] font-dm-sans">
+        <p className="text-xs sm:text-sm text-[#454745] font-dm-sans">
           We would like to know a bit about your peps
         </p>
       </div>
       {(kycStatus.data.status === "NOT_STARTED" ||
         kycStatus.data.status === "REJECTED") && (
         <button
-          className="font-poppins my-3 text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+          className="font-poppins my-3 text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
           onClick={addNewPep}
         >
           Add Another PEP +
@@ -141,19 +141,19 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
         <div key={index} className="shadow-sm p-3 rounded-md mb-4">
           <div className="grid md:grid-cols-3 gap-5 ">
             <div>
-              <label className="font-poppins font-semibold text-sm text-[#454745]">
+              <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                 Name
               </label>
               <input
                 name="name"
                 value={pep.name}
                 onChange={(e) => handlePepChange(index, "name", e.target.value)}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
 
             <div>
-              <label className="font-poppins font-semibold text-sm text-[#454745]">
+              <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                 Position
               </label>
               <input
@@ -162,12 +162,12 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
                 onChange={(e) =>
                   handlePepChange(index, "position", e.target.value)
                 }
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
 
             <div>
-              <label className="font-poppins font-semibold text-sm text-[#454745]">
+              <label className="font-poppins font-semibold text-xs sm:text-sm text-[#454745]">
                 PEP Status Description
               </label>
               <input
@@ -176,7 +176,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
                 onChange={(e) =>
                   handlePepChange(index, "pepStatusDescription", e.target.value)
                 }
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+                className="font-poppins text-xs sm:text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
               />
             </div>
           </div>
@@ -202,7 +202,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
       {/* <button
         onClick={handleSaveAndAddAnother}
         disabled={isSubmitting}
-        className="font-poppins text-sm border border-main-dark-II text-main-dark-II bg-main/30 p-2 rounded-sm disabled:bg-[#e6e5e5]"
+        className="font-poppins text-xs sm:text-sm border border-main-dark-II text-main-dark-II bg-main/30 p-2 rounded-sm disabled:bg-[#e6e5e5]"
       >
         {isSubmitting ? "Saving..." : "Save and Add Another PEP +"}
       </button> */}
@@ -216,7 +216,7 @@ const PEPForm: React.FC<PepProps> = ({ fetchBusinessProfile }) => {
             kycStatus.data.status === "APPROVED" ||
             kycStatusLoad
           }
-          className="font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
+          className="font-poppins disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm border border-main-dark-II text-main-dark-II p-2 rounded-sm bg-main/30"
         >
           {isSubmitting ? "Submitting..." : "I'm Done Adding PEP"}
         </button>

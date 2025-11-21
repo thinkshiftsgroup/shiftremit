@@ -12,13 +12,13 @@ export const WalletSection = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="">
-      <p className="my-1">
+    <div className="font-poppins">
+      <p className="my-1 sm:text-base text-sm">
         Get up to <span className="text-green-600">₦{rateDifference}</span> more
         with ShiftRemit
       </p>
       <div className="flex items-center justify-between gap-2 mb-3">
-        <h1 className="text-[#072032] text-xl font-semibold font-dm-sans">
+        <h1 className="text-[#072032] text-base sm:text-xl font-semibold font-dm-sans">
           Compare Rates
         </h1>
       </div>
@@ -43,13 +43,13 @@ export const WalletSection = ({
                   alt=""
                   className="w-11 h-11 rounded-fill object-cover"
                 />
-                <p className="text-[#072032] font-semibold text-base font-dm-sans">
+                <p className="text-[#072032] font-semibold text-sm sm:text-base font-dm-sans">
                   {card.name}
                 </p>
               </div>
             </div>
 
-            <h1 className="text-[#072032] font-medium font-dm-sans text-xl py-1">
+            <h1 className="text-[#072032] font-medium font-dm-sans text-base sm:text-xl py-1">
               {card.amount}.00
             </h1>
             <p className="text-xs font-poppins text-red-500">

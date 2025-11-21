@@ -90,7 +90,7 @@ const ActionDropDown: React.FC<ActionDropDownProps> = ({
     ReactDOM.createPortal(
       <div
         ref={dropdownRef}
-        className="absolute z-50 rounded-md bg-white border border-gray-200 shadow-lg"
+        className="absolute z-50 whitespace-nowrap rounded-md bg-white border border-gray-200 shadow-lg"
         style={{
           top: buttonRect.bottom + window.scrollY,
           left: buttonRect.left + window.scrollX,
@@ -105,7 +105,7 @@ const ActionDropDown: React.FC<ActionDropDownProps> = ({
           }}
           className="text-[#454745] font-poppins text-sm flex items-center gap-2 py-1.5 px-3.5 hover:bg-gray-100 transition-colors cursor-pointer"
         >
-         <FaRegEye size={16} />
+         <FaRegEye size={16} className="flex-none" />
           View File
         </div>
         <hr />
@@ -117,7 +117,7 @@ const ActionDropDown: React.FC<ActionDropDownProps> = ({
               : "hover:bg-gray-100"
           }`}
         >
-          <FaCheckCircle size={14} /> Approve
+          <FaCheckCircle size={14} className="flex-none"/> Approve
         </div>
         <div
           onClick={() => handleActionClick("REJECTED")}
@@ -127,7 +127,7 @@ const ActionDropDown: React.FC<ActionDropDownProps> = ({
               : "hover:bg-gray-100"
           }`}
         >
-          <TiCancel size={16} /> Reject
+          <TiCancel size={16} className="flex-none"/> Reject
         </div>
       </div>,
       document.body
