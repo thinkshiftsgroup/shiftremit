@@ -40,7 +40,9 @@ const Footer = () => {
               <p className="font-dm-sans text-base sm:text-xl font-semibold">
                 Subscribe out newsletter
               </p>
-              <p className="font-dm-sans text-xs sm:text-sm ">We do not send spam email</p>
+              <p className="font-dm-sans text-xs sm:text-sm ">
+                We do not send spam email
+              </p>
             </div>
             <div className="flex items-center pl-2 pr-1 h-10 py-1 gap-2 w-full rounded-full border border-[#d1d5db80]">
               <IoMailOutline size={20} />
@@ -175,7 +177,12 @@ const Footer = () => {
               >
                 Privacy Policy
               </li>
-              {/* <li className="">Partner Account</li> */}
+              <li
+                onClick={() => router.push("/contact")}
+                className="md:border-r-2 pe-3 me-2"
+              >
+                Support
+              </li>
             </ul>
           </div>
         </div>
