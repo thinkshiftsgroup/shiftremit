@@ -23,6 +23,7 @@ import ShareHolderForm from "@/components/admin/businessProfile/shareHolder";
 import PEPForm from "@/components/admin/businessProfile/pepForm";
 import { Switch } from "@/components/ui/switch";
 import ConfirmationModal from "@/components/admin/modal/confirmModal";
+import UserTrx from "@/components/admin/user/userTrx";
 
 const CustomerDetails = () => {
   const params = useParams<{ id: string }>();
@@ -229,7 +230,7 @@ const CustomerDetails = () => {
   };
 
   const isUpdating = isFormSubmitting || updateProfile.isPending;
-  const [indiprofile, setIndiProfile] = useState(true);
+  const [indiprofile, setIndiProfile] = useState("indi");
 
   if (isLoading) {
     return (
@@ -295,9 +296,9 @@ const CustomerDetails = () => {
                   <div className="flex items-start md:items-center gap-2 flex-col md:flex-row">
                     <h1 className="font-poppins md:text-2xl flex items-center gap-1 font-semibold">
                       {user.firstname || ""} {user.lastname || ""}
-                      {(indiprofile &&
+                      {(indiprofile === "indi" &&
                         user?.kycSubmission?.status === "APPROVED") ||
-                      (!indiprofile &&
+                      (indiprofile === "buss" &&
                         user?.businessAccount?.kycSubmission?.status ===
                           "APPROVED") ? (
                         <FaCheckCircle
@@ -307,14 +308,16 @@ const CustomerDetails = () => {
                       ) : null}
                     </h1>
 
-                    {indiprofile ? (
+                    {indiprofile === "indi" ? (
                       <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                         <p>Individual Account</p>
                       </span>
-                    ) : (
+                    ) : indiprofile === "buss" ? (
                       <span className="text-xs text-white p-1 rounded-sm bg-main inline-block font-poppins">
                         <p>Business Account</p>
                       </span>
+                    ) : (
+                      ""
                     )}
                   </div>
                   <div className="flex pt-2 md:items-center gap-2 flex-col md:flex-row">
@@ -387,14 +390,14 @@ const CustomerDetails = () => {
 
             <div className="w-full whitespace-nowrap overflow-x-scroll scrollbar-hide border-b flex items-center rounded-sm gap-5 my-3 font-poppins">
               <div
-                onClick={() => setIndiProfile(true)}
+                onClick={() => setIndiProfile("indi")}
                 className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
-                  indiprofile ? " border-b-2 border-b-main" : ""
+                  indiprofile === "indi" ? " border-b-2 border-b-main" : ""
                 } `}
               >
                 <p
                   className={`text-sm font-medium ${
-                    indiprofile ? "text-main" : "text-gray-400"
+                    indiprofile === "indi" ? "text-main" : "text-gray-400"
                   }`}
                 >
                   Individual Account{" "}
@@ -414,14 +417,14 @@ const CustomerDetails = () => {
                 )}
               </div>
               <div
-                onClick={() => setIndiProfile(false)}
+                onClick={() => setIndiProfile("buss")}
                 className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
-                  !indiprofile ? " border-b-2 border-b-main" : ""
+                  indiprofile === "buss" ? " border-b-2 border-b-main" : ""
                 } `}
               >
                 <p
                   className={`text-sm font-medium ${
-                    !indiprofile ? "text-main" : "text-gray-400"
+                    indiprofile === "buss" ? "text-main" : "text-gray-400"
                   }`}
                 >
                   Business Account{" "}
@@ -441,9 +444,23 @@ const CustomerDetails = () => {
                   </span>
                 )}
               </div>
+              <div
+                onClick={() => setIndiProfile("trx")}
+                className={`cursor-pointer px-2 py-1 flex items-center gap-1 ${
+                  indiprofile === "trx" ? " border-b-2 border-b-main" : ""
+                } `}
+              >
+                <p
+                  className={`text-sm font-medium ${
+                    indiprofile === "buss" ? "text-main" : "text-gray-400"
+                  }`}
+                >
+                  Transactions
+                </p>
+              </div>
             </div>
 
-            {indiprofile && (
+            {indiprofile === "indi" && (
               <>
                 <div className="grid mb-2 md:grid-cols-3 gap-3">
                   <div className="space-y-3">
@@ -819,26 +836,31 @@ focus:border-main focus:outline-none transition-colors"
             )}
           </div>
         </form>
-        {!indiprofile && <BusinessProfile user={user} isLoading={isLoading} />}
+        {indiprofile === "buss" && (
+          <BusinessProfile user={user} isLoading={isLoading} />
+        )}
+        {indiprofile === "trx" && <UserTrx />}
       </div>
-      {!indiprofile && (
+      {indiprofile === "buss" && (
         <KnowBusiness
           userDeets={userDeets}
           updateBussProfile={updateBussProfile}
         />
       )}{" "}
-      {!indiprofile && <DirectorForm userDeets={userDeets} />}
-      {!indiprofile && <ShareHolderForm userDeets={userDeets} />}
-      {!indiprofile && <PEPForm userDeets={userDeets} />}
-      {!indiprofile && (
+      {indiprofile === "buss" && <DirectorForm userDeets={userDeets} />}
+      {indiprofile === "buss" && <ShareHolderForm userDeets={userDeets} />}
+      {indiprofile === "buss" && <PEPForm userDeets={userDeets} />}
+      {indiprofile === "buss" && (
         <BusinessDocUpload
           userDeets={userDeets}
           updateBussProfile={updateBussProfile}
         />
       )}
       {/* for individual profile */}
-      {indiprofile && <DocUpload user={user} isLoading={isLoading} />}
-      {indiprofile && (
+      {indiprofile === "indi" && (
+        <DocUpload user={user} isLoading={isLoading} />
+      )}
+      {indiprofile === "indi" && (
         <>
           {user?.kycSubmission?.status !== "APPROVED" ? (
             <div className="bg-white w-full p-3 flex flex-col items-center">
@@ -889,7 +911,7 @@ focus:border-main focus:outline-none transition-colors"
           )}
         </>
       )}
-      {!indiprofile && (
+      {indiprofile === "buss" && (
         <>
           {user?.businessAccount?.kycSubmission?.status !== "APPROVED" ? (
             <div className="bg-white w-full p-3 flex flex-col items-center">

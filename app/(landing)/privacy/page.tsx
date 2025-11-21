@@ -1,14 +1,11 @@
-// app/privacy-notice/page.tsx
 "use client";
-
-import Hero from "@/components/landing/hero/hero";
-import Navbar from "@/components/landing/hero/navBar";
-import React from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const PrivacyNotice = () => {
+  const router = useRouter();
   return (
     <div>
-    
       <main className="min-h-screen font-poppins bg-gray-50 p-6 md:p-12 text-gray-800">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
           <h1 className="text-3xl font-bold mb-6">
@@ -214,6 +211,17 @@ const PrivacyNotice = () => {
           <p className="text-sm text-gray-500 mt-6">
             Last updated: November 2025
           </p>
+        <div className="flex justify-between mt-5">
+          <button
+            onClick={() => {
+              router.back();
+            }}
+            className="font-poppins text-sm sm:text-base flex items-center gap-2 sm:py-3 py-2 px-3 sm:px-6 cursor-pointer bg-gray-300 rounded-[6px]"
+          >
+            <FaArrowLeft size={16} />
+            Back
+          </button>
+        </div>
         </div>
       </main>
     </div>

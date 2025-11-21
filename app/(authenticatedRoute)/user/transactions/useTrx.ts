@@ -5,7 +5,6 @@ import { toast } from "sonner";
 export const useTrx = () => {
   const getBankTrfsUser = ({
     page,
-
     status,
     transactionReference,
     startDate,
@@ -95,6 +94,56 @@ export const useTrx = () => {
       keepPreviousData: true,
     });
 
+  const getBankTrfsUserbyAdmin = ({
+    page,
+    limit,
+    status,
+    userId,
+    // transactionReference,
+    // startDate,
+    // endDate,
+    // recipientName,
+    // senderName,
+    sortOrder,
+    // sortBy,
+  }: {
+    page: number;
+    limit: number;
+    status: string;
+    // transactionReference: string;
+    // startDate: string;
+    // endDate: string;
+    // senderName: string;
+    // recipientName: string;
+    sortOrder: string;
+    // sortBy: string;
+    userId: string;
+  }) =>
+    useQuery({
+      queryKey: [
+        "fetch-bank-tfs-admin",
+        page,
+        limit,
+        status,
+        // transactionReference,
+        // startDate,
+        // endDate,
+        // recipientName,
+        // senderName,
+        sortOrder,
+        // sortBy,
+        userId,
+      ],
+      queryFn: async () => {
+        const res = await apiInstance.get(
+          `/api/admin/transfers/user/${userId}?page=${page}&limit=${limit}&status=${status}&sortByAmount=${sortOrder}`
+          // `/api/admin/transfers/user/${userId}?page=${page}&limit=${limit}&status=${status}&sortOrder=${sortOrder}&sortBy=${sortBy}`
+        );
+        return res.data;
+      },
+      keepPreviousData: true,
+    });
+
   const updateTrxStatus = useMutation({
     mutationKey: ["update-trx-status"],
     mutationFn: async ({ status, id }: { status: string; id: string }) => {
@@ -155,12 +204,12 @@ export const useTrx = () => {
       keepPreviousData: true,
     });
 
-
-
   return {
     getBankTrfsUser,
     getBankTrfsAdmin,
     updateTrxStatus,
+
+    getBankTrfsUserbyAdmin,
 
     deleteSingleTrx,
     getRecentTrx,

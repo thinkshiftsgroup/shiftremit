@@ -693,7 +693,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                     onClick={() => {
                       router.push(nav.link || "#");
                     }}
-                    className={`flex items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
+                    className={`flex cursor-pointer items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
                       ${collapsed ? "justify-center w-auto" : "justify-between"}
                       ${
                         isActive
@@ -734,7 +734,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       <div
                         key={j}
                         onClick={() => router.push(sub.link)}
-                        className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${
+                        className={`block cursor-pointer py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${
                           pathname === sub.link
                             ? "bg-[#f1f1f1] text-[#301342]"
                             : "text-[#6b6b6b] hover:text-[#301342]"
