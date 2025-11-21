@@ -193,12 +193,12 @@ const Dashboard = () => {
   return (
     <SideNav>
       <div className="py-3 md:py-5">
-        <div className="flex items-center justify-between gap-2 flex-col md:flex-row">
+        <div className="flex items-center justify-between gap-2">
           <div>
             <p className="text-[#454745] text-sm font-poppins mb-2">
               Welcome Back
             </p>
-            <h1 className="font-dm-sans font-medium text-xl text-[#072032] hidden md:flex items-center gap-1">
+            <h1 className="font-dm-sans font-medium text-xl text-[#072032] flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -392,12 +392,12 @@ const Dashboard = () => {
           </div>
           <div className=" bg-white border my-4 border-gray-200 rounded-md">
             <div className="flex items-center justify-between gap-2 py-2 px-3">
-              <h1 className="text-[#072032] font-semibold text-xl font-dm-sans mb-2">
+              <h1 className="text-[#072032] font-semibold text-lg sm:text-xl font-dm-sans">
                 Quick Recipients
               </h1>
               <p
                 onClick={() => router.push("/recipients")}
-                className="text-main cursor-pointer font-semibold flex items-center gap-1 font-poppins text-sm"
+                className="text-main cursor-pointer font-semibold flex items-center gap-1 font-poppins text-xs sm:text-sm"
               >
                 View All <MdKeyboardArrowRight className="" />{" "}
               </p>
@@ -408,7 +408,7 @@ const Dashboard = () => {
               <div className="inline-flex flex-col py-2 px-3 gap-2 items-center">
                 <div
                   onClick={() => router.push("/recipients")}
-                  className="w-[50px] h-[50px] cursor-pointer flex items-center justify-center rounded-full bg-main text-white"
+                  className="sm:w-[50px] h-10 sm:h-[50px] w-10 cursor-pointer flex items-center justify-center rounded-full bg-main text-white"
                 >
                   <GoPlus size={25} />
                 </div>
@@ -462,21 +462,21 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="py-3.5 px-6 bg-white rounded-md my-4 space-y-3">
+        <div className="py-3.5 px-3 sm:px-6 bg-white rounded-md my-4 space-y-3">
           <WalletSection cards={dynamicFiatData} rateDifference={difference} />
         </div>
 
         <div className="py-3.5 px-6 bg-white rounded-md my-4">
           <div className="flex items-start md:items-center justify-between flex-col md:flex-row">
             <div className="flex  items-start md:items-center gap-2.5 flex-col md:flex-row">
-              <div className="w-[50px] cursor-pointer flex items-center justify-center h-[50px] rounded-full bg-main text-white">
+              <div className="sm:w-[50px] h-10 cursor-pointer flex items-center justify-center sm:h-[50px] w-10 rounded-full bg-main text-white">
                 <FaUserPlus size={25} />
               </div>
               <div>
                 <h1 className="font-poppins font-medium">
                   Invite your friend now by referral code!
                 </h1>
-                <p className="font-poppins text-sm text-[#454745]">
+                <p className="font-poppins sm:py-0 py-2 text-sm text-[#454745]">
                   Maximize Rewards - Share your Unique Referral Code for
                   Exclusive Benefits!
                 </p>
@@ -496,7 +496,7 @@ const Dashboard = () => {
             <div className="w-full overflow-x-auto">
               <table className="w-full font-poppins min-w-max border-collapse">
                 <thead>
-                  <tr className="bg-[#f7ecff] text-left text-sm font-medium text-gray-900">
+                  <tr className="bg-[#f7ecff] text-left text-xs sm:text-sm font-medium text-gray-900">
                     <th className="px-4 py-2 whitespace-nowrap">Customer</th>
                     <th className="px-4 py-2 whitespace-nowrap">Trx ID</th>
                     <th className="px-4 py-2 whitespace-nowrap">Sending Trx</th>
@@ -517,7 +517,7 @@ const Dashboard = () => {
                     <tr key="no-data">
                       <td
                         colSpan={7}
-                        className="text-center py-6 text-sm font-poppins opacity-70"
+                        className="text-center py-6 text-xs sm:text-sm font-poppins opacity-70"
                       >
                         No transactions found
                       </td>
@@ -530,7 +530,7 @@ const Dashboard = () => {
                           index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                         } border-b border-gray-100`}
                       >
-                        <td className="px-4 py-1 flex items-center gap-1 cursor-pointer text-sm font-medium text-gray-900">
+                        <td className="px-4 py-1 flex items-center gap-1 cursor-pointer text-xs sm:text-sm font-medium text-gray-900">
                           {row.user.fullName}
                           <LuArrowUpRight size={14} />
                         </td>

@@ -98,7 +98,7 @@ const DirectorForm = ({ userDeets }: any) => {
           <input
             type="text"
             readOnly
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.firstname}
             onChange={(e) => updateCurrentDirector("firstname", e.target.value)}
           />
@@ -111,7 +111,7 @@ const DirectorForm = ({ userDeets }: any) => {
           <input
             type="text"
             readOnly
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.lastname}
             onChange={(e) => updateCurrentDirector("lastname", e.target.value)}
           />
@@ -124,7 +124,7 @@ const DirectorForm = ({ userDeets }: any) => {
           <input
             type="text"
             readOnly
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.position}
             onChange={(e) => updateCurrentDirector("position", e.target.value)}
           />
@@ -138,7 +138,7 @@ const DirectorForm = ({ userDeets }: any) => {
             type="date"
             readOnly
             max={new Date().toISOString().split("T")[0]}
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
             value={currentDirector.dateOfBirth || ""}
             onChange={(e) =>
               updateCurrentDirector("dateOfBirth", e.target.value)
@@ -156,7 +156,7 @@ const DirectorForm = ({ userDeets }: any) => {
             onChange={(e) =>
               updateCurrentDirector("nationality", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+            className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
           >
             <option value="">Select a Country</option>
             {countriesWithCodes.map((c) => (
@@ -201,7 +201,7 @@ const DirectorForm = ({ userDeets }: any) => {
             readOnly
             value={currentDirector.idNumber}
             onChange={(e) => updateCurrentDirector("idNumber", e.target.value)}
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
 
@@ -216,7 +216,7 @@ const DirectorForm = ({ userDeets }: any) => {
             onChange={(e) =>
               updateCurrentDirector("residentialAddress", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
 
@@ -228,7 +228,7 @@ const DirectorForm = ({ userDeets }: any) => {
           <label
             aria-readonly
             htmlFor="idProof"
-            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-3 sm:text-base text-sm overflow-x-scroll scrollbar-hide font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">
               {currentDirector.identificationDocumentProofFile?.name ||
@@ -278,7 +278,7 @@ const DirectorForm = ({ userDeets }: any) => {
             onChange={(e) =>
               updateCurrentDirector("issuedCountry", e.target.value)
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
+            className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors bg-white"
           >
             <option value="">Select a Country</option>
             {countriesWithCodes.map((c) => (
@@ -297,7 +297,7 @@ const DirectorForm = ({ userDeets }: any) => {
           <label
             aria-readonly
             htmlFor="resProof"
-            className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-3 sm:text-base text-sm  overflow-x-scroll scrollbar-hide font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">
               {currentDirector.residentialAddressUrlProofFile?.name ||
@@ -370,7 +370,7 @@ const DirectorForm = ({ userDeets }: any) => {
                 Number(e.target.value)
               )
             }
-            className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
+            className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745] focus:border-main focus:outline-none transition-colors"
           />
         </div>
       )}

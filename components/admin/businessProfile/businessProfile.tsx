@@ -87,7 +87,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
   if (!user) {
     return (
       <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-        Failed to load user profile.
+        Failed to load profile.
       </div>
     );
   }
@@ -109,7 +109,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                     name="firstname"
                     type="text"
                     value={formData.firstname}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
                     required
                     readOnly
@@ -139,7 +139,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                     name="lastname"
                     type="text"
                     // value={formData.lastname}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
                     required
                     readOnly
@@ -167,7 +167,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                     name="middleName"
                     type="text"
                     value={formData.middlename}
-                    className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                    className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
                     required
                     readOnly
@@ -240,7 +240,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 value={formData.dob}
                 max={new Date().toISOString().split("T")[0]}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -261,7 +261,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 pattern="^\+?[0-9]{7,15}$"
                 value={formData.mobileNumber}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors"
                 placeholder="e.g. +448012345678"
                 required
@@ -316,7 +316,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 type="text"
                 value={formData.validIDNumber}
                 onChange={handleInputChange}
-                className="font-poppins z-3 text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
+                className="font-poppins z-3 text-sm w-full mt-2 py-3 px-2 rounded-sm border-[#d1d5db80] active:border-main bg-main text-white! placeholder:text-white! border"
                 required
                 placeholder="Valid ID Number"
               />
@@ -377,7 +377,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
               value={formData.fullAddress}
               readOnly
               onChange={handleInputChange}
-              className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+              className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
               required
             />
@@ -396,7 +396,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 name="countryOfResidence"
                 value={formData.countryOfResidence}
                 // onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-sm w-full mt-2 py-3 rounded-sm border border-[#d1d5db80] text-[#454745]
       focus:border-main focus:outline-none transition-colors bg-white"
                 required
               >
@@ -422,7 +422,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
                 name="purposeOfShiftremit"
                 value={formData.purposeOfShiftremit}
                 onChange={handleInputChange}
-                className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
+                className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80] text-[#454745]
     focus:border-main focus:outline-none transition-colors"
                 required
               />
@@ -432,7 +432,7 @@ const BusinessProfile = ({ user, isLoading }: any) => {
             <button
               type="submit"
               disabled={updateBussProfile.isPending}
-              className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342]"
+              className=" text-white justify-center font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] sm:text-base text-sm flex items-center gap-1 to-[#301342]"
             >
               {updateBussProfile.isPending ? (
                 <Loader2 className="animate-spin" />

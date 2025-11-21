@@ -44,56 +44,12 @@ any) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
-  // const DropdownMenu = ({
-  //   items,
-  //   selected,
-  //   onChange,
-  //   dropdownName,
-  // }: {
-  //   items: string[];
-  //   selected: string;
-  //   onChange: (value: string) => void;
-  //   dropdownName: string;
-  // }) => (
-  //   <div className="relative">
-  //     <button
-  //       onClick={() => toggleDropdown(dropdownName)}
-  //       className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
-  //     >
-  //       <span className="text-sm">{selected}</span>
-  //       <ChevronDown size={18} className="ml-auto" />
-  //     </button>
-
-  //     {openDropdown === dropdownName && (
-  //       <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-50 w-48 max-h-60 overflow-y-auto">
-  //         {items.map((item) => (
-  //           <button
-  //             key={item}
-  //             onClick={() => {
-  //               onChange(item);
-  //               setOpenDropdown(null);
-  //             }}
-  //             className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-  //               selected === item
-  //                 ? "bg-gray-100 font-semibold text-gray-900"
-  //                 : "text-gray-700 hover:bg-gray-50"
-  //             }`}
-  //           >
-  //             {selected === item && <span className="mr-2">✓</span>}
-  //             {item}
-  //           </button>
-  //         ))}
-  //       </div>
-  //     )}
-  //   </div>
-  // );
-
   return (
     <div className="w-full font-poppins bg-white p-2 rounded my-3">
       {/* Filter Bar */}
       <div className="flex flex-col gap-2 items-center">
         {/* Search Input */}
-        <div className="flex gap-2 w-full">
+        <div className="flex sm:flex-row flex-col gap-2 w-full">
           <input
             type="text"
             placeholder="Search by Trx ID"

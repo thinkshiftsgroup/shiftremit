@@ -52,12 +52,12 @@ const CustomerTrxn = () => {
       link: "",
       lastTxn: 0,
     },
-    {
-      title: "Your customers are in",
-      number: data?.kpis?.totalNumber || 0,
-      link: "",
-      lastTxn: 0,
-    },
+    // {
+    //   title: "Your customers are in",
+    //   number: data?.kpis?.totalNumber || 0,
+    //   link: "",
+    //   lastTxn: 0,
+    // },
   ];
 
   const formatAmount = (val: number | string) =>
@@ -103,12 +103,12 @@ const CustomerTrxn = () => {
                             <circle cx={18.5} cy={5.5} r={2}></circle>
                           </g>
                         </svg>
-                        <p className="text-[#072032] font-semibold text-base font-dm-sans">
+                        <p className="text-[#072032] font-semibold text-sm sm:text-base font-dm-sans">
                           {card.title}
                         </p>
                       </div>
 
-                      <h1 className="text-[#072032] font-medium font-dm-sans text-2xl py-1 ">
+                      <h1 className="text-[#072032] font-medium font-dm-sans text-xl sm:text-2xl py-1 ">
                         {card.number}
                       </h1>
                     </div>

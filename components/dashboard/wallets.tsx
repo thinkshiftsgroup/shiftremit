@@ -12,7 +12,7 @@ export const WalletSection = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="">
+    <div className="font-poppins">
       <p className="my-1 sm:text-base text-sm">
         Get up to <span className="text-green-600">₦{rateDifference}</span> more
         with ShiftRemit

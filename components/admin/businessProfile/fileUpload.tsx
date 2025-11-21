@@ -32,7 +32,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </label>
 
       <div
-        className="w-full mt-3 font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+        className="w-full mt-3 overflow-x-scroll scrollbar-hide text-sm sm:text-base font-poppins py-3 px-3 rounded-sm border border-dashed text-[#666] cursor-pointer flex items-center justify-between hover:border-main transition-colors"
         onClick={handleClick}
       >
         <span className="opacity-80">{displayFile}</span>

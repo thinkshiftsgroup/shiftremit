@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useTrx } from "../../user/transactions/useTrx";
 import AdminDataTable from "@/components/admin/dataTable";
 import FilterComponent from "@/components/admin/filterBar";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const AminTrx = () => {
   const [page, setPage] = useState(1);
@@ -61,6 +62,7 @@ const AminTrx = () => {
     setAppliedDates({ startDate: "", endDate: "" });
   };
 
+  const localUser = useAuthStore((state) => state.user);
   return (
     <SideNav>
       <div className="py-5 font-poppins">
@@ -107,7 +109,7 @@ const AminTrx = () => {
                   d="M10.6 81.3c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.3-1.7 2.1-2 2.6-.4m6-5.5c3.1 9.2 7.8 14.9 15.5 20.1c1.4 1 .6 3-1 2.3c-7.2-2.9-15.2-9.3-17.1-22c-.2-1.7 2.1-2 2.6-.4m76.9-41.2c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.7-2.3 1.9-2.7.2m6.5-4.8c-2.4-9.4-6.8-15.4-14.1-21c-1.4-1-.4-3 1.2-2.3c7 3.3 14.6 10.3 15.6 23.1c.1 1.6-2.2 1.8-2.7.2"
                 ></path>
               </svg>
-              Welcome back John!
+              Welcome back  {localUser?.fullName || ""}!
             </h1>
           </div>
         </div>
@@ -145,7 +147,7 @@ const AminTrx = () => {
                 placeholder="TRX ID..."
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
-                className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-main text-sm sm:text-base focus:border-transparent"
               />
             </div> */}
             <div className="flex items-center gap-3 mb-15 mt-5 flex-col md:flex-row">
@@ -159,11 +161,11 @@ const AminTrx = () => {
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
                   placeholder="dd/mm/yyyy"
-                  className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full md:w-auto"
+                  className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-main text-sm sm:text-base focus:border-transparent w-full md:w-auto"
                 />
               </div>
 
-              <span className="text-gray-700 font-medium hidden sm:inline">
+              <span className="text-gray-700 text-sm sm:text-base font-medium hidden sm:inline">
                 to
               </span>
               {/* End Date */}
@@ -174,7 +176,7 @@ const AminTrx = () => {
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
                   placeholder="dd/mm/yyyy"
-                  className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  w-full md:w-auto"
+                  className="pl-10 pr-4 py-1.5 border border-[#f1f1f1] rounded text-gray-900 focus:outline-none focus:ring-2 focus:ring-main text-sm sm:text-base focus:border-transparent  w-full md:w-auto"
                 />
               </div>
 

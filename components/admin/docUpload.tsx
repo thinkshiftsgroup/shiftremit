@@ -69,14 +69,14 @@ const DocUpload = ({ user, isLoading }: any) => {
     const hasFile = prefillName || fileUrl;
 
     return (
-      <div>
+      <div className="overflow-x-scroll scrollbar-hide">
         <label className="font-poppins font-semibold text-sm text-[#454745]">
           {label}
         </label>
         <div className="relative">
           <label
-            htmlFor={docType}
-            className="w-full mt-1 pl-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            htmlFor={docType} 
+            className="w-full mt-1 pl-2 gap-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">{prefillName || placeholder}</span>
 
@@ -126,8 +126,8 @@ const DocUpload = ({ user, isLoading }: any) => {
       <div className="flex md:flex-row flex-col items-center mb-5 justify-between gap-5">
         <div className="w-full h-[140px] mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-center relative hover:border-main transition-colors group">
           {!frontFile && idFrontUrl && (
-            <div className="flex">
-              <div className="absolute flex items-center gap-1 top-2 right-2 z-10">
+            <div className="flex ">
+              <div className="absolute flex items-center flex-col gap-1 top-2 right-2 z-10">
                 <span
                   className={`text-xs font-poppins ${
                     statusColors[docData.proofOfValidIDStatus] ||
@@ -195,7 +195,7 @@ const DocUpload = ({ user, isLoading }: any) => {
         <div className="w-full h-[140px] mt-1 py-3 px-3 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-center relative hover:border-main transition-colors">
           {!backFile && idBackUrl && (
             <>
-              <div className="absolute flex items-center gap-1 top-2 right-2 z-10 ">
+              <div className="absolute flex items-center flex-col gap-1 top-2 right-2 z-10 ">
                 <span
                   className={`text-xs font-poppins ${
                     statusColors[docData.proofOfValidIDBackViewStatus] ||

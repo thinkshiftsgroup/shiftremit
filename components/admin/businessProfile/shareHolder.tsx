@@ -91,7 +91,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           readOnly
           value={data?.firstname || ""}
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -104,7 +104,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.lastname || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -118,7 +118,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           max={new Date().toISOString().split("T")[0]}
           value={data?.dateOfBirth?.split("T")[0] || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -171,7 +171,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.idNumber || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -203,7 +203,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.residentialAddress || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -217,7 +217,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -242,7 +242,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.taxNumber || ""}
           readOnly
-          className="font-poppins mt-2 text-sm w-full indent-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins mt-2 text-sm w-full py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
     </div>
@@ -259,7 +259,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.legalEntityName || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -291,7 +291,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           type="text"
           value={data?.registrationIncorporationNumber || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
 
@@ -305,7 +305,7 @@ export default function ShareHolderForm({ userDeets }: any) {
           placeholder="%"
           value={data?.percentageSharesOwned || ""}
           readOnly
-          className="font-poppins text-sm w-full indent-2 mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
+          className="font-poppins text-sm w-full mt-2 py-3 px-2 rounded-sm border border-[#d1d5db80]"
         />
       </div>
     </div>

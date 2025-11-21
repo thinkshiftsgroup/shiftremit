@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
 import { TbSmartHome } from "react-icons/tb";
@@ -59,8 +58,15 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     toast.info("You have been signed out.");
   };
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
-  const closeSidebar = () => setIsOpen(false);
+  const toggleSidebar = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const closeSidebar = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen(false); 
+  };
 
   const logoRedirectPath =
     user?.userType === "admin" || user?.userType === "partner"
@@ -683,8 +689,10 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       ))}
                   </button>
                 ) : (
-                  <Link
-                    href={nav.link || "#"}
+                  <div
+                    onClick={() => {
+                      router.push(nav.link || "#");
+                    }}
                     className={`flex items-center py-2.5 px-3 rounded-md text-sm font-poppins transition-all relative
                       ${collapsed ? "justify-center w-auto" : "justify-between"}
                       ${
@@ -710,7 +718,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                         {nav.badge}
                       </span>
                     )}
-                  </Link>
+                  </div>
                 )}
 
                 {/* Tooltip on hover when collapsed */}
@@ -723,9 +731,9 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                 {nav.subLinks && isOpen && !collapsed && (
                   <div className="ml-8 mt-1 space-y-1 transition-all">
                     {nav.subLinks.map((sub, j) => (
-                      <Link
+                      <div
                         key={j}
-                        href={sub.link}
+                        onClick={() => router.push(sub.link)}
                         className={`block py-1.5 px-3 rounded-lg text-sm font-medium font-poppins ${
                           pathname === sub.link
                             ? "bg-[#f1f1f1] text-[#301342]"
@@ -733,7 +741,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                         }`}
                       >
                         - {sub.title}
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -788,11 +796,11 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         }`}
       >
         <div className="w-full flex items-center justify-between gap-2 rounded-2xl md:bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] p-3">
-          <div onClick={toggleSidebar} className="lg:hidden">
+          <div onClick={toggleSidebar} className="lg:hidden z-99">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={28}
-              height={28}
+              width={20}
+              height={20}
               viewBox="0 0 24 24"
             >
               <path

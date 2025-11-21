@@ -127,8 +127,8 @@ const BusinessAcc = () => {
   if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          <div className="flex items-center gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center ">
+          <div className="flex flex-col text-sm items-center gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -140,13 +140,12 @@ const BusinessAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-lg">
-          Failed to load user profile.
+        <div className="flex font-poppins w-full h-screen items-center justify-center">
+          Failed to load profile.
         </div>
       </SideNav>
     );
   }
-
   const getInitials = (user: UserProfileData) => {
     const fn = user.firstname?.[0] || "";
     const ln = user.lastname?.[0] || "";

@@ -145,8 +145,8 @@ const IndiAcc = () => {
   if (isLoading || kycStatusLoad) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-base md:text-lg">
-          <div className="flex items-center flex-col  sm:flex-row gap-1">
+        <div className="flex font-poppins w-full h-screen items-center justify-center ">
+          <div className="flex flex-col text-sm items-center gap-1">
             <Loader2 size={30} className="text-main animate-spin" />
             Loading profile data...
           </div>
@@ -158,8 +158,8 @@ const IndiAcc = () => {
   if (!user) {
     return (
       <SideNav>
-        <div className="flex font-poppins w-full h-screen items-center justify-center text-base md:text-lg">
-          Failed to load user profile.
+        <div className="flex font-poppins w-full h-screen items-center justify-center">
+          Failed to load profile.
         </div>
       </SideNav>
     );
@@ -580,8 +580,7 @@ focus:border-main focus:outline-none transition-colors"
             <button
               type="submit"
               disabled={
-                isUpdating ||
-                kycStatus.data.status === "APPROVED"
+                isUpdating || kycStatus.data.status === "APPROVED"
                 // kycStatus.data.status === "PENDING_REVIEW"
               }
               className=" text-white text-sm sm:text-base font-poppins py-1.5 px-4 font-medium rounded-[6px] cursor-pointer bg-linear-to-l from-[#813FD6] flex items-center gap-1 to-[#301342] disabled:opacity-50 disabled:cursor-not-allowed"

@@ -76,7 +76,7 @@ const KYC = () => {
 
   return (
     <SideNav>
-      <div className="p-5 bg-white rounded-md my-4 overflow-hidden">
+      <div className="sm:p-5 p-3 bg-white rounded-md my-4 overflow-hidden">
         <div className=" ">
           <div className="w-full font-poppins bg-white p-2 rounded my-3">
             <div className="flex flex-col gap-2 items-center">
@@ -95,7 +95,7 @@ const KYC = () => {
                 />
               </div>
 
-              <div className="flex gap-3 items-center">
+              <div className="flex sm:flex-row flex-col gap-3 w-full items-center">
                 <select
                   value={filterData.countryFilter}
                   onChange={(e) =>
@@ -104,7 +104,7 @@ const KYC = () => {
                       countryFilter: e.target.value,
                     }))
                   }
-                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-full sm:text-base text-sm"
                 >
                   <option value="">Country</option>
 
@@ -123,7 +123,7 @@ const KYC = () => {
                       notificationTypeFilter: e.target.value,
                     }))
                   }
-                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-full sm:text-base text-sm"
                 >
                   <option value="">Select Notification Type</option>
                   {Object.entries(NOTIF_LABELS).map(([key, label]) => (
@@ -149,7 +149,7 @@ const KYC = () => {
                       isDismissed: value === "" ? undefined : value === "true", // <-- boolean conversion
                     }));
                   }}
-                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-40"
+                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-full sm:text-base text-sm"
                 >
                   <option value="">Status</option>
                   <option value="true">Resolved</option>
