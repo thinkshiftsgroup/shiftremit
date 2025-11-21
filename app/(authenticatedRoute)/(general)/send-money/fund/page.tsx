@@ -347,8 +347,10 @@ const Fund = () => {
           {bankStep === 3 && (
             <button
               onClick={() => {
-                router.push("/user/transactions");
-                clearTransfer();
+                setTimeout(() => {
+                  router.push("/user/transactions");
+                  clearTransfer();
+                }, 3000); // 3 seconds
               }}
               className="
     text-white font-poppins border border-[#813FD6] text-sm sm:text-base sm:py-3 py-2 px-3 sm:px-6 font-medium rounded-[6px] cursor-pointer
