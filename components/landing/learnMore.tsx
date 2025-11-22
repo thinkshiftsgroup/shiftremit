@@ -6,7 +6,7 @@ export default function LearnMoreModal() {
   return (
     <>
       <div className="mb-8">
-        <p className="text-sm sm:text-lg">
+        <p className="text-xs sm:text-sm">
           Rates updated 1 - 2 hours ago{" "}
           <button
             onClick={() => setIsOpen(true)}
