@@ -214,7 +214,7 @@ const PrivacyNotice = () => {
         <div className="flex justify-between mt-5">
           <button
             onClick={() => {
-              router.back();
+              router.push("/");
             }}
             className="font-poppins text-sm sm:text-base flex items-center gap-2 sm:py-3 py-2 px-3 sm:px-6 cursor-pointer bg-gray-300 rounded-[6px]"
           >
