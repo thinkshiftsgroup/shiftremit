@@ -223,7 +223,9 @@ const KYC = () => {
                               : "bg-red-500/20 text-red-500 border-red-500"
                           }`}
                         >
-                          {notif.isDismissed ? "Reviewed" : "Awaiting Review"}
+                          {notif.isDismissed
+                            ? "Acknowledged"
+                            : "Awaiting Review"}
                         </span>
                       </td>
                       <td className="px-4 py-4">
@@ -263,7 +265,7 @@ const KYC = () => {
                             {resolveNotif.isPending ? (
                               <Loader2 className="animate-spin" />
                             ) : (
-                              "Resolve"
+                              "Acknowledge"
                             )}
                           </button>
                         )}
@@ -279,7 +281,7 @@ const KYC = () => {
             <div className="bg-white rounded-lg p-6 w-96">
               <h2 className="text-lg font-semibold mb-4">Confirm Action</h2>
               <p className="mb-6">
-                Are you sure you want to resolve this notification?
+                Are you sure you want to acknowledge this notification?
               </p>
               <div className="flex justify-end gap-3">
                 <button
