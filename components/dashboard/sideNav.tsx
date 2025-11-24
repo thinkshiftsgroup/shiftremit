@@ -15,7 +15,7 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { useProfileStore } from "@/stores/useProfileStore";
 import { useQueryClient } from "@tanstack/react-query";
-import { useKyc } from "@/app/(authenticatedRoute)/admin/kyc/usekyc";
+import { useKyc } from "@/app/(authenticatedRoute)/admin/verifications/usekyc";
 
 interface NavItem {
   title: string;
@@ -65,7 +65,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
   const closeSidebar = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsOpen(false); 
+    setIsOpen(false);
   };
 
   const logoRedirectPath =
@@ -369,7 +369,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
         </svg>
       ),
       title: "Verifications",
-      link: "/admin/kyc",
+      link: "/admin/verifications",
       badge: unreadCount?.data?.count || 0,
       showFor: ["admin"],
     },

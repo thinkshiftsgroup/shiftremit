@@ -194,12 +194,14 @@ const CustomerTrxn = () => {
                         index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                       } border-b border-gray-100`}
                     >
-                      <td className="px-4 font-semibold text-sm py-3 font-poppins flex items-center gap-0.5 ">
+                      <td
+                        className="px-4 font-semibold text-sm py-3 font-poppins flex items-center gap-0.5 cursor-pointer"
+                        onClick={() =>
+                          router.push(`/admin/customers/${user.id}`)
+                        }
+                      >
                         <span>{user.fullName}</span>
                         <RiArrowRightUpLine
-                          onClick={() =>
-                            router.push(`/admin/customers/${user.id}`)
-                          }
                           className="cursor-pointer"
                           size={16}
                         />

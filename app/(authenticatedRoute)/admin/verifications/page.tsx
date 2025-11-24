@@ -223,7 +223,7 @@ const KYC = () => {
                               : "bg-red-500/20 text-red-500 border-red-500"
                           }`}
                         >
-                          {notif.isDismissed ? "DELIVERED" : "PENDING"}
+                          {notif.isDismissed ? "Reviewed" : "Awaiting Review"}
                         </span>
                       </td>
                       <td className="px-4 py-4">
@@ -292,7 +292,11 @@ const KYC = () => {
                   onClick={handleConfirmResolve}
                   className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                 >
-                  {resolveNotif.isPending ? <Loader2 className="animate-spin" /> :"Confirm"}
+                  {resolveNotif.isPending ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    "Confirm"
+                  )}
                 </button>
               </div>
             </div>
