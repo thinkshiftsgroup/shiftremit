@@ -837,6 +837,7 @@ focus:border-main focus:outline-none transition-colors"
       {indiprofile === "buss" && (
         <BusinessDocUpload
           userDeets={userDeets}
+          userNotifs={userNotifs}
           updateBussProfile={updateBussProfile}
         />
       )}

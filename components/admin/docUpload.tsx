@@ -122,7 +122,7 @@ const DocUpload = ({ user, isLoading }: any) => {
             onChange={handleFileChange}
           />
           <label
-            htmlFor={docType}
+            // Removed htmlFor={docType} to disable file picker on label click
             className="w-full mt-1 pl-2 gap-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">{prefillName || placeholder}</span>
