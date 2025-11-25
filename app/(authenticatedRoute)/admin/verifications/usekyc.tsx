@@ -10,7 +10,6 @@ export const useKyc = () => {
     pageSize,
     usernameFilter,
     countryFilter,
-    isDismissed,
     notificationTypeFilter,
   }: {
     page: number;
@@ -27,7 +26,6 @@ export const useKyc = () => {
         pageSize,
         usernameFilter,
         countryFilter,
-        isDismissed,
         notificationTypeFilter,
       ],
       queryFn: async () => {
@@ -40,13 +38,13 @@ export const useKyc = () => {
         if (countryFilter) params.append("countryFilter", countryFilter);
 
         // For booleans, avoid sending null/undefined
-        if (
-          isDismissed !== undefined &&
-          isDismissed !== null &&
-          isDismissed !== ""
-        ) {
-          params.append("isDismissed", String(isDismissed));
-        }
+        // if (
+        //   isDismissed !== undefined &&
+        //   isDismissed !== null &&
+        //   isDismissed !== ""
+        // ) {
+        //   params.append("isDismissed", String(isDismissed));
+        // }
 
         if (notificationTypeFilter)
           params.append("notificationTypeFilter", notificationTypeFilter);

@@ -16,11 +16,9 @@ export const NOTIF_LABELS: Record<string, string> = {
   BUSINESS_DOC_UPDATED: "Business Document Updated",
   BUSINESS_PROFILE_UPDATED: "Business Profile Updated",
   USER_PROFILE_UPDATED: "User Profile Updated",
-  TRANSFER: "Transfer",
   NEW_USER_REGISTERED: "New User Registered",
   USER_BANNED: "User Banned",
   USER_UNBANNED: "User Unbanned",
-  TRANSFER_FAILED: "Transfer Failed",
 };
 
 const KYC = () => {
@@ -32,7 +30,7 @@ const KYC = () => {
     page: 1,
     pageSize: 20,
     usernameFilter: "",
-    isDismissed: undefined as boolean | undefined,
+
     countryFilter: "",
     notificationTypeFilter: "",
   });
@@ -42,7 +40,7 @@ const KYC = () => {
       page: 1,
       pageSize: 20,
       usernameFilter: "",
-      isDismissed: undefined,
+
       countryFilter: "",
       notificationTypeFilter: "",
     });
@@ -133,29 +131,6 @@ const KYC = () => {
                   ))}
                 </select>
 
-                <select
-                  value={
-                    filterData.isDismissed === undefined
-                      ? ""
-                      : filterData.isDismissed
-                      ? "true"
-                      : "false"
-                  }
-                  onChange={(e) => {
-                    const value = e.target.value;
-
-                    setFilterData((prev) => ({
-                      ...prev,
-                      isDismissed: value === "" ? undefined : value === "true", // <-- boolean conversion
-                    }));
-                  }}
-                  className="flex items-center gap-2 px-2 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-600 hover:bg-gray-100 transition-colors w-full sm:text-base text-sm"
-                >
-                  <option value="">Status</option>
-                  <option value="true">Resolved</option>
-                  <option value="false">Pending</option>
-                </select>
-
                 <button
                   onClick={handleReset}
                   className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded transition-colors"
@@ -240,14 +215,14 @@ const KYC = () => {
                           minute: "2-digit",
                         })}
                       </td>
-                      <td className="px-4 py-4 flex gap-3 items-center">
+                      <td className="px-4 py-4  justify-center">
                         <button
                           disabled={markRead.isPending}
                           onClick={() => {
                             router.push(notif.linkToResource);
                             markRead.mutate(notif.id);
                           }}
-                          className="text-main hover:opacity-70"
+                          className="text-main hover:opacity-70 ml-2"
                         >
                           {!notif.isRead ? (
                             <Eye size={20} />
@@ -256,7 +231,7 @@ const KYC = () => {
                           )}
                         </button>
 
-                        {!notif.isDismissed && (
+                        {/* {!notif.isDismissed && (
                           <button
                             disabled={resolveNotif.isPending}
                             onClick={() => handleOpenModal(notif.id)}
@@ -268,7 +243,7 @@ const KYC = () => {
                               "Acknowledge"
                             )}
                           </button>
-                        )}
+                        )} */}
                       </td>
                     </tr>
                   ))}
@@ -276,7 +251,7 @@ const KYC = () => {
             </table>
           </div>
         </div>
-        {confirmModal.open && (
+        {/* {confirmModal.open && (
           <div className="fixed inset-0 bg-black/20 font-poppins bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-6 w-96">
               <h2 className="text-lg font-semibold mb-4">Confirm Action</h2>
@@ -303,7 +278,7 @@ const KYC = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </SideNav>
   );
