@@ -17,8 +17,12 @@ const statusColors: Record<string, string> = {
   REJECTED: "text-red-500",
 };
 
-const BusinessDocUpload = ({ userDeets, updateBussProfile }: any) => {
-  const docData = userDeets?.businessAccountDocs || [];
+const BusinessDocUpload = ({
+  userDeets,
+  userNotifs,
+  updateBussProfile,
+}: any) => {
+  const docData = userDeets?.businessAccountDocs || {};
   const { changeBussFileStatus } = useAdmin();
   const params = useParams<{ id: string }>();
 
@@ -33,6 +37,22 @@ const BusinessDocUpload = ({ userDeets, updateBussProfile }: any) => {
   const utilityRef = useRef<HTMLInputElement>(null);
   const taxRef = useRef<HTMLInputElement>(null);
   const additionalRef = useRef<HTMLInputElement>(null);
+
+  const getNotificationBadge = (docType: string): boolean => {
+    if (!userNotifs) return false;
+
+    const relevantNotification = userNotifs.find(
+      (notif: any) =>
+        notif.type === "BUSINESS_DOC_UPDATED" && !notif.isDismissed
+    );
+
+    if (relevantNotification?.changedDocs) {
+      const changedDocs: string[] = relevantNotification.changedDocs;
+      return changedDocs.includes(docType);
+    }
+
+    return false;
+  };
 
   const handlePreview = (file: File | null, fileUrl?: string) => {
     if (file) {
@@ -73,15 +93,25 @@ const BusinessDocUpload = ({ userDeets, updateBussProfile }: any) => {
 
     const hasFile = prefillName || fileUrl;
 
+    const hasNewUpdate = getNotificationBadge(docType);
+
     return (
       <div className="whitespace-nowrap overflow-x-scroll scrollbar-hide">
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-sm text-[#454745] flex items-center gap-2">
           {label}
+          {hasNewUpdate && (
+            <span
+              className="ml-2 text-xs font-bold text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded-full"
+              title="New document uploaded"
+            >
+              New
+            </span>
+          )}
         </label>
         <div className="relative">
           <label
             htmlFor={docType}
-            className="w-full mt-1 gap-2  pl-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
+            className="w-full mt-1 gap-2  pl-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">{prefillName || placeholder}</span>
 

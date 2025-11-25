@@ -11,6 +11,7 @@ const statusColors: Record<string, string> = {
   IN_REVIEW: "text-main",
   REJECTED: "text-red-500",
 };
+
 const DocUpload = ({ user, isLoading }: any) => {
   const { changeFileStatus } = useAdmin();
 
@@ -28,6 +29,23 @@ const DocUpload = ({ user, isLoading }: any) => {
   const [backFile, setBackFile] = useState<File | null>(null);
 
   const docData = user?.individualAccountDoc || {};
+
+  const getNotificationBadge = (docName: string): boolean => {
+    if (!user?.adminNotifications) return false;
+
+    const relevantNotification = user.adminNotifications.find(
+      (notif: any) =>
+        notif.type === "INDIVIDUAL_DOC_UPDATED" && !notif.isDismissed
+    );
+
+    if (relevantNotification?.changedDocs) {
+      const changedDocs: string[] =
+        relevantNotification.changedDocs as string[];
+      return changedDocs.includes(docName);
+    }
+
+    return false;
+  };
 
   const handlePreview = (file: File | null, fileUrl?: string) => {
     if (file) {
@@ -68,19 +86,57 @@ const DocUpload = ({ user, isLoading }: any) => {
 
     const hasFile = prefillName || fileUrl;
 
+    const hasNewUpdate = getNotificationBadge(docType);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      setFileName(file ? file.name : "");
+    };
+
+    const handleClearFile = () => {
+      if (ref.current) {
+        ref.current.value = "";
+      }
+      setFileName("");
+    };
+
     return (
       <div className="overflow-x-scroll scrollbar-hide">
-        <label className="font-poppins font-semibold text-sm text-[#454745]">
+        <label className="font-poppins font-semibold text-sm text-[#454745] flex items-center gap-2">
           {label}
+          {hasNewUpdate && (
+            <span
+              className="ml-2 text-xs font-bold text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded-full"
+              title="New document uploaded"
+            >
+              New
+            </span>
+          )}
         </label>
         <div className="relative">
+          <input
+            type="file"
+            id={docType}
+            ref={ref as React.RefObject<HTMLInputElement>}
+            className="hidden"
+            onChange={handleFileChange}
+          />
           <label
-            htmlFor={docType} 
+            htmlFor={docType}
             className="w-full mt-1 pl-2 gap-2 rounded-sm border border-dashed border-[#d1d5db80] text-[#666] text-sm font-poppins cursor-pointer flex items-center justify-between hover:border-main transition-colors"
           >
             <span className="opacity-80">{prefillName || placeholder}</span>
 
             <div className="flex items-center gap-2">
+              {fileName && (
+                <HiTrash
+                  className="text-red-500 w-4 h-4 cursor-pointer hover:text-red-700 transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleClearFile();
+                  }}
+                />
+              )}
               {status && status !== "PENDING" && (
                 <span
                   className={`text-xs font-poppins ${
@@ -166,7 +222,7 @@ const DocUpload = ({ user, isLoading }: any) => {
             />
           ) : (
             <p className="text-base flex items-center gap-2">
-              <span className="font-semibold">ID</span> card Front{" "}
+              <span className="font-semibold">ID</span> card Front
               <svg
                 width="20"
                 height="20"
@@ -238,7 +294,7 @@ const DocUpload = ({ user, isLoading }: any) => {
             />
           ) : (
             <p className="text-base flex items-center gap-2">
-              <span className="font-semibold">ID</span> card Back{" "}
+              <span className="font-semibold">ID</span> card Back
               <svg
                 width="20"
                 height="20"

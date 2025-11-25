@@ -44,7 +44,7 @@ const CustomerDetails = () => {
   const { data, isLoading } = useUserByID(params?.id);
   const user = data?.data;
   const userDeets = user?.businessAccount;
-
+  const userNotifs = user?.adminNotifications;
   const [kycModalOpen, setKycModalOpen] = useState(false);
   const [kycPendingAction, setKycPendingAction] = useState<
     "approve" | "disapprove" | null
@@ -369,22 +369,6 @@ const CustomerDetails = () => {
     "
                   />
                 </div>
-                {/* <div className="flex items-center gap-1">
-                  <p className="text-red-500">Delete</p>
-                  <Switch
-                    checked={isDeleted}
-                    onCheckedChange={(value) =>
-                      handleSwitchChange("delete", value)
-                    }
-                    disabled={deleteUser.isPending}
-                    className="
-      data-[state=checked]:bg-main
-      data-[state=checked]:border-main
-      data-[state=unchecked]:bg-gray-300
-      [&>span]:data-[state=checked]:bg-white
-    "
-                  />
-                </div> */}
               </div>
             </div>
 
@@ -879,13 +863,6 @@ focus:border-main focus:outline-none transition-colors"
               >
                 Approve Individual KYC
               </button>
-
-              {/* {showSuccess && (
-                <div className="font-poppins justify-center text-sm flex items-center gap-2 text-main mt-2">
-                  <FaCircleCheck size={20} className="text-main" />
-                  Approved
-                </div>
-              )} */}
             </div>
           ) : (
             <div className="bg-white w-full p-3 flex flex-col items-center">
@@ -900,13 +877,6 @@ focus:border-main focus:outline-none transition-colors"
               >
                 Disapprove Individual KYC
               </button>
-
-              {/* {showSuccess && (
-                <div className="font-poppins justify-center text-sm flex items-center gap-2 text-red-500 mt-2">
-                  <FaCircleCheck size={20} className="text-red-500" />
-                  Disapproved
-                </div>
-              )} */}
             </div>
           )}
         </>

@@ -224,7 +224,7 @@ const KYC = () => {
                           }}
                           className="text-main hover:opacity-70 ml-2"
                         >
-                          {!notif.isRead ? (
+                          {!notif.isDismissed ? (
                             <Eye size={20} />
                           ) : (
                             <EyeOff size={20} className="text-gray-500" />
