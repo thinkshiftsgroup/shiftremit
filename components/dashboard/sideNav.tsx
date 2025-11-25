@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { IoWallet } from "react-icons/io5";
@@ -17,15 +17,21 @@ import { useProfileStore } from "@/stores/useProfileStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { useKyc } from "@/app/(authenticatedRoute)/admin/verifications/usekyc";
 
-interface NavItem {
+type UserRole = "admin" | "user" | "partner";
+
+interface NavSubLink {
   title: string;
   link: string;
-  showFor: string[];
-  icon?: React.ReactNode;
-  subLinks?: { title: string; link: string }[];
-  badge?: number;
 }
 
+interface NavItem {
+  icon: ReactNode;
+  title: string;
+  link: string;
+  showFor: UserRole[];
+  subLinks?: NavSubLink[];
+  badge?: number;
+}
 const SideNav = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const { unreadCount } = useKyc();
@@ -77,7 +83,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
     ? user.firstname || user.username || user.email
     : "Guest";
 
-  const navItems = [
+  const navItems: NavItem[] = [
     {
       icon: <TbSmartHome size={18} />,
       title: "Dashboard",
@@ -194,96 +200,96 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/user/transactions",
       showFor: ["user"],
     },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={18}
-          height={18}
-          viewBox="0 0 24 24"
-        >
-          <g
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-          >
-            <path d="M19.75 6.75h-12a4 4 0 0 0-4 4v2m16-1v2a4 4 0 0 1-4 4h-12"></path>
-            <path d="m16.75 9.75l3-3l-3-3m-10 11l-3 3l3 3"></path>
-          </g>
-        </svg>
-      ),
-      title: "Conversion",
-      link: "/conversion",
-      showFor: ["admin"],
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
-          <g
-            fill="none"
-            stroke="currentColor"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-          >
-            {" "}
-            <path strokeLinecap="round" d="M17.5 17.5L22 22"></path>{" "}
-            <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>{" "}
-            <path
-              strokeLinecap="round"
-              d="M13.253 9.311c.105-1.264-1.83-2.297-3.308-1.604c-1.847.865-1.686 3.052.595 3.168c1.015.052 1.903-.058 2.506.596c.604.654.865 2.32-.913 2.884c-1.78.565-3.633-.443-3.633-1.672M10.971 6.5v.978m0 7.242v.78"
-            ></path>{" "}
-          </g>{" "}
-        </svg>
-      ),
-      title: "Track Transfer",
-      link: "/track-transfer",
-      showFor: ["user", "admin"],
-    },
-    {
-      icon: <HiOutlineWallet size={18} />,
-      title: "Wallets",
-      link: "/admin/wallets",
-      showFor: ["admin"],
-    },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
-          <path
-            fill="currentColor"
-            d="M19 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0"
-          ></path>{" "}
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M9.944 3.25h3.112c1.838 0 3.294 0 4.433.153c1.172.158 2.121.49 2.87 1.238c.924.925 1.219 2.163 1.326 3.77c.577.253 1.013.79 1.06 1.47c.005.061.005.126.005.186v3.866c0 .06 0 .125-.004.185c-.048.68-.484 1.218-1.061 1.472c-.107 1.606-.402 2.844-1.326 3.769c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H9.944c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433v-.112c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238c1.14-.153 2.595-.153 4.433-.153m10.224 12.5H18.23c-2.145 0-3.981-1.628-3.981-3.75s1.836-3.75 3.98-3.75h1.938c-.114-1.341-.371-2.05-.87-2.548c-.423-.423-1.003-.677-2.009-.812c-1.027-.138-2.382-.14-4.289-.14h-3c-1.907 0-3.261.002-4.29.14c-1.005.135-1.585.389-2.008.812S3.025 6.705 2.89 7.71c-.138 1.028-.14 2.382-.14 4.289s.002 3.262.14 4.29c.135 1.005.389 1.585.812 2.008s1.003.677 2.009.812c1.028.138 2.382.14 4.289.14h3c1.907 0 3.262-.002 4.29-.14c1.005-.135 1.585-.389 2.008-.812c.499-.498.756-1.206.87-2.548M5.25 8A.75.75 0 0 1 6 7.25h4a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 8m15.674 1.75H18.23c-1.424 0-2.481 1.059-2.481 2.25s1.057 2.25 2.48 2.25h2.718c.206-.013.295-.152.302-.236V9.986c-.007-.084-.096-.223-.302-.235z"
-            clipRule="evenodd"
-          ></path>{" "}
-        </svg>
-      ),
-      title: "Request Money",
-      link: "/request-money",
-      subLinks: [
-        { title: "Send Request", link: "/request-money/send-request" },
-        { title: "Sent Request", link: "/request-money/sent-request" },
-        { title: "Received Request", link: "/request-money/received-request" },
-        { title: "Received Wallet", link: "/request-money/received-wallet" },
-      ],
-      showFor: ["user", "admin"],
-    },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width={18}
+    //       height={18}
+    //       viewBox="0 0 24 24"
+    //     >
+    //       <g
+    //         fill="none"
+    //         stroke="currentColor"
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
+    //         strokeWidth={1.5}
+    //       >
+    //         <path d="M19.75 6.75h-12a4 4 0 0 0-4 4v2m16-1v2a4 4 0 0 1-4 4h-12"></path>
+    //         <path d="m16.75 9.75l3-3l-3-3m-10 11l-3 3l3 3"></path>
+    //       </g>
+    //     </svg>
+    //   ),
+    //   title: "Conversion",
+    //   link: "/conversion",
+    //   showFor: ["admin"],
+    // },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       {" "}
+    //       <g
+    //         fill="none"
+    //         stroke="currentColor"
+    //         strokeLinejoin="round"
+    //         strokeWidth="1.5"
+    //       >
+    //         {" "}
+    //         <path strokeLinecap="round" d="M17.5 17.5L22 22"></path>{" "}
+    //         <path d="M20 11a9 9 0 1 0-18 0a9 9 0 0 0 18 0Z"></path>{" "}
+    //         <path
+    //           strokeLinecap="round"
+    //           d="M13.253 9.311c.105-1.264-1.83-2.297-3.308-1.604c-1.847.865-1.686 3.052.595 3.168c1.015.052 1.903-.058 2.506.596c.604.654.865 2.32-.913 2.884c-1.78.565-3.633-.443-3.633-1.672M10.971 6.5v.978m0 7.242v.78"
+    //         ></path>{" "}
+    //       </g>{" "}
+    //     </svg>
+    //   ),
+    //   title: "Track Transfer",
+    //   link: "/track-transfer",
+    //   showFor: ["user", "admin"],
+    // },
+    // {
+    //   icon: <HiOutlineWallet size={18} />,
+    //   title: "Wallets",
+    //   link: "/admin/wallets",
+    //   showFor: ["admin"],
+    // },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       {" "}
+    //       <path
+    //         fill="currentColor"
+    //         d="M19 12a1 1 0 1 1-2 0a1 1 0 0 1 2 0"
+    //       ></path>{" "}
+    //       <path
+    //         fill="currentColor"
+    //         fillRule="evenodd"
+    //         d="M9.944 3.25h3.112c1.838 0 3.294 0 4.433.153c1.172.158 2.121.49 2.87 1.238c.924.925 1.219 2.163 1.326 3.77c.577.253 1.013.79 1.06 1.47c.005.061.005.126.005.186v3.866c0 .06 0 .125-.004.185c-.048.68-.484 1.218-1.061 1.472c-.107 1.606-.402 2.844-1.326 3.769c-.749.748-1.698 1.08-2.87 1.238c-1.14.153-2.595.153-4.433.153H9.944c-1.838 0-3.294 0-4.433-.153c-1.172-.158-2.121-.49-2.87-1.238c-.748-.749-1.08-1.698-1.238-2.87c-.153-1.14-.153-2.595-.153-4.433v-.112c0-1.838 0-3.294.153-4.433c.158-1.172.49-2.121 1.238-2.87c.749-.748 1.698-1.08 2.87-1.238c1.14-.153 2.595-.153 4.433-.153m10.224 12.5H18.23c-2.145 0-3.981-1.628-3.981-3.75s1.836-3.75 3.98-3.75h1.938c-.114-1.341-.371-2.05-.87-2.548c-.423-.423-1.003-.677-2.009-.812c-1.027-.138-2.382-.14-4.289-.14h-3c-1.907 0-3.261.002-4.29.14c-1.005.135-1.585.389-2.008.812S3.025 6.705 2.89 7.71c-.138 1.028-.14 2.382-.14 4.289s.002 3.262.14 4.29c.135 1.005.389 1.585.812 2.008s1.003.677 2.009.812c1.028.138 2.382.14 4.289.14h3c1.907 0 3.262-.002 4.29-.14c1.005-.135 1.585-.389 2.008-.812c.499-.498.756-1.206.87-2.548M5.25 8A.75.75 0 0 1 6 7.25h4a.75.75 0 0 1 0 1.5H6A.75.75 0 0 1 5.25 8m15.674 1.75H18.23c-1.424 0-2.481 1.059-2.481 2.25s1.057 2.25 2.48 2.25h2.718c.206-.013.295-.152.302-.236V9.986c-.007-.084-.096-.223-.302-.235z"
+    //         clipRule="evenodd"
+    //       ></path>{" "}
+    //     </svg>
+    //   ),
+    //   title: "Request Money",
+    //   link: "/request-money",
+    //   subLinks: [
+    //     { title: "Send Request", link: "/request-money/send-request" },
+    //     { title: "Sent Request", link: "/request-money/sent-request" },
+    //     { title: "Received Request", link: "/request-money/received-request" },
+    //     { title: "Received Wallet", link: "/request-money/received-wallet" },
+    //   ],
+    //   showFor: ["user", "admin"],
+    // },
     {
       icon: (
         <svg
@@ -309,29 +315,29 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/recipients",
       showFor: ["admin", "user"],
     },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-        >
-          {" "}
-          <path
-            fill="currentColor"
-            d="M21.71 8.71c1.25-1.25.68-2.71 0-3.42l-3-3c-1.26-1.25-2.71-.68-3.42 0L13.59 4H11C9.1 4 8 5 7.44 6.15L3 10.59v4l-.71.7c-1.25 1.26-.68 2.71 0 3.42l3 3c.54.54 1.12.74 1.67.74c.71 0 1.36-.35 1.75-.74l2.7-2.71H15c1.7 0 2.56-1.06 2.87-2.1c1.13-.3 1.75-1.16 2-2C21.42 14.5 22 13.03 22 12V9h-.59zM20 12c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-4.41l-3.28 3.28c-.31.29-.49.12-.6.01l-2.99-2.98c-.29-.31-.12-.49-.01-.6L5 15.41v-4l2-2V11c0 1.21.8 3 3 3s3-1.79 3-3h7zm.29-4.71L18.59 9H11v2c0 .45-.19 1-1 1s-1-.55-1-1V8c0-.46.17-2 2-2h3.41l2.28-2.28c.31-.29.49-.12.6-.01l2.99 2.98c.29.31.12.49.01.6"
-          />{" "}
-        </svg>
-      ),
-      title: "Partner Business",
-      link: "/customer/partner-space",
-      subLinks: [
-        { title: "Partner Space", link: "/customer/partner-space" },
-        { title: "Transaction Logs", link: "/partner/transactions" },
-      ],
-      showFor: ["admin"],
-    },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       {" "}
+    //       <path
+    //         fill="currentColor"
+    //         d="M21.71 8.71c1.25-1.25.68-2.71 0-3.42l-3-3c-1.26-1.25-2.71-.68-3.42 0L13.59 4H11C9.1 4 8 5 7.44 6.15L3 10.59v4l-.71.7c-1.25 1.26-.68 2.71 0 3.42l3 3c.54.54 1.12.74 1.67.74c.71 0 1.36-.35 1.75-.74l2.7-2.71H15c1.7 0 2.56-1.06 2.87-2.1c1.13-.3 1.75-1.16 2-2C21.42 14.5 22 13.03 22 12V9h-.59zM20 12c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-1v1c0 .45-.19 1-1 1h-4.41l-3.28 3.28c-.31.29-.49.12-.6.01l-2.99-2.98c-.29-.31-.12-.49-.01-.6L5 15.41v-4l2-2V11c0 1.21.8 3 3 3s3-1.79 3-3h7zm.29-4.71L18.59 9H11v2c0 .45-.19 1-1 1s-1-.55-1-1V8c0-.46.17-2 2-2h3.41l2.28-2.28c.31-.29.49-.12.6-.01l2.99 2.98c.29.31.12.49.01.6"
+    //       />{" "}
+    //     </svg>
+    //   ),
+    //   title: "Partner Business",
+    //   link: "/customer/partner-space",
+    //   subLinks: [
+    //     { title: "Partner Space", link: "/customer/partner-space" },
+    //     { title: "Transaction Logs", link: "/partner/transactions" },
+    //   ],
+    //   showFor: ["admin"],
+    // },
     {
       icon: (
         <svg
@@ -428,89 +434,89 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       link: "/admin/profile",
       showFor: ["admin"],
     },
-    {
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 256 256"
-        >
-          {" "}
-          <g fill="none" stroke="currentColor" strokeLinecap="round">
-            {" "}
-            <path strokeWidth="15.992" d="M 32,48 V 207.9236"></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="M 224,96 V 208"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="m 64,16 h 80"
-            ></path>{" "}
-            <path strokeWidth="15.992" d="M 64,240 H 192"></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="m 224,208 c 0.0874,15.98169 -16,32 -32,32"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="m -32,208 c -10e-7,16 -16,32 -32,32"
-              transform="scale(-1 1)"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="M -32,-47.976784 C -32,-32 -48,-16.356322 -63.999997,-16.000002"
-              transform="scale(-1)"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="M 223.91257,96.071779 144,16"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="m -144,64 c -0.0492,15.912926 -16.06452,31.999995 -32,32"
-              transform="scale(-1 1)"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="M 144,64 V 16"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="15.992"
-              d="m 176,96 h 48"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="16"
-              d="m 64,208 h 48"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="16"
-              d="m 64,176 h 80"
-            ></path>{" "}
-            <path
-              strokeLinejoin="round"
-              strokeWidth="16"
-              d="m 64,144 h 48"
-            ></path>{" "}
-          </g>{" "}
-        </svg>
-      ),
-      title: "Logs",
-      link: "/all-logs",
-      showFor: ["admin"],
-    },
+    // {
+    //   icon: (
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="18"
+    //       height="18"
+    //       viewBox="0 0 256 256"
+    //     >
+    //       {" "}
+    //       <g fill="none" stroke="currentColor" strokeLinecap="round">
+    //         {" "}
+    //         <path strokeWidth="15.992" d="M 32,48 V 207.9236"></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="M 224,96 V 208"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="m 64,16 h 80"
+    //         ></path>{" "}
+    //         <path strokeWidth="15.992" d="M 64,240 H 192"></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="m 224,208 c 0.0874,15.98169 -16,32 -32,32"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="m -32,208 c -10e-7,16 -16,32 -32,32"
+    //           transform="scale(-1 1)"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="M -32,-47.976784 C -32,-32 -48,-16.356322 -63.999997,-16.000002"
+    //           transform="scale(-1)"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="M 223.91257,96.071779 144,16"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="m -144,64 c -0.0492,15.912926 -16.06452,31.999995 -32,32"
+    //           transform="scale(-1 1)"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="M 144,64 V 16"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="15.992"
+    //           d="m 176,96 h 48"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="16"
+    //           d="m 64,208 h 48"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="16"
+    //           d="m 64,176 h 80"
+    //         ></path>{" "}
+    //         <path
+    //           strokeLinejoin="round"
+    //           strokeWidth="16"
+    //           d="m 64,144 h 48"
+    //         ></path>{" "}
+    //       </g>{" "}
+    //     </svg>
+    //   ),
+    //   title: "Logs",
+    //   link: "/all-logs",
+    //   showFor: ["admin"],
+    // },
   ];
 
   const filteredNavItems = navItems.filter((item) =>
@@ -728,7 +734,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                   </span>
                 )}
 
-                {nav.subLinks && isOpen && !collapsed && (
+                {/* {nav.subLinks && isOpen && !collapsed && (
                   <div className="ml-8 mt-1 space-y-1 transition-all">
                     {nav.subLinks.map((sub, j) => (
                       <div
@@ -744,7 +750,7 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
                       </div>
                     ))}
                   </div>
-                )}
+                )} */}
               </div>
             );
           })}
@@ -755,10 +761,17 @@ const SideNav = ({ children }: { children: React.ReactNode }) => {
       {!collapsed && (
         <div className="bg-[#f1f1f1] mx-4 mb-4 flex items-center justify-between gap-2 rounded-xl p-4 shadow-[0_2px_5px_rgba(0,0,0,0.05)]">
           <div>
-            <p className="text-[#454745] text-xs pt-1 font-poppins">Wallet</p>
-            <p className="text-[#072032] font-dm-sans font-semibold">0.00</p>
+            <p className="text-[#454745] text-xs pt-1 font-poppins">
+              Contact Us @
+            </p>
+            <p className="text-[#072032] font-dm-sans font-semibold">
+              support@shiftremit.com
+            </p>
+            {/* <p className="text-[#072032] font-dm-sans font-semibold">
+              support@shiftremit.com
+            </p> */}
           </div>
-          <IoWallet className="text-main" size={35} />
+          {/* <IoWallet className="text-main" size={35} /> */}
         </div>
       )}
     </>
