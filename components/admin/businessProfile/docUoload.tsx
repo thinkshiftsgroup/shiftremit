@@ -38,6 +38,14 @@ const BusinessDocUpload = ({
   const taxRef = useRef<HTMLInputElement>(null);
   const additionalRef = useRef<HTMLInputElement>(null);
 
+  const docTypes = [
+    "businessRegistrationIncorporationCertificate",
+    "articleOfAssociation",
+    "operatingBusinessUtilityBill",
+    "companyStatusReports",
+    "additionalDocument",
+  ];
+
   const getNotificationBadge = (docType: string): boolean => {
     if (!userNotifs) return false;
 
@@ -53,6 +61,8 @@ const BusinessDocUpload = ({
 
     return false;
   };
+
+  const hasAnyNewDoc = docTypes.some(getNotificationBadge);
 
   const handlePreview = (file: File | null, fileUrl?: string) => {
     if (file) {
@@ -159,8 +169,16 @@ const BusinessDocUpload = ({
   return (
     <div className="w-full bg-white shadow-md rounded-md p-3 mb-10">
       <div className="my-2 border-b pb-3">
-        <h1 className="font-poppins text-lg font-medium text-main">
+        <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-2">
           Business Document Upload
+          {hasAnyNewDoc && (
+            <span
+              className="ml-2 text-xs font-bold text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded-full"
+              title="New document uploaded"
+            >
+              New
+            </span>
+          )}
         </h1>
         <p className="text-sm text-[#454745]">
           Provide required business documents

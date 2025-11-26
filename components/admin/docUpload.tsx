@@ -30,6 +30,15 @@ const DocUpload = ({ user, isLoading }: any) => {
 
   const docData = user?.individualAccountDoc || {};
 
+  const docTypes = [
+    "proofOfValidID",
+    "proofOfValidIDBackView",
+    "recentProofOfAddress",
+    "recentSelfieWithID",
+    "recentBankStatement",
+    "additionalDocuments",
+  ];
+
   const getNotificationBadge = (docName: string): boolean => {
     if (!user?.adminNotifications) return false;
 
@@ -46,6 +55,8 @@ const DocUpload = ({ user, isLoading }: any) => {
 
     return false;
   };
+
+  const hasAnyNewDoc = docTypes.some(getNotificationBadge);
 
   const handlePreview = (file: File | null, fileUrl?: string) => {
     if (file) {
@@ -172,8 +183,16 @@ const DocUpload = ({ user, isLoading }: any) => {
   return (
     <div className="w-full bg-white shadow-md mb-5 rounded-md p-3">
       <div className="my-2 border-b pb-3">
-        <h1 className="font-poppins text-lg font-medium text-main">
+        <h1 className="font-poppins text-lg font-medium text-main flex items-center gap-2">
           Document Upload
+          {hasAnyNewDoc && (
+            <span
+              className="ml-2 text-xs font-bold text-blue-700 bg-blue-100 px-1.5 py-0.5 rounded-full"
+              title="New document uploaded"
+            >
+              New
+            </span>
+          )}
         </h1>
         <p className="text-sm text-[#454745] font-dm-sans">
           Additional document needed to speed up the KYC process
@@ -233,14 +252,14 @@ const DocUpload = ({ user, isLoading }: any) => {
                 <path
                   d="M6.13103 7.84214C7.07605 7.84214 7.84214 7.07605 7.84214 6.13103C7.84214 5.18601 7.07605 4.41992 6.13103 4.41992C5.18601 4.41992 4.41992 5.18601 4.41992 6.13103C4.41992 7.07605 5.18601 7.84214 6.13103 7.84214Z"
                   stroke="#0640B5"
-                  stroke-width="0.855556"
+                  strokeWidth="0.855556"
                 />
 
                 <path
                   d="M0.427734 6.33908C0.427734 4.59089 0.427734 3.71709 0.854942 3.08968C1.04064 2.81704 1.27826 2.58368 1.55422 2.40295C1.96488 2.13317 2.47936 2.03678 3.26704 2.00255C3.64291 2.00255 3.96631 1.72307 4.03989 1.36089C4.09612 1.09559 4.24222 0.857841 4.45349 0.687822C4.66477 0.517803 4.92827 0.425941 5.19945 0.427761H7.06342C7.62695 0.427761 8.11233 0.818465 8.22299 1.36089C8.29656 1.72307 8.61996 2.00255 8.99584 2.00255C9.78295 2.03678 10.2974 2.13374 10.7087 2.40295C10.9853 2.58433 11.2231 2.81761 11.4079 3.08968C11.8351 3.71709 11.8351 4.59089 11.8351 6.33908C11.8351 8.08727 11.8351 8.9605 11.4079 9.58848C11.2222 9.86112 10.9846 10.0945 10.7087 10.2752C10.0693 10.6944 9.17893 10.6944 7.3988 10.6944H4.86408C3.08395 10.6944 2.1936 10.6944 1.55422 10.2752C1.27841 10.0943 1.04098 9.8607 0.855512 9.58791C0.731593 9.40333 0.640335 9.19882 0.585727 8.98332M10.124 4.42035H9.55366"
                   stroke="#0640B5"
-                  stroke-width="0.855556"
-                  stroke-linecap="round"
+                  strokeWidth="0.855556"
+                  strokeLinecap="round"
                 />
               </svg>
             </p>
@@ -305,14 +324,14 @@ const DocUpload = ({ user, isLoading }: any) => {
                 <path
                   d="M6.13103 7.84214C7.07605 7.84214 7.84214 7.07605 7.84214 6.13103C7.84214 5.18601 7.07605 4.41992 6.13103 4.41992C5.18601 4.41992 4.41992 5.18601 4.41992 6.13103C4.41992 7.07605 5.18601 7.84214 6.13103 7.84214Z"
                   stroke="#0640B5"
-                  stroke-width="0.855556"
+                  strokeWidth="0.855556"
                 />
 
                 <path
                   d="M0.427734 6.33908C0.427734 4.59089 0.427734 3.71709 0.854942 3.08968C1.04064 2.81704 1.27826 2.58368 1.55422 2.40295C1.96488 2.13317 2.47936 2.03678 3.26704 2.00255C3.64291 2.00255 3.96631 1.72307 4.03989 1.36089C4.09612 1.09559 4.24222 0.857841 4.45349 0.687822C4.66477 0.517803 4.92827 0.425941 5.19945 0.427761H7.06342C7.62695 0.427761 8.11233 0.818465 8.22299 1.36089C8.29656 1.72307 8.61996 2.00255 8.99584 2.00255C9.78295 2.03678 10.2974 2.13374 10.7087 2.40295C10.9853 2.58433 11.2231 2.81761 11.4079 3.08968C11.8351 3.71709 11.8351 4.59089 11.8351 6.33908C11.8351 8.08727 11.8351 8.9605 11.4079 9.58848C11.2222 9.86112 10.9846 10.0945 10.7087 10.2752C10.0693 10.6944 9.17893 10.6944 7.3988 10.6944H4.86408C3.08395 10.6944 2.1936 10.6944 1.55422 10.2752C1.27841 10.0943 1.04098 9.8607 0.855512 9.58791C0.731593 9.40333 0.640335 9.19882 0.585727 8.98332M10.124 4.42035H9.55366"
                   stroke="#0640B5"
-                  stroke-width="0.855556"
-                  stroke-linecap="round"
+                  strokeWidth="0.855556"
+                  strokeLinecap="round"
                 />
               </svg>
             </p>
