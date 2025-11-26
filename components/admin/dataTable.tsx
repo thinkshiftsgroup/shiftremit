@@ -1,5 +1,6 @@
 "use client";
 import { BsCheckLg } from "react-icons/bs";
+import Link from "next/link";
 import { IoCloseSharp } from "react-icons/io5";
 import { LuArrowUpRight } from "react-icons/lu";
 import React, { useState } from "react";
@@ -47,7 +48,7 @@ export default function AdminDataTable({
     );
   };
   const handleDeleteTrx = (id: string) => {
-    setLoadingDelete( id );
+    setLoadingDelete(id);
     deleteSingleTrx.mutate(
       { id },
       {
@@ -105,9 +106,14 @@ export default function AdminDataTable({
                     index % 2 === 0 ? "bg-white" : "bg-[#fbf6ff]"
                   } border-b border-gray-100`}
                 >
-                  <td className="px-4 py-1 flex items-center gap-1 cursor-pointer text-sm font-medium text-gray-900">
-                    {row.user.fullName}
-                    <LuArrowUpRight size={14} />
+                  <td className="px-4 py-1 text-sm font-medium text-gray-900">
+                    <Link
+                      href={`/admin/customers/${row.userId}`}
+                      className="flex items-center gap-1 cursor-pointer"
+                    >
+                      {row.user.fullName}
+                      <LuArrowUpRight size={14} />
+                    </Link>
                   </td>
                   <td className="px-4 py-1 text-sm text-gray-700">
                     {row.transferReference}
