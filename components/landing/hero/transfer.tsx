@@ -76,10 +76,11 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     from: string,
     to: string
   ) => {
-    if (sendAmount === "" || isNaN(parseFloat(sendAmount))) return "";
+    // If the input is empty string, return "0"
+    if (sendAmount === "") return "0";
 
     const amount = parseFloat(sendAmount);
-    if (amount === 0) return "0";
+    if (isNaN(amount) || amount === 0) return "0";
 
     let received;
     if (from === to) {
@@ -92,7 +93,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
       received = amount * rate;
       return received.toFixed(getDecimalPlaces("GBP"));
     }
-    return "";
+    return "0";
   };
 
   const calculateSendAmount = (
@@ -101,11 +102,10 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     from: string,
     to: string
   ) => {
-    if (receiveAmount === "" || isNaN(parseFloat(receiveAmount)) || rate === 0)
-      return "";
+    if (receiveAmount === "") return ""; // Keep the sending field empty if the receiving field is empty
 
     const amount = parseFloat(receiveAmount);
-    if (amount === 0) return "0";
+    if (isNaN(amount) || amount === 0 || rate === 0) return "0";
 
     let sent;
     if (from === to) {
@@ -118,7 +118,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
       sent = amount / rate;
       return sent.toFixed(2);
     }
-    return "";
+    return "0";
   };
 
   // Update onRateUpdate prop when dependencies change
@@ -140,6 +140,13 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   // Recalculate receive amount whenever sending amount, rate, or currencies change
   useEffect(() => {
     if (isRateReady) {
+      // Set to "0" if the sending input is cleared but rate is ready
+      if (sending_amount === "") {
+        setSendingAmount("0"); // <-- Ensures sending_amount is "0"
+        setReceiveAmount("0");
+        return;
+      }
+
       const received = calculateReceiveAmount(
         sending_amount,
         conversionRate,
@@ -178,12 +185,15 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value.replace(/[^0-9.]/g, "");
-    setSendingAmount(value);
 
-    if (value === "" || parseFloat(value) === 0) {
-      setReceiveAmount(value === "" ? "" : "0");
+    // If the sending amount is cleared, set both to "0"
+    if (value === "") {
+      setSendingAmount("0"); // <-- This is the key change
+      setReceiveAmount("0");
       return;
     }
+
+    setSendingAmount(value);
 
     if (isRateReady) {
       const received = calculateReceiveAmount(
@@ -203,8 +213,9 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     const numericValue = value.replace(/[^0-9.]/g, "");
     setReceiveAmount(numericValue);
 
-    if (numericValue === "" || parseFloat(numericValue) === 0) {
-      setSendingAmount(numericValue === "" ? "" : "0");
+    // If receiving amount is cleared, set sending amount to empty
+    if (numericValue === "") {
+      setSendingAmount("");
       return;
     }
 
@@ -245,7 +256,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               aria-label="Sending Money"
               value={sending_amount}
               placeholder={
-                isRateReady ? "" : isLoading ? "Loading..." : "Rate error"
+                isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
               }
               onChange={handleSendingAmountChange}
               disabled={!isRateReady}
