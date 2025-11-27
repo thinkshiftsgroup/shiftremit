@@ -21,11 +21,6 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   const [fromCurrency, setFromCurrency] = useState("GBP");
   const [toCurrency, setToCurrency] = useState("NGN");
 
-  const safeNumber = (value: any, decimals = 2) => {
-    const n = parseFloat(value);
-    return isNaN(n) ? "0" : n.toFixed(decimals);
-  };
-
   const ratesData = useRatesStore(
     (state) => state.ratesData as FxRateData | null
   );
@@ -33,6 +28,10 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     (state) => state.adminRateData as AdminRateData | null
   );
   const isLoading = useRatesStore((state) => state.isLoading);
+
+  const getDecimalPlaces = (currency: string) => {
+    return currency === "NGN" ? 2 : 8;
+  };
 
   const { conversionRate, isRateReady, rateLabel } = useMemo(() => {
     if (fromCurrency === toCurrency) {
@@ -59,7 +58,9 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
       rate = 1 / rateNGN;
       ready = rateNGN > 0 && !isLoading;
-      label = ready ? `1 NGN = ${rate.toFixed(8)} GBP` : label;
+      label = ready
+        ? `1 NGN = ${rate.toFixed(getDecimalPlaces("GBP"))} GBP`
+        : label;
     }
 
     return {
@@ -69,6 +70,58 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     };
   }, [fromCurrency, toCurrency, ratesData, adminRateData, isLoading]);
 
+  const calculateReceiveAmount = (
+    sendAmount: string,
+    rate: number,
+    from: string,
+    to: string
+  ) => {
+    if (sendAmount === "" || isNaN(parseFloat(sendAmount))) return "";
+
+    const amount = parseFloat(sendAmount);
+    if (amount === 0) return "0";
+
+    let received;
+    if (from === to) {
+      received = amount;
+      return received.toFixed(2);
+    } else if (from === "GBP" && to === "NGN") {
+      received = amount * rate;
+      return received.toFixed(2);
+    } else if (from === "NGN" && to === "GBP") {
+      received = amount * rate;
+      return received.toFixed(getDecimalPlaces("GBP"));
+    }
+    return "";
+  };
+
+  const calculateSendAmount = (
+    receiveAmount: string,
+    rate: number,
+    from: string,
+    to: string
+  ) => {
+    if (receiveAmount === "" || isNaN(parseFloat(receiveAmount)) || rate === 0)
+      return "";
+
+    const amount = parseFloat(receiveAmount);
+    if (amount === 0) return "0";
+
+    let sent;
+    if (from === to) {
+      sent = amount;
+      return sent.toFixed(2);
+    } else if (from === "GBP" && to === "NGN") {
+      sent = amount / rate;
+      return sent.toFixed(2);
+    } else if (from === "NGN" && to === "GBP") {
+      sent = amount / rate;
+      return sent.toFixed(2);
+    }
+    return "";
+  };
+
+  // Update onRateUpdate prop when dependencies change
   useEffect(() => {
     let label = rateLabel;
     if (!isRateReady && !isLoading) {
@@ -84,38 +137,16 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     fromCurrency,
   ]);
 
-  const initialReceiveAmount = useMemo(() => {
-    if (isRateReady) {
-      const initialAmount = parseFloat(sending_amount);
-      if (fromCurrency === toCurrency) {
-        return initialAmount.toFixed(2);
-      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
-        return (initialAmount * conversionRate).toFixed(2);
-      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
-        return (initialAmount * conversionRate).toFixed(8);
-      }
-    }
-    return "";
-  }, [conversionRate, isRateReady, sending_amount, fromCurrency, toCurrency]);
-
+  // Recalculate receive amount whenever sending amount, rate, or currencies change
   useEffect(() => {
     if (isRateReady) {
-      const amount = parseFloat(sending_amount);
-      if (!isNaN(amount)) {
-        let received;
-        if (fromCurrency === toCurrency) {
-          received = amount;
-          setReceiveAmount(received.toFixed(2));
-        } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
-          received = amount * conversionRate;
-          setReceiveAmount(received.toFixed(2));
-        } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
-          received = amount * conversionRate;
-          setReceiveAmount(received.toFixed(8));
-        }
-      } else if (sending_amount === "") {
-        setReceiveAmount("");
-      }
+      const received = calculateReceiveAmount(
+        sending_amount,
+        conversionRate,
+        fromCurrency,
+        toCurrency
+      );
+      setReceiveAmount(received);
     } else if (!isLoading) {
       setReceiveAmount("");
     }
@@ -128,29 +159,40 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     isLoading,
   ]);
 
+  // Calculate initialReceiveAmount for the placeholder
+  const initialReceiveAmount = useMemo(() => {
+    if (isRateReady) {
+      // Use "1" as the default sending amount for the placeholder if current amount is empty
+      const amountToUse = sending_amount === "" ? "1" : sending_amount;
+      return calculateReceiveAmount(
+        amountToUse,
+        conversionRate,
+        fromCurrency,
+        toCurrency
+      );
+    }
+    return "";
+  }, [conversionRate, isRateReady, sending_amount, fromCurrency, toCurrency]);
+
   const handleSendingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value.replace(/[^0-9.]/g, "");
-    const amount = parseFloat(value);
+    setSendingAmount(value);
 
-    if (isNaN(amount) || amount < 1) {
-      setSendingAmount("1");
-      setReceiveAmount(
-        isRateReady
-          ? (1 * conversionRate).toFixed(fromCurrency === "GBP" ? 2 : 8)
-          : ""
-      );
+    if (value === "" || parseFloat(value) === 0) {
+      setReceiveAmount(value === "" ? "" : "0");
       return;
     }
 
-    setSendingAmount(value);
-
     if (isRateReady) {
-      let result = amount * conversionRate;
-      setReceiveAmount(
-        fromCurrency === "GBP" ? result.toFixed(2) : result.toFixed(8)
+      const received = calculateReceiveAmount(
+        value,
+        conversionRate,
+        fromCurrency,
+        toCurrency
       );
+      setReceiveAmount(received);
     }
   };
 
@@ -161,22 +203,19 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     const numericValue = value.replace(/[^0-9.]/g, "");
     setReceiveAmount(numericValue);
 
-    const amount = parseFloat(numericValue);
+    if (numericValue === "" || parseFloat(numericValue) === 0) {
+      setSendingAmount(numericValue === "" ? "" : "0");
+      return;
+    }
 
-    if (!isNaN(amount) && isRateReady) {
-      let sent;
-      if (fromCurrency === toCurrency) {
-        sent = amount;
-        setSendingAmount(sent.toFixed(2));
-      } else if (fromCurrency === "GBP" && toCurrency === "NGN") {
-        sent = amount / conversionRate;
-        setSendingAmount(sent.toFixed(2));
-      } else if (fromCurrency === "NGN" && toCurrency === "GBP") {
-        sent = amount / conversionRate;
-        setSendingAmount(sent.toFixed(2));
-      }
-    } else if (numericValue === "") {
-      setSendingAmount("");
+    if (isRateReady) {
+      const sent = calculateSendAmount(
+        numericValue,
+        conversionRate,
+        fromCurrency,
+        toCurrency
+      );
+      setSendingAmount(sent);
     }
   };
 
@@ -196,7 +235,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
             You send exactly
           </label>
           <div
-            className="flex relative  items-center justify-between md:justify-start gap-1.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
+            className="flex relative  items-center justify-between md:justify-start gap-1.5 border border-[#ffffff3d] ps-2.5 px-4 py-3 rounded-[8.5px] w-full"
             id="sendMoneyBox"
           >
             <input
@@ -204,7 +243,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               name="sending_amount"
               id="sending_amount"
               aria-label="Sending Money"
-              value={formatNumber(sending_amount)}
+              value={sending_amount}
               placeholder={
                 isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
               }
@@ -231,30 +270,30 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
 
         <div className="absolute top-[35px] left-[calc(50%-20px)] z-1 -me-5 hidden md:block">
           <span
-            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
-						 before:absolute 
-						 before:top-0 
-						 before:-left-[7px] 
-						 before:w-full 
-						 before:h-full 
-						 before:bg-[#230a2f] 
-						 before:-z-10 
-						 before:rounded-full 
-						 before:border 
-						 before:border-[#ffffff3d]
-						 
-						 
-						 after:content-[''] 
-						 after:absolute 
-						 after:top-0 
-						 after:-right-[7px] 
-						 after:w-full 
-						 after:h-full 
-						 after:bg-[#230a2f] 
-						 after:-z-10 
-						 after:rounded-full 
-						 after:border 
-						 after:border-[#ffffff3d]"
+            className=" bg-[#813FD6] inline-flex items-center justify-center rounded-full w-10 h-10  before:content-['']  outline-4 outline-[#230a2f]
+             before:absolute 
+             before:top-0 
+             before:-left-[7px] 
+             before:w-full 
+             before:h-full 
+             before:bg-[#230a2f] 
+             before:-z-10 
+             before:rounded-full 
+             before:border 
+             before:border-[#ffffff3d]
+             
+             
+             after:content-[''] 
+             after:absolute 
+             after:top-0 
+             after:-right-[7px] 
+             after:w-full 
+             after:h-full 
+             after:bg-[#230a2f] 
+             after:-z-10 
+             after:rounded-full 
+             after:border 
+             after:border-[#ffffff3d]"
           >
             <FaArrowRight className="text-lg text-white" />
           </span>
@@ -274,7 +313,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               type="text"
               name="receive_amount"
               id="receive_amount"
-              value={formatNumber(receive_amount)}
+              value={receive_amount}
               placeholder={initialReceiveAmount}
               onChange={handleReceiveAmountChange}
               disabled={!isRateReady}
