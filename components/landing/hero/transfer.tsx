@@ -245,7 +245,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
               aria-label="Sending Money"
               value={sending_amount}
               placeholder={
-                isRateReady ? "1" : isLoading ? "Loading..." : "Rate error"
+                isRateReady ? "" : isLoading ? "Loading..." : "Rate error"
               }
               onChange={handleSendingAmountChange}
               disabled={!isRateReady}
