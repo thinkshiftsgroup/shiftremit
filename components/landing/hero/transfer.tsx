@@ -76,7 +76,6 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     from: string,
     to: string
   ) => {
-    // If the input is empty string, return "0"
     if (sendAmount === "") return "0";
 
     const amount = parseFloat(sendAmount);
@@ -102,7 +101,7 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     from: string,
     to: string
   ) => {
-    if (receiveAmount === "") return ""; // Keep the sending field empty if the receiving field is empty
+    if (receiveAmount === "") return "";
 
     const amount = parseFloat(receiveAmount);
     if (isNaN(amount) || amount === 0 || rate === 0) return "0";
@@ -121,7 +120,6 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     return "0";
   };
 
-  // Update onRateUpdate prop when dependencies change
   useEffect(() => {
     let label = rateLabel;
     if (!isRateReady && !isLoading) {
@@ -137,12 +135,10 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     fromCurrency,
   ]);
 
-  // Recalculate receive amount whenever sending amount, rate, or currencies change
   useEffect(() => {
     if (isRateReady) {
-      // Set to "0" if the sending input is cleared but rate is ready
       if (sending_amount === "") {
-        setSendingAmount("0"); // <-- Ensures sending_amount is "0"
+        setSendingAmount("0");
         setReceiveAmount("0");
         return;
       }
@@ -166,10 +162,8 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     isLoading,
   ]);
 
-  // Calculate initialReceiveAmount for the placeholder
   const initialReceiveAmount = useMemo(() => {
     if (isRateReady) {
-      // Use "1" as the default sending amount for the placeholder if current amount is empty
       const amountToUse = sending_amount === "" ? "1" : sending_amount;
       return calculateReceiveAmount(
         amountToUse,
@@ -184,11 +178,16 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
   const handleSendingAmountChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = e.target.value.replace(/[^0-9.]/g, "");
+    let value = e.target.value.replace(/[^0-9.]/g, "");
 
-    // If the sending amount is cleared, set both to "0"
+    if (value.length > 1 && value.startsWith("0") && value !== "0.") {
+      value = value.replace(/^0+/, "");
+      if (value === "") {
+        value = "0";
+      }
+    }
     if (value === "") {
-      setSendingAmount("0"); // <-- This is the key change
+      setSendingAmount("0");
       setReceiveAmount("0");
       return;
     }
@@ -213,7 +212,6 @@ const Transfer = ({ onRateUpdate }: TransferProps) => {
     const numericValue = value.replace(/[^0-9.]/g, "");
     setReceiveAmount(numericValue);
 
-    // If receiving amount is cleared, set sending amount to empty
     if (numericValue === "") {
       setSendingAmount("");
       return;
